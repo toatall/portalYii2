@@ -1,0 +1,7 @@
+Rename table `p_comment` to `p_news_comment`
+Rename column `id_parent` to `id_news` in table `p_news_comment`
+
+Rename table `p_like` to `p_news_like`
+Rename column `id_parent` to `id_news` in table `p_news_like`
+
+Add columns `username:250:notNull` and `password:50` in table `User`
