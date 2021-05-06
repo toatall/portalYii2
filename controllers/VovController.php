@@ -72,6 +72,10 @@ class VovController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * Карусель дедов
+     * @return string
+     */
     public function actionFaceCarousel()
     {
         $dirVov = '/repository/vov/';
@@ -79,9 +83,10 @@ class VovController extends \yii\web\Controller
         $files = [];
         if (file_exists($path) && is_dir($path)) {
             $files = FileHelper::findFiles($path, ['except' => ['*.db']]);
-        }
+        }       
         $items = array_map(function ($item) use ($dirVov) {
-            $file = basename(iconv('windows-1251', 'utf-8', $item));
+            //$file = basename(iconv('windows-1251', 'utf-8', $item));    
+            $file = basename($item);
             return [
                 'content' => '<img src="' . $dirVov . $file . '" style="max-width: 900px;" />',
 
@@ -148,9 +153,9 @@ class VovController extends \yii\web\Controller
     private function findFiles($path)
     {
         $root = \Yii::getAlias('@webroot');
-        $files = FileHelper::findFiles(iconv('utf-8', 'windows-1251', $root . $path), ['except' => ['*.db']]);
+        $files = FileHelper::findFiles(/*iconv('utf-8', 'windows-1251', $root . $path)*/ $root . $path, ['except' => ['*.db']]);
         $items = array_map(function ($item) use ($path) {
-            return $path . basename(iconv('windows-1251', 'utf-8', $item));
+            return $path . basename(/*iconv('windows-1251', 'utf-8', */$item/*)*/);
         }, $files);
         return $items;
     }

@@ -15,11 +15,22 @@ if ($flagNewYear) {
 ?>
 <div id="logo-background">
     <div id="logo-image"></div>    
-    <div style="top: 5px; right: 15px; position: absolute;">
+    <div style="top: 25px; right: 270px; position: absolute;">
         <a href="<?= Url::to(['/events/contest-arts']) ?>">
-            <img src="/img/art-banner2.png" height="190px;" class="thumbnail" />
+            <img src="/img/art-banner2.png" height="150px;" class="thumbnail" />
         </a>
     </div>
+    
+    <?php 
+    // 9 МАЯ
+    if (DateHelper::isDateTodayBetween(date('06.05.Y'), date('15.05.Y'))): ?>
+        <div style="top: 5px; right: 15px; position: absolute;">
+            <a href="<?= Url::to(['/vov']) ?>">
+                <img src="/img/9may/z_beb7063b_may9252197!252!197.png" height="190px;" />
+            </a>
+        </div>
+    <?php endif; ?>
+    
     <?php if ($flagNewYear): ?>
     <div style="top: 25px; right: 350px; position: absolute; width: 140px;" class="text-center">
         <span style="color: white; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; font-weight: bolder; font-size: medium;">До Нового года осталось</span>

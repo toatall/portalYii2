@@ -121,4 +121,19 @@ class DateHelper
         return $months[$month] ?? null;
     }
     
+    /**
+     * Проверка текущей (или указанной) даты в указанных диапазонах дат
+     * @param \DateTimeImmutable $date1
+     * @param \DateTimeImmutable $date2
+     * @param \DateTimeImmutable $dateToday
+     * @return type
+     */
+    public static function isDateTodayBetween($date1, $date2, $dateToday = 'today')
+    {
+        $date1 = new \DateTimeImmutable($date1);
+        $date2 = new \DateTimeImmutable($date2);
+        $dateToday = new \DateTimeImmutable($dateToday);
+        return ($dateToday >= $date1) && ($dateToday <= $date2);        
+    }
+    
 }
