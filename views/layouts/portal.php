@@ -153,7 +153,7 @@ JS
             <br /><a href="http://consultant.tax.nalog.ru" target="_blank">Консультант Плюс</a>
             <br /><a href="https://n7701-koe606.dpc.tax.nalog.ru/" target="_blank">Экспедитор ОД</a>
             <br /><a href="http://10.253.200.25:9082/#/rus/" target="_blank">Автоматизированная система контроля кассовой техники (АСК ККТ)</a>
-            <br /><a href="http://marmnpd.tax.nalog.ru:8081" target="_blank">Мобильное приложение «Автоматизированное рабочее место «Налог на  профессиональный доход» (МАРМ НПД)</a>
+            <br /><a href="http://marmnpd.tax.nalog.ru:8081" target="_blank">Автоматизированное рабочее место «Налог на  профессиональный доход» (МАРМ НПД)</a>
             <br /><a href="https://bo.dpc.tax.nalog.ru" target="_blank">Государственный информационный ресурс бухгалтерской (финансовой) отчетности (ГИР БО)</a>            
         </p>
         <p class="pull-right">
