@@ -92,7 +92,7 @@ class Tree extends \yii\db\ActiveRecord
             [['module', 'alias', 'view_static'], 'string', 'max' => 50],
             [['param1'], 'string', 'max' => 100],
             [['module'], 'ruleModuleExists'],
-            [['id_organization'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::class, 'targetAttribute' => ['id_organization' => 'code']],
+            //[['id_organization'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::class, 'targetAttribute' => ['id_organization' => 'code']],
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username_windows']],
             [['permissionGroup', 'permissionUser'], 'safe'],
         ];
