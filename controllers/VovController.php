@@ -50,7 +50,7 @@ class VovController extends \yii\web\Controller
     {
         $searchModel = new NewsSearch();
         $searchModel->tags = '75';
-        $dataProvider = $searchModel->searchPublic(\Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchPublic(\Yii::$app->request->queryParams, true);
         return $this->renderAjax('news', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

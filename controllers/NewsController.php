@@ -41,7 +41,7 @@ class NewsController extends \yii\web\Controller
     public function actionIndex($organization=null, $section=null, $tag=null)
     {
         $this->getView()->title = 'Новости';
-        $searchModel = new NewsSearch();
+        $searchModel = new NewsSearch();        
 
         if ($organization!=null) {
             $searchModel->id_organization = $organization;
@@ -148,6 +148,7 @@ class NewsController extends \yii\web\Controller
     {
         $this->getView()->title = 'Новости УФНС';
         $searchModel = new NewsSearch();
+        $searchModel->on_general_page = 1;
         $dataProvider = $searchModel->searchUfns(\Yii::$app->request->queryParams);
 
         if (Yii::$app->request->isAjax) {

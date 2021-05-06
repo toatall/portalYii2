@@ -160,7 +160,10 @@ class NewsSearch extends News
             $query->andFilterWhere(['tree.param1' => $this->searchSection]);
         }
 
-        $query->andFilterWhere(['t.tags' => $this->tags]);
+        $query->andFilterWhere([
+            't.tags' => $this->tags,
+            'on_general_page' => $this->on_general_page,
+        ]);
 
         return $query;
     }
