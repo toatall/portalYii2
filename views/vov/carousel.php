@@ -4,6 +4,9 @@
 ?>
 
 <?= \yii\bootstrap\Carousel::widget([
+    'options' => [
+        'id' => 'carosel-vov',
+    ],
     'items' => $files,
 ]) ?>
 <?php
