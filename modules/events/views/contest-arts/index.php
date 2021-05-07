@@ -33,11 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
 CSS
 ); ?>
 
-
 <div class="masthead bg-primary text-center" style="padding-top:20px; background-image: url('/img/19.jpg');">
 <?php 
 // голосуем за картины по разным номинациям
-if (empty($modelsToday) && ((new \DateTime('now'))->getTimestamp() >= (new \DateTime('05.05.2021'))->getTimestamp())):
+if (is_array($modelVotes) && count($modelVotes) > 0 && ((new \DateTime('now'))->getTimestamp() >= (new \DateTime('05.05.2021'))->getTimestamp())):
     ?>
     <section id="main" class="page-section" style="padding-top: calc(6rem);">         
         <div class="container-fluid">   
