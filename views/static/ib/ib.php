@@ -27,6 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'=>'Тестирование',
                 'content'=>$this->render('_test'),
             ],
+            [
+                'label'=>'Ежеквартальные отчеты',
+                'content'=>$this->render('_reports'),
+            ],
         ],
     ])
     ?>
