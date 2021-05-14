@@ -84,7 +84,11 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             //'suffix' => '.html',
-            'rules' => [
+            'rules' => [  
+                
+                // для конкурса неделя добрых дел
+                'dobro' => 'events/dobro',               
+                'dobro/<action:\w+>' => 'events/dobro/<action>',               
             ],
         ],
 
