@@ -23,5 +23,5 @@ $this->params['breadcrumbs'][] = 'Изменить';
 // убрать поле on_general_page
 $this->registerJs("$('#" . Html::getInputId($model, 'on_general_page') . "').parents('div.form-group').remove();");
 // убрать поле tags
-$this->registerJs("$('#" . Html::getInputId($model, 'tags') . "').parents('div.form-group').remove();");
+//$this->registerJs("$('#" . Html::getInputId($model, 'tags') . "').parents('div.form-group').remove();");
 ?>

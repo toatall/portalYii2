@@ -35,7 +35,7 @@ ModalViewerAsset::register($this);
     <div id="content-material" class="panel panel-default">
         <div class="panel-body">
             <?php if (Yii::$app->user->can('admin')): ?>
-            <?= $form->field($model, 'module')->dropDownList(ArrayHelper::map(Module::find()->all(), 'name', 'description')) ?>
+            <?= $form->field($model, 'module')->dropDownList(['' => ''] + ArrayHelper::map(Module::find()->all(), 'name', 'description')) ?>
             <?php endif; ?>
             <?= ''//$form->field($model, 'use_tape')->checkbox() ?>
         </div>

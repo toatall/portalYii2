@@ -239,7 +239,10 @@ class Tree extends \yii\db\ActiveRecord
      */
     public function getParamDefaultModule()
     {
-        return Yii::$app->params['tree']['defaultModule'];
+        if (!Yii::$app->user->can('admin')) {
+            return Yii::$app->params['tree']['defaultModule'];
+        }
+        return null;
     }
 
     /**

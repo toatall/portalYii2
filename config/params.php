@@ -136,12 +136,15 @@ return [
         ],
     ],
     
-    
+    // модули
     'modules' => [
+        // конкурсы
         'events' => [
+            // конкурс навстречу искусству
             'contest-atrs' => [
                 'images' => '/files/8600/events/contestAtrs/',
             ],
+                        
         ],
     ],
     
