@@ -36,7 +36,7 @@ CSS
 <div class="masthead bg-primary text-center" style="padding-top:20px; background-image: url('/img/19.jpg');">
 <?php 
 // голосуем за картины по разным номинациям
-if (is_array($modelVotes) && count($modelVotes) > 0 && ((new \DateTime('now'))->getTimestamp() >= (new \DateTime('05.05.2021'))->getTimestamp())):
+if (empty($modelsToday) && is_array($modelVotes) && count($modelVotes) > 0 && ((new \DateTime('now'))->getTimestamp() >= (new \DateTime('05.05.2021'))->getTimestamp())):
     ?>
     <section id="main" class="page-section" style="padding-top: calc(6rem);">         
         <div class="container-fluid">   
@@ -66,7 +66,7 @@ if (!empty($modelsToday)): ?>
         <div class="container-fluid d-flex align-baseline flex-column">          
             <div class="row">
             <?php foreach ($modelsToday as $modelToday): ?>
-                <div class="col-6">
+                <div class="col-6 col-xs-push-3">
                     <?= Html::a(Html::img($modelToday->image_reproduced, ['class' => 'img-thumbnail border-art', 'style' => 'height: 40em; margin: 10px auto;']), 
                         $modelToday->image_reproduced, ['class' => 'fancybox', 'target' => '_blank']) ?>
                     <div class="card" style="width: 80%; margin: 0 auto; background-image: url('/img/24.png');">
