@@ -394,7 +394,7 @@ class ContestArtsController extends Controller
      */
     protected function findLastArts()
     {
-        return ContestArts::find()->where('date_show_2 <= cast(getdate() as date)')->all();
+        return ContestArts::find()->where('date_show_2 <= cast(getdate() as date)')->orderBy(['date_show' => SORT_ASC])->all();
     }
         
     
