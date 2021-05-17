@@ -64,9 +64,9 @@ endif;
 if (!empty($modelsToday)): ?>   
     <section id="main" style="padding-top: calc(6rem);"> 
         <div class="container-fluid d-flex align-baseline flex-column">          
-            <div class="row">
+            <div class="row justify-content-center">
             <?php foreach ($modelsToday as $modelToday): ?>
-                <div class="col-6 col-xs-push-3">
+                <div class="col-6">
                     <?= Html::a(Html::img($modelToday->image_reproduced, ['class' => 'img-thumbnail border-art', 'style' => 'height: 40em; margin: 10px auto;']), 
                         $modelToday->image_reproduced, ['class' => 'fancybox', 'target' => '_blank']) ?>
                     <div class="card" style="width: 80%; margin: 0 auto; background-image: url('/img/24.png');">
