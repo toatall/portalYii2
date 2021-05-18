@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <div class="col-sm-4">
         <div class="panel panel-default text-center">
-            <div class="panel-heading">
+            <div class="panel-heading panel-heading-150">
                 <h4 class="text-muted" style="font-weight: 800;">
                     <div class="valign-center">
                         <?= $model['title'] ?>
@@ -58,7 +58,7 @@ $this->registerCss(<<<CSS
         margin-bottom: 20px;
     }
         
-    .panel-heading {    
+    .panel-heading-150 {    
         height: 150px;
     }
    
