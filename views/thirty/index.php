@@ -295,49 +295,83 @@ JS
                     </div>
                 </div>
             </div>
-
+            
             <div class="col-sm-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong>
+                
+                
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>
+                                    <span style="font-family: 'Behrens KursivC'; font-size: large; color: rgba(47, 114, 169, 1);">
+                                         Радио 30FNS
+                                    </span>
+                            </strong>
+                        </div>
+                        <div class="panel-body text-center">
+                            <a href="<?= Url::to(['/thirty/radio']) ?>">
+                                <i class="fas fa-volume-up"></i> Радиоэфиры
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>
+                                <span style="font-family: 'Behrens KursivC'; font-size: large; color: rgba(47, 114, 169, 1);">Поздравление ветеранов и заслуженных работников!</span>
+                            </strong>
+                        </div>
+                        <div class="panel-body">
+                            <?= Html::a('Подробнее', ['/thirty/veteran'], ['class'=>'btn btn-primary']) ?>
+                        </div>
+                    </div>
+                </div>                               
+                
+            </div>
+            
+            <div class="col-sm-3">
+                
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>
+                                <span style="font-family: 'Behrens KursivC'; font-size: large; color: rgba(47, 114, 169, 1);">Видео-открытки!</span>
+                            </strong>
+                        </div>
+                        <div class="panel-body">
+                            <?= Html::a('Подробнее', ['/thirty/video-card'], ['class'=>'btn btn-primary']) ?>
+                        </div>
+                    </div>
+                </div>  
+                
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>
                                 <span style="font-family: 'Behrens KursivC'; font-size: large; color: rgba(47, 114, 169, 1);">
-                                     Радио 30FNS
-                                </span>
-                        </strong>
+                                    Юбилейная книга 
+                                </span> <?php if (date('Ymd') <= 20210615): ?> <span class="label label-success">Новое</span><?php endif; ?>
+                            </strong>                            
+                        </div>
+                        <div class="panel-body">
+                            <?= Html::a('Подробнее', ['/thirty/book'], ['class'=>'btn btn-primary mv-link']) ?>
+                        </div>
                     </div>
-                    <div class="panel-body text-center">
-                        <a href="<?= Url::to(['/thirty/radio']) ?>">
-                            <i class="fas fa-volume-up"></i> Радиоэфиры
-                        </a>
-                    </div>
+                    
                 </div>
+                
             </div>
-
+            
             <div class="col-sm-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong>
-                            <span style="font-family: 'Behrens KursivC'; font-size: large; color: rgba(47, 114, 169, 1);">Поздравление ветеранов и заслуженных работников!</span>
-                        </strong>
-                    </div>
-                    <div class="panel-body">
-                        <?= Html::a('Подробнее', ['/thirty/veteran'], ['class'=>'btn btn-primary']) ?>
-                    </div>
-                </div>
+                
+                
+                
             </div>
-
-            <div class="col-sm-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong>
-                            <span style="font-family: 'Behrens KursivC'; font-size: large; color: rgba(47, 114, 169, 1);">Видео-открытки!</span>
-                        </strong>
-                    </div>
-                    <div class="panel-body">
-                        <?= Html::a('Подробнее', ['/thirty/video-card'], ['class'=>'btn btn-primary']) ?>
-                    </div>
-                </div>
-            </div>
+            
+            
+            
         </div>
 
         <div class="row">

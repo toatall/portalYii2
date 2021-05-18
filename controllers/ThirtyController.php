@@ -324,6 +324,7 @@ class ThirtyController extends \yii\web\Controller
 
     /**
      * Эмблема ФНС России
+     * @return string
      */
     public function actionEmblem()
     {
@@ -335,6 +336,22 @@ class ThirtyController extends \yii\web\Controller
             return Json::encode($resultJson);
         }
         return $this->render('emblem');
+    }
+    
+    /**
+     * Электронная книга
+     * @return string
+     */
+    public function actionBook()
+    {
+        if (\Yii::$app->request->isAjax) {
+            $resultJson = [
+                'title' => 'Юбилейная книга',
+                'content' => $this->renderAjax('book', []),
+            ];
+            return Json::encode($resultJson);
+        }
+        return $this->render('book'); 
     }
 
     /**
