@@ -20,15 +20,17 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel panel-default text-center">
             <div class="panel-heading">
                 <h4 class="text-muted" style="font-weight: 800;">
-                    <?= $model['title'] ?>
-                    <br /><small><?= $model['nomination'] ?></small>
+                    <div class="valign-center">
+                        <?= $model['title'] ?>
+                        <br /><small><?= $model['nomination'] ?></small>
+                    </div>
                 </h4>
             </div>
             <div class="panel-body height-300">
                 <img src="<?= $model['thumbnailImage'] ?>" class="thumbnail img-thumb-preview" />
             </div>
             <div class="panel-footer">
-                <a href="<?= Url::to(['/news/view', 'id'=>$model['idNews']]) ?>" class="btn btn-primary middle mv-link">Просмотр</a>
+                <a href="<?= Url::to(['/news/view', 'id'=>$model['idNews']]) ?>" class="btn btn-primary middle mv-link" style="font-weight: 800;">Просмотр</a>
             </div>
         </div>
     </div>
@@ -55,7 +57,11 @@ $this->registerCss(<<<CSS
     .col-sm-4 {
         margin-bottom: 20px;
     }
+        
+    .panel-heading {    
+        height: 150px;
+    }
+   
 CSS
 ); 
-
  ?>        
