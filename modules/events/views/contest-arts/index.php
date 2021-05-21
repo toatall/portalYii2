@@ -34,9 +34,43 @@ CSS
 ); ?>
 
 <div class="masthead bg-primary text-center" style="padding-top:20px; background-image: url('/img/19.jpg');">
+    
+<section id="main" class="page-section" style="padding-top: calc(6rem);">         
+    <div class="container-fluid">   
+        <!-- Contact Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"></h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-info-circle"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Contact Section Form-->
+        <div class="" style="margin: 0 auto;">
+            <div id="step1" class="step">
+                <div class="card bg-primary" style="sbackground-image: url('/img/24.png');">
+                    <div class="card-header">
+                        <h1 class="text-secondary"  style="font-weight: bolder;">Дорогие друзья!</h1>
+                    </div>
+                    <div class="card-body text-secondary" style="font-size: 24px; text-shadow1: 2px 2px 4px #999; font-weight: bolder; font-family: verdana;">
+                        Подошел к завершению конкурс "Навстречу искусству"!<br />
+                        Все получили огромное удовольствие и массу впечатлений от просмотра ваших работ!<br /> Многие из вас создали настоящие шедевры! <br />
+                        Вы, дорогие коллеги, в очередной раз доказали, что у нас много талантливых, креативных, творческих людей. <br />
+                        Надеемся, что и вы с удовольствием погрузились в мир искусства и расширили  свой кругозор!<br />
+                        Хочется поблагодарить вас за прекрасные конкурсные работы!<br /><br />
+                        В настоящий момент проводится подведение итогов конкурса, результаты будут размещены на портале  24.05.2021!<br/> 
+                        Напоминаем, что самые оригинальные работы и самые активные участники голосования будет отмечены призами!<br />
+                    </div>
+                </div>
+            </div>            
+        </div>            
+    </div>    
+</section>
+    
+    
 <?php 
 // голосуем за картины по разным номинациям
-if (empty($modelsToday) && is_array($modelVotes) && count($modelVotes) > 0 && ((new \DateTime('now'))->getTimestamp() >= (new \DateTime('05.05.2021'))->getTimestamp())):
+if (empty($modelsToday) && is_array($modelVotes) && count($modelVotes) > 0 && ((new \DateTime('now'))->getTimestamp() <= (new \DateTime('20.05.2021'))->getTimestamp())):
     ?>
     <section id="main" class="page-section" style="padding-top: calc(6rem);">         
         <div class="container-fluid">   
