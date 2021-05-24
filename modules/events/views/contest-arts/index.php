@@ -48,18 +48,106 @@ CSS
         <!-- Contact Section Form-->
         <div class="" style="margin: 0 auto;">
             <div id="step1" class="step">
-                <div class="card bg-primary" style="sbackground-image: url('/img/24.png');">
+                <div class="card bg-primary2" style="sbackground-image: url('/img/24.png');">
                     <div class="card-header">
-                        <h1 class="text-secondary"  style="font-weight: bolder;">Дорогие друзья!</h1>
+                        <h1 class="text-secondary"  style="font-weight: bolder;">Итоги конкурса!</h1>
                     </div>
-                    <div class="card-body text-secondary" style="font-size: 24px; text-shadow1: 2px 2px 4px #999; font-weight: bolder; font-family: verdana;">
-                        Подошел к завершению конкурс "Навстречу искусству"!<br />
-                        Все получили огромное удовольствие и массу впечатлений от просмотра ваших работ!<br /> Многие из вас создали настоящие шедевры! <br />
-                        Вы, дорогие коллеги, в очередной раз доказали, что у нас много талантливых, креативных, творческих людей. <br />
-                        Надеемся, что и вы с удовольствием погрузились в мир искусства и расширили  свой кругозор!<br />
-                        Хочется поблагодарить вас за прекрасные конкурсные работы!<br /><br />
-                        В настоящий момент проводится подведение итогов конкурса, результаты будут размещены на портале  24.05.2021!<br/> 
-                        Напоминаем, что самые оригинальные работы и самые активные участники голосования будет отмечены призами!<br />
+                    <div class="card-body text-secondary">
+                        <br />
+                        <table class="table table-bordered col-sm-6" style="margin: 0 auto;">
+                            <tr>
+                                <th>
+                                    Искусствовед (наибольшее число угаданных картин) – 8 победителей (угаданы все 23 произведения)
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>Холкина Марина Викторовна</td>
+                            </tr>
+                            <tr>                                
+                                <td>Волкова Яна Григорьевна</td>
+                            </tr>
+                            <tr>
+                                <td>Зенютич Марина Владимировна</td>
+                            </tr>
+                            <tr>                                
+                                <td>Макаров Владимир Александрович</td>
+                            </tr>
+                            <tr>
+                                <td>Шураева Евгения Александровна</td>
+                            </tr>
+                            <tr>
+                                <td>Зарубин Сергей Александрович</td>
+                            </tr>
+                            <tr>
+                                <td>Логинов Алексей Валерьевич</td>
+                            </tr>
+                            <tr>
+                                <td>Нефёдова Татьяна Петровна</td>
+                            </tr>
+                        </table>                        
+                        
+                        <br /><br />
+                        <table class="table table-bordered col-sm-6" style="margin: 0 auto;">
+                            <tr>
+                                <th colspan="2">Достоверность воспроизведения</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-medal" style="color: rgb(249, 173, 14);">&nbsp;</i> 1 место
+                                </td>
+                                <td>Общий отдел («Наконец-то Гагаро в галстуке», 4.52 баллов)</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-medal" style="color: rgb(209, 215, 218);">&nbsp;</i> 2 место
+                                </td>
+                                <td>Отдел обеспечения («Лед: Перезагрузка», 4.39 баллов)</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-medal" style="color: rgb(223, 126, 8);">&nbsp;</i> 3 место
+                                </td>
+                                <td>Отдел контроля налоговых органов («Замша», 4.33 балла)</td>
+                            </tr>
+                        </table>
+                        
+                        <br /><br />
+                        <table class="table table-bordered col-sm-6" style="margin: 0 auto;">
+                            <tr>
+                                <th colspan="2">Оригинальность названия</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-medal" style="color: rgb(249, 173, 14);">&nbsp;</i> 1 место
+                                </td>
+                                <td>Общий отдел («Наконец-то Гагаро в галстуке», 4.37 баллов)</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-medal" style="color: rgb(209, 215, 218);">&nbsp;</i> 2 место
+                                </td>
+                                <td>Отдел налогообложения имущества и доходов ФЛ и администрирования страховых взносов («Исповедь перед премией», 3.83 балла)</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-medal" style="color: rgb(223, 126, 8);">&nbsp;</i> 3 место
+                                </td>
+                                <td>Отдел камерального контроля («И снова нарушил «Контрольку», 3.78 баллов)</td>
+                            </tr>
+                        </table>
+                        
+                        <br /><br />
+                        <table class="table table-bordered col-sm-6" style="margin: 0 auto;">
+                            <tr>
+                                <th colspan="2">Наибольшее число участников (учитывалось количество участников по отношению к общему числу сотрудников отдела)</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-medal" style="color: rgb(249, 173, 14);">&nbsp;</i> 1 место
+                                </td>
+                                <td>Отдел обеспечения («Лед: Перезагрузка», 10 из 9) и Контрольный отдел №1 (На Вольве, 9 из 9)</td>
+                            </tr>                            
+                        </table>
                     </div>
                 </div>
             </div>            
