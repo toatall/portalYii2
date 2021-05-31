@@ -159,7 +159,6 @@ JS
                 <ul class="list-unstyled">
                     <li><a href="http://ias.ais3.tax.nalog.ru/ais/" target="_blank">Программный комплекс информационно-аналитической работы</a></li>
                     <li><a href="https://n7701-koe606.dpc.tax.nalog.ru/" target="_blank">Система управления запросами к озеру данных "Экспедитор"</a></li>
-                    <li><a href="http://10.253.200.25:9082/#/rus/" target="_blank">Автоматизированная система контроля кассовой техники (АСК ККТ)</a></li>
                     <li><a href="http://marmnpd.tax.nalog.ru:8081" target="_blank">Автоматизированное рабочее место «Налог на  профессиональный доход» (МАРМ НПД)</a></li>
                     <li><a href="https://bo.dpc.tax.nalog.ru" target="_blank">Государственный информационный ресурс бухгалтерской (финансовой) отчетности (ГИР БО)</a></li>                   
                     <li><a href="http://ias.ais3.tax.nalog.ru/uprrep" target="_blank">Информационно-аналитическая подсистема "Управленческий учет"</a></li>
