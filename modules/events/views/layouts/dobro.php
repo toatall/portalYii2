@@ -25,12 +25,35 @@ ModalViewerAsset::register($this);
     <?php $this->head() ?>       
 </head>
 <body>
-<style type="text/css">
+<?php $this->registerCss(<<<CSS
+        
     .navbar .nav > li > a {
         padding-top: 15px;
         padding-bottom: 15px; 
     }
-</style>
+    
+    .logo {
+        margin: 0 auto; 
+        width: 200px;
+        animation-name: logo-animation;
+        animation-duration: 2.1s;
+        animation-iteration-count: infinite;        
+    }   
+    @keyframes logo-animation {
+        0% {
+            transform: scale(1, 1);
+        }
+        50% {
+            transform: scale(1.1, 1.1);
+        }
+        100% {
+            transform: scale(1, 1);
+        }
+    }
+        
+CSS
+); ?>
+        
     <?php $this->beginBody() ?>
     
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -55,7 +78,7 @@ ModalViewerAsset::register($this);
         
         <div class="row" style="margin-top: 100px;">  
             <div class="col-sm-2 col-sm-offset-2">
-                <img src="/img/ven3pbfjaj8-2.jpg" style="margin: 0 auto; width: 200px;" />
+                <img src="/img/ven3pbfjaj8-22.jpg" class="logo" style="" />
             </div>
             <div class="col-sm-6">
                 <h1 class="text-primary" style="font-weight: 900;">
