@@ -15,9 +15,9 @@ if ($flagNewYear) {
 ?>
 <div id="logo-background">
     <div id="logo-image"></div>    
-    <div style="top: 25px; right: 270px; position: absolute;">
-        <a href="<?= Url::to(['/events/contest-arts']) ?>">
-            <img src="/img/art-banner2.png" height="150px;" class="thumbnail" />
+    <div style="top: 25px; right: 20px; position: absolute;">
+        <a href="<?= Url::to(['/dobro']) ?>">
+            <img src="/img/ven3pbfjaj8-22 — копия.jpg" height="150px;" class="thumbnail" />
         </a>
     </div>
     
