@@ -252,6 +252,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     }    
 
     /**
+     * Вывод событий на сегодня (на главную страницу)
      * @return array
      */
     public static function eventsToday()
@@ -389,10 +390,29 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
         }
         return $color;
     }
+
+    /**
+     * Описание текущего типа
+     * @return string
+     */
+    public function typeLabel()
+    {
+        switch ($this->type_conference) {
+            case self::TYPE_VKS_UFNS: 
+                return 'ВКС с УФНС';
+            case self::TYPE_VKS_FNS:
+                return 'ВКС с ФНС';
+            case self::TYPE_CONFERENCE:
+                return 'Собрания';
+            case self::TYPE_VKS_EXTERNAL:
+                return 'ВКС внешние';
+        }
+        return $this->type_conference;
+    }
     
     
     /**
-     * 
+     * Есть ли события, которые пересекают текущее событие
      * @return boolean
      */
     public function isCrossedMe()
@@ -410,6 +430,10 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
         return $query->one();
     }
     
+    /**
+     * Есть ли события, которые пересекает это событие
+     * @return type
+     */
     public function isCrossedI()
     {
         $dateStart = \Yii::$app->formatter->asDatetime($this->date_start);        
@@ -430,11 +454,13 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      */
     public function getDescription()
     {
+        $accessShowAllFields = $this->accessShowAllFields();
+        
         $fields = [
             self::TYPE_VKS_UFNS => ['members_people'],
-            self::TYPE_VKS_FNS => ['members_people'],
-            self::TYPE_CONFERENCE => ['members_people'],
-            self::TYPE_VKS_EXTERNAL => ['format_holding', 'responsible', 'platform'],
+            self::TYPE_VKS_FNS => $accessShowAllFields ? ['members_people'] : [],
+            self::TYPE_CONFERENCE => $accessShowAllFields ? ['members_people'] : [],
+            self::TYPE_VKS_EXTERNAL => $accessShowAllFields ? ['format_holding', 'responsible', 'platform']: [],
         ];        
         $result = '';
         foreach ($fields[$this->type_conference] as $field) {
@@ -476,6 +502,10 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
         return null;
     }
     
+    /**
+     * Псевдоним текущего события
+     * @return string
+     */
     public function strType()
     {
         $type = null;
@@ -513,38 +543,114 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     }
     
     /**
-     * @todo пепенести это в params
-     * @return type
+     * Можно ли показывать все поля
+     * @return string
      */
-    protected static function getGroups()
-    {
-        return [
-            'u8600-Informatizacii',
-            'u8600-Obshhij',
-            'u8600-Rukovodstvo',
-        ];
-    }
+    public function accessShowAllFields()
+    {        
+        return static::isAccess($this->strType());
+    }        
     
     /**
-     * Доступ на просмотр
+     * Проверка прав доступа к указанному типу 
+     * @param string $type
      * @return boolean
      */
-    public static function isView()
+    public static function isAccess($type)
     {
-        // досутп для задач только для общего отдела и руководства Управления
+        // гости не имеют прав
         if (\Yii::$app->user->isGuest) {
             return false;
         }
+        
+        // админ с полными правами
         if (\Yii::$app->user->can('admin')) {
             return true;
         }
-        $userGroups = \Yii::$app->user->identity->memberof;
-        foreach (self::getGroups() as $group) {
-            if (strpos($userGroups, $group) !== false) {
+        
+        // остальные пользователи
+        $accessParam = isset(Yii::$app->params['conference']['access']) ? Yii::$app->params['conference']['access'] : null;
+        
+        if (is_array($accessParam) && isset($accessParam[$type])) {
+            
+            $accessByType = $accessParam[$type];
+                
+            // 1. Проверка прав на основании [users] - имена учетных записей
+            if (isset($accessByType['users']) && self::isAccessUsers($accessByType['users'])) {
                 return true;
-            }
-        }        
+            } 
+            
+            // 2. Проверка прав на основании [groups] - группы в базе SQL
+            if (isset($accessByType['groups']) && self::isAccessGroups($accessByType['groups'])) {                
+                return true;
+            }            
+            
+            // 3. Проверка прав на основании [groups_ad] - группы в Active Directory
+            if (isset($accessByType['groups-ad']) && self::isAccessGroupsAd($accessByType['groups-ad'])) {
+                return true;
+            }  
+        }
+        
         return false;
     }
+    
+    /**
+     * Проверка входит ли текущий пользователь в указанный список пользователей
+     * @param array $users
+     * @return boolean
+     */
+    protected static function isAccessUsers($users)
+    {
+        if (!is_array($users)) {
+            $users = [$users];
+        }
+        
+        foreach ($users as $user) {
+            if ($user == Yii::$app->user->identity->username) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Проверка входит ли текущий пользователь в указанные группы из RBAC
+     * @param array $groups
+     * @return boolean
+     */
+    protected static function isAccessGroups($groups)
+    {
+        if (!is_array($groups)) {
+            $groups = [$groups];
+        }
+        
+        foreach ($groups as $group) {
+            if (Yii::$app->user->can($group)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Проверка вхождения текущего пользователя в указанные группы (Active Directory)
+     * с группыми, которые есть у него в поле memberof
+     * @param type $groups
+     * @return boolean
+     */
+    protected static function isAccessGroupsAd($groups)
+    {
+        if (!is_array($groups)) {
+            $groups = [$groups];
+        }
+        
+        foreach ($groups as $group) {
+            if (strpos(Yii::$app->user->identity->memberof, $group) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+            
         
 }
