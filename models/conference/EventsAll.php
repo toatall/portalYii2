@@ -37,7 +37,10 @@ class EventsAll extends AbstractConference
      */
     public function getTitle()
     {
-        return  "({$this->place}) {$this->theme}";
-    }        
+        if (!$this->accessShowAllFields()) {
+            return $this->place;
+        }
+        return "({$this->place}) {$this->theme}";
+    }
 
 }

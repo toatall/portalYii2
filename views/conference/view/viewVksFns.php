@@ -12,6 +12,7 @@ use app\models\conference\VksFns;
 
 $isAjax = Yii::$app->request->isAjax;
 $this->title = $model->theme;
+$accessShowAllFields = $model->accessShowAllFields();
 
 $this->params['breadcrumbs'][] = ['label' => VksFns::getTypeLabel(), 'url' => ['/conference/vks-fns']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -35,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php else: ?>
     <?= Html::encode($this->title) ?>        
     <?php endif; ?>
+    <br /><small><?= $model->typeLabel() ?></small>
 </h1>
 
 <?php if ($isAjax && $model->isEditor()): ?>
@@ -87,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
                 return $model->duration;
             },
-            'format' => 'raw',
+            'format' => 'raw',            
         ],
         [
             'attribute' => 'place',
@@ -126,6 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->responsible;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],   
         [
             'attribute' => 'members_people',
@@ -141,6 +144,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->members_people;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [
             'attribute' => 'members_organization',
@@ -156,6 +160,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->members_organization;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],        
         [
             'attribute' => 'note',
@@ -174,6 +179,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->note;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],                        
     ],
 ]) ?>

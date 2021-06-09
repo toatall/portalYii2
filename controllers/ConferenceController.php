@@ -54,8 +54,7 @@ class ConferenceController extends Controller
      */
     public function actionConference()
     {
-        $searchModel = new ConferenceSearch();
-        $this->checkRights($searchModel);
+        $searchModel = new ConferenceSearch();        
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('conference', [
@@ -71,7 +70,6 @@ class ConferenceController extends Controller
     public function actionVksUfns()
     {
         $searchModel = new VksUfnsSearch();
-        $this->checkRights($searchModel);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('vksUfns', [
@@ -86,8 +84,7 @@ class ConferenceController extends Controller
      */
     public function actionVksFns()
     {
-        $searchModel = new VksFnsSearch();
-        $this->checkRights($searchModel);
+        $searchModel = new VksFnsSearch();        
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
         return $this->render('vksFns', [
@@ -102,8 +99,7 @@ class ConferenceController extends Controller
      */
     public function actionVksExternal()
     {
-        $searchModel = new VksExternalSearch();
-        $this->checkRights($searchModel);
+        $searchModel = new VksExternalSearch();        
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('vksExternal', [
@@ -112,7 +108,6 @@ class ConferenceController extends Controller
         ]);
     }
     
-
     /**
      * Displays a single Conference model.
      * @param integer $id
@@ -149,12 +144,14 @@ class ConferenceController extends Controller
         }
         else {
             throw new HttpException(599, 'Не найдено подходящее представление');
-        }
-        
+        }                
 
         if (Yii::$app->request->isAjax) {
+            $title = $model->accessShowAllFields() ? $model->theme . ' <br /><small>' . $model->typeLabel() . '</small>'
+                : $model->typeLabel();
+            
             $resultJson = [
-                'title'=>$model->theme,
+                'title' => $title,
                 'content' => $this->renderAjax($render['view'], $render['params']),
             ];
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -169,13 +166,13 @@ class ConferenceController extends Controller
      * @return mixed
      */
     public function actionCalendar()
-    {        
-        $this->checkRights(new Conference());
+    {              
+        //$this->checkRights(new Conference());
         return $this->render('calendar');
     }
     
     /**
-     * 
+     * Данные для календаря
      * @param type $start
      * @param type $end
      */
@@ -189,6 +186,8 @@ class ConferenceController extends Controller
         $events = [];
         foreach ($query->all() as $item) {
             /* @var $item EventsAll */
+            $accessShowAllFields = $item->accessShowAllFields();
+            
             $events[] = [
                 'id' => $item->id,
                 'title' => ($item->isCrossedMe() ? '<i class="fas fa-exclamation-circle text-danger" title="Пересечение по времени"></i> ' : '')
@@ -199,7 +198,7 @@ class ConferenceController extends Controller
                 'duration' => $item->duration,
                 'url' => Url::to(['/conference/view', 'id' => $item->id]),
                 'extendedProps' => [
-                    'fullTitle' => $item->theme,
+                    'fullTitle' => $accessShowAllFields ? $item->theme : '',
                     'description' => $item->getDescription(),
                 ],
                 'color' => $item->getEventColor(),
@@ -215,8 +214,7 @@ class ConferenceController extends Controller
      * @return mixed
      */
     public function actionTable()
-    {
-        $this->checkRights(new Conference());
+    {        
         return $this->render('table');
     }
     
@@ -252,17 +250,6 @@ class ConferenceController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }     
-    
-    /**
-     * 
-     * @param AbstractConference $model
-     */
-    protected function checkRights($model)
-    {
-        if (!$model::isView()) {
-            throw new \yii\web\ForbiddenHttpException('Access denied');
-        }
-    }
+    }   
 
 }

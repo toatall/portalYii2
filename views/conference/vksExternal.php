@@ -11,6 +11,7 @@ use app\models\conference\VksExternal;
 
 $this->title = VksExternal::getTypeLabel();
 $this->params['breadcrumbs'][] = $this->title;
+$accessShowAllFields = $searchModel->accessShowAllFields();
 
 $this->registerCssFile('/css/dayPost.css');
 ?>
@@ -47,8 +48,14 @@ $this->registerCssFile('/css/dayPost.css');
                 },
                 'format' => 'raw',
             ],
-            'theme',
-            'platform',
+            [
+                'attribute' => 'theme',
+                'visible' => $accessShowAllFields,
+            ],
+            [
+                'attribute' => 'platform',
+                'visible' => $accessShowAllFields,
+            ],            
             'place',
             'duration',
             [

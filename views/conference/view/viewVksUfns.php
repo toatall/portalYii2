@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php else: ?>
     <?= Html::encode($this->title) ?>        
     <?php endif; ?>
+    <br /><small><?= $model->typeLabel() ?></small>
 </h1>
 
 <?php if ($isAjax && $model->isEditor()): ?>

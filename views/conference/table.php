@@ -7,7 +7,7 @@ use kartik\date\DatePicker;
 
 FullCalendarAsset::register($this);
 
-$this->title = 'Таблица';
+$this->title = 'По месту проведения';
 $this->params['breadcrumbs'][] = $this->title;
 
 $url = Url::to(['/conference/calendar-data']);
@@ -101,49 +101,47 @@ $urlResources = Url::to(['/conference/resources']);
                 content: event.event.extendedProps.description,
                 html: true
             });            
-            //alert(event.event.title);
             el.find('.fc-event-title').html(event.event.title);
             el.find('.fc-list-event-title').find('a').html(event.event.title);          
         }, 
         events: {            
             url: '$url', 
             success: function(content, xhr) {
-                $('#date-picker').val(calendar.getDate().toLocaleDateString());
-                //console.log(calendar.getDate().toLocaleDateString());
-                //$('#date-picker').kvDatepicker('update', calendar.getDate());//.kvDatepicker({ format: 'DD.MM.YYYY' });
+                $('#date-picker').val(calendar.getDate().toLocaleDateString());                
             },
             failure: function() {
                 $('#script-warning').show();
             }, 
+        },
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'resourceTimelineDay,resourceTimelineWeek'
         },
         editable: false,
         navLinks: true, // can click day/week names to navigate views
         dayMaxEvents: true, // allow "more" link when too many events
         selectable: true,
         businessHours: {
-            daysOfWeek: [1,2,3,4,5],
+            daysOfWeek: [1,2,3,4,5,6,7],
             startTime: '09:00',
             endTime: '18:00',
         },
         nowIndicator: true,
-        slotMinTime: '07:00:00',
-        slotMaxTime: '21:00:00',
+        slotMinTime: '08:00:00',
+        slotMaxTime: '20:00:00',
         resourceAreaColumns: [
             { field: 'title', headerContent: 'Кабинеты' }
         ],
-        resources: '$urlResources',/*[
-            { id: '128', title: '128' },
-            { id: '128 (Конференц-зал)', title: '128 (Конференц-зал)' },
-            { id: '333', title: '333' },
-            { id: '605 (Учебный класс)', title: '605 (Учебный класс)' },
-        ],*/
+        resources: '$urlResources',
         loading: function(bool) {
             $('#loading').toggle(bool);            
         }
     });
 
     calendar.render();
-        
+    
+    $('.fc-license-message').hide();
         
 JS
 );

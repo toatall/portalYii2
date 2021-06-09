@@ -87,7 +87,7 @@ $url = Url::to(['/conference/calendar-data']);
         dayMaxEvents: true, // allow "more" link when too many events
         selectable: true,
         businessHours: {
-            daysOfWeek: [1,2,3,4,5],
+            daysOfWeek: [1,2,3,4,5,6,7],
             startTime: '09:00',
             endTime: '18:00',
         },      

@@ -10,6 +10,7 @@ use app\helpers\DateHelper;
 
 $this->title = 'ВКС с ФНС';
 $this->params['breadcrumbs'][] = $this->title;
+$accessShowAllFields = $searchModel->accessShowAllFields();
 
 $this->registerCssFile('/css/dayPost.css');
 ?>
@@ -46,8 +47,14 @@ $this->registerCssFile('/css/dayPost.css');
                 },
                 'format' => 'raw',
             ],
-            'theme',
-            'members_people',
+            [
+                'attribute' => 'theme',                
+                'visible' => $accessShowAllFields,
+            ],  
+            [
+                'attribute' => 'members_people',                
+                'visible' => $accessShowAllFields,
+            ],  
             'place',
             'duration',
             [

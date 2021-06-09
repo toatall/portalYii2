@@ -13,6 +13,7 @@ use app\models\conference\VksExternal;
 
 $isAjax = Yii::$app->request->isAjax;
 $this->title = $model->theme;
+$accessShowAllFields = $model->accessShowAllFields();
 
 $this->params['breadcrumbs'][] = ['label' => VksExternal::getTypeLabel(), 'url' => ['/conference/vks-external']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -36,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php else: ?>
     <?= Html::encode($this->title) ?>        
     <?php endif; ?>
+    <br /><small><?= $model->typeLabel() ?></small>
 </h1>
 
 <?php if ($isAjax && $model->isEditor()): ?>
@@ -88,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
                 return $model->duration;
             },
-            'format' => 'raw',
+            'format' => 'raw',            
         ],
         [
             'attribute' => 'place',
@@ -127,6 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->responsible;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],   
         [
             'attribute' => 'format_holding',
@@ -145,6 +148,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->format_holding;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ], 
         [
             'attribute' => 'members_count',
@@ -159,6 +163,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->members_count;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [
             'attribute' => 'material_translation',
@@ -177,6 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->material_translation;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ], 
         [
             'attribute' => 'members_count_ufns',
@@ -191,6 +197,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->members_count_ufns;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [
             'attribute' => 'person_head',
@@ -205,6 +212,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->person_head;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [
             'attribute' => 'link_event',
@@ -219,6 +227,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->link_event;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [
             'attribute' => 'is_connect_vks_fns',
@@ -241,6 +250,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return Yii::$app->formatter->asBoolean($model->is_connect_vks_fns);
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [
             'attribute' => 'platform',
@@ -255,6 +265,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->platform;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [
             'attribute' => 'full_name_support_ufns',
@@ -269,6 +280,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->full_name_support_ufns;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [            
             'attribute' => 'date_test_vks',
@@ -292,6 +304,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return Yii::$app->formatter->asDatetime($model->date_test_vks);
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [
             'attribute' => 'count_notebooks',
@@ -306,6 +319,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->count_notebooks;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [
             'attribute' => 'members_organization',
@@ -321,6 +335,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->members_organization;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [
             'attribute' => 'is_change_time_gymnastic',
@@ -343,6 +358,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return Yii::$app->formatter->asBoolean($model->is_change_time_gymnastic);
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],
         [
             'attribute' => 'note',
@@ -361,6 +377,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->note;
             },
             'format' => 'raw',
+            'visible' => $accessShowAllFields,
         ],                        
     ],
 ]) ?>

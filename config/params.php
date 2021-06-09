@@ -1,6 +1,4 @@
 <?php
-use app\models\User;
-
 
 return [
     'adminEmail' => 'admin@example.com',
@@ -8,8 +6,7 @@ return [
     'senderName' => 'Example.com mailer',
     
     'pageSize' => 10,
-    
-    
+        
     // user
     'user' => [
         // поиск в ActiveDirectory информации о пользователе по его логину
@@ -21,6 +18,32 @@ return [
     // конференции (вкс, собрания)
     'conference' => [
         'notifyMailAddress' => '8600_notifyVksUfns@regions.tax.nalog.ru',
+        // настройка доступа
+        'access' => [
+            'vks-ufns' => [
+                //'users' => [],
+                'groups' => ['@'],
+                //'groups-ad' => [],
+            ],
+            // для ВКС с ФНС
+            'vks-fns' => [
+                //'users' => [],
+                //'groups' => [],
+                'groups-ad' => ['u8600-Informatizacii', 'u8600-Rukovodstvo', 'u8600-Obshhij'],                
+            ],
+            // для ВКС с внешними организациями
+            'vks-external' => [
+                //'users' => [],
+                //'groups' => [],
+                'groups-ad' => ['u8600-Informatizacii', 'u8600-Rukovodstvo', 'u8600-Obshhij'],
+            ],
+            // для собраний
+            'conference' => [
+                //'users' => [],
+                //'groups' => [],
+                'groups-ad' => ['u8600-Informatizacii', 'u8600-Rukovodstvo', 'u8600-Obshhij'],
+            ],
+        ],
     ],
 
     // отделы
