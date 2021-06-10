@@ -31,16 +31,6 @@ class EventsAll extends AbstractConference
      */
     public static function getTypeLabel() {}
     
-    /**
-     * Заголовок
-     * @return string
-     */
-    public function getTitle()
-    {
-        if (!$this->accessShowAllFields()) {
-            return $this->place;
-        }
-        return "({$this->place}) {$this->theme}";
-    }
+    
 
 }

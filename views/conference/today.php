@@ -1,7 +1,7 @@
 <?php
 use app\models\conference\AbstractConference;
 /* @var $this yii\web\View */
-/* @var $queryResult AbstractConference[][] */
+/* @var $queryResult AbstractConference[] */
 
 use yii\helpers\Html;
 ?>
@@ -17,8 +17,8 @@ use yii\helpers\Html;
                     'class' => 'mv-link',
                     'data-toggle' => 'popover',
                     'data-trigger' => 'hover',
-                    'data-original-title' => $row['theme'],
-                    'data-content' => $row->members_people,
+                    'data-original-title' => $row->getTitle(),
+                    'data-content' => $row->accessShowAllFields() ? $row->members_people : '',
                     'target' => '_blank',
                 ]) ?>
             </span>

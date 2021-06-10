@@ -527,6 +527,18 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     }
     
     /**
+     * Заголовок
+     * @return string
+     */
+    public function getTitle()
+    {
+        if (!$this->accessShowAllFields()) {
+            return $this->place;
+        }
+        return "({$this->place}) {$this->theme}";
+    }
+    
+    /**
      * Проверка прав редактирования 
      * @return boolean
      * @throws NotFoundHttpException
@@ -565,7 +577,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
         
         // админ с полными правами
         if (\Yii::$app->user->can('admin')) {
-            return true;
+            //return true;
         }
         
         // остальные пользователи
@@ -625,6 +637,15 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
         }
         
         foreach ($groups as $group) {
+            
+            if ($group == '?' && \Yii::$app->user->isGuest) {
+                return true;
+            }
+            
+            if ($group == '@' && !\Yii::$app->user->isGuest) {
+                return true;
+            }
+            
             if (Yii::$app->user->can($group)) {
                 return true;
             }
