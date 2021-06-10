@@ -32,7 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'org_name',
             'ruk_name',
             'telephone',
-            'email',
+            [
+                'attribute' => 'email',
+                'format' => 'raw',
+            ],
             'post_address',
         ],
     ]); ?>
