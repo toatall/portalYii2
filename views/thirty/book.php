@@ -1,5 +1,6 @@
 <?php
 /* @var $this yii\web\View */
+use yii\helpers\Html;
 
 ?>
 <div style="font-size: 16px;">
@@ -13,7 +14,7 @@
 </div>
 
 <hr />
-<a href="/files_static/thirty/ЮК 2020 Final.pdf" class="btn btn-primary" target="_blank"><i class="fas fa-book"></i> Просмотр книги (формат pdf)</a>
+<?= Html::a('<i class="fas fa-book"></i> Просмотр книги', ['/thirty/view-book'], ['class' => 'btn btn-primary', 'target'=>'_blank']) ?>
 
 <hr />
 

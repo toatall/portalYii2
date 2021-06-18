@@ -353,6 +353,11 @@ class ThirtyController extends \yii\web\Controller
         }
         return $this->render('book'); 
     }
+    
+    public function actionViewBook()
+    {
+        return $this->renderPartial('viewBook');
+    }
 
     /**
      * Гинм
