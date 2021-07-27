@@ -64,7 +64,7 @@ class OP extends \yii\db\ActiveRecord
     {
         return [
             [['id_op_group', 'type_section', 'name'], 'required'],
-            [['id_op_group', 'type_section'], 'integer'],
+            [['id_op_group', 'type_section'], 'integer'],           
             [['date_create'], 'safe'],
             [['name', 'file_name'], 'string', 'max' => 1000],
             [['file'], 'file', 'skipOnEmpty' => true],
@@ -96,7 +96,8 @@ class OP extends \yii\db\ActiveRecord
         $query = (new Query())
             ->from('{{%op_group}}')
             ->all();
-        return ArrayHelper::map($query, 'id', 'name');
+        //return ArrayHelper::map($query, 'id', 'name');
+        return $query;
     }
 
     /**
@@ -106,9 +107,12 @@ class OP extends \yii\db\ActiveRecord
     {
         $sections = $this->getSections();
         $result = [];
-        foreach ($sections as $id => $section) {
+        
+        foreach ($sections as $item) {            
+            $id = $item['id'];
             $result[$id]['data'] = $this->getDataBySection($id);
-            $result[$id]['title'] = $section;
+            $result[$id]['title'] = $item['name'];
+            $result[$id]['model'] = $item;
         }
         return $result;
     }
@@ -203,6 +207,18 @@ class OP extends \yii\db\ActiveRecord
     {
         $this->unloadFile();
         parent::afterSave($insert, $changedAttributes);
+    }
+    
+    /**
+     * @param boolean $insert
+     * @return boolean
+     */
+    public function beforeSave($insert) 
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }        
+        return true;
     }
 
     /**

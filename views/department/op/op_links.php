@@ -3,6 +3,7 @@
 /* @var $links array */
 /* @var $model OP */
 /* @var $idSection int */
+/* @var $opGroupModel array */
 
 use app\models\OP;
 use yii\helpers\Url;
@@ -17,8 +18,9 @@ $linksArbitration = array_filter($links, function ($val) {
 });
 ?>
 
-<div class="row" style="margin-top: 10px;">
+<div class="row" style="margin-top: 10px;">    
     <div class="col-sm-12">
+        <?php if ($opGroupModel['view_documents_section']): ?>
         <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -58,6 +60,9 @@ $linksArbitration = array_filter($links, function ($val) {
                 </div>
             </div>
         </div>
+        <?php endif; ?>
+        
+        <?php if ($opGroupModel['view_arbitration_section']): ?>
         <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -97,8 +102,7 @@ $linksArbitration = array_filter($links, function ($val) {
                 </div>
             </div>
         </div>
+        <?php endif; ?>
+        
     </div>
 </div>
-
-
-

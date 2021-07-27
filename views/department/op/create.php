@@ -6,8 +6,8 @@
 use yii\helpers\Html;
 
 $this->title = 'Добавить запись';
-$this->params['breadcrumbs'][] = ['label' => $modelDepartment->department_name, 'url' => ['/departmnet/view', 'id'=>$modelDepartment->id]];
-$this->params['breadcrumbs'][] = ['label' => 'Отраслевые проекты', 'url' => ['/departmnet/op']];
+$this->params['breadcrumbs'][] = ['label' => $modelDepartment->department_name, 'url' => ['/department/view', 'id'=>$modelDepartment->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Отраслевые проекты', 'url' => ['/department/op']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

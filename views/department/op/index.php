@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'label' => $d['title'],
             'content' => $this->render('op_links', [
                 'links' => $d['data'],
+                'opGroupModel' => $d['model'],
                 'model' => $model,
                 'idSection' => $id,
             ]),
