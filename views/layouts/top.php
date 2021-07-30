@@ -5,6 +5,9 @@ use yii\helpers\Url;
 use app\assets\FlipAsset;
 use app\helpers\DateHelper;
 use app\assets\newyear\GerljandaAsset;
+use app\assets\fancybox\FancyboxAsset;
+
+FancyboxAsset::register($this);
 
 $flagNewYear = (date('m') == 12);
 
@@ -16,10 +19,11 @@ if ($flagNewYear) {
 <div id="logo-background">
     <div id="logo-image"></div>    
     <div style="top: 25px; right: 20px; position: absolute;">
-        <a href="<?= Url::to(['/dobro']) ?>">
-            <img src="/img/ven3pbfjaj8-22 — копия.jpg" height="150px;" class="thumbnail" />
+        <a href="/img/top.jpg" class="fancybox">
+            <img src="/img/top.jpg" height="150px;" class="thumbnail" />
         </a>
     </div>
+    <?php $this->registerJs("$('.fancybox').fancybox();") ?>
     
     <?php 
     // 9 МАЯ
