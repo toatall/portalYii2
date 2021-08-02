@@ -18,12 +18,12 @@ if ($flagNewYear) {
 ?>
 <div id="logo-background">
     <div id="logo-image"></div>    
-    <div style="top: 25px; right: 20px; position: absolute;">
+    <!--div style="top: 25px; right: 20px; position: absolute;">
         <a href="/img/top.jpg" class="fancybox">
             <img src="/img/top.jpg" height="150px;" class="thumbnail" />
         </a>
-    </div>
-    <?php $this->registerJs("$('.fancybox').fancybox();") ?>
+    </div-->
+    <?php //$this->registerJs("$('.fancybox').fancybox();") ?>
     
     <?php 
     // 9 МАЯ
