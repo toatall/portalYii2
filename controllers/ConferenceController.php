@@ -235,6 +235,60 @@ class ConferenceController extends Controller
         
         return $result;
     }
+    
+    /**
+     * Не утвержденные заявки
+     * (создают пользователи без проли conferenceManager)
+     */
+    public function actionRequest()
+    {
+        $requests = Conference::findPublic()
+            ->andWhere([
+                'editor' => Yii::$app->user->identity->username,
+            ])
+            ->andWhere(['not', [
+                'status' => Conference::STATUS_COMPLETE,
+            ]]);
+        $dataProvider = new \yii\data\ActiveDataProvider([
+            'query' => $requests,
+        ]);
+        
+        return $this->render('request/index', [
+            'dataProvider' =>  $dataProvider,
+        ]);
+    }
+    
+    /**
+     * Создание события
+     * @return string
+     */
+    public function actionRequestCreate()
+    {
+        $model = new Conference();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['request/view', 'id' => $model->id]);
+        }
+
+        return $this->render('request/create', [
+            'model' => $model,
+        ]);
+    }
+    
+    public function actionRequestView($id)
+    {
+        
+    }
+    
+    public function actionRequestUpdate($id)
+    {
+        
+    }
+    
+    public function actionRequestDelete($id)
+    {
+        
+    }
 
     /**
      * Finds the Conference model based on its primary key value.
@@ -250,6 +304,26 @@ class ConferenceController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }   
+    }
+    
+    /**
+     * 
+     * @param int $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    protected function findModelRequest($id)
+    {
+        $model = Conference::findPublic()->andWhere(['not', ['status' => Conference::STATUS_COMPLETE]]);
+        if (!Yii::$app->user->can('conferenceManager')) {
+            $model->andWhere(['editor' => Yii::$app->user->identity->username]);
+        }
+        
+        if ($model->one() !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
 
 }

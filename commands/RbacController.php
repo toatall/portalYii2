@@ -62,6 +62,26 @@ class RbacController extends Controller
         //$this->createAdmin();
         
     }    
+
+
+    public function actionTest()
+    {
+        /* @var $auth \yii\rbac\DbManager */
+        $auth = \Yii::$app->authManager;
+
+        $test = $auth->createRole('test');
+        $testRule = new NewsRule();
+        $auth->add($testRule);
+                
+        $test->ruleName = $testRule->name;
+        $auth->add($test);   
+        
+        
+        $auth->assign($test, 1);
+        $auth->assign($test, 2);
+        $auth->assign($test, 3);
+        $auth->assign($test, 4);
+    }
     
     private function createAdmin()
     {

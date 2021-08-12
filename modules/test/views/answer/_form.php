@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\widgets\ActiveForm;
 use kartik\range\RangeInput;
 
@@ -26,10 +26,10 @@ use kartik\range\RangeInput;
         ],
     ]) ?>
    
-
+   <hr />
     <div class="btn-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Отмена', ['/test/answer/index', 'idQuestion' => $model->id_test_question], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Отмена', ['/test/answer/index', 'idQuestion' => $model->id_test_question], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

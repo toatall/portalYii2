@@ -6,6 +6,9 @@ use Yii;
 use yii\db\Query;
 use app\models\Organization;
 use app\models\User;
+use DateTime;
+use Exception;
+use yii\web\NotFoundHttpException;
 
 /**
  * This is the model class for table "{{%test_result}}".
@@ -15,14 +18,22 @@ use app\models\User;
  * @property string $username
  * @property string $org_code
  * @property string $date_create
+ * @property int $status
+ * @property int $seconds
  *
  * @property Test $test
  * @property Organization $orgCode
  * @property User $username0
  * @property TestResultQuestion[] $testResultQuestions
+ * @property TestResultOpinion $testResultOpinion
  */
 class TestResult extends \yii\db\ActiveRecord
 {
+    // статусы теста: выполняется сдача, сдан, отменен
+    const STATUS_START = 0;
+    const STATUS_FINISH = 1;
+    const STATUS_CANCEL = 2;
+
     /**
      * {@inheritdoc}
      */
@@ -38,29 +49,15 @@ class TestResult extends \yii\db\ActiveRecord
     {
         return [
             [['id_test', 'username', 'org_code'], 'required'],
-            [['id_test'], 'integer'],
+            [['id_test', 'status', 'seconds'], 'integer'],
             [['date_create'], 'safe'],
             [['username'], 'string', 'max' => 250],
             [['org_code'], 'string', 'max' => 5],
-            [['id_test'], 'exist', 'skipOnError' => true, 'targetClass' => Test::className(), 'targetAttribute' => ['id_test' => 'id']],
-            [['org_code'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['org_code' => 'code']],
-            [['username'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['username' => 'username_windows']],
+            [['id_test'], 'exist', 'skipOnError' => true, 'targetClass' => Test::class, 'targetAttribute' => ['id_test' => 'id']],
+            [['org_code'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::class, 'targetAttribute' => ['org_code' => 'code']],
+            [['username'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['username' => 'username_windows']],
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'id_test' => 'Id Test',
-            'username' => 'Username',
-            'org_code' => 'Org Code',
-            'date_create' => 'Date Create',
-        ];
-    }
+    }    
 
     /**
      * Gets query for [[Test]].
@@ -69,7 +66,7 @@ class TestResult extends \yii\db\ActiveRecord
      */
     public function getTest()
     {
-        return $this->hasOne(Test::className(), ['id' => 'id_test']);
+        return $this->hasOne(Test::class, ['id' => 'id_test']);
     }
 
     /**
@@ -79,18 +76,9 @@ class TestResult extends \yii\db\ActiveRecord
      */
     public function getOrgCode()
     {
-        return $this->hasOne(Organization::className(), ['code' => 'org_code']);
+        return $this->hasOne(Organization::class, ['code' => 'org_code']);
     }
-
-    /**
-     * Gets query for [[Username0]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUsername0()
-    {
-        return $this->hasOne(User::className(), ['username_windows' => 'username']);
-    }
+    
 
     /**
      * Gets query for [[TestResultQuestions]].
@@ -99,7 +87,16 @@ class TestResult extends \yii\db\ActiveRecord
      */
     public function getTestResultQuestions()
     {
-        return $this->hasMany(TestResultQuestion::className(), ['id_test_result' => 'id']);
+        return $this->hasMany(TestResultQuestion::class, ['id_test_result' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTestResultOpinion()
+    {
+        return $this->hasOne(TestResultOpinion::class, ['author' => 'username'])
+            ->where(['id_test' => $this->id_test]);
     }
 
     /**
@@ -113,83 +110,126 @@ class TestResult extends \yii\db\ActiveRecord
             ->where([
                 'id_test' => $id,
                 'username' => Yii::$app->user->identity->username,
+                'status' => self::STATUS_FINISH,
             ])
             ->count();
     }
 
+    /**
+     * Удаление всех результатов ответов
+     */
+    public function deleteAnswers()
+    {
+        foreach ($this->testResultQuestions as $question) {
+            $question->unlinkAll('testResultAnswers', true);
+        }
+    }
 
     /**
-     * Сохранение информации в БД
-     * Вернуть результат пользователю
-     * @param $result
-     * @return array
-     * @throws Exception
-     * @throws \Exception
+     * Сохранение ответов из переданного массива
      */
-    public function saveResult($result)
+    public function saveAnswers($data) 
     {
-        $fails = [];
-        if (!isset($result['id'])) {
-            $fails[] = "Не найден элемент id!";
+        foreach ($data as $id => $values) {
+            if (!is_array($values)) {
+                $values = [$values];
+            }
+            /** @var TestResultQuestion $question */
+            $question = $this->getTestResultQuestions()->where(['id_test_question' => $id])->one();
+            if ($question !== null) {
+                foreach ($values as $value) {
+                    (new TestResultAnswer([
+                        'id_test_result_question' => $question->id,
+                        'id_test_answer' => $value,
+                        'date_create' => Yii::$app->formatter->asDatetime(time()),
+                    ]))->save();
+                }
+            }
+            $question->checkRightAnswer();
         }
-        if (!isset($result['questions'])) {
-            $fails[] = "Не найден элемент questions!";
-        }
-        if (!isset($result['answers'])) {
-            $result['answers'] = [];
-        }
-        if (!is_array($result['questions'])) {
-            $fails[] = "Элемент questions не является массивом!";
-        }
-        if (!is_array($result['answers'])) {
-            $result['answers'] = [];
-        }
+    }   
 
-        if ($fails) {
-            throw new \Exception(implode('<br />', $fails));
-        }
-
-        $model = new TestResult();
-        $model->id_test = $result['id'];
-        $model->username = Yii::$app->user->identity->username;
-        $model->org_code = Yii::$app->userInfo->current_organization;
-        if (!$model->save()) {
-            $errors = implode('<br />', implode('<br />', $model->getErrors()));
-            throw new \Exception('Не удалось сохранить данные о тесте. ' . $errors);
-        }
-
-        $questions = $result['questions'];
-        $answers = $result['answers'];
-
-        // Результат теста
-        $result = [
-            'questions' => 0,
-            'rightAnswers' => 0,
-            'id_test_result' => $model->id,
-        ];
-
-        // найти все вопросы
-        $query = new Query();
-        $resultQuery = $query->from('{{%test_question}}')
-            ->where(['in', 'id', $questions])
-            ->all();
-
-        foreach ($resultQuery as $item) {
-            $result['questions'] += 1;
-
-            $modelResultQuestion = new TestResultQuestion();
-            $modelResultQuestion->id_test_result = $model->id;
-            $modelResultQuestion->id_test_question = $item['id'];
-            $modelResultQuestion->weight = $item['weight'];
-            $modelResultQuestion->save();
-
-            $forFind = !isset($answers[$item['id']]) ? [] : $answers[$item['id']];
-
-            $modelResultQuestion->is_right = $modelResultQuestion->saveAnswers($forFind);
-            $modelResultQuestion->save(false, ['is_right']);
-            $result['rightAnswers'] += $modelResultQuestion->is_right;
+    /**
+     * Генерирование результатов теста
+     * При первом переходе к решению тест для пользователя генерируются вопросы к тесту
+     * (нужно для восстановления теста в случае, 
+     * если выбирается ограниченное количество вопросов и пользователь по какой-либо причине прервал выполнение теста)
+     */
+    public function generateNewTest()
+    {        
+        $modelTest = $this->test;
+        if ($modelTest === null) {
+            throw new NotFoundHttpException();
         }
 
-        return $result;
+        /** @var TestQuestion[] $modelQuestions */
+        $modelQuestions = TestQuestion::find()->where([
+            'id_test' => $this->id_test,
+        ])
+        ->limit($modelTest->count_questions > 0 ? $modelTest->count_questions : false)
+        ->orderBy('newid()')
+        ->all();
+                
+        foreach ($modelQuestions as $modelQuestion) {            
+            (new TestResultQuestion([
+                'id_test_result' => $this->id,
+                'id_test_question' => $modelQuestion->id,
+                'weight' => $modelQuestion->weight,
+                'is_right' => null,
+                'date_create' => Yii::$app->formatter->asDatetime(time()),
+            ]))
+            ->save();
+        }        
     }
+
+    /**
+     * Время сдачи теста (в секундах)
+     * @return int
+     */
+    public function getTestLimitSeconds()
+    {
+        $time = new DateTime($this->test->time_limit);
+        $timeNull = new DateTime('00:00:00');
+        $timeRes = $timeNull->diff($time);
+        return $timeRes->h*60*60 + $timeRes->i*60 + $timeRes->s;
+    }
+
+    /**
+     * Количество вопросов
+     * @return integer
+     */
+    public function getCountQuestions()
+    {
+        return (new Query())
+            ->from('{{%test_result_question}}')
+            ->where([
+                'id_test_result' => $this->id,
+            ])
+            ->count();
+    }
+
+    /**
+     * Количество правильно отвеченных вопросов
+     * @return integer
+     */
+    public function getCountRightQuestions()
+    {
+        return (new Query())
+            ->from('{{%test_result_question}}')
+            ->where([
+                'id_test_result' => $this->id,
+                'is_right' => 1,
+            ])
+            ->count();
+    }
+
+    /**
+     * Продолжительность сдачи теста
+     * @return string
+     */
+    public function getDuration()
+    {
+        return gmdate('H:i:s', $this->seconds);
+    }
+
 }

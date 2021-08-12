@@ -38,8 +38,8 @@ class TestResultQuestion extends \yii\db\ActiveRecord
             [['id_test_result', 'id_test_question'], 'required'],
             [['id_test_result', 'id_test_question', 'weight', 'is_right'], 'integer'],
             [['date_create'], 'safe'],
-            [['id_test_result'], 'exist', 'skipOnError' => true, 'targetClass' => TestResult::className(), 'targetAttribute' => ['id_test_result' => 'id']],
-            [['id_test_question'], 'exist', 'skipOnError' => true, 'targetClass' => TestQuestion::className(), 'targetAttribute' => ['id_test_question' => 'id']],
+            [['id_test_result'], 'exist', 'skipOnError' => true, 'targetClass' => TestResult::class, 'targetAttribute' => ['id_test_result' => 'id']],
+            [['id_test_question'], 'exist', 'skipOnError' => true, 'targetClass' => TestQuestion::class, 'targetAttribute' => ['id_test_question' => 'id']],
         ];
     }
 
@@ -63,9 +63,10 @@ class TestResultQuestion extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
+    
     public function getTestResultAnswers()
     {
-        return $this->hasMany(TestResultAnswer::className(), ['id_test_result_question' => 'id']);
+        return $this->hasMany(TestResultAnswer::class, ['id_test_result_question' => 'id']);
     }
 
     /**
@@ -75,7 +76,7 @@ class TestResultQuestion extends \yii\db\ActiveRecord
      */
     public function getTestResult()
     {
-        return $this->hasOne(TestResult::className(), ['id' => 'id_test_result']);
+        return $this->hasOne(TestResult::class, ['id' => 'id_test_result']);
     }
 
     /**
@@ -85,39 +86,40 @@ class TestResultQuestion extends \yii\db\ActiveRecord
      */
     public function getTestQuestion()
     {
-        return $this->hasOne(TestQuestion::className(), ['id' => 'id_test_question']);
-    }
+        return $this->hasOne(TestQuestion::class, ['id' => 'id_test_question']);
+    }        
 
     /**
-     *
-     * @param $answer string|array
-     * @return int
+     * Проверка правильно ли отвечен вопрос
      */
-    public function saveAnswers($answer)
+    public function checkRightAnswer()
     {
-        $query = new Query();
-        $weight = $query->from('{{%test_answer}}')
-            ->where(['in', 'id', $answer])
-            ->sum('weight');
+        // определение общего веса 
+        $modelQuestion = $this->testQuestion;
 
-        $command = Yii::$app->db->createCommand();
+        $query = (new Query())
+            ->from('{{%test_answer}} test_answer')
+            ->leftJoin('{{%test_result_answer}} test_result_answer', 'test_result_answer.id_test_answer=test_answer.id')        
+            ->where([
+                'test_answer.id_test_question' => $this->id_test_question,
+            ])
+            ->select('test_answer.id as id_answer, test_answer.weight, test_result_answer.id as id_answer_result')
+            ->all();
 
-        if (is_array($answer)) {
-            // сохранение ответов в таблице
-            foreach ($answer as $item) {
-                $command->insert('{{%test_result_answer}}', [
-                    'id_test_result_question' => $this->id,
-                    'id_test_answer' => $item,
-                ]);
+        // Выполняется проверка по каждому ответу 
+        // 1. Если ответ правильный и пользователь тоже выбрал этот ответ то результат увеличивается на 1
+        // 2. Если ответ не правильный и пользователь выбрал этот ответ, то уменьшается на 1
+        $weight = 0;
+        foreach ($query as $item) {
+            if ($item['weight'] > 0 && $item['id_answer_result'] != null) {
+                $weight += 1;
+            }
+            elseif ($item['id_answer_result'] != null) {
+                $weight -= 1;
             }
         }
-        else {
-            // сохранение ответов в таблице
-            $command->insert('{{%test_result_answer}}', [
-                'id_test_result_question' => $this->id,
-                'id_test_answer' => $answer,
-            ]);
-        }
-        return $this->weight == $weight ? 1 : 0;
+        $this->is_right = (int)($weight == $modelQuestion->weight);
+        $this->save();
     }
+
 }

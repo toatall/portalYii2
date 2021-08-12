@@ -130,12 +130,12 @@ class TestQuestion extends \yii\db\ActiveRecord
         return parent::beforeValidate();        
     }
 
-
     /**
      * @param $idTest
      * @return array
      * @throws NotFoundHttpException
      */
+    /*
     public static function searchQuestions($idTest)
     {
         $modelTest = Test::findOne($idTest);
@@ -180,4 +180,5 @@ class TestQuestion extends \yii\db\ActiveRecord
         }
         return $resultData;
     }
+    */
 }

@@ -4,6 +4,8 @@ namespace app\modules\test\models;
 
 use Yii;
 use app\models\User;
+use DateTime;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 /**
  * This is the model class for table "{{%test}}".
@@ -27,6 +29,11 @@ use app\models\User;
  */
 class Test extends \yii\db\ActiveRecord
 {
+    // статус выполнения теста: еще на начался, выполняется, закончен
+    const PROCESS_STATUS_NOT_START = 'not-start';
+    const PROCESS_STATUS_RUNNING = 'running';
+    const PROCESS_STATUS_FINISHED = 'finished';
+
     /**
      * {@inheritdoc}
      */
@@ -79,6 +86,13 @@ class Test extends \yii\db\ActiveRecord
         return parent::beforeValidate();
     }
 
+    public function afterFind()
+    {
+        parent::afterFind();
+        $this->date_start = Yii::$app->formatter->asDatetime($this->date_start, 'dd.MM.yyyy HH:i');
+        $this->date_end = Yii::$app->formatter->asDatetime($this->date_end, 'dd.MM.yyyy HH:i');
+    }
+
     /**
      * Gets query for [[Author0]].
      *
@@ -121,37 +135,36 @@ class Test extends \yii\db\ActiveRecord
     }
 
     /**
-     * Проверят есть ли доступ на просмотр статистики
+     * Проверка есть ли доступ на просмотр статистики
+     * у текущего пользователя ко текущему тесту
      * @return bool
      */
-    public function isViewStatistic()
+    public function canStatisticTest()
     {
         if (Yii::$app->user->isGuest) {
             return false;
         }
-
         if (Yii::$app->user->can('admin')) {
             return true;
         }
+        return Yii::$app->user->can('test-statistic', [
+            'test' => $this,
+        ]);
+    }    
 
-        $accounts = Yii::$app->params['test']['access']['viewStatistic'];
-
-        // поиск по имени учетной записи
-        if (in_array(Yii::$app->user->identity->username, $accounts)) {
+    /**
+     * Права админисратора тестов
+     */
+    public static function canManager()
+    {        
+        if (Yii::$app->user->can('admin')) {
             return true;
         }
-
-        /*
-        // поиск по группам
-        foreach ($accounts as $account) {
-            if (in_array($account, UserInfo::inst()->ADMemberOf)) {
-                return true;
-            }
-        }
-        */
-
         return false;
     }
+
+    
+
 
     /**
      * Количество времени в секундах
@@ -183,6 +196,32 @@ class Test extends \yii\db\ActiveRecord
             ->select('avg(cast(rating as float))')
             ->scalar();
         return round($value, 2);
+    }
+
+    /**
+     * Статус выполнения текущего теста 
+     * @return string
+     */
+    public function processStatus()
+    {
+        $now = time();
+        $dateStart = strtotime($this->date_start);
+        $dateEnd = strtotime($this->date_end);
+        
+        // тест не начался 
+        if ($dateStart > $now) {
+            return self::PROCESS_STATUS_NOT_START;
+        }
+
+        // тест выполняется
+        if (($dateStart < $now) && ($dateEnd > $now)) {
+            return self::PROCESS_STATUS_RUNNING;
+        }
+
+        // тестирование завершено
+        if ($dateEnd < $now) {
+            return self::PROCESS_STATUS_FINISHED;
+        }
     }
 
 }

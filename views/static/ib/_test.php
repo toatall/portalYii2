@@ -19,13 +19,13 @@ $tests = [
 
 <div class="well">
     <?php foreach ($tests as $id=>$link): ?>
-    <div class="test-container" data-href="<?= Url::to(['/test/default/view', 'id'=>$id]) ?>" data-material-url="<?= $link ?>"></div>
+    <div class="test-container" data-url="<?= Url::to(['/test/public/view', 'id'=>$id]) ?>" data-material-url="<?= $link ?>"></div>
     <?php endforeach; ?>    
-    <div class="test-container" data-href="<?= Url::to(['/test/default/view', 'id'=>18]) ?>"></div>
+    <div class="test-container" data-url="<?= Url::to(['/test/public/view', 'id'=>18]) ?>"></div>
 </div>
 <?php $this->registerJS(<<<JS
     $(window.portalTest).on('onRequestDone', function(event, data, container) {
-        container.find('div.btn-group').append('<a href="' + container.data('material-url') + '" class="btn btn-primary mv-link"><i class="fas fa-question-circle"></i> Материалы</a>');
+        container.find('div.btn-group[data-group="main"]').append('<a href="' + container.data('material-url') + '" class="btn btn-primary mv-link"><i class="fas fa-question-circle"></i> Материалы</a>');
     });
 JS
 );

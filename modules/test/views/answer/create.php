@@ -14,12 +14,15 @@ $this->params['breadcrumbs'][] = ['label' => $modelQuestion->name, 'url' => ['/t
 $this->params['breadcrumbs'][] = ['label' => 'Ответы', 'url' => ['/test/answer/index', 'idQuestion'=>$modelQuestion->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="test-answer-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+<div class="test-question-update">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <h1><?= Html::encode($this->title) ?></h1>
+        </div>
+        <div class="card-body">    
+            <?= $this->render('_form', [
+                'model' => $model,
+            ]) ?>
+        </div>
+    </div>
 </div>

@@ -14,9 +14,9 @@ window.portalTest = (function ($) {
         },
 
         requestAjax: function(container) {
-            var href = container.data('href');
+            var url = container.data('url');
             container.html('<i class="fas fa-spin fa-spinner"></i>');
-            $.get(href)
+            $.get(url)
                 .done(function (data) {
                     container.html(data);
                     $(window.portalTest).trigger('onRequestDone', [ data, container ]);

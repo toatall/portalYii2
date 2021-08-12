@@ -250,6 +250,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         ]);
 
         $this->load($params); // ?
+
+        if (Yii::$app->user->can('admin')) {
+            $query->andFilterWhere(['like', 'current_organization', $this->current_organization]);
+        }
+        $query->andFilterWhere(['like', 'department', $this->department]);
+        $query->andFilterWhere(['like', 'username', $this->username]);
         $query->andFilterWhere(['like', 'username_windows', $this->username_windows]);
         $query->andFilterWhere(['like', 'fio', $this->fio]);
 

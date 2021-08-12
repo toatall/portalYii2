@@ -1,7 +1,7 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\test\models\TestQuestion */
@@ -32,10 +32,10 @@ use yii\widgets\ActiveForm;
     ]) ?>
 
     <?= $form->field($model, 'attach_file')->fileInput(['maxlength' => true]) ?>
-
+    <hr />
     <div class="btn-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Отмена', ['/test/question/index', 'idTest' => $model->id_test], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Отмена', ['/test/question/index', 'idTest' => $model->id_test], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -32,7 +32,7 @@ class TestController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view'],
+                        'actions' => ['index'],
                         'roles' => ['@'],
                     ],
                     [
@@ -41,6 +41,18 @@ class TestController extends Controller
                     ],
                 ],
             ],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],            
         ];
     }
 
@@ -58,7 +70,6 @@ class TestController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
 
     /**
      * Displays a single Test model.
@@ -83,7 +94,7 @@ class TestController extends Controller
         $model = new Test();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
@@ -103,7 +114,7 @@ class TestController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [

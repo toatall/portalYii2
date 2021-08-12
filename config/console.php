@@ -15,7 +15,8 @@ $config = [
     ],
     'components' => [
         'authManager' => [            
-            'class' => 'yii\rbac\DbManager',            
+            'class' => 'app\components\DbManager',            
+            //'class' => 'yii\rbac\PhpManager',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
