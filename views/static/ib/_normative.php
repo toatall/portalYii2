@@ -243,4 +243,20 @@
         </div>
     </div>
 
+
+    <div class="spoiler-wrap">
+        <div class="spoiler-head folded clickable">
+            Инструкция по работе с зашифрованными носителями
+        </div>
+        <div class="spoiler-body gallery" style="display: none;">
+            <p>
+                <a href="/files_static/8600/ib/materials/ib/инструкция по работе с зашифрованными носителями.docx" target="_blank">
+                    <span class="fas fa-file-word"></span>
+                    Инструкция по работе с зашифрованными носителями
+                </a>
+            </p>
+        </div>
+    </div>
+
+
 </div>
