@@ -17,15 +17,22 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules' => [
+        // админка
         'admin' => [
             'class' => 'app\modules\admin\Module',
         ],
-        'test' => [
-            'class' => 'app\modules\test\Module',
+        // проекты новобранцев
+        'rookie' => [
+            'class' => 'app\modules\rookie\Module',            
         ],
+        // тестирование
+        'test' => [
+            'class' => 'app\modules\test\Module',            
+        ],        
         'gridview' => [
             'class' => '\kartik\grid\Module',
-        ],        
+        ],       
+        /** @todo надо разобрать */ 
         'events' => [
             'class' => 'app\modules\events\Module',
         ],
