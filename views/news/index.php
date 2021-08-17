@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr />
     <?php endif; ?>
 
-    <?php Pjax::begin(['id'=>'ajax-news-ifns', 'timeout' => false, 'enablePushState'=>false]); ?>
+    <?php Pjax::begin(['id'=>'ajax-news-ifns', 'timeout'=>false, 'enablePushState'=>false, 'scrollTo'=>1]); ?>
 
     <?php if (!Yii::$app->request->isAjax): ?>
     <div class="left-panel">

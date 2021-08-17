@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'options'=>[
             'data-pjax'=>true,
         ],
+        'scrollTo'=>0,
     ]); ?>
 
     <div class="left-panel">

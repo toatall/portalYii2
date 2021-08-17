@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!--h2 class="text-center" style="font-weight: bolder;"><?= $this->title ?></h2-->
    
-    <?php Pjax::begin(['id'=>'ajax-news-ifns', 'timeout' => false, 'enablePushState'=>false]); ?>
+    <?php Pjax::begin(['id'=>'ajax-news-ifns', 'timeout'=>false, 'enablePushState'=>false, 'scrollTo'=>0]); ?>
 
     <div class="left-panel">
         
