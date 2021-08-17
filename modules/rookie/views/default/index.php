@@ -24,6 +24,26 @@ $this->title = 'Проекты новобранцев';
         <div class="col-5">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
+                    <h4 class="my-0">Конкурс "Фотоохота"</h4>
+                    <small>2021</small>                    
+                </div>
+                <img src="<?= Yii::getAlias('@content/rookie') ?>/images/project_04.jpg" class="card-img-top"  />         
+                <div class="card-body">  
+                    <p class="lead">Отдел обеспечения процедур банкротства</p>    
+                    <hr />
+                    <p>-</p>
+                    <hr />
+                    <?= Html::a('Перейти к проекту', ['/rookie/photohunter'], [
+                        'class' => 'btn btn-lg btn-block btn-outline-primary',
+                        'target' => '_blank'
+                    ]) ?>                
+                </div>
+            </div>  
+        </div>
+
+        <div class="col-5">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
                     <h4 class="my-0">Конкурс "Неделя добрых дел"</h4>
                     <small>2021</small>                    
                 </div>
