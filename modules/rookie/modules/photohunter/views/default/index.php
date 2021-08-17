@@ -13,7 +13,7 @@ $this->title = 'Проект "Фотоохота"';
 
 <section class="jumbotron text-center bg-light" style="margin-top: -100px;">
     <div class="container ">
-        <img src="<?= Yii::getAlias('@content/rookie/photohunter') ?>/images/hunter1.jpg" style="height: 20em;" />
+        <img src="<?= Yii::getAlias('@content/rookie/photohunter') ?>/images/hunter1.png" style="height: 20em;" />
         <h1>Конкурс "Фотоохота"</h1>
         <p class="lead text-muted">
             Отдел обеспечения процедур банкротства
