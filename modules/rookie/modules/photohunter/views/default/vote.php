@@ -11,7 +11,7 @@ use yii\bootstrap4\Html;
 <div id="container-form-vote">
     <div class="card text-center">
         <div class="card-body">
-            <img src="<?= $modelPhotos->thumb ?>" class="img-thumbnail" />
+            <img src="<?= $modelPhotos->thumb ?>" style="max-height: 20em;" class="img-thumbnail" />
         </div>
         <div class="card-footer">
             <p class="lead">

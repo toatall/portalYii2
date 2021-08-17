@@ -3,8 +3,10 @@
 /** @var yii\web\View $this */
 /** @var app\modules\rookie\modules\photohunter\models\Photos[] $modelPhotos */
 
-use yii\bootstrap4\Html;
 use yii\helpers\Url;
+use app\modules\rookie\modules\photohunter\assets\ViewerjsAsset;
+
+ViewerjsAsset::register($this);
 
 $this->title = 'Проект "Фотоохота"';
 ?>
@@ -12,7 +14,7 @@ $this->title = 'Проект "Фотоохота"';
 <section class="jumbotron text-center bg-light" style="margin-top: -100px;">
     <div class="container ">
         <img src="<?= Yii::getAlias('@content/rookie/photohunter') ?>/images/hunter1.jpg" style="height: 20em;" />
-        <h1>Проект "Фотоохота"</h1>
+        <h1>Конкурс "Фотоохота"</h1>
         <p class="lead text-muted">
             Отдел обеспечения процедур банкротства
         </p>
@@ -20,14 +22,13 @@ $this->title = 'Проект "Фотоохота"';
 </section>
 <div class="album bg-light">
     <div class="container">
-        <div class="row">
+        <div class="row" id="images">
             <?php foreach ($modelPhotos as $model) : ?>
                 <div class="col-6">
-                    <div class="card mb-4 shadow-sm">
-                        <!--img src="<?= $model->thumb ?>" class="card-img-top"  /-->
+                    <div class="card mb-4 shadow-sm">                       
                         <div class="card-body text-center">
-                            <div class="text-center">
-                                <img src="<?= $model->thumb ?>" class="img-thumbnail" style="max-height: 20em; max-width: 100%;" />
+                            <div class="text-center">                                
+                                <img src="<?= $model->thumb ?>" class="img-thumbnail" data-original="<?= $model->image ?>" style="max-height: 20em; max-width: 100%;" />
                                 <hr />
                                 <h4><span class="badge badge-secondary">#<?= $model->nomination ?></span></h4>
                             </div>                            
@@ -54,7 +55,7 @@ $this->title = 'Проект "Фотоохота"';
     </div>
 </div>
 
-<!-- Portfolio Modals-->
+
 <div class="modal fade" id="modal-dialog" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -101,5 +102,9 @@ $this->title = 'Проект "Фотоохота"';
 
         return false;
     });
-
+   
+    const gallery = new Viewer(document.getElementById('images'), {
+        url: 'data-original'
+    });
+    
 JS);

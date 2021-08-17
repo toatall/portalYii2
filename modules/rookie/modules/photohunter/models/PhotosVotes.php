@@ -77,6 +77,7 @@ class PhotosVotes extends \yii\db\ActiveRecord
     public function beforeValidate()
     {        
         $this->username = Yii::$app->user->identity->username;
+        $this->date_create = Yii::$app->formatter->asDatetime('now');
         return parent::beforeValidate();
     }
 
