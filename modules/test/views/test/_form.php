@@ -46,7 +46,9 @@ use kartik\widgets\DatePicker;
     <?= $form->field($model, 'time_limit')->widget(TimePicker::class, [
         'pluginOptions' => [
             'showMeridian' => false,
-        ],
+            'defaultTime' => false,
+        ],        
+        
     ])->label($model->getAttributeLabel('time_limit') . ' (ЧЧ:ММ)') ?>
     
     <div class="form-group">

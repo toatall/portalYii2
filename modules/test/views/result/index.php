@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'date_create:datetime:Дата',
                     'duration:text:Продолжительность',
                     [
-                        'class' => ExpandRowColumn::class,
+                        'class' => ExpandRowColumn::class,                       
                         'value' => function() { return GridView::ROW_COLLAPSED; },
                         'detailUrl' => Url::to(['/test/result/view-ajax']),
                     ],

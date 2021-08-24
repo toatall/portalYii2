@@ -56,6 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </strong>                                
                     <?= Html::beginForm(['/test/public/rating', 'id'=>$modelTest->id], 'post', ['id' => 'form-rating']) ?>
                     <?= StarRating::widget([
+                        'id' => 'star-rating-' . $model->id,
                         'name' => 'rating',
                         'pluginOptions' => [
                             'step' => 1,
