@@ -34,11 +34,25 @@ class DefaultController extends Controller
      * @return string
      */
     public function actionIndex()
-    {
-        $modelPhotos = Photos::find()->all();
+    {      
+        $modelPhotos = $this->groupedResultByNomination();
         return $this->render('index', [
             'modelPhotos' => $modelPhotos,
         ]);
+    }
+
+    /**
+     * Группировка результатов по номинации
+     * @return array
+     */
+    protected function groupedResultByNomination()
+    {
+        $results = [];
+        $query = Photos::find()->all();
+        foreach ($query as $item) {
+            $results[$item->nomination][] = $item;
+        }
+        return $results;
     }
 
     /**

@@ -53,7 +53,7 @@ $this->title = 'Проекты новобранцев';
                     <hr />
                     <p>Кичатов Алексей Сергеевич</p>
                     <hr />
-                    <?= Html::a('Перейти к проекту', ['/events/contest-arts'], [
+                    <?= Html::a('Перейти к проекту', ['/events/dobro'], [
                         'class' => 'btn btn-lg btn-block btn-outline-primary',
                         'target' => '_blank'
                     ]) ?>                

@@ -1,7 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
-/** @var app\modules\rookie\modules\photohunter\models\Photos[] $modelPhotos */
+/** @var array $modelPhotos */
 
 use yii\helpers\Url;
 use app\modules\rookie\modules\photohunter\assets\ViewerjsAsset;
@@ -23,33 +23,44 @@ $this->title = 'Проект "Фотоохота"';
 <div class="album bg-light">
     <div class="container">
         <div class="row" id="images">
-            <?php foreach ($modelPhotos as $model) : ?>
-                <div class="col-6">
-                    <div class="card mb-4 shadow-sm">                       
-                        <div class="card-body text-center">
-                            <div class="text-center">                                
-                                <img src="<?= $model->thumb ?>" class="img-thumbnail" data-original="<?= $model->image ?>" style="max-height: 20em; max-width: 100%;" />
-                                <hr />
-                                <h4><span class="badge badge-secondary">#<?= $model->nomination ?></span></h4>
-                            </div>                            
-                            <p class="lead">
-                                <?= $model->title ?><br />
-                                <strong><?= $model->description ?></strong>
-                            </p>                                                    
-                            <p class="card-text"></p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <?php if ($model->canVote()): ?>
-                                    <a href="<?= Url::to(['/rookie/photohunter/default/vote', 'id'=>$model->id]) ?>" class="btn btn-outline-primary link-modal" data-title="<?= $model->title ?>" data-description="<?= $model->description ?>">
-                                        <i class="far fa-star"></i> Проголосовать
-                                    </a>
-                                    <?php endif; ?>
+            <?php foreach ($modelPhotos as $title => $data) : ?>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <p class="display-4">#<?= $title ?></p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <?php foreach ($data as $model): ?>
+                                <div class="col-6">
+                                    <div class="card mb-4 shadow-sm">                       
+                                        <div class="card-body text-center">
+                                            <div class="text-center">                                
+                                                <img src="<?= $model->thumb ?>" class="img-thumbnail" data-original="<?= $model->image ?>" style="max-height: 20em; max-width: 100%;" />
+                                                <hr />
+                                                <!--h4><span class="badge badge-secondary">#<?= $model->nomination ?></span></h4-->
+                                            </div>                            
+                                            <p class="lead">
+                                                <?= $model->title ?><br />
+                                                <strong><?= $model->description ?></strong>
+                                            </p>                                                    
+                                            <p class="card-text"></p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="btn-group">
+                                                    <?php if ($model->canVote()): ?>
+                                                    <a href="<?= Url::to(['/rookie/photohunter/default/vote', 'id'=>$model->id]) ?>" class="btn btn-outline-primary link-modal" data-title="<?= $model->title ?>" data-description="<?= $model->description ?>">
+                                                        <i class="far fa-star"></i> Проголосовать
+                                                    </a>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <small class="text-muted"></small>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <small class="text-muted"></small>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
-                </div>
+                </div>                
             <?php endforeach; ?>
         </div>
     </div>
