@@ -63,7 +63,7 @@ class TestController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Test::find(),
+            'query' => Test::find()->orderBy(['id' => SORT_DESC]),
         ]);
 
         return $this->render('index', [

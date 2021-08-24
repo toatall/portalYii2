@@ -11,9 +11,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="test-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>    
+    <h1 class="display-4 border-bottom"><?= Html::encode($this->title) ?></h1>    
 
-    <div class="row">
+    <?php if (Test::canManager()): ?>
+    <div class="border-bottom mt-2 pb-2 mb-2 mx-3">
+        <?= Html::a('Добавить', ['create'], ['class'=>'btn btn-primary']) ?>
+    </div>
+    <?php endif; ?>
+    
+    <div class="row">        
     <?php foreach ($dataProvider->getModels() as $model): ?>
         <?php /** @var app\modules\test\models\Test $model **/ ?>
         <div class="col-xl-4 col-lg-5">

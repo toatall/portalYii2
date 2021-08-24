@@ -25,7 +25,7 @@ $resultAnswers = ArrayHelper::map($model->testResultAnswers, 'id_test_answer', '
     </h5>
     <hr />
         
-    <div class="form-answer" data-url="<?= Url::to(['/test/default/partial-save-answer', 'idResult'=>$model->id_test_result, 'idQuestion'=>$question->id]) ?>">
+    <div class="form-answer" data-url="<?= Url::to(['/test/public/partial-save-answer', 'idResult'=>$model->id_test_result, 'idQuestion'=>$question->id]) ?>">
     <?php foreach ($question->testAnswers as $answer): ?>
         <div class="form-check">
             <?php 

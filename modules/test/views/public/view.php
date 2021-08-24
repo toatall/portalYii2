@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php if ($model->canStatisticTest()): ?>
                 <div class="btn-group">
                     <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                        <i class="fas fa-info"></i> Статистика <span class="caret" style="vertical-align: middle; border-top: 4px solid white;"></span>
+                        <i class="fas fa-info"></i> Статистика
                     </button>
                     <ul class="dropdown-menu">                        
                         <li><?= Html::a('Общая', ['/test/statistic/general', 'id'=>$model->id], ['target'=>'_blank']) ?></li>
@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </ul>
                 </div>                
             <?php endif; ?>
-            <?= Html::a('<i class="fas fa-star"></i> Оценить', ['/test/public/rating', 'id'=>$model->id], ['class'=>'btn btn-default', 'target'=>'_blank']) ?>
+            <?= Html::a('<i class="fas fa-star"></i> Оценить', ['/test/public/rating', 'id'=>$model->id], ['class'=>'btn btn-secondary', 'target'=>'_blank']) ?>
         </div>
     </div>
 </div>
