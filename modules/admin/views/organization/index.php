@@ -1,10 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
+use kartik\grid\SerialColumn;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Организации';
 $this->params['breadcrumbs'][] = $this->title;
@@ -21,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => SerialColumn::class],
 
             'code',
             'name',
@@ -29,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_create:datetime',
             'date_edit:datetime',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => ActionColumn::class],
         ],
     ]); ?>
 

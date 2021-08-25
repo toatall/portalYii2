@@ -1,17 +1,16 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+/** @var yii\web\View $this */
+/** @var \app\models\mentor\MentorPost $model */
+/** @var yii\widgets\ActiveForm $form */
+
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
-use kartik\widgets\DatePicker;
 use kartik\widgets\FileInput;
-use yii\helpers\ArrayHelper;
-use app\models\department\Department;
 
-/* @var $this yii\web\View */
-/* @var $model \app\models\mentor\MentorPost */
-/* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="news-form">
@@ -28,9 +27,9 @@ use app\models\department\Department;
         ]),
     ]) ?>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Загрузка файлов</div>
-        <div class="panel-body">
+    <div class="card mb-2">
+        <div class="card-header">Загрузка файлов</div>
+        <div class="card-body">
             <?= $form->field($model, 'uploadFiles[]')->widget(FileInput::class, [
                 'options' => [
                     'accept' => 'files/*',
@@ -54,8 +53,9 @@ use app\models\department\Department;
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="btn-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Назад', ['mentor/way', 'id'=>$model->id_mentor_ways], ['class'=>'btn btn-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

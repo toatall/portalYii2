@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\conference\Conference */
+/** @var yii\web\View $this */
+/** @var app\models\conference\Conference $model */
 
 $this->title = 'Изменить собрание: #' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Собрания', 'url' => ['index']];

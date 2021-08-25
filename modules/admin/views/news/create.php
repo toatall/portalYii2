@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\news\News */
-/* @var $modelTree \app\models\Tree */
+/** @var yii\web\View $this */
+/** @var app\models\news\News $model */
+/** @var app\models\Tree $modelTree */
 
 $this->title = 'Добавление новости';
 $this->params['breadcrumbs'][] = ['label' => 'Новости', 'url' => ['index', 'idTree'=>$modelTree->id]];

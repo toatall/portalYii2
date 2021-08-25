@@ -1,10 +1,11 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\ActionColumn;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Пользователи';
 $this->params['breadcrumbs'][] = $this->title;
@@ -31,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'default_organization',
             'current_organization',
             //'role_admin',
-            'blocked',
+            'blocked:boolean',
             //'folder_path',
             //'telephone',
             //'post',
@@ -44,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_edit:datetime',
             //'date_delete',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => ActionColumn::class],
         ],
     ]); ?>
 

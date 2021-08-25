@@ -1,10 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
+use yii\helpers\StringHelper;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Собрания';
 $this->params['breadcrumbs'][] = $this->title;
@@ -17,24 +19,21 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Создать', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
-
+        'columns' => [           
             'id',
             //'type_conference',
             [
                 'attribute' => 'theme',
                 'value' => function($model) {
-                    return \yii\helpers\StringHelper::truncateWords($model->theme, 7);
+                    return StringHelper::truncateWords($model->theme, 7);
                 },
             ],
             [
                 'attribute' => 'members_people',
                 'value' => function($model) {
-                    return \yii\helpers\StringHelper::truncateWords($model->members_people, 5);
+                    return StringHelper::truncateWords($model->members_people, 5);
                 },
                 'format' => 'raw',
             ],
@@ -51,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'date_delete',
             //'log_change',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => ActionColumn::class],
         ],
     ]); ?>
 

@@ -1,11 +1,11 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap\Tabs;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Tabs;
 use app\modules\admin\models\Role;
 
-/* @var $this yii\web\View */
-/* @var $model Role */
+/** @var yii\web\View $this */
+/** @var Role $model */
 
 $this->title = 'Состав роли ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Роли', 'url' => ['/admin/role/index']];

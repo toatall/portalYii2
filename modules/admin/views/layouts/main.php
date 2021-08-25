@@ -1,13 +1,13 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+/** @var \yii\web\View $this */
+/** @var string $content */
 
-use app\widgets\Alert;
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
+use yii\bootstrap4\Alert;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
+use yii\bootstrap4\Breadcrumbs;
 use app\modules\admin\assets\AppAsset;
 use app\assets\ModalViewerAsset;
 
@@ -30,15 +30,16 @@ ModalViewerAsset::register($this);
 
 <div class="wrap">
     <?php
-    NavBar::begin([
-        //'brandLabel' => Yii::$app->name,
+    NavBar::begin([      
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inner navbar-fixed-top',
+            'class' => 'navbar navbar-expand-md navbar-light fixed-top bg-light border-bottom px-4',
         ],
+        'renderInnerContainer' => false,
+        'collapseOptions' => false,
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-left'],
+        'options' => ['class' => 'navbar-nav text-dark mr-auto'],
         'items' => [
             ['label' => 'Главная', 'url' => ['/admin/default/index'], 'visible'=>(!Yii::$app->user->isGuest)],
             ['label' => 'Портал', 'url' => ['/site/index']],
@@ -48,7 +49,7 @@ ModalViewerAsset::register($this);
                 ['label' => 'Роли', 'url'=>['/admin/role/index']],
                 ['label'=>'Модули', 'url'=>['/admin/module/index']],
                 ['label'=>'Голосование', 'url'=>['/admin/vote/index']],
-                '<li class="divider"></li>',
+                //'<li class="divider"></li>',
                 ['label' => 'Организации', 'url'=>['/admin/organization/index']],
                 ['label'=>'Меню', 'url'=>['/admin/menu/index']],
             ], 'visible'=>(Yii::$app->user->can('admin'))],
@@ -61,10 +62,10 @@ ModalViewerAsset::register($this);
                 ['label' => 'Вход', 'url' => ['/site/login']]
             ) : (
                 '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
+                . Html::beginForm(['/site/logout'], 'post', ['class'=>'form-inline'])
                 . Html::submitButton(
                     'Выход (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout', 'style' => 'padding:0; padding-top:5px;']
+                    ['class' => 'btn btn-link logout text-dark']
                 )
                 . Html::endForm()
                 . '</li>'
@@ -73,7 +74,7 @@ ModalViewerAsset::register($this);
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'navbar-nav text-dark'],
         'items' => [
             Yii::$app->user->isGuest ? (''): (
             ['label' => '<i class="fas fa-building"></i> (' . \Yii::$app->userInfo->current_organization . ')', 'encode'=>false, 'url'=>['/admin/organization/list'], 'linkOptions'=>['class'=>'mv-link mv-no-change-url']]
@@ -87,17 +88,16 @@ ModalViewerAsset::register($this);
         <?= Breadcrumbs::widget([
             'homeLink' => ['label' => 'Главная', 'url' => ['/admin/default/index']],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
+        ]) ?>        
         <?= $content ?>
     </div>
 </div>
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Административная часть Портала УФНС по Ханты-Мансийскому автономному округу - Югре <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="text-center">
+            &copy; Административная часть Портала УФНС по Ханты-Мансийскому автономному округу - Югре <?= date('Y') ?>
+        </p>
     </div>
 </footer>
 

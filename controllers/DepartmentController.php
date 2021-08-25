@@ -233,7 +233,7 @@ class DepartmentController extends Controller
         $breadcrubms = $this->breadcrumbsTreePath($id);
         $this->view->title = $this->modelTree->name;
 
-        // 1. подгрузка по модулю (например, райтинги)
+        // 1. подгрузка по модулю (например, рейтинги)
         if ($this->isModule($this->modelTree->module)) {
             return $this->render('ajaxData', [
                 'modelDepartment' => $this->modelDepartment,
@@ -241,7 +241,6 @@ class DepartmentController extends Controller
                 'breadcrumbs' => $breadcrubms,
             ]);
         }
-
 
         // 2. Если не указан модуль, то показать подразделы
         if ($this->modelTree->module == null) {
@@ -389,7 +388,7 @@ class DepartmentController extends Controller
 
         if ($departmentMenu = $this->modelDepartment->getMenu()) {
             if ($model->use_card) {
-                $menu[] = '<li class="divider"></li>';
+                $menu[] = ['label'=>'', 'options'=>['class'=>'dropdown-divider']];
             }
             $menu = ArrayHelper::merge($menu, $departmentMenu);
         }

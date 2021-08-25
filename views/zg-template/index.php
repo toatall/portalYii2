@@ -1,35 +1,43 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use app\models\zg\ZgTemplate;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\ArrayHelper;
 
-/* @var $this \yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $kind string */
-/* @var $kindList array */
-/* @var $isEditor boolean */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var string $kind */
+/** @var array $kindList */
+/** @var boolean $isEditor */
 
 $this->title = 'Шаблоны ответов на однотипные обращения';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="zg-template-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+            <?= $this->title ?>
+        </p>    
+    </div>
+
     <?php if ($isEditor): ?>
     <p>
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php endif; ?>
 
-    <div class="panel panel-default">
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-body">
             <?php Pjax::begin(['id'=>'ajax-zg-template-index', 'timeout' => false, 'enablePushState'=>false]); ?>
+
             <?= Html::beginForm(['index'], 'get', ['data-pjax' => true, 'autocomplete' => 'off', 'id'=>'form-zg-template']) ?>
                 <?= Html::label('Вид обращений', 'kindList') ?>
                 <?= Html::dropDownList('kind', $kind, ArrayHelper::merge([''=>''], $kindList), ['class'=>'form-control', 'id'=>'kindList']) ?>
             <?= Html::endForm() ?>
+
             <hr />
 
             <?= GridView::widget([
@@ -39,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'kind',
                     [
                         'attribute' => 'files',
-                        'value' => function(\app\models\zg\ZgTemplate $model) {
+                        'value' => function(ZgTemplate $model) {
                             $result = '';
                             foreach ($model->zgTemplateFiles as $file) {
                                 $result .= Html::a('<i class="fas fa-file-word"></i> ' . basename($file->filename), $file->filename) . Html::tag('br');

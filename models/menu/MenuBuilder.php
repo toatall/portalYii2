@@ -13,7 +13,7 @@ use app\models\vote\VoteMain;
 
 /**
  * Главное меню
- * @author Oleg
+ * @author toatall
  */
 class MenuBuilder
 {
@@ -28,28 +28,29 @@ class MenuBuilder
      * Главное верхнее меню
      * @return array
      */
-    public static function buildMain()
+    public static function buildMain($options = [])
     {
-        return self::build(Menu::POSITION_MAIN);        
+        return self::build(Menu::POSITION_MAIN, $options);        
     }
 
     /**
      * Главное меню слева
      * @return array
      */
-    public static function buildLeft()
+    public static function buildLeft($options = [])
     {
-        return self::build(Menu::POSITION_LEFT);
+        return self::build(Menu::POSITION_LEFT, $options);
     }
 
     /**
      * Формирование меню
      * @param $position
      * @param int $id_parent
+     * @param array $options
      * @return array
      */
-    protected static function build($position, $id_parent=0)
-    {
+    protected static function build($position, $options, $id_parent=0)
+    {        
         $queryAll = (new \yii\db\Query())
            ->from('{{%menu}}')
            ->where(['id_parent'=>$id_parent, 'type_menu'=>$position, 'blocked'=>0])
@@ -86,10 +87,11 @@ class MenuBuilder
                 }
             }
             else {
-                $subMenu = self::build($position, $query['id']);
+                $subMenu = self::build($position, $options, $query['id']);
             
                 if (count($subMenu)>0) {
                     $item['items'] = $subMenu;
+                    $item['options'] = $options;
                 }                
             }
             $resultArray[] = $item;            
@@ -127,12 +129,15 @@ class MenuBuilder
     }
 
     /**
-     * Первоначальное наполнение дополнительного меню
+     *  дополнительное меню в виде конента
+     * @return array
      */
-    public static function initLeftMenuAdd()
+    public static function buildLeftAddMenuContent()
     {
-        self::addLeftAdd(AbstractConference::eventsToday(), false);
-        self::addLeftAdd(VoteMain::activeVotes(), false);
+        return [
+            AbstractConference::eventsToday(),
+            //VoteMain::activeVotes()
+        ];
     }
     
 }

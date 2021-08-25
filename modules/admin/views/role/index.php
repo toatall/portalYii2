@@ -1,11 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
 use app\modules\admin\models\Role;
+use kartik\grid\ActionColumn;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Роли';
 $this->params['breadcrumbs'][] = $this->title;
@@ -32,11 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [                
                 'format'=>'raw',
                 'value'=>function(Role $model) {
-                    return yii\bootstrap\Html::a('Состав', ['/admin/role/admin', 'id'=>$model['name']], ['class'=>'btn btn-primary']);
+                    return Html::a('Состав', ['/admin/role/admin', 'id'=>$model['name']], ['class'=>'btn btn-primary']);
                 },
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => ActionColumn::class],
         ],
     ]); ?>
 

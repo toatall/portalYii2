@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Menu\Menu */
+/** @var yii\web\View $this */
+/** @var app\models\Menu\Menu $model */
 
 $this->title = 'Изменение пункта меню: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Меню', 'url' => ['index']];

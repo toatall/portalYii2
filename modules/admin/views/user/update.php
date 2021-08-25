@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\User */
+/** @var yii\web\View $this */
+/** @var app\models\User $model */
 
 $this->title = 'Изменить пользователя: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];

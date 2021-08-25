@@ -1,31 +1,34 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use kartik\date\DatePicker;
+use yii\bootstrap4\LinkPager;
 
-/* @var $this yii\web\View */
-/* @var $searchModel \app\models\news\NewsSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var app\models\news\NewsSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="news-index row">
 
-    <?php if (!Yii::$app->request->isAjax): ?>
-    <h2 class="" style="font-weight: bolder;"><?= $this->title ?></h2>
-    <hr />
+    <?php if (!Yii::$app->request->isAjax): ?>    
+        <div class="col border-bottom mb-2">
+            <p class="display-4">
+                <?= $this->title ?>
+            </p>    
+        </div>
     <?php endif; ?>
 
-    <?php Pjax::begin(['id'=>'ajax-news-ifns', 'timeout'=>false, 'enablePushState'=>false, 'scrollTo'=>1]); ?>
-
-    <?php if (!Yii::$app->request->isAjax): ?>
-    <div class="left-panel">
-        <div class="panel panel-default">
-            <div class="panel-body">
+    <div class="col-12">
+    <?php Pjax::begin(['id'=>'ajax-news-ifns', 'timeout'=>false, 'enablePushState'=>false, 'scrollTo'=>0]); ?>
+    
+        <div class="card">
+            <div class="card-body">
                 <?php $form = ActiveForm::begin([
                     'options' => ['data-pjax' => true, 'autocomplete' => 'off'],
                     'method' => 'get',
@@ -34,10 +37,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <br />
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-5">
                         <?= $form->field($searchModel, 'searchText')->textInput(['placeholder'=>'Поиск по тексту...'])->label(false) ?>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-3">
                         <?= $form->field($searchModel, 'searchDate1')->widget(DatePicker::class, [
                             'pluginOptions' => [
                                 'todayHighlight' => true,
@@ -50,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ])->label(false) ?>
                     </div>
 
-                    <div class="col-sm-3">
+                    <div class="col-3">
                         <?= $form->field($searchModel, 'searchDate2')->widget(DatePicker::class, [
                             'pluginOptions' => [
                                 'todayHighlight' => true,
@@ -63,22 +66,27 @@ $this->params['breadcrumbs'][] = $this->title;
                         ])->label(false) ?>
                     </div>
 
-                    <div class="col-sm-1">
-                        <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary col-sm-12', 'style' => 'float: right;']) ?>
+                    <div class="col-1">
+                        <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary col-12', 'style' => 'float: right;']) ?>
                     </div>
                 </div>
                 <?php ActiveForm::end(); ?>
             </div>
-        </div>
-    </div>
-    <?php endif; ?>
+        </div>  
 
-    <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemView' => '_list',
-        'layout' => "{items}\n{pager}",
-    ]) ?>
+        <?= ListView::widget([
+            'dataProvider' => $dataProvider,
+            'itemView' => '_list',
+            'layout' => "{items}\n{pager}",
+            'pager' => [
+                'class' => LinkPager::class,
+                'options' => [
+                    'class' => 'pt-2',
+                ],
+            ],
+        ]) ?>
 
     <?php Pjax::end(); ?>
+    </div>
 
 </div>

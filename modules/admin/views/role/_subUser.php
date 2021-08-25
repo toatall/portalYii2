@@ -1,13 +1,13 @@
 <?php
 
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use app\modules\admin\models\Role;
-use yii\bootstrap\Html;
+use yii\bootstrap4\Html;
 use app\models\User;
 use yii\widgets\Pjax;
 
-/* @var $this yii\web\View */
-/* @var $model Role */
+/** @var yii\web\View $this */
+/** @var Role $model */
 
 ?>
 <div style="padding-top: 5px;">
@@ -15,8 +15,8 @@ use yii\widgets\Pjax;
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="btn-group" role="group">
-                <?= Html::a('<i class="fas fa-plus-circle"></i> Добавить пользователя', ['/admin/role/add-sub-user', 'id'=>$model->name], ['class'=>'btn btn-default mv-link']) ?>
-                <button id="btn-refresh-user-container" class="btn btn-default"><i class="fas fa-sync-alt"></i> Обновить</button>
+                <?= Html::a('<i class="fas fa-plus-circle"></i> Добавить пользователя', ['/admin/role/add-sub-user', 'id'=>$model->name], ['class'=>'btn btn-secondary mv-link']) ?>
+                <button id="btn-refresh-user-container" class="btn btn-secondary"><i class="fas fa-sync-alt"></i> Обновить</button>
             </div>
         </div>
     </div>

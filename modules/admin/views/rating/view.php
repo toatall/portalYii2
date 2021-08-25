@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\rating\RatingMain */
+/** @var yii\web\View $this */
+/** @var app\models\rating\RatingMain $model */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Виды рейтингов', 'url' => ['index', 'idTree'=>$model->id_tree]];

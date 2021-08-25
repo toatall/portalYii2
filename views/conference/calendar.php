@@ -1,8 +1,9 @@
 <?php
-/* @var $this \yii\web\View */
+/** @var yii\web\View $this */
+
 use yii\helpers\Url;
 use app\assets\fullcalendar\FullCalendarAsset;
-use yii\bootstrap\Html;
+use yii\bootstrap4\Html;
 use app\models\conference\EventsAll;
 
 FullCalendarAsset::register($this);
@@ -14,17 +15,20 @@ $this->params['breadcrumbs'][] = $this->title;
 $url = Url::to(['/conference/calendar-data']);
 ?>
 
-<h1><?= $this->title ?></h1>
-<hr />
+<div class="col border-bottom mb-2">
+    <p class="display-4">
+    <?= $this->title ?>
+    </p>    
+</div>    
 
-<div class="panel panel-default">        
-    <div class="panel-body">
+<div class="card">        
+    <div class="card-body">
         <?= Html::beginForm('', '', ['id'=>'form-filter']) ?>
         <?= Html::checkboxList('filterChecked', [EventsAll::TYPE_VKS_UFNS, EventsAll::TYPE_VKS_FNS, EventsAll::TYPE_CONFERENCE, EventsAll::TYPE_VKS_EXTERNAL], [
-            EventsAll::TYPE_VKS_UFNS => '<span class="badge" style="border-radius:50%; color:white; background-color:' . EventsAll::COLOR_VKS_UFNS . ';">&nbsp;</span> ВКС с УФНС',
-            EventsAll::TYPE_VKS_FNS => '<span class="badge" style="border-radius:50%; color:white; background-color:' . EventsAll::COLOR_VKS_FNS . ';">&nbsp;</span> ВКС с ФНС',
-            EventsAll::TYPE_CONFERENCE => '<span class="badge" style="border-radius:50%; color:white; background-color:' . EventsAll::COLOR_CONFERENCE . ';">&nbsp;</span> Собрания',
-            EventsAll::TYPE_VKS_EXTERNAL => '<span class="badge" style="border-radius:50%; color:white; background-color:' . EventsAll::COLOR_VKS_EXTERNAL . ';">&nbsp;</span> ВКС внешние',
+            EventsAll::TYPE_VKS_UFNS => '<span class="badge text-white" style="background-color:' . EventsAll::COLOR_VKS_UFNS . ';">ВКС с УФНС</span>',
+            EventsAll::TYPE_VKS_FNS => '<span class="badge text-white" style="color:white; background-color:' . EventsAll::COLOR_VKS_FNS . ';">ВКС с ФНС</span>',
+            EventsAll::TYPE_CONFERENCE => '<span class="badge text-white" style="color:white; background-color:' . EventsAll::COLOR_CONFERENCE . ';">Собрания</span>',
+            EventsAll::TYPE_VKS_EXTERNAL => '<span class="badge text-white" style="color:white; background-color:' . EventsAll::COLOR_VKS_EXTERNAL . ';">ВКС внешние</span>',
         ], ['encode' => false, 'id'=>'filer-type-conference']); ?>
     </div>
     <?= Html::endForm() ?>

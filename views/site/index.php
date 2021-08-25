@@ -1,22 +1,14 @@
 <?php
 
 use yii\helpers\Url;
-use yii\bootstrap\Tabs;
+use yii\bootstrap4\Tabs;
 
 /* @var $this yii\web\View */
 
 $this->title = Yii::$app->name;
 ?>
 <div class="site-index">
-
-    <!--div class="row">
-        <div class="col-sm-6">
-            <div id="container-news-ufns" data-ajax-url="<?= Url::to(['/news/ufns']) ?>"></div>
-        </div>
-        <div class="col-sm-6">
-            <div id="container-news-ifns" data-ajax-url="<?= Url::to(['/news/ifns']) ?>" style="margin-left: 10px;"></div>
-        </div>
-    </div-->
+   
     <?= Tabs::widget([
         'items' => [
             [

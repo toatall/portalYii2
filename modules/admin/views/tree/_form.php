@@ -1,16 +1,17 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\assets\ModalViewerAsset;
 use app\models\Module;
+use app\models\Tree;
 
 ModalViewerAsset::register($this);
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Tree */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\Tree $model */
+/** @var yii\bootstrap4\ActiveForm $form */
 ?>
 
 <div class="tree-form">
@@ -20,7 +21,7 @@ ModalViewerAsset::register($this);
     <?php
         $arrayParent = Yii::$app->user->can('admin') ? ['0' => 'Родитель'] : [];
     ?>
-    <?= $form->field($model, 'id_parent')->dropDownList($arrayParent + \app\models\Tree::getTreeDropDownList()) ?>
+    <?= $form->field($model, 'id_parent')->dropDownList($arrayParent + Tree::getTreeDropDownList()) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
@@ -42,24 +43,24 @@ ModalViewerAsset::register($this);
     </div>
 
     <?php if (Yii::$app->user->can('admin')): ?>
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             Доступ
         </div>
 
-        <div class="panel-body">
-            <div class="col-sm-12">
+        <div class="card-body">
+            <div class="col-12">
                 <?= $form->field($model, 'useParentRight')->checkbox() ?>
             </div>
             <div id="content-permission">
-                <div class="col-sm-6">
+                <div class="col-6">
                     <?= $form->field($model, 'permissionGroup')->dropDownList($model->getPermissionGroups(), ['multiple'=>true, 'size'=>10]) ?>
                     <div class="btn-group">
                         <?= Html::a('Добавить', ['/admin/group/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-group']) ?>
                         <?= Html::button('Удалить', ['class' => 'btn btn-danger', 'id'=>'btn-remove-group']) ?>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-6">
                     <?= $form->field($model, 'permissionUser')->dropDownList($model->getPermissionUsers(), ['multiple'=>true, 'size'=>10]) ?>
                     <div class="btn-group">
                         <?= Html::a('Добавить', ['/admin/user/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-user']) ?>
@@ -71,12 +72,12 @@ ModalViewerAsset::register($this);
     </div>
     <?php endif; ?>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             <button id="btn-add-parameters" class="btn btn-primary">Дополнительные параметры</button>
         </div>
         <div id="content-add-parameters" class="panel-body" style="display: none;">
-            <div class="panel-body">
+            <div class="card-body">
                 <?= $form->field($model, 'param1')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'view_static')->textInput(['maxlength' => true]) ?>
@@ -90,7 +91,7 @@ ModalViewerAsset::register($this);
 
     <div class="btn-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Отмена', ['/admin/tree/index'], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Отмена', ['/admin/tree/index'], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -1,9 +1,11 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $dataProvider \yii\data\ActiveDataProvider */
-/* @var $modelWay \app\models\mentor\MentorWays */
+/** @var yii\web\View $this */
+/** @var \yii\data\ActiveDataProvider $dataProvider */
+/** @var \app\models\mentor\MentorWays $modelWay */
 
-use yii\helpers\Html;
+use app\models\mentor\MentorPost;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\LinkPager;
 use yii\widgets\ListView;
 
 $this->title = $modelWay->name;
@@ -11,19 +13,30 @@ $this->params['breadcrumbs'][] = ['label' => 'Наставничество', 'ur
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1 style="font-weight: bolder;"><?= $this->title ?></h1>
-<hr />
+<div class="row">
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+        <?= $this->title ?>
+        </p>    
+    </div>    
+</div>
 
-<?php if (\app\models\mentor\MentorPost::isModerator()): ?>
+<?php if (MentorPost::isModerator()): ?>
 <?= Html::a('Добавить пост', ['/mentor/create-post', 'way' => $modelWay->id], ['class'=>'btn btn-primary']); ?>
 <hr />
 <?php endif; ?>
 
-<div class="row" style="margin-top: 20px;">
+<div class="row mt-2">
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => '_list',
         'layout' => "{items}\n{pager}",
+        'pager' => [
+            'class' => LinkPager::class,
+            'options' => [
+                'class' => 'pt-2',
+            ],
+        ],
     ]); ?>
 </div>
 

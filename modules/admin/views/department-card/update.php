@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Department\DepartmentCard */
+/** @var yii\web\View $this */
+/** @var app\models\Department\DepartmentCard $model */
 
 $this->title = 'Изменение карточки сотрудника: ' . $model->user_fio;
 $this->params['breadcrumbs'][] = ['label' => 'Отделы', 'url' => ['/admin/department/index']];

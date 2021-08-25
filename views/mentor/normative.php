@@ -1,16 +1,24 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $models \app\models\mentor\MentorWays[] */
+/** @var yii\web\View $this */
+/** @var \app\models\mentor\MentorWays[] $models */
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
 $this->title = 'Наставничество';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1 style="font-weight: bolder;"><?= $this->title ?></h1>
-<hr />
+<div class="row">
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+        <?= $this->title ?>
+        </p>    
+    </div>    
+</div>
 
-<?php foreach ($models as $model): ?>
-    <p><?= Html::a($model->name . ' (' . count($model->mentorPosts) . ')', ['/mentor/way', 'id'=>$model->id]) ?></p>
-<?php endforeach; ?>
+
+<div class="list-group">
+    <?php foreach ($models as $model): ?>
+        <?= Html::a($model->name . ' <span class="badge badge-primary">' . count($model->mentorPosts) . '</span>', ['/mentor/way', 'id'=>$model->id], ['class'=>'list-group-item list-group-item-action']) ?>
+    <?php endforeach; ?>
+</div>

@@ -1,22 +1,25 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
 use app\helpers\DateHelper;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $searchModel \app\models\conference\ConferenceSearch */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var app\models\conference\ConferenceSearch $searchModel */
 
 $this->title = 'ВКС с УФНС';
 $this->params['breadcrumbs'][] = $this->title;
-
 $this->registerCssFile('/css/dayPost.css');
 
 ?>
 <div class="conference-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+            <?= Html::encode($this->title) ?>
+        </p>    
+    </div>    
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,7 +29,7 @@ $this->registerCssFile('/css/dayPost.css');
             'style' => 'table-layout:fixed',
         ],
         'rowOptions' => function($model, $index, $widget, $grid) {
-            return $model->isFinished() ? ['class' => 'bg-success'] : [];
+            return $model->isFinished() ? ['class' => 'text-success'] : [];
         },
         'columns' => [
             [
@@ -53,7 +56,7 @@ $this->registerCssFile('/css/dayPost.css');
             'duration',
             [
                 'value' => function($model) {
-                    return Html::a('Просмотр', ['conference/view', 'id'=>$model->id], ['class' => 'btn btn-default mv-link']);
+                    return Html::a('Просмотр', ['conference/view', 'id'=>$model->id], ['class' => 'btn btn-primary mv-link']);
                 },
                 'format' => 'raw',
             ],

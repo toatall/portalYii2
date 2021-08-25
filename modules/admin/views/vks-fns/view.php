@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\conference\VksFns */
+/** @var yii\web\View $this */
+/** @var app\models\conference\VksFns $model */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'ВКС с ФНС', 'url' => ['index']];

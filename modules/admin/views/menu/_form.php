@@ -1,19 +1,19 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Menu\Menu */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\Menu\Menu $model */
+/** @var yii\bootstrap4\ActiveForm $form */
 ?>
 
 <div class="menu-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             <?= Html::activeLabel($model,'type_menu'); ?>:
             <?php
             switch ($model->type_menu)
@@ -45,7 +45,7 @@ use yii\widgets\ActiveForm;
 
     <div class="btn-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Отмена', ['index'], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Отмена', ['index'], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

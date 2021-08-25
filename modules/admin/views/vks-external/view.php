@@ -1,17 +1,15 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
-use app\models\conference\AbstractConference;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\conference\Conference */
+/** @var yii\web\View $this */
+/** @var app\models\conference\Conference $model */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'ВКС внешние', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="conference-view">
 

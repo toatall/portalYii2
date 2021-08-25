@@ -1,4 +1,4 @@
-html,
+/* html,
 body {
     height: 100%;
 }
@@ -37,6 +37,8 @@ body {
 }
 
 /* add sorting icons to gridview sort links */
+
+/*
 a.asc:after, a.desc:after {
     position: relative;
     top: 1px;
@@ -96,6 +98,7 @@ a.desc:after {
 }
 
 /* align the logout "link" (button in form) of the navbar */
+/*
 .nav li > form > button.logout {
     padding: 15px;
     border: none;
@@ -117,7 +120,7 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
-}
+} */
 
 
 /* ----------------
@@ -143,4 +146,9 @@ a.desc:after {
 
 .modal-dialog-super-large {
     width: 90%;
+}
+
+.news-title {
+    color: #3B5998; 
+    font-weight: bold;
 }

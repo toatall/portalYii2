@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\page\Page */
+/** @var yii\web\View $this */
+/** @var app\models\page\Page $model */
 
 $this->title = 'Изменение страницы: ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Новости', 'url' => ['index', 'idTree' => $model->id_tree]];

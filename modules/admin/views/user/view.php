@@ -1,10 +1,11 @@
 <?php
 
-use yii\helpers\Html;
+use app\models\User;
+use yii\bootstrap4\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\User */
+/** @var yii\web\View $this */
+/** @var app\models\User $model */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];
@@ -48,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'organization_name',
             [
                 'attribute' => 'roles',
-                'value' => function(\app\models\User $model) {
+                'value' => function(User $model) {
                     return implode('<br />', iterator_to_array($model->getRoles()));
                 },
                 'format' => 'raw',

@@ -5,9 +5,9 @@ namespace app\modules\rookie\modules\photohunter\controllers;
 use app\modules\rookie\modules\photohunter\models\Photos;
 use app\modules\rookie\modules\photohunter\models\PhotosVotes;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
 use yii\web\ServerErrorHttpException;
 
 /**
@@ -15,6 +15,29 @@ use yii\web\ServerErrorHttpException;
  */
 class DefaultController extends Controller
 {
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+    
 
     /**
      * {@inheritdoc}

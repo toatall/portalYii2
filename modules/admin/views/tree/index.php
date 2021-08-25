@@ -1,12 +1,12 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use app\modules\admin\assets\JsTreeAsset;
 
 JsTreeAsset::register($this);
 
-/* @var $this yii\web\View */
-/* @var $tree array */
+/** @var yii\web\View $this */
+/** @var array $tree */
 
 $this->title = 'Структура';
 $this->params['breadcrumbs'][] = $this->title;
@@ -15,15 +15,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             <div class="btn-group">
                 <?= Html::a('Добавить раздел', ['create'], ['class' => 'btn btn-success']) ?>
                 <?= Html::button('Изменить', ['class' => 'btn btn-primary btn-selected-tree-node', 'id' => 'btn-update-node']) ?>
                 <?= Html::button('Удалить', ['class' => 'btn btn-danger btn-selected-tree-node', 'id' => 'btn-delete-node']) ?>
             </div>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             <div id="tree-view">
                 <?= $tree ?>
             </div>

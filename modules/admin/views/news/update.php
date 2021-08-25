@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\news\News */
+/** @var yii\web\View $this */
+/** @var app\models\news\News $model */
 
 $this->title = 'Изменение новости: ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Новости', 'url' => ['index', 'idTree' => $model->id_tree]];

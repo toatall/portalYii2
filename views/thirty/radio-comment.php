@@ -1,8 +1,8 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $model \app\models\thirty\ThirtyRadio */
+/** @var \yii\web\View $this */
+/** @var \app\models\thirty\ThirtyRadio $model */
 
-use yii\bootstrap\Tabs;
+use yii\bootstrap4\Tabs;
 use yii\helpers\Url;
 ?>
 <?= Tabs::widget([
@@ -10,7 +10,7 @@ use yii\helpers\Url;
     'encodeLabels' => false,
     'items' => [
         [
-            'label' => 'Комментарии <button class="btn btn-default btn-xs" id="btn-radio-comment-refresh" title="Обновить" alt="Обновить"><i class="fa fa-sync"></i></button>',
+            'label' => 'Комментарии <button class="btn btn-light btn-xs" id="btn-radio-comment-refresh" title="Обновить" alt="Обновить"><i class="fa fa-sync"></i></button>',
             'content' => '<div id="radio-comment-index" data-ajax-url="' . Url::to(['thirty/radio-comment-index', 'idRadio'=>$model->id]) . '"></div>',
             'linkOptions' => ['data-tab' => 'index'],
         ],

@@ -11,6 +11,7 @@ use yii\bootstrap\Html;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%department}}".
@@ -306,10 +307,13 @@ class Department extends \yii\db\ActiveRecord
             ->all();
 
         foreach ($resultQuery as $item) {
+            $subItems = $this->getMenu($item['id']);
+
             $result[] = [
                 'label' => $item['name'],
                 'url' => ['department/view', 'id'=>$this->id, 'idTree'=>$item['id']],
-                'items' => $this->getMenu($item['id']),
+                'items' => $subItems,
+                'options' => $subItems ? ['class' => 'dropdown-submenu'] : [],
             ];
         }
         return $result;
@@ -321,12 +325,11 @@ class Department extends \yii\db\ActiveRecord
      * @param int $idTree идентификатор структуры
      * @param int $idDepartment идентификатор отдела
      * @param boolean $flagStruct
-     * @return string
-     * @author toatlal
+     * @return string   
      */
     public function departmentTree($idTree, $idDepartment, $flagStruct=false)
     {
-        $resultString = '';
+        $resultArr = [];
 
         $query = new Query();
         $resultQuery = $query
@@ -340,22 +343,30 @@ class Department extends \yii\db\ActiveRecord
         if (count($resultQuery)==0 && !$flagStruct && !$this->use_card) {
             return '';
         }
-
-        $resultString .= "<ul class=\"\">\n";
-
         if ($this->use_card && !$flagStruct) {
-            $resultString .= "<li>" . Html::a('Структура', ['department/struct', 'id'=>$idDepartment]) . "</li>\n";
-            $flagStruct=true;
+            $resultArr[] = [
+                'id' => $idDepartment,
+                'text' => 'Структура', 
+                'href' => Url::to(['department/struct', 'id'=>$idDepartment]),
+            ];
+            $flagStruct = true;
         }
 
         if ($resultQuery !== null) {
             foreach ($resultQuery as $tree) {
-                $resultString .= "<li>" . Html::a($tree['name'], ['department/view', 'id'=>$idDepartment, 'idTree'=>$tree['id']]) . "</li>\n";
-                $resultString .= $this->departmentTree($tree['id'], $idDepartment, $flagStruct);
+                $item = [
+                    'id' => $tree['id'],
+                    'text' => $tree['name'],
+                    'href' => Url::to(['department/view', 'id'=>$idDepartment, 'idTree'=>$tree['id']]),
+                ];
+                $subItems = $this->departmentTree($tree['id'], $idDepartment, $flagStruct);
+                if ($subItems) {
+                    $item['items'] = $subItems;
+                }
+                $resultArr[] =  $item;
             }
         }
-        $resultString .= "</ul>\n";
 
-        return $resultString;
+        return $resultArr;
     }
 }

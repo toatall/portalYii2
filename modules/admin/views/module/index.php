@@ -1,10 +1,13 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use app\models\Module;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
+use kartik\grid\SerialColumn;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Модули';
 $this->params['breadcrumbs'][] = $this->title;
@@ -21,20 +24,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => SerialColumn::class],
 
             'name',
             'description',
             [
                 'attribute' => 'only_one',
-                'value' => function(\app\models\Module $model) {
+                'value' => function(Module $model) {
                     return $model->only_one ? 'Да' : 'Нет';
                 }
             ],
             'date_create:datetime',
             'author',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => ActionColumn::class],
         ],
     ]); ?>
 

@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Role */
+/** @var yii\web\View $this */
+/** @var app\modules\admin\models\Role $model */
 
 $this->title = $model['name'];
 $this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];

@@ -13,7 +13,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="department-op-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+            <?= $this->title ?>
+        </p>
+    </div>
 
     <?= $this->render('_form', [
         'model' => $model,

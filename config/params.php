@@ -6,6 +6,8 @@ return [
     'senderName' => 'Example.com mailer',
     
     'pageSize' => 10,
+
+    'bsVersion' => '4.x',
         
     // user
     'user' => [

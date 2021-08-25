@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Tree */
+/** @var yii\web\View $this */
+/** @var app\models\Tree $model */
 
 $this->title = 'Создание раздела';
 $this->params['breadcrumbs'][] = ['label' => 'Структура', 'url' => ['index']];

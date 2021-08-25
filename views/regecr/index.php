@@ -1,66 +1,75 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $resultQuery array */
-/* @var $sum array */
-/* @var $date1 string */
-/* @var $date2 string */
+/** @var yii\web\View $this */
+/** @var array $resultQuery */
+/** @var array $sum */
+/** @var string $date1 */
+/** @var string $date2 */
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use kartik\widgets\DatePicker;
 
 $this->title = 'Анкетирование по ГР';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="regecr-index row">
-    <h1><?= $this->title ?></h1>
-
-    <hr />
-    <div class="btn-group">
-        <?= Html::a('Детализация', ['detail'], ['class' => 'btn btn-default']) ?>
-        <?= Html::a('В виде графика', ['chart'], ['class' => 'btn btn-default']) ?>
+<div class="regecr-index">
+    
+    <div class="row">
+        <div class="col border-bottom mb-2">
+            <p class="display-4">
+            <?= $this->title ?>
+            </p>    
+        </div>    
     </div>
-    <hr />
+    
+    <div class="row col">
+        <div class="btn-group border-bottom">
+            <?= Html::a('Детализация', ['detail'], ['class' => 'btn btn-secondary']) ?>
+            <?= Html::a('В виде графика', ['chart'], ['class' => 'btn btn-secondary']) ?>
+        </div>
+    </div>
 
-    <div class="col-sm-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">Поиск</div>
-            <div class="panel-body">
-                <?= Html::beginForm(['index'], 'get') ?>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <?= DatePicker::widget([
-                            'name' => 'date1',
-                            'value' => $date1,
-                            'pluginOptions' => [
-                                'todayHighlight' => true,
-                                'todayBtn' => true,
-                                'autoclose' => true,
-                            ],
-                        ]) ?>
-                    </div>
-                    <div class="col-sm-5">
-                        <?= DatePicker::widget([
-                            'name' => 'date2',
-                            'value' => $date2,
-                            'pluginOptions' => [
-                                'todayHighlight' => true,
-                                'todayBtn' => true,
-                                'autoclose' => true,
+    <div class="row mt-2">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">Поиск</div>
+                <div class="card-body">
+                    <?= Html::beginForm(['index'], 'get') ?>
+                    <div class="row">
+                        <div class="col-5">
+                            <?= DatePicker::widget([
+                                'name' => 'date1',
+                                'value' => $date1,
+                                'pluginOptions' => [
+                                    'todayHighlight' => true,
+                                    'todayBtn' => true,
+                                    'autoclose' => true,
+                                ],
+                            ]) ?>
+                        </div>
+                        <div class="col-5">
+                            <?= DatePicker::widget([
+                                'name' => 'date2',
+                                'value' => $date2,
+                                'pluginOptions' => [
+                                    'todayHighlight' => true,
+                                    'todayBtn' => true,
+                                    'autoclose' => true,
 
-                            ],
-                        ]) ?>
+                                ],
+                            ]) ?>
+                        </div>
+                        <div class="col-2">
+                            <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary col-12']) ?>
+                        </div>
                     </div>
-                    <div class="col-sm-2">
-                        <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary col-sm-12']) ?>
-                    </div>
+                    <?= Html::endForm() ?>
                 </div>
-                <?= Html::endForm() ?>
             </div>
         </div>
     </div>
 
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered table-striped table-hover mt-2">
         <tr>
             <th>Наименование НО</th>
             <th>Кол-во вновь созданных ООО</th>

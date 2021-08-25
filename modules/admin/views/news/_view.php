@@ -1,11 +1,10 @@
 <?php
 
-use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\news\News */
-Yii::$app->formatter
+/** @var yii\web\View $this */
+/** @var app\models\news\News $model */
+
 ?>
 
 <?= DetailView::widget([

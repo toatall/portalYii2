@@ -1,21 +1,20 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\RegEcr */
+/** @var yii\web\View $this */
+/** @var app\models\RegEcr $model */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Анкетирование по ГР', 'url' => ['index', '']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="reg-ecr-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="btn-group" style="margin-bottom: 20px;">
+    <div class="btn-group mb-2">
         <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',

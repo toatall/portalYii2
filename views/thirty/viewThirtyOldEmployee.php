@@ -1,8 +1,6 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $model ThirtyOldEmployee */
-
-use app\models\thirty\ThirtyOldEmployee;
+/** @var \yii\web\View $this */
+/** @var ThirtyOldEmployee $model */
 
 $this->title =  $model['fio_full'];
 $this->params['breadcrumbs'][] = $this->title;
@@ -29,9 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </style>
 
 <div class="row">
-    <div class="col-sm-10 col-sm-offset-0">
-        <img src="<?= $model['file_name'] ?>" class="thumbnail" style="width: 300px; float: left; margin: 0 20px 20px 20px;"  alt=""/>
-        <p class="description"><?= $model['description'] ?></p>
-        <hr />
+    <div class="col-10 col-sm-offset-0">
+        <img src="<?= $model['file_name'] ?>" class="img-thumbnail" style="width: 300px; float: left; margin: 0 20px 20px 20px;"  alt=""/>
+        <p class="description border-bottom"><?= $model['description'] ?></p>        
     </div>
 </div>

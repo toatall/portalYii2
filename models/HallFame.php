@@ -1,10 +1,7 @@
 <?php
 
-
-
 namespace app\models;
 
-use yii\bootstrap\Html;
 
 /**
  * Class HallFame
@@ -136,7 +133,9 @@ class HallFame
                 }
 
                 if (in_array(strtoupper($ext), $this->getExtensions())) {
-                    $this->files[] = Html::img($this->getUrl() . $year . '/' . $filename);
+                    $this->files[] = [
+                        'src' => $this->getUrl() . $year . "/$filename",                        
+                    ];
                 }
             }
         }

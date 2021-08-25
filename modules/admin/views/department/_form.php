@@ -1,39 +1,40 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use app\models\Tree;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Department\Department */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\Department\Department $model */
+/** @var yii\bootstrap4\ActiveForm $form */
 ?>
 
 <div class="department-form">
 
     <?php $form = ActiveForm::begin(['id' => 'form-department']); ?>
 
-    <?= $form->field($model, 'id_tree')->dropDownList(\app\models\Tree::getTreeDropDownList()) ?>
+    <?= $form->field($model, 'id_tree')->dropDownList(Tree::getTreeDropDownList()) ?>
 
     <?= $form->field($model, 'department_index')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'department_name')->textInput(['maxlength' => true]) ?>
 
     <?php if (Yii::$app->user->can('admin')): ?>
-        <div class="panel panel-default">
-            <div class="panel-heading">
+        <div class="card">
+            <div class="card-header">
                 Доступ
             </div>
 
-            <div class="panel-body">
+            <div class="card-body">
                 <div id="content-permission">
-                    <div class="col-sm-6">
+                    <div class="col-6">
                         <?= $form->field($model, 'permissionGroup')->dropDownList($model->getPermissionGroups(), ['multiple'=>true, 'size'=>10]) ?>
                         <div class="btn-group">
                             <?= Html::a('Добавить', ['/admin/group/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-group']) ?>
                             <?= Html::button('Удалить', ['class' => 'btn btn-danger', 'id'=>'btn-remove-group']) ?>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-6">
                         <?= $form->field($model, 'permissionUser')->dropDownList($model->getPermissionUsers(), ['multiple'=>true, 'size'=>10]) ?>
                         <div class="btn-group">
                             <?= Html::a('Добавить', ['/admin/user/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-user']) ?>
@@ -47,7 +48,7 @@ use yii\widgets\ActiveForm;
 
     <div class="btn-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Отмена', ['/admin/department/index'], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Отмена', ['/admin/department/index'], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

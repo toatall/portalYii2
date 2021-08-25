@@ -18,10 +18,9 @@ class ModalViewerAsset extends AssetBundle
         
     ];
     public $js = [
-        'js/modalViewer.js',
+        'public/assets/portal/js/modalViewer.js',
     ];
     public $depends = [
-        'app\assets\AppAsset',
-        'yii\bootstrap\BootstrapPluginAsset',
+        'app\assets\AppAsset',        
     ];
 }

@@ -1,8 +1,9 @@
 <?php
 namespace app\widgets;
 
-use yii\bootstrap\Nav;
-use yii\bootstrap\Html;
+use yii\base\InvalidConfigException;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\Html;
 use yii\helpers\ArrayHelper;
 
 /** 
@@ -10,6 +11,7 @@ use yii\helpers\ArrayHelper;
  */
 class NavBarLeft extends Nav
 {
+    public $dropDownCaret;
     
     public $dropdownClass = 'app\widgets\DropdownLeftMenu';
     

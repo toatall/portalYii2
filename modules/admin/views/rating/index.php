@@ -1,11 +1,13 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use app\models\rating\RatingMain;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $modelTree \app\models\Tree */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var app\models\Tree $modelTree */
 
 $this->title = 'Виды рейтинга';
 $this->params['breadcrumbs'][] = $this->title;
@@ -24,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
             [
-                'value' => function (\app\models\rating\RatingMain $model) {
+                'value' => function (RatingMain $model) {
                     return Html::a('Размещение рейтинга', ['/admin/rating-data/index', 'idMain' => $model->id], ['class' => 'btn btn-primary']);
                 },
                 'format' => 'raw',
@@ -36,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_create:datetime',
             //'author',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => ActionColumn::class],
         ],
     ]); ?>
 

@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+/** @var yii\web\View $this */
+/** @var app\models\User $model */
 
-/* @var $this yii\web\View */
-/* @var $model app\models\User */
+use yii\bootstrap4\Html;
 
 $this->title = 'Создание пользователя';
 $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];

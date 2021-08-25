@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Organization */
+/** @var yii\web\View $this */
+/** @var app\models\Organization $model */
 
 $this->title = 'Изменить организацию: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Организации', 'url' => ['index']];

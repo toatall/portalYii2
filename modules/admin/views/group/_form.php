@@ -1,14 +1,14 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 use app\assets\ModalViewerAsset;
 
 ModalViewerAsset::register($this);
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Group */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\Group $model */
+/** @var yii\widgets\ActiveForm $form */
 
 $idGroupListBox = Html::getInputId($model, 'groupUsers');
 ?>
@@ -25,9 +25,9 @@ $idGroupListBox = Html::getInputId($model, 'groupUsers');
 
     <?= $form->field($model, 'sort')->textInput() ?>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Участники группы</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header">Участники группы</div>
+        <div class="card-body">
             <?= $form->field($model, 'groupUsers')->dropDownList($model->getListGroupUsers(), ['multiple'=>true, 'size'=>10])->label(false) ?>
             <div class="btn-group">
                 <?= Html::a('Добавить', ['/admin/user/list'], ['class'=>'btn btn-primary mv-link', 'id'=>'btn-add', 'data-url'=>\yii\helpers\Url::to(['/admin/user/list'])]) ?>

@@ -1,7 +1,10 @@
 <?php
-/* @var $this \yii\web\View */
+/** @var \yii\web\View $this */
 
+use app\models\Tree;
 use app\modules\admin\assets\JsTreeAsset;
+use yii\bootstrap4\Html;
+
 JsTreeAsset::register($this);
 
 $this->title = 'Главная';
@@ -14,13 +17,13 @@ $this->title = 'Главная';
     <h3>Выберите, пожалуйуста, раздел сайта</h3>
 
     <div class="alert alert-info">
-        Если вы впервые, посетите раздел <b><?= \yii\helpers\Html::a('Справка', ['/admin/default/help']) ?></b>
+        Если вы впервые, посетите раздел <b><?= Html::a('Справка', ['/admin/default/help']) ?></b>
     </div>
 
 
     <div class="well" id="containerSection" style="background-color:white; margin-top:3px;">
         <div id="tree-view">
-            <?= \app\models\Tree::getTreeForMain() ?>
+            <?= Tree::getTreeForMain() ?>
             <?php $this->registerJs("
                 $('#tree-view').jstree({'core': { 'multiple': false }}).bind('select_node.jstree', function(e, data) {                   
                     let url = $('#' + data.selected).attr('data-url-view');                    

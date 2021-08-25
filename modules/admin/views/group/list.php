@@ -1,12 +1,12 @@
 <?php
 
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $searchModel \app\models\Group */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var \app\models\Group $searchModel */
 
 ?>
 <div class="group-index">

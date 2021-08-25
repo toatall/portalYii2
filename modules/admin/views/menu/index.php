@@ -1,13 +1,13 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use app\models\menu\Menu;
 use app\modules\admin\assets\JsTreeAsset;
 
 JsTreeAsset::register($this);
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Меню';
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,9 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Верхнее меню</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header">Верхнее меню</div>
+        <div class="card-body">
             <div class="btn-group">
                 <?= Html::a('Добавить пункт', ['create', 'typeMenu' => Menu::POSITION_MAIN], ['class' => 'btn btn-success']) ?>
                 <?= Html::button('Изменить', ['class' => 'btn btn-primary btn-selected-main-tree-node', 'id' => 'btn-update-node-main']) ?>
@@ -67,9 +67,9 @@ JS
 );
 ?>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Левое меню</div>
-        <div class="panel-body">
+    <div class="card mt-2">
+        <div class="card-header">Левое меню</div>
+        <div class="card-body">
             <div class="btn-group">
                 <?= Html::a('Добавить пункт', ['create', 'typeMenu' => Menu::POSITION_LEFT], ['class' => 'btn btn-success']) ?>
                 <?= Html::button('Изменить', ['class' => 'btn btn-primary btn-selected-left-tree-node', 'id' => 'btn-update-node-left']) ?>

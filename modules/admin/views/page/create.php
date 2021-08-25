@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\page\Page */
-/* @var $modelTree \app\models\Tree */
+/** @var yii\web\View $this */
+/** @var app\models\page\Page $model */
+/** @var app\models\Tree $modelTree */
 
 $this->title = 'Добавление страницы';
 $this->params['breadcrumbs'][] = ['label' => 'Страницы', 'url' => ['index', 'idTree' => $modelTree->id]];

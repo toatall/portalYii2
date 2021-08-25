@@ -1,11 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $modelDepartment \app\models\department\Department */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var app\models\department\Department $modelDepartment */
 
 $this->title = 'Структура отдела "' . $modelDepartment->department_name . '"';
 $this->params['breadcrumbs'][] = ['label' => 'Отделы', 'url' => ['/admin/department/index']];
@@ -38,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'date_create',
             //'date_edit',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => ActionColumn::class],
         ],
     ]); ?>
 
