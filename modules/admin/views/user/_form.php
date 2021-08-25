@@ -1,12 +1,13 @@
 <?php
 
-use yii\bootstrap\Html;
-use yii\bootstrap\ActiveForm;
+/** @var yii\web\View $this */
+/** @var app\models\User $model */
+/** @var yii\widgets\ActiveForm $form */
+
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 use app\models\Organization;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\User */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="user-form">
@@ -41,7 +42,7 @@ use app\models\Organization;
 
     <?= $form->field($model, 'department')->textInput(['maxlength' => true]) ?>
     
-    <?= $form->field($model, 'roles')->checkboxList($model->getListRoles()) ?>
+    <?= $form->field($model, 'roles')->checkboxList(iterator_to_array($model->getListRoles())) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

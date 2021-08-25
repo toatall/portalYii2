@@ -6,7 +6,7 @@ use yii\helpers\Url;
 /* @var $model \app\models\news\News */
 ?>
 
-<button class="btn btn-<?= $liked ? 'primary' : 'default' ?>" id="btn-like">
+<button class="btn btn-<?= $liked ? 'primary' : 'light' ?>" id="btn-like">
     <i class="<?= $liked ? 'fas' : 'far' ?> fa-thumbs-up" style="font-size: 18px;"></i> Мне нравится <strong><?= $model->count_like ?></strong>
     <i class="fas fa-circle-notch fa-spin" style="display: none;" id="i-load"></i>
 </button>

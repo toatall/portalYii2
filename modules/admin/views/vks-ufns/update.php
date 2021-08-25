@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\conference\VksUfns */
+/** @var yii\web\View $this */
+/** @var app\models\conference\VksUfns $model */
 
 $this->title = 'Изменить ВКС с УФНС: #' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'ВКС с УФНС', 'url' => ['index']];

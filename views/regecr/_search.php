@@ -1,20 +1,19 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 use kartik\widgets\DatePicker;
-use yii\helpers\ArrayHelper;
 
-/* @var $this yii\web\View */
-/* @var $model \app\models\regecr\RegEcrSearch */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\regecr\RegEcrSearch $model */
+/** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="news-search">
+<div class="news-search mt-2">
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Поиск</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header">Поиск</div>
+        <div class="card-body">
 
             <?php $form = ActiveForm::begin([
                 'action' => ['detail'],
@@ -24,7 +23,7 @@ use yii\helpers\ArrayHelper;
 
             <?= $form->field($model, 'code_org')->dropDownList(\app\models\Organization::getDropDownList(true, true)) ?>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-6">
                     <?= $form->field($model, 'searchDate1')->widget(DatePicker::class, [
                         'pluginOptions' => [
                             'todayHighlight' => true,
@@ -33,7 +32,7 @@ use yii\helpers\ArrayHelper;
                         ],
                     ]) ?>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-6">
                     <?= $form->field($model, 'searchDate2')->widget(DatePicker::class, [
                         'pluginOptions' => [
                             'todayHighlight' => true,

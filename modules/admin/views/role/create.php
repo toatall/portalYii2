@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Role */
+/** @var yii\web\View $this */
+/** @var app\modules\admin\models\Role $model */
 
 $this->title = 'Добавление роли';
 $this->params['breadcrumbs'][] = ['label' => 'Роли', 'url' => ['index']];

@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Module */
+/** @var yii\web\View $this */
+/** @var app\models\Module $model */
 
 $this->title = 'Создать модуль';
 $this->params['breadcrumbs'][] = ['label' => 'Модули', 'url' => ['index']];

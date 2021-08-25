@@ -1,10 +1,12 @@
 <?php
 
-use yii\helpers\Html;
+use app\helpers\Log\LogHelper;
+use app\models\Module;
+use yii\bootstrap4\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Module */
+/** @var yii\web\View $this */
+/** @var app\models\Module $model */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Модули', 'url' => ['index']];
@@ -37,8 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'dop_action_right_admin',
             [
                 'attribute' => 'log_change',
-                'value' => function(\app\models\Module $model) {
-                    return \app\helpers\Log\LogHelper::getLog($model->log_change);
+                'value' => function(Module $model) {
+                    return LogHelper::getLog($model->log_change);
                 },
                 'format' => 'raw',
             ],

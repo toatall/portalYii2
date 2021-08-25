@@ -1,6 +1,7 @@
 <?php
 namespace app\helpers;
 
+use DateTimeImmutable;
 use Yii;
 
 class DateHelper
@@ -74,11 +75,12 @@ class DateHelper
      */
     public static function dateDiffDays($date1, $date2=null)
     {
+        $date1 = Yii::$app->formatter->asDateTime($date1);
         if ($date2 == null) {
             $date2 = Yii::$app->formatter->asDatetime('now');
         }
         $diff = self::dateDiff($date1, $date2);
-        $result = $diff->d;
+        $result = $diff->days;
         if ($diff->invert) {
             $result = $result * -1;
         }
@@ -94,7 +96,7 @@ class DateHelper
     {
         $d1 = date_create($date1);
         $d2 = date_create($date2);
-        return date_diff($d1, $d2, true);
+        return date_diff($d1, $d2, true);        
     }
     
     /**

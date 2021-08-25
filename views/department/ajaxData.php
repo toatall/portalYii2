@@ -1,8 +1,8 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $modelDepartment \app\models\department\Department */
-/* @var $url string */
-/* @var $breadcrumbs array */
+/** @var yii\web\View $this */
+/** @var app\models\department\Department $modelDepartment */
+/** @var string $url */
+/** @var array $breadcrumbs */
 
 use yii\helpers\ArrayHelper;
 

@@ -1,15 +1,14 @@
 <?php
-use app\models\conference\AbstractConference;
-/* @var $this yii\web\View */
-/* @var $queryResult AbstractConference[] */
+/** @var yii\web\View $this */
+/** @var array $queryResult */
 
-use yii\helpers\Html;
+use app\models\conference\AbstractConference;
+use yii\bootstrap4\Html;
 ?>
 <ul class="list-unstyled">
     <?php foreach ($queryResult as $type => $item): ?>
     <li class="nav-header"><?= ($label = AbstractConference::getLabelType($type)) ?></li>
-    <div style="padding: 0 15px; margin-bottom: 10px;">
-
+    <div class="mt-2 mx-3">
         <?php if ($item != null && count($item)): ?>
             <?php foreach ($item as $row): ?>
             <span style="font-size: large">

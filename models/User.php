@@ -398,7 +398,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     
     /**
      * Все существующие роли
-     * @return string[]
+     * @return mixed
      */
     public function getListRoles()
     {
@@ -411,7 +411,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     
     /**
      * Подключенные текущему пользователю роли
-     * @return string[]
+     * @return mixed
      */
     public function getRoles()
     {

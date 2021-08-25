@@ -1,12 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 use kartik\widgets\FileInput;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\rating\RatingMain */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\rating\RatingMain $model */
+/** @var yii\widgets\ActiveForm $form */
 
 ?>
 
@@ -22,9 +22,9 @@ use kartik\widgets\FileInput;
 
     <?= $form->field($model, 'note')->textarea(['rows' => 5]) ?>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Загрузка файлов</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header">Загрузка файлов</div>
+        <div class="card-body">
             <?= $form->field($model, 'uploadFiles[]')->widget(FileInput::class, [
                 'options' => [
                     'accept' => 'files/*',

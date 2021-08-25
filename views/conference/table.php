@@ -1,8 +1,8 @@
 <?php
-/* @var $this \yii\web\View */
+/** @var yii\web\View $this */
+
 use yii\helpers\Url;
 use app\assets\fullcalendar\FullCalendarAsset;
-use yii\bootstrap\Html;
 use kartik\date\DatePicker;
 
 FullCalendarAsset::register($this);
@@ -14,17 +14,24 @@ $url = Url::to(['/conference/calendar-data']);
 $urlResources = Url::to(['/conference/resources']);
 ?>
 
-<h1><?= $this->title ?></h1>
-<hr />
+<div class="col border-bottom mb-2">
+    <p class="display-4">
+    <?= $this->title ?>
+    </p>    
+</div>    
 
-<div class="panel panel-defaul">   
-    <div class="panel-body">    
+<div class="card shadow-sm">   
+    <div class="card-body">    
         <div style="width:285px;">Дата
         <?= DatePicker::widget([
             'name' => 'date-picker',
             'id' => 'date-picker',  
             'pluginOptions' => [
                 'autoclose' => true,
+                'todayHighlight' => true,
+            ],
+            'options' => [
+                'autocomplete' => 'off',
             ],
         ]) ?>           
         </div>

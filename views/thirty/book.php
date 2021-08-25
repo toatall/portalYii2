@@ -1,6 +1,7 @@
 <?php
-/* @var $this yii\web\View */
-use yii\helpers\Html;
+/** @var yii\web\View $this */
+
+use yii\bootstrap4\Html;
 
 ?>
 <div style="font-size: 16px;">
@@ -18,18 +19,18 @@ use yii\helpers\Html;
 
 <hr />
 
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Презентация юбилейной книги
     </div>
-    <div class="panel-body text-center">
+    <div class="card-body text-center">
         <p>
             <video controls="" width="1000">
                 <source src="/files_static/thirty/Презентация1.mp4">
             </video>
         </p>
     </div>
-    <div class="panel-footer">
-        <a class="btn btn-default" href="/files_static/thirty/Презентация1.mp4">Скачать</a>
+    <div class="card-footer">
+        <a class="btn btn-secondary" href="/files_static/thirty/Презентация1.mp4">Скачать</a>
     </div>
 </div>

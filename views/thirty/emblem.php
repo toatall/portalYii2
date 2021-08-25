@@ -1,5 +1,5 @@
 <?php
-/* @var $this \yii\web\View */
+/** @var \yii\web\View $this */
 
 
 $this->title = 'Геральдический знак';
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </a>
 
     <hr />
-    <div class="row" style="padding: 20px;">
+    <div class="row mt-2">
 
         <?= \dosamigos\gallery\Gallery::widget(['items' => [
             [
@@ -40,11 +40,3 @@ $this->params['breadcrumbs'][] = $this->title;
         ]]); ?>
     </div>
 </div>
-<?php $this->registerJS(<<<JS
-
-    // для корректного отображения изображения из галереии при просмотре 
-    //$('#blueimp-gallery').prependTo($('body'));
- 
-JS
-);
-?>

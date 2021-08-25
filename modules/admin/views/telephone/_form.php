@@ -1,12 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Telephone */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\Telephone $model */
+/** @var yii\widgets\ActiveForm $form */
 ?>
 
 <div class="telephone-form">

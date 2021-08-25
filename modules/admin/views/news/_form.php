@@ -1,18 +1,17 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 use kartik\widgets\DatePicker;
 use kartik\widgets\FileInput;
 use kartik\widgets\TypeaheadBasic;
 use yii\helpers\ArrayHelper;
-use app\models\department\Department;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\news\News */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\news\News $model */
+/** @var yii\widgets\ActiveForm $form */
 ?>
 
 <div class="news-form">
@@ -31,9 +30,9 @@ use app\models\department\Department;
         ]),
     ]) ?>
 
-    <div class="panel panel-default">
-        <div class="panel-heading"><?= $model->getAttributeLabel('thumbail_image') ?></div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header"><?= $model->getAttributeLabel('thumbail_image') ?></div>
+        <div class="card-body">
             <?php if (!$model->isNewRecord && $model->thumbail_image): ?>
             Загружено: <?= Html::a('<i class="fas fa-image"></i> ' . basename($model->thumbail_image), $model->thumbail_image, ['target' => '_blank']) ?>
             <hr />
@@ -97,9 +96,9 @@ use app\models\department\Department;
         </div>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Загрузка изображений</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header">Загрузка изображений</div>
+        <div class="card-body">
             <?= $form->field($model, 'uploadImages[]')->widget(FileInput::class, [
                 'options' => [
                     'accept' => 'images/*',

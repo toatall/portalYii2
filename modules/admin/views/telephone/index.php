@@ -1,10 +1,11 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Телефонные справочники';
 $this->params['breadcrumbs'][] = $this->title;
@@ -34,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_create',
             //'log_change',
             //'count_download',
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => ActionColumn::class],
         ],
     ]); ?>
 

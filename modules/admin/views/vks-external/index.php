@@ -1,11 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
 use yii\helpers\StringHelper;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'ВКС внешние';
 $this->params['breadcrumbs'][] = $this->title;
@@ -21,8 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'columns' => [
-            //'id',
+        'columns' => [            
             [
                 'attribute' => 'theme',
                 'value' => function($model) {
@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'format_holding',
             'date_create:datetime',            
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => ActionColumn::class],
         ],
     ]); ?>
 

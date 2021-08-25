@@ -1,15 +1,15 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Tree */
+/** @var yii\web\View $this */
+/** @var app\models\Tree $model */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Структура', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+
 ?>
 <div class="tree-view">
 

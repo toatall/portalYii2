@@ -8,6 +8,7 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use app\models\Tree;
 use app\models\Access;
+use yii\web\NotFoundHttpException;
 
 /**
  * This is the model class for table "{{%conference}}".
@@ -28,6 +29,8 @@ use app\models\Access;
  * @property string $date_edit
  * @property string|null $date_delete
  * @property string|null $log_change
+ * @property string $status
+ * @property string $editor
  */
 abstract class AbstractConference extends \yii\db\ActiveRecord
 {
@@ -55,6 +58,12 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     const TYPE_VKS_EXTERNAL = 4;
     const COLOR_VKS_EXTERNAL = '#ff8c00'; // DarkOrange
 
+    // статусы
+    const STATUS_COMPLETE = 'complete';
+    const STATUS_APPROVE = 'approve';
+    const STATUS_DENIED = 'denied';
+    
+    
     /**
      * Дата начала
      * @var string
@@ -81,6 +90,8 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     abstract public static function getType();
     
     abstract public static function getTypeLabel();
+
+    abstract public static function getModule();
 
     /**
      * {@inheritdoc}
@@ -115,9 +126,22 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             [['place', 'date_test_vks', 'date_end'], 'safe'],
             [['format_holding'], 'string', 'max' => 50],
             [['members_count', 'members_count_ufns', 'count_notebooks'], 'string', 'max' => 10],
-            [['material_translation', 'platform'], 'string', 'max' => 250],
+            [['material_translation', 'platform', 'editor'], 'string', 'max' => 250],
             [['is_connect_vks_fns', 'is_change_time_gymnastic'], 'boolean'],
-            [['arrPlace'], 'required'],           
+            [['arrPlace'], 'required'], 
+            [['status'], 'string', 'max' => 15], 
+            [['date_start'], function($attribute) {
+                $query = (new Query())
+                    ->from('{{%conference}}')
+                    ->where([
+                        'date_start' => $this->date_start,
+                        'place' => $this->place,
+                    ])
+                    ->exists();
+                if ($query) {
+                    $this->addError($attribute, 'В данное время и в этом кабинете уже запланированно другое мероприятие');
+                }                
+            }, 'on' => 'request'],
         ];
     }
 
@@ -198,7 +222,10 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     {
         return static::find()
             ->andWhere(['date_delete' => null])
-            ->andWhere('convert(varchar, date_start, 104) = convert(varchar, getdate(), 104)');
+            ->andWhere('convert(varchar, date_start, 104) = convert(varchar, getdate(), 104)')
+            ->andWhere('(status is null or status = :status)', [
+                ':status' => self::STATUS_COMPLETE,
+            ]);
     }
 
     /**
@@ -241,6 +268,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      */
     public function beforeSave($insert) 
     {
+        $this->editor = Yii::$app->user->identity->username;
         $this->place = is_array($this->arrPlace) ? implode(', ', $this->arrPlace) : $this->arrPlace;
         if (!empty($this->duration)) {
             $duration = explode(':', $this->duration);
@@ -248,8 +276,26 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
                 $this->date_end = Yii::$app->formatter->asDatetime(strtotime($this->date_start) + (intval($duration[0]) * 60 * 60) + (intval($duration[1]) * 60));
             }
         }
+        $this->saveStatusFirst();
         return parent::beforeSave($insert);
     }    
+    
+    /**
+     * Сохранение статуса первоначального
+     * Если пользователь с ролью conferenceManager,
+     * то сразу согласованная заявка
+     */
+    private function saveStatusFirst()
+    {
+        if ($this->isNewRecord) {
+            if (Yii::$app->user->can('conferenceManager')) {
+                $this->status = self::STATUS_COMPLETE;
+            }
+            else {
+                $this->status = self::STATUS_APPROVE;
+            }
+        }
+    }
 
     /**
      * Вывод событий на сегодня (на главную страницу)
@@ -280,6 +326,21 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     public static function getLabelType($type)
     {
         return self::$types[$type] ?? $type;
+    }
+    
+    /**
+     * Типы мероприятий
+     * @return array
+     */
+    public static function getTypes()
+    {               
+        return [
+            self::TYPE_VKS_UFNS => 'ВКС с УФНС',
+            self::TYPE_VKS_FNS => 'ВКС с ФНС',
+            self::TYPE_CONFERENCE => 'Собрания',
+            self::TYPE_VKS_EXTERNAL => 'ВКС внешние',
+                
+        ];
     }
 
     /**
@@ -413,7 +474,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     
     /**
      * Есть ли события, которые пересекают текущее событие
-     * @return boolean
+     * @return AbstractConference
      */
     public function isCrossedMe()
     {
@@ -432,7 +493,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     
     /**
      * Есть ли события, которые пересекает это событие
-     * @return type
+     * @return AbstractConference
      */
     public function isCrossedI()
     {
@@ -656,7 +717,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     /**
      * Проверка вхождения текущего пользователя в указанные группы (Active Directory)
      * с группыми, которые есть у него в поле memberof
-     * @param type $groups
+     * @param array $groups
      * @return boolean
      */
     protected static function isAccessGroupsAd($groups)

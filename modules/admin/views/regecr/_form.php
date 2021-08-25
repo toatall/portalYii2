@@ -1,14 +1,14 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 use kartik\widgets\DatePicker;
 use app\models\Organization;
 use kartik\widgets\TouchSpin;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\RegEcr */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\RegEcr $model */
+/** @var yii\bootstrap4\ActiveForm $form */
 ?>
 
 <div class="reg-ecr-form">
@@ -37,9 +37,9 @@ use kartik\widgets\TouchSpin;
 
     <?= $form->field($model, 'avg_eval_a_1_3')->widget(TouchSpin::class, []) ?>
 
-    <div class="panel panel-info">
-        <div class="panel-heading">Описание</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header">Описание</div>
+        <div class="card-body">
             <strong>Дата</strong> - Дата регистрации<br />
             <strong>Кол-во вновь созданных ООО</strong> - Количество вновь созданных ООО<br />
             <strong>Кол-во опрошенных</strong> - Количество опрошенных представителей вновь созданных ООО (1 представитель в отношении 1 вновь созданного ООО)<br />

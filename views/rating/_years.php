@@ -1,23 +1,28 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $model \app\models\rating\RatingMain */
+/** @var yii\web\View $this */
+/** @var app\models\rating\RatingMain $model */
 
 use kartik\tabs\TabsX;
 ?>
 
+<div class="mt-3">
 <?php
 $years = [];
 foreach ($model->getYears() as $year) {
     $years[] = [
-        'label' => $year['rating_year'],
+        'label' => '<i class="fas fa-calendar-day"></i> ' . $year['rating_year'],
         'content' => $this->render('_data', ['model' => $model->getRatingData($year)]),
     ];
-} ?>
-<?= TabsX::widget([
-        'items' => $years,
-        'position' => TabsX::POS_LEFT,
-        'headerOptions' => [
-            'style' => 'font-weight:bold;'
-        ],
-    ])
+}
+if ($years) {
+    $years[count($years)-1]['active'] = true;
+}
+
 ?>
+<?= TabsX::widget([
+    'id' => 'years',
+    'items' => $years,
+    'position' => TabsX::POS_LEFT,   
+    'encodeLabels' => false,
+]) ?>
+</div>

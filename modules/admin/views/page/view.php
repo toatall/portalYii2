@@ -1,10 +1,9 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\page\Page */
+/** @var yii\web\View $this */
+/** @var app\models\page\Page $model */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Страницы', 'url' => ['index', 'idTree' => $model->id_tree]];

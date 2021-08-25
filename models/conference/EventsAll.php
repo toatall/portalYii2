@@ -7,6 +7,9 @@ namespace app\models\conference;
  */
 class EventsAll extends AbstractConference
 {
+
+    public static function getModule() {}
+
     /**
      * Поиск для календаря
      * @param string $start

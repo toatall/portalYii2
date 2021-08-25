@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Department\DepartmentCard */
-/* @var $modelDepartment \app\models\department\Department */
+/** @var yii\web\View $this */
+/** @var app\models\Department\DepartmentCard $model */
+/** @var app\models\department\Department $modelDepartment */
 
 $this->title = 'Создание карточки сотрудника';
 $this->params['breadcrumbs'][] = ['label' => 'Отделы', 'url' => ['/admin/department/index']];

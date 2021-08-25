@@ -1,10 +1,10 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $model \app\models\OP */
+/** @var yii\web\View $this */
+/** @var app\models\OP $model */
 
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use kartik\file\FileInput;
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
 ?>
 
@@ -26,8 +26,9 @@ use yii\helpers\Html;
     ],
 ]) ?>
 
-<div class="form-group">
+<div class="btn-group pt-2">
     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+    <?= Html::a('Отмена', ['department/op'], ['class' => 'btn btn-secondary']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

@@ -1,12 +1,12 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use app\modules\admin\models\Role;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $model Role */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var Role $model */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Выберите роль';
 $this->params['breadcrumbs'][] = ['label' => 'Роли', 'url' => ['/admin/role/index']];

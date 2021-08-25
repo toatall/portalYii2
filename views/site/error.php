@@ -1,17 +1,20 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $name string */
-/* @var $message string */
-/* @var $exception Exception */
+/** @var yii\web\View $this */
+/** @var string $name */
+/** @var string $message */
+/** @var Exception $exception */
 
-use yii\helpers\Html;
-
+use yii\bootstrap4\Html;
 $this->title = $name;
 ?>
 <div class="site-error">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+            <?= $this->title ?>
+        </p>    
+    </div>
 
     <div class="alert alert-danger">
         <?= nl2br(Html::encode($message)) ?>

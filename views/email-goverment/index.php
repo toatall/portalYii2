@@ -1,21 +1,24 @@
 <?php
 
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 
-/* @var $this yii\web\View */
-/* @var $searchModel \app\models\zg\EmailGovermentSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var app\models\zg\EmailGovermentSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'База электронных адресов органов государственной власти';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="email-goverment-index row">
-    <h1><?= $this->title ?></h1>
-    <hr />
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+        <?= $this->title ?>
+        </p>    
+    </div>    
 
-    <?php Pjax::begin(['id'=>'ajax-email-goverment-index', 'timeout' => false, 'enablePushState'=>false]); ?>
+    <?php Pjax::begin(['id'=>'ajax-email-goverment-index', 'timeout' => false]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,

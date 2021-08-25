@@ -1,10 +1,11 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Анкетирование по ГР';
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,9 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
-
+        'columns' => [            
             'id',
             'code_org',
             'date_reg:date',
@@ -36,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'date_update',
             //'date_delete',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => ActionColumn::class],
         ],
     ]); ?>
 

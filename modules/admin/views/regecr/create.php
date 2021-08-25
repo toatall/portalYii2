@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\RegEcr */
+/** @var yii\web\View $this */
+/** @var app\models\RegEcr $model */
 
 $this->title = 'Создать';
 $this->params['breadcrumbs'][] = ['label' => 'Анкетирование по ГР', 'url' => ['index']];

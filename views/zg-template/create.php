@@ -1,17 +1,19 @@
 <?php
 
-use yii\helpers\Html;
+/** @var yii\web\View $this */
+/** @var app\models\zg\ZgTemplate $model */
 
-/* @var $this yii\web\View */
-/* @var $model app\models\zg\ZgTemplate */
-
-$this->title = 'Create Zg Template';
-$this->params['breadcrumbs'][] = ['label' => 'Zg Templates', 'url' => ['index']];
+$this->title = 'Добавить';
+$this->params['breadcrumbs'][] = ['label' => 'Шаблоны ответов на однотипные обращения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="zg-template-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+            <?= $this->title ?>
+        </p>    
+    </div>
 
     <?= $this->render('_form', [
         'model' => $model,

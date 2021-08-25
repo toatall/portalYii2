@@ -2,21 +2,26 @@
 /* @var $this yii\web\View */
 /* @var $model \app\models\news\NewsComment */
 
-use yii\bootstrap\ActiveForm;
-use yii\bootstrap\Html;
+use yii\bootstrap4\ActiveForm;
+use yii\bootstrap4\Html;
 use app\assets\EmojiAsset;
 
 EmojiAsset::register($this);
 ?>
 
-<div class="panel panel-default">
-    <div class="panel-body">
+<div class="card">
+    <div class="card-body">
         <?php $form = ActiveForm::begin(['id' => 'comment-form']); ?>
 
         <?= $form->errorSummary($model); ?>
         
         <div class="lead emoji-picker-container" id="container-comment-id">
-            <?= $form->field($model, 'comment')->textarea(['data-emojiable'=>'true', 'data-emoji-input'=>'image', 'placeholder'=>'Комментарий', 'style'=>'height:150px;'])->label(false) ?>
+            <?= $form->field($model, 'comment')->textarea([                
+                'data-emojiable'=>'true', 
+                'data-emoji-input'=>'image', 
+                'placeholder'=>'Комментарий', 
+                'style'=>'height:150px;',
+            ])->label(false) ?>
         </div>
             
         <div class="form-group">
@@ -31,13 +36,13 @@ EmojiAsset::register($this);
     
     // Emoji
     $(function () {
-        // Initializes and creates emoji set from sprite sheet
+        // Initializes and creates emoji set from sprite sheet        
         window.emojiPicker = new EmojiPicker({
             emojiable_selector: '[data-emojiable=true]',
-            assetsPath: '/extensions/emoji-picker/lib/img/',
-            popupButtonClasses: 'icon-smile'
+            assetsPath: '/public/vendor/emoji-picker/lib/img/',
+            popupButtonClasses: 'far fa-smile text-secondary'
         });
-        window.emojiPicker.discover();
+        window.emojiPicker.discover();        
     });
     
     function runAjaxGetRequest(container) 
@@ -54,8 +59,7 @@ EmojiAsset::register($this);
     
    
     $('#comment-form').on('afterValidate', function(event, fields, errors) {
-        if (errors.length > 0)
-        {
+        if (errors.length > 0) {
             return false;
         }
         
@@ -73,14 +77,12 @@ EmojiAsset::register($this);
             method: 'post',            
             data: form.serialize(),
             success: function(data) {
-                if (data == "OK")
-                {
+                if (data.toUpperCase() == "OK") {
                     $('#btn-comment-refresh').trigger('click');
                     $('#tab-comments a[data-tab="index"]').tab('show');
                     runAjaxGetRequest($('#container-comment-form')); 
                 }
-                else
-                {
+                else {
                     $(comment_form_container).html(data);
                 }
             },
@@ -90,8 +92,7 @@ EmojiAsset::register($this);
             complete: function() {
                 $('#btn-form-save').removeAttr('disabled');
             },
-        });
-        
+        });        
     });
     
     $('#comment-form').submit(function(e) {

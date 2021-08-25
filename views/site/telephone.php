@@ -1,16 +1,20 @@
 <?php
-/* @var $this \app\controllers\SiteController */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var app\controllers\SiteController $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
 
 $this->title = 'Телефонные справочники';
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <div class="site-telephone">
-    <h1><?= Html::encode($this->title) ?></h1>
+    
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+            <?= $this->title ?>
+        </p>    
+    </div>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

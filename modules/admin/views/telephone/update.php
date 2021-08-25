@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Telephone */
+/** @var yii\web\View $this */
+/** @var app\models\Telephone $model */
 
 $this->title = 'Изменение справочника: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Телефонные справочники', 'url' => ['index']];

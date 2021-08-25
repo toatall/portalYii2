@@ -1,21 +1,23 @@
 <?php
 
-use yii\grid\GridView;
-use yii\helpers\Html;
+use app\models\news\News;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\news\NewsSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $modelTree \app\models\Tree */
+/** @var yii\web\View $this */
+/** @var app\models\news\NewsSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var app\models\Tree $modelTree */
 
 ?>
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
-    'rowOptions' => function (\app\models\news\News $model) {
+    'rowOptions' => function (News $model) {
         if ($model->date_delete != null) {
-            return ['class' => 'text-danger bg-danger'];
+            return ['class' => 'text-danger'];
         }
     },
     'pager' => [
@@ -24,7 +26,7 @@ use yii\helpers\Html;
     ],
     'columns' => [
         [
-            'value' => function (\app\models\news\News $model) {
+            'value' => function (News $model) {
                 $result = '';
 
                 // опубликовано / не опубликовано
@@ -52,7 +54,7 @@ use yii\helpers\Html;
         'id',
         [
             'attribute' => 'title',
-            'value' => function  (\app\models\news\News $model) {
+            'value' => function  (News $model) {
                 return Html::tag('span', $model->getTitleShort(), ['title' => $model->title]);
             },
             'format' => 'raw',
@@ -78,6 +80,6 @@ use yii\helpers\Html;
         //'tags',
         //'date_sort',
 
-        ['class' => 'yii\grid\ActionColumn'],
+        ['class' => ActionColumn::class],
     ],
 ]); ?>

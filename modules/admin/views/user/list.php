@@ -1,12 +1,12 @@
 <?php
 
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $searchModel \app\models\User */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var app\models\User $searchModel */
 
 ?>
 <div class="user-index">
@@ -45,7 +45,6 @@ $('.btn-select-user').on('click', function() {
 JS
 );
 ?>
-
     <?php Pjax::end() ?>
 
 </div>

@@ -17,6 +17,7 @@ use yii\helpers\Url;
 use app\models\conference\EventsAll;
 use yii\helpers\StringHelper;
 use app\models\conference\AbstractConference;
+use yii\web\HttpException;
 
 /**
  * ConferenceController implements the CRUD actions for Conference model.
@@ -143,7 +144,7 @@ class ConferenceController extends Controller
             ];            
         }
         else {
-            throw new HttpException(599, 'Не найдено подходящее представление');
+            throw new HttpException(500, 'Не найдено подходящее представление');
         }                
 
         if (Yii::$app->request->isAjax) {

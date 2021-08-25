@@ -1,11 +1,11 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\zg\ZgTemplate */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\zg\ZgTemplate $model */
+/** @var yii\widgets\ActiveForm $form */
 ?>
 
 <div class="zg-template-form">
@@ -15,15 +15,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'kind')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')->textInput() ?>
-
-    <?= $form->field($model, 'date_create')->textInput() ?>
-
-    <?= $form->field($model, 'date_update')->textInput() ?>
-
-    <?= $form->field($model, 'author')->textInput(['maxlength' => true]) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    
+    <div class="btn-group">
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Отмена', ['zg-template/index'], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

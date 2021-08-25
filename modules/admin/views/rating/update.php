@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\rating\RatingMain */
+/** @var yii\web\View $this */
+/** @var app\models\rating\RatingMain $model */
 
 $this->title = 'Изменение вида рейтинга: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Виды рейтингов', 'url' => ['index', 'idTree' => $model->id_tree]];

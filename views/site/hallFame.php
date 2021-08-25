@@ -1,19 +1,25 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $model \app\models\HallFame */
+/** @var yii\web\View $this */
+/** @var app\models\HallFame $model */
 
-use yii\bootstrap\Carousel;
+use dosamigos\gallery\Carousel;
 
 $this->title = 'Доска почета';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1><?= $this->title ?></h1>
-<hr />
+<div class="col border-bottom mb-2">
+    <p class="display-4">
+        <?= $this->title ?>
+    </p>    
+</div>
 
 <?= Carousel::widget([
     'items' => $model->showPhoto(),
     'options' => [
-        'data-interval' => intval($model->getInterval() * 1000),
+        'data-interval' => intval($model->getInterval() * 1000),        
+    ],
+    'templateOptions' => [
+        'class' => 'bg-light',
     ],
 ]) ?>

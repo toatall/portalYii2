@@ -1,14 +1,13 @@
 <?php
 
-use yii\helpers\Html;
-use app\models\news\News;
+/** @var yii\web\View $this */
+/** @var app\models\news\News $model */
+
+use yii\bootstrap4\Html;
 use yii\helpers\Url;
 use dosamigos\gallery\Gallery;
-use yii\bootstrap\Tabs;
+use yii\bootstrap4\Tabs;
 
-
-/* @var $this yii\web\View */
-/* @var $model News */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Новости', 'url' => ['/news/index']];
@@ -17,10 +16,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="news-view">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <?php if (!\Yii::$app->request->isAjax): ?>
-            <h1><?= Html::encode($this->title) ?></h1><hr />
+    <div class="card">
+        <div class="card-header">
+            <?php if (!\Yii::$app->request->isAjax): ?>                
+                <div class="col border-bottom mb-2">
+                    <p class="display-4">
+                        <?= $this->title ?>
+                    </p>    
+                </div>
             <?php endif; ?>
 
             <?php if (false): // @todo возможно сделать возможность редактирования новостей ?>
@@ -36,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>
             <?php endif; ?>
 
-            <div class="">
+            <div>
                 <i class="fa fa-calendar-alt"></i> <?= \Yii::$app->formatter->asDatetime($model->date_create) ?>,
                 <i class="fa fa-user"></i> <?= $model->modelAuthor->fio ?>,
                 <i class="fa fa-heart"></i> <?= $model->count_like ?>,
@@ -46,19 +49,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= !empty($model->from_department) ? '(' . $model->from_department . ')' : '' ?>
             </div>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             <?= $model->message2 ?>
         </div>
     </div>
     
     <?php if ($model->getCheckListBoxUploadFilesGallery()): ?>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <button data-toggle="collapse" data-target="#collapse-file" class="btn btn-default btn-sm">
+    <div class="card mt-2">
+        <div class="card-header">
+            <button data-toggle="collapse" data-target="#collapse-file" class="btn btn-light btn-sm">
                 <i class="fa fa-minus" id="collapse-file-i"></i>
             </button> Файлы
         </div>
-        <div class="panel-body collapse" id="collapse-file">
+        <div class="card-body collapse" id="collapse-file">
             <?php foreach ($model->getCheckListBoxUploadFilesGallery() as $file): ?>
             <i class="fa fa-file"></i> <a href="<?= $file ?>" target="_blank"><?= basename($file) ?></a><br />
             <?php endforeach; ?>
@@ -68,13 +71,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endif; ?>
     
     <?php if ($model->getCheckListBoxUploadImagesGallery()): ?>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <button data-toggle="collapse" data-target="#collapse-image" class="btn btn-default btn-sm">
+    <div class="card mt-2">
+        <div class="card-header">
+            <button data-toggle="collapse" data-target="#collapse-image" class="btn btn-light btn-sm">
                 <i class="fa fa-minus" id="collapse-image-i"></i>
             </button> Изображения
         </div>
-        <div class="panel-body collapse" id="collapse-image">                
+        <div class="card-body collapse" id="collapse-image">                
             <?php 
             $items = array();
             foreach ($model->getCheckListBoxUploadImagesGallery() as $image)
@@ -96,8 +99,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>      
     <?php endif; ?>
     
-    <div class="panel panel-default">
-        <div id="container-like" class="panel-body" data-ajax-url="<?= Url::to(['news/like', 'idNews'=>$model->id]) ?>"></div>
+    <div class="card mt-2">
+        <div id="container-like" class="card-body" data-ajax-url="<?= Url::to(['news/like', 'idNews'=>$model->id]) ?>"></div>
     </div>
          
     <?= Tabs::widget([
@@ -105,7 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'encodeLabels' => false,
         'items' => [
             [
-                'label' => 'Комментарии <button class="btn btn-default btn-xs" id="btn-comment-refresh" title="Обновить" alt="Обновить"><i class="fa fa-sync"></i></button>',                
+                'label' => 'Комментарии <button class="btn btn-light btn-sm" id="btn-comment-refresh" title="Обновить" alt="Обновить"><i class="fa fa-sync"></i></button>',                
                 'content' => '<div id="container-comment" data-ajax-url="' . Url::to(['news-comment/index', 'idNews'=>$model->id]) . '"></div>',
                 'linkOptions' => ['data-tab' => 'index'],
             ],
@@ -114,6 +117,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'content' => '<div id="container-comment-form" data-ajax-url="' . Url::to(['news-comment/create', 'idNews'=>$model->id]) . '"></div>',
                 'linkOptions' => ['data-tab' => 'form'],
             ]
+        ],
+        'options' => [
+            'class' => 'mt-2',
         ],
     ]) ?>
         
@@ -139,15 +145,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     // настройки collapse для изображений
     $('#collapse-image').collapse('show');
-    $('#collapse-image').on('show.bs.collapse', function() { $('#collapse-file-i').attr('class', 'fa fa-minus'); });
-    $('#collapse-image').on('hide.bs.collapse', function() { $('#collapse-file-i').attr('class', 'fa fa-plus'); });
+    $('#collapse-image').on('show.bs.collapse', function() { $('#collapse-image-i').attr('class', 'fa fa-minus'); });
+    $('#collapse-image').on('hide.bs.collapse', function() { $('#collapse-image-i').attr('class', 'fa fa-plus'); });
 
     // для корректного отображения изображения из галереии при просмотре 
     $('#blueimp-gallery').prependTo($('body'));
 
     // привязка к кнопке обновить коментарии
-    $('#btn-comment-refresh').on('click', function() {
-        //ajaxHtmlAuto('container-comment');
+    $('#btn-comment-refresh').on('click', function() {        
         runAjaxGetRequest($('#container-comment'));
     });
 

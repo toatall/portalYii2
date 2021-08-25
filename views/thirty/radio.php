@@ -1,8 +1,7 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $model ThirtyRadio[] */
+/** @var \yii\web\View $this */
+/** @var app\models\thirty\ThirtyRadio[] $model */
 
-use app\models\thirty\ThirtyRadio;
 use yii\helpers\Url;
 
 $this->title = 'Радио 30FNS';
@@ -10,15 +9,22 @@ $this->params['breadcrumbs'][] = ['label'=>'30-летие налоговых о�
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="through-time">
-    <h1 class="head"><?= $this->title ?></h1>
+    
+    <div class="row mv-hide">
+        <div class="col border-bottom mb-2">
+            <p class="display-4">
+            <?= $this->title ?>
+            </p>    
+        </div>    
+    </div>
 
     <div class="row gallery">
         <?php foreach ($model as $item): ?>
-            <div class="col-sm-3">
-                <div class="panel panel-default">
-                    <div class="panel-body text-center ">
+            <div class="col-3 mt-2">
+                <div class="card">
+                    <div class="card-body text-center ">
                         <div class="radio-container">
-                            <audio controls class="col-sm-12" style="display: none;">
+                            <audio controls class="col-12" style="display: none;">
                                 <source src="<?= $item->getUrlFileName() ?>" />
                                 <a href="<?= $item->getUrlFileName() ?>">Скачать</a>
                             </audio>
@@ -27,22 +33,22 @@ $this->params['breadcrumbs'][] = $this->title;
                             </button>
                         </div>
                     </div>
-                    <div class="panel-footer">
+                    <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-4">
                                 <strong><?= $item->description ?></strong>
                             </div>
-                            <div class="col-sm-8">
+                            <div class="col-8">
                                 <div class="btn-group">
-                                    <a href="<?= Url::to(['/thirty/radio-comment', 'id'=>$item->id]) ?>" class="mv-link btn btn-default" data-toggle="popover" data-content="Комментарии" data-placement="bottom">
+                                    <a href="<?= Url::to(['/thirty/radio-comment', 'id'=>$item->id]) ?>" class="mv-link btn btn-light" data-toggle="popover" data-content="Комментарии" data-placement="bottom">
                                         <i class="fas fa-comment text-warning"></i>
                                         <?= $item->count_comments ?>
                                     </a>
-                                    <div class="btn btn-default" data-toggle="popover" data-content="Прослушано" data-placement="bottom">
+                                    <div class="btn btn-light" data-toggle="popover" data-content="Прослушано" data-placement="bottom">
                                         <i class="fas fa-play-circle text-success"></i>
                                         <text id="count_view_<?= $item->id ?>"><?= $item->count_view ?></text>
                                     </div>
-                                    <a href="<?= Url::to(['/thirty/radio-like', 'id'=>$item->id]) ?>" class="btn-like btn btn-default" data-toggle="popover" data-content="Нравится" data-placement="bottom">
+                                    <a href="<?= Url::to(['/thirty/radio-like', 'id'=>$item->id]) ?>" class="btn-like btn btn-light" data-toggle="popover" data-content="Нравится" data-placement="bottom">
                                         <i class="fas fa-heart text-primary"></i> <?= $item->count_like ?>
                                     </a>
                                 </div>

@@ -1,31 +1,45 @@
 <?php
 
+use yii\bootstrap4\LinkPager;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 use yii\helpers\ArrayHelper;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $modelDepartment \app\models\department\Department */
-/* @var $breadcrumbs array */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var app\models\department\Department $modelDepartment */
+/** @var array $breadcrumbs */
 
+$this->params['breadcrumbs'][] = ['label' => 'Отделы', 'url' => ['/department/index']];
 $this->params['breadcrumbs'][] = ['label' => $modelDepartment->department_name, 'url' => ['view', 'id'=>$modelDepartment->id]];
 $this->params['breadcrumbs'] = ArrayHelper::merge($this->params['breadcrumbs'], $breadcrumbs);
 ?>
 
-<div class="news-index row">
+<div class="news-index">
 
-    <h2 class="text-center" style="font-weight: bolder;"><?= $this->title ?></h2>
-
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+            <?= $this->title ?>
+        </p>    
+    </div>
+    
+    <div class="row">
     <?php Pjax::begin(['id'=>'ajax-page', 'timeout' => false, 'enablePushState'=>false]); ?>
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => '/news/_list',
         'layout' => "{items}\n{pager}",
+        'pager' => [
+            'class' => LinkPager::class,
+            'options' => [
+                'class' => 'pt-2',
+            ],
+        ],
     ]) ?>
 
     <?php Pjax::end(); ?>
+    </div>
 
 </div>
 <?php

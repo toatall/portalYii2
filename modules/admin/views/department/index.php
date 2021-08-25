@@ -1,11 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
 use app\models\department\Department;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Отделы';
 $this->params['breadcrumbs'][] = $this->title;
@@ -25,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'format' => 'raw',
                 'value' => function(Department $model) {
-                    return Html::a('<i class="fas fa-users"></i> Структура', ['/admin/department-card/index', 'idDepartment'=>$model->id], ['class' => 'btn btn-default']);
+                    return Html::a('<i class="fas fa-users"></i> Структура', ['/admin/department-card/index', 'idDepartment'=>$model->id], ['class' => 'btn btn-secondary']);
                 },
             ],
             'id',
@@ -35,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'department_name',
             'date_create:datetime',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => ActionColumn::class],
         ],
     ]); ?>
 

@@ -1,20 +1,17 @@
 <?php
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $query \app\models\thirty\ThirtyRadioComment[] */
+/** @var yii\web\View $this */
+/** @var \app\models\thirty\ThirtyRadioComment[] $query */
 ?>
 
-<br /><br />
-<ul class="media-list">            
+<ul class="media-list mt-4">            
     <?php foreach ($query as $model): ?>
-    <li class="media">
-        <div class="media-left">           
-            <img src="/img/user-default.png" class="img-circle img-thumbnail" style="max-width: 80px;" />
-        </div>
+    <li class="media mt-2">
+        <img src="/img/user-default.png" class="img-thumbnail rounded-circle mr-2" style="max-width: 7em;" />
         <div class="media-body">        
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <div class="text-center">
                         <?= Html::a('<i class="fas fa-trash"></i>', ['/thirty/radio-comment-delete', 'id' => $model->id], [
                             'title' => 'Удалить',
@@ -30,7 +27,7 @@ use yii\helpers\Html;
                     <h4><?= $model->modelUser->fio ?> (<?= $model->username ?>)</h4>
                     <?= \Yii::$app->formatter->asDateTime($model->date_create) ?>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="text-justiffy"><?= $model->comment ?></div>
                 </div>
             </div>
@@ -62,7 +59,6 @@ $this->registerJs(<<<JS
     });
     
     
-
     function runAjaxGetRequest(container) 
     {
         container.html('<img src="/img/loader_fb.gif" style="height: 100px;">');

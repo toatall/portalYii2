@@ -1,9 +1,9 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $model \app\models\thirty\ThirtyRadioComment */
+/** @var \yii\web\View $this */
+/** @var \app\models\thirty\ThirtyRadioComment $model */
 
-use yii\bootstrap\ActiveForm;
-use yii\bootstrap\Html;
+use yii\bootstrap4\ActiveForm;
+use yii\bootstrap4\Html;
 use app\assets\EmojiAsset;
 
 EmojiAsset::register($this);
@@ -32,8 +32,8 @@ EmojiAsset::register($this);
         // Initializes and creates emoji set from sprite sheet
         window.emojiPicker = new EmojiPicker({
             emojiable_selector: '[data-emojiable=true]',
-            assetsPath: '/extensions/emoji-picker/lib/img/',
-            popupButtonClasses: 'icon-smile'
+            assetsPath: '/public/vendor/emoji-picker/lib/img/',
+            popupButtonClasses: 'far fa-smile text-secondary'
         });
         window.emojiPicker.discover();
     });

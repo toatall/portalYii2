@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Department\Department */
+/** @var yii\web\View $this */
+/** @var app\models\Department\Department $model */
 
 $this->title = 'Изменение отдела: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Отделы', 'url' => ['index']];

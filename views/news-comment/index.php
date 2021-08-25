@@ -1,20 +1,17 @@
 <?php
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $query \app\models\news\NewsComment[] */
+/** @var yii\web\View $this */
+/** @var app\models\news\NewsComment[] $query */
 ?>
 
-<br /><br />
-<ul class="media-list">            
+<ul class="media-list mt-4">            
     <?php foreach ($query as $model): ?>
-    <li class="media">
-        <div class="media-left">           
-            <img src="/img/user-default.png" class="img-circle img-thumbnail" style="max-width: 80px;" />
-        </div>
+    <li class="media mt-2">
+        <img src="/img/user-default.png" class="img-thumbnail rounded-circle mr-2" style="max-width: 7em;" />
         <div class="media-body">        
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <div class="text-center">
                         <?= Html::a('<i class="fas fa-trash"></i>', ['/news-comment/delete', 'id' => $model->id], [
                             'title' => 'Удалить',
@@ -25,12 +22,15 @@ use yii\helpers\Html;
                                 'method' => 'post',
                             ],
                         ]) ?>
-                        <?= ''//Html::a('<i class="fas fa-edit"></i>', ['/news-comment/update', 'id'=>$model->id], ['title' => 'Изменить', 'class' => 'close']) ?>
                     </div>
-                    <h4><?= $model->modelUser->fio ?> (<?= $model->username ?>)</h4>
-                    <?= \Yii::$app->formatter->asDateTime($model->date_create) ?>
+                    <h5><?= $model->modelUser->fio ?> (<?= $model->username ?>)</h5>
+                    <small>
+                        <?= $model->modelUser->organization_name ?>
+                        <?php if ($model->modelUser->department): ?> (<?= $model->modelUser->department ?>) <br /><?php endif; ?>
+                        <?= \Yii::$app->formatter->asDateTime($model->date_create) ?>
+                    </small>
                 </div>
-                <div class="panel-body">
+                <div class="card-body border-top">
                     <div class="text-justiffy"><?= $model->comment ?></div>
                 </div>
             </div>

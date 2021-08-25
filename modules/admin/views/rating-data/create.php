@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\rating\RatingData */
-/* @var $modelRatingMain \app\models\rating\RatingMain */
+/** @var yii\web\View $this */
+/** @var app\models\rating\RatingData $model */
+/** @var app\models\rating\RatingMain $modelRatingMain */
 
 $this->title = 'Добавление рейтинга';
 $this->params['breadcrumbs'][] = ['label' => 'Рейтинги', 'url' => ['index', 'idMain' => $modelRatingMain->id]];

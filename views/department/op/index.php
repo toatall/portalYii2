@@ -1,18 +1,22 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $modelDepartment \app\models\department\Department */
-/* @var $model \app\models\OP */
-/* @var $data array */
+/** @var yii\web\View $this */
+/** @var app\models\department\Department $modelDepartment */
+/** @var app\models\OP $model */
+/** @var array $data */
 
 use kartik\tabs\TabsX;
 
 $this->title = 'Отраслевые проекты';
+$this->params['breadcrumbs'][] = ['label' => 'Отделы', 'url' => ['/department/index']];
 $this->params['breadcrumbs'][] = ['label' => $modelDepartment->department_name, 'url' => ['view', 'id'=>$modelDepartment->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1 style="font-weight: bolder;"><?= $this->title ?></h1>
-<hr />
+<div class="col border-bottom mb-2">
+    <p class="display-4">
+        <?= $this->title ?>
+    </p>
+</div>
 
 <?php
     $items = [];

@@ -1,11 +1,11 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\news\NewsSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $modelTree \app\models\Tree */
+/** @var yii\web\View $this */
+/** @var app\models\news\NewsSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var \app\models\Tree $modelTree */
 
 $this->title = 'Новости';
 $this->params['breadcrumbs'][] = $this->title;

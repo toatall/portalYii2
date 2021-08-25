@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Group */
+/** @var yii\web\View $this */
+/** @var app\models\Group $model */
 
 $this->title = 'Изменение группы: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Группы', 'url' => ['index']];

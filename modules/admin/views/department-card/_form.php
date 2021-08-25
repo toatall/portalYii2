@@ -1,11 +1,11 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Department\DepartmentCard */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\Department\DepartmentCard $model */
+/** @var yii\widgets\ActiveForm $form */
 ?>
 
 <div class="department-card-form">
@@ -25,9 +25,9 @@ use yii\widgets\ActiveForm;
 
 
 
-    <div class="panel panel-default">
-        <div class="panel-heading"><?= $model->getAttributeLabel('photoFile') ?></div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header"><?= $model->getAttributeLabel('photoFile') ?></div>
+        <div class="card-body">
             <?php if (!$model->isNewRecord && $model->user_photo): ?>
             <?= $model->user_photo ?>
             <?= $form->field($model, 'deletePhotoFile')->checkbox() ?>
@@ -36,8 +36,6 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'photoFile')->fileInput()->label('Загрузить') ?>
         </div>
     </div>
-
-
 
     <?= $form->field($model, 'user_level')->dropDownList([0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5]) ?>
 

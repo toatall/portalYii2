@@ -1,15 +1,14 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Department\Department */
+/** @var yii\web\View $this */
+/** @var app\models\Department\Department $model */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Отделы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="department-view">
 

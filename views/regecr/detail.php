@@ -1,24 +1,31 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $searchModel \app\models\regecr\RegEcrSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var app\models\regecr\RegEcrSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
-use yii\grid\GridView;
-use yii\helpers\Html;
+use kartik\grid\GridView;
+use yii\bootstrap4\Html;
 use yii\widgets\Pjax;
 
 $this->title = 'Анкетирование по ГР (Детализация)';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1><?= $this->title ?></h1>
-
-<hr />
-<div class="btn-group">
-    <?= Html::a('Статистика', ['index'], ['class' => 'btn btn-default']) ?>
-    <?= Html::a('В виде графика', ['chart'], ['class' => 'btn btn-default']) ?>
+<div class="row">
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+        <?= $this->title ?>
+        </p>    
+    </div>    
 </div>
-<hr />
+
+<div class="row col">
+    <div class="btn-group">
+        <?= Html::a('Статистика', ['index'], ['class' => 'btn btn-secondary']) ?>
+        <?= Html::a('В виде графика', ['chart'], ['class' => 'btn btn-secondary']) ?>
+    </div>
+</div>
+
 
 <?php Pjax::begin(['id'=>'ajax-regecr-detail', 'timeout' => false, 'enablePushState'=>false]); ?>
 

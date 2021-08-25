@@ -1,21 +1,25 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Отделы';
+$this->params['breadcrumbs'][] = ['label' => 'Отделы', 'url' => ['/department/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="department-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="col border-bottom mb-2">
+        <p class="display-4">
+            <?= $this->title ?>
+        </p>    
+    </div>
 
     <div class="list-group">
     <?php foreach ($dataProvider->getModels() as $item): ?>
-        <?= Html::a($item['department_index'] . '. ' . $item['department_name'], ['/department/view', 'id'=>$item['id']], ['class'=>'list-group-item']) ?>
+        <?= Html::a($item['department_index'] . '. ' . $item['department_name'], ['/department/view', 'id'=>$item['id']], ['class'=>'list-group-item list-group-item-action']) ?>
     <?php endforeach; ?>
     </div>
 

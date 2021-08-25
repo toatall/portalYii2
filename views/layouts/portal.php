@@ -1,17 +1,17 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+/** @var \yii\web\View $this */
+/** @var string $content */
 
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
-use app\widgets\Alert;
-use app\widgets\NavBarLeft;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
+use yii\bootstrap4\Breadcrumbs;
+
 use app\models\menu\MenuBuilder;
 use app\assets\ModalViewerAsset;
+use app\assets\AppAsset;
+use yii\widgets\Menu;
 
 AppAsset::register($this);
 ModalViewerAsset::register($this);
@@ -28,23 +28,6 @@ ModalViewerAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-<?php
-/*
-$this->registerJs(<<<JS
-
-    $('[data-toggle="popover"]')
-        .popover({trigger: 'hover'})
-        .popover();
-
-    $('[data-toggle="tooltip"]').popover();
-
-    $('body')
-        .popover({ selector: '[data-toggle="popover"]' })
-        .tooltip({ selector: '[data-toggle="tooltip"]' });
-    
-JS
-);*/
-?>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -53,23 +36,22 @@ JS
     // подключаем 30-летие
     //echo $this->render('top_thirty');
 ?>
+
 <div class="wrap black-wall">
     <?= $this->render('top') ?>
-<!--    <div id="logo-background">-->
-<!--        <div id="logo-image"></div>-->
-<!--    </div>-->
+
     <?php
-    
+        
+    // главное меню
     NavBar::begin([
         'id' => 'navbar-main-menu',
         'brandLabel' => false,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inner',           
+            'class' => 'navbar navbar-expand-md navbar-light bg-light border-bottom py-1',
         ],
-        'innerContainerOptions' => [
-            'style' => 'width: 100%;',
-        ],
+        'renderInnerContainer' => false,
+        'collapseOptions' => false,        
     ]);
     
     $menuItems = MenuBuilder::buildMain();
@@ -79,67 +61,83 @@ JS
         $menuItemsRight[] = ['label' => 'Вход', 'url' => ['/site/login']];
     } else {
         $menuItemsRight[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
+            . Html::beginForm(['/site/logout'], 'post', ['class'=>'form-inline'])
             . Html::submitButton(
-                'Выход (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout', 'style' => 'padding:0; padding-top:5px;']
+                '<i class="fas fa-logout"></i> Выход (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-link logout']
             )
             . Html::endForm()
             . '</li>';
     }
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-left'],
+        'options' => ['class' => 'navbar-nav mr-auto text-dark'],
         'items' => $menuItems,
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'navbar-nav text-dark'],
         'items' => $menuItemsRight,
     ]);
     
     NavBar::end();
+    
     ?>
 
-    <div class="container-fluid">
+    <div class="container-fluid">        
+        
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'options' => [
+                'class' => 'mt-2',
+            ],
         ]) ?>
-        <div class="col-sm-2 col-md-2" style="padding-left:0;">
-            
-            <?= NavBarLeft::widget([
-                'encodeLabels' => false,
-                'options' => [
-                    'class' => 'dropdown-menu dropdown-menu-main dropdown-menu-wrap',                    
-                ],
-                'dropDownCaret' => '',
-                'items' => MenuBuilder::buildLeft(),
-            ]); ?>
 
-            <?php
-                MenuBuilder::initLeftMenuAdd();
-                foreach (MenuBuilder::buildLeftAdd() as $menuItem) {
-                    echo NavBarLeft::widget([
+        <div class="row mt-2">
+            <div class="col-2"> 
+
+                <?= Menu::widget([
+                    'items' => MenuBuilder::buildLeft(['class' => 'dropdown-submenu']),  
+                    'encodeLabels' => false,
+                    'options' => ['class' => 'dropdown-menu dropdown-menu-main dropdown-menu-wrap'],
+                    'submenuTemplate' => "\n<ul class=\"dropdown-menu\">\n{items}\n</ul>\n",
+                ]) ?>               
+
+                <?php    
+                    //MenuBuilder::initLeftMenuAdd();
+                    
+                    foreach (MenuBuilder::buildLeftAdd() as $menuItem) {
+                        echo Menu::widget([
+                        'items' => $menuItem,  
                         'encodeLabels' => false,
-                        'options' => [
-                            'class' => 'dropdown-menu dropdown-menu-main dropdown-menu-wrap',
-                        ],
-                        'dropDownCaret' => '',
-                        'items' => $menuItem,
+                        'options' => ['class' => 'dropdown-menu dropdown-menu-main dropdown-menu-wrap'],
+                        'submenuTemplate' => "\n<ul class=\"dropdown-menu\">\n{items}\n</ul>\n",
                     ]);
-                }
-            ?>
-                                    
-        </div>
-        <div class="col-sm-10 col-md-10">
-            <?= Alert::widget() ?>
-            <?= $content ?>
-        </div>
+
+                    
+
+                        /*
+                        echo NavBarLeft::widget([
+                            'encodeLabels' => false,
+                            'options' => [
+                                'class' => 'dropdown-menu dropdown-menu-main dropdown-menu-wrap',
+                            ],
+                            'dropDownCaret' => '',
+                            'items' => $menuItem,
+                        ]);*/
+                    }
+                 ?>
+                      
+            </div>
+            <div class="col-10">            
+                <?= $content ?>
+            </div>
+        </div>                
     </div>
 </div>
 
-<footer class="footer" style="margin-top: 20px; height: auto;">
-    <div class="container-fluid" style="padding: 0 100px;">
-        <div class="row">
-            <div class="col-sm-4">
+<footer class="footer mt-3 bg-light border-top pt-3" style="height: auto;">
+    <div class="container-fluid">
+        <div class="row px-5">
+            <div class="col-4">
                 <h5><strong>Внутренние сайты и сервисы ФНС России</strong></h5>
                 <ul class="list-unstyled">
                     <li><a href="http://portal.tax.nalog.ru" target="_blank">Портал ФНС России</a></li>
@@ -154,7 +152,7 @@ JS
                     <li><a href="http://consultant.tax.nalog.ru" target="_blank">Консультант Плюс</a></li>
                 </ul>                        
             </div>
-            <div class="col-sm-4">
+            <div class="col-4">
                 <h5><strong>Аналитическая подсистема АИС "Налог-3"</strong></h5>
                 <ul class="list-unstyled">
                     <li><a href="http://ias.ais3.tax.nalog.ru/ais/" target="_blank">Программный комплекс информационно-аналитической работы</a></li>
@@ -164,7 +162,7 @@ JS
                     <li><a href="http://ias.ais3.tax.nalog.ru/uprrep" target="_blank">Информационно-аналитическая подсистема "Управленческий учет"</a></li>
                 </ul>                
             </div>
-            <div class="col-sm-4">
+            <div class="col-4">
                 <h5><strong>Внутренние сервисы Управления</strong></h5>
                 <ul class="list-unstyled">
                     <li><?= ''//Html::a('Рекомендуемые браузеры', array('site/browsers')); ?></li>
@@ -180,9 +178,8 @@ JS
         </div>                
     </div>
     <hr />
-    <div class="container">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-        <p class="pull-right"><?= Yii::powered() ?></p>
+    <div class="pb-2 text-center">
+        <p>&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
     </div>
 </footer>
 

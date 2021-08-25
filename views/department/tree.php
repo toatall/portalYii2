@@ -1,14 +1,38 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $departmentTree string */
-/* @var $model \app\models\department\Department */
+/** @var yii\web\View $this */
+/** @var array $departmentTree */
+/** @var app\models\department\Department $model */
+
+use app\assets\BstreeviewAsset;
+BstreeviewAsset::register($this);
+$jsonData = json_encode($departmentTree);
 
 $this->params['breadcrumbs'][] = ['label' => $model->department_name, 'url' => ['view', 'id'=>$model->id]];
 ?>
 
-<div class="news-index row">
+<div class="news-index">
 
-    <h2 class="text-center" style="font-weight: bolder;"><?= $this->title ?></h2>
+    <div class="row">
+        <div class="col border-bottom mb-2">
+            <p class="display-4">
+            <?= $this->title ?>
+            </p>    
+        </div> 
+    </div>
 
-    <?= $departmentTree ?>
+    <div class="row">
+        <div class="col">            
+            <div id="tree"></div>          
+        </div>
+    </div>
+    
 </div>
+<?php $this->registerJs(<<<JS
+    
+    $('#tree').bstreeview({ 
+        data: $jsonData,
+        openNodeLinkOnNewTab: false
+     });
+
+
+JS); ?>

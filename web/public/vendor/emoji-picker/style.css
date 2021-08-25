@@ -74,10 +74,18 @@ span.posted-by {
     color: #189a18;
     display: none;
 }
-.icon-smile:before {
+
+
+.icon-smile-btn:before {
     content: " ";
     width: 16px;
     height: 16px;
     display: flex;
     background: url(icon-smile.png);
+}
+
+.emoji-picker-icon {
+    font-size: 30px;
+    bottom: 10px;
+    top: auto;
 }

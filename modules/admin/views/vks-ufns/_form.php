@@ -1,14 +1,14 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
 use kartik\widgets\TimePicker;
 use kartik\widgets\DateTimePicker;
 use kartik\widgets\Select2;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\conference\VksUfns */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\conference\VksUfns $model */
+/** @var yii\bootstrap4\ActiveForm $form */
 ?>
 
 <div class="vks-ufns-form">
