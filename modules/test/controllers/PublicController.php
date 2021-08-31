@@ -3,19 +3,16 @@
 namespace app\modules\test\controllers;
 
 use app\modules\test\models\Test;
-use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
 use app\modules\test\models\TestResult;
 use app\modules\test\models\TestResultAnswer;
 use app\modules\test\models\TestResultOpinion;
 use app\modules\test\models\TestResultQuestion;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\web\HttpException;
+use yii\web\Response;
 use yii\web\ServerErrorHttpException;
 
 /**
@@ -103,11 +100,92 @@ class PublicController extends Controller
             return $this->redirect(['/test/result/view', 'id'=>$modelResult->id]);
         }
         
-        return $this->render('start', [
-            'model' => $model,
-            'modelResult' => $modelResult,          
+        if ($model->show_right_answer) {
+            return $this->render('startHighlightAnswer', [
+                'model' => $model,
+                'modelResult' => $modelResult,          
+            ]);
+        }
+        else {
+            return $this->render('start', [
+                'model' => $model,
+                'modelResult' => $modelResult,          
+            ]);
+        }
+    }
+
+    /**
+     * @todo move to Quiz module
+     * Выдать следующий вопрос
+     */
+    public function actionHighlightAnswer(int $idResult)
+    {
+        $model = $this->findTestResultCurrentUser($idResult);
+        if ($model === null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $modelQuestion = $model->getNextQuestion();
+        if ($modelQuestion == null) {           
+            return 'finish';
+        }
+
+        return $this->renderAjax('_questionHighlightAnswer', [
+            'model' => $modelQuestion,
         ]);
     }
+
+    
+    public function actionFinish(int $idResult)
+    {
+        $model = $this->findTestResultCurrentUser($idResult);
+        if ($model === null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $model->status = TestResult::STATUS_FINISH;
+        $model->save();
+        return $this->redirect(['/test/result/view', 'id'=>$model->id]);
+    }
+
+    /**
+     * @todo move quiz module
+     */
+    public function actionPartialSaveHighlightAnswer(int $idResult, int $idQuestion, int $idAnswer)
+    {
+        // проверка, есть ли такой результат и принадлежит ли он текущему пользователю
+        $model = $this->findTestResultCurrentUser($idResult);
+        if ($model === null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        // поиск вопроса
+        /** @var TestResultQuestion $modelQuestion */
+        $modelQuestion = $model->getTestResultQuestions()->where(['id_test_question' => $idQuestion])->one();
+        if ($modelQuestion == null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        // если ответы уже есть то выдаем ошибку
+        if ($modelQuestion->getTestResultAnswers()->count() > 0) {
+            throw new ServerErrorHttpException('Ответ уже был дан ранее');
+        }
+
+        $modelAnswer = new TestResultAnswer([
+            'id_test_result_question' => $modelQuestion->id,
+            'id_test_answer' => $idAnswer,
+        ]);
+        $modelAnswer->save();
+        $modelQuestion->link('testResultAnswers', $modelAnswer);
+        $modelQuestion->checkRightAnswer();
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'is_right' => $modelQuestion->is_right,
+            'right_answer' => $modelQuestion->getRightAnswerId(),
+            'question_name' => $modelQuestion->testQuestion->name,
+        ];
+    }
+
     
     /**
      * @param Test $model
@@ -178,6 +256,8 @@ class PublicController extends Controller
     /**
      * Промежуточное сохранение ответов
      * Для восстановления, в случае прерывания
+     * @param int $idResult
+     * @param int $idQuestion
      */
     public function actionPartialSaveAnswer(int $idResult, int $idQuestion)
     {
@@ -215,7 +295,7 @@ class PublicController extends Controller
             $modelAnswer->save();
             $modelQuestion->link('testResultAnswers', $modelAnswer);
             $modelQuestion->checkRightAnswer();
-        }
+        }        
     }
 
 

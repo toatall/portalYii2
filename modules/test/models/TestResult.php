@@ -188,6 +188,9 @@ class TestResult extends \yii\db\ActiveRecord
      */
     public function getTestLimitSeconds()
     {
+        if ($this->test->time_limit == null) {
+            return 0;
+        }
         $time = new DateTime($this->test->time_limit);
         $timeNull = new DateTime('00:00:00');
         $timeRes = $timeNull->diff($time);
@@ -230,6 +233,18 @@ class TestResult extends \yii\db\ActiveRecord
     public function getDuration()
     {
         return gmdate('H:i:s', $this->seconds);
+    }
+
+
+    /**
+     * Получение следующего вопроса
+     */
+    public function getNextQuestion()
+    {    
+        return TestResultQuestion::find()->where([
+            'id_test_result' => $this->id,
+            'is_right' => null,
+        ])->one();
     }
 
 }

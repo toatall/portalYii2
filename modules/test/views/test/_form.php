@@ -13,7 +13,7 @@ use kartik\widgets\DatePicker;
 
 <div class="test-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['autocomplete' => 'off']]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
@@ -50,6 +50,10 @@ use kartik\widgets\DatePicker;
         ],        
         
     ])->label($model->getAttributeLabel('time_limit') . ' (ЧЧ:ММ)') ?>
+
+    <?= $form->field($model, 'show_right_answer')->checkbox() ?>
+
+    <?= $form->field($model, 'finish_text')->textarea(['rows' => 5]) ?>
     
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

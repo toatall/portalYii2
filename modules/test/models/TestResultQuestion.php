@@ -99,9 +99,10 @@ class TestResultQuestion extends \yii\db\ActiveRecord
 
         $query = (new Query())
             ->from('{{%test_answer}} test_answer')
-            ->leftJoin('{{%test_result_answer}} test_result_answer', 'test_result_answer.id_test_answer=test_answer.id')        
+            ->leftJoin('{{%test_result_answer}} test_result_answer', 'test_result_answer.id_test_answer=test_answer.id')   
             ->where([
                 'test_answer.id_test_question' => $this->id_test_question,
+                'test_result_answer.id_test_result_question' => $this->id,
             ])
             ->select('test_answer.id as id_answer, test_answer.weight, test_result_answer.id as id_answer_result')
             ->all();
@@ -120,6 +121,21 @@ class TestResultQuestion extends \yii\db\ActiveRecord
         }
         $this->is_right = (int)($weight == $modelQuestion->weight);
         $this->save();
+    }
+
+    /**
+     * @todo move to quiz
+     */
+    public function getRightAnswerId()
+    {
+        return (new Query())
+            ->from('{{%test_answer}}')
+            ->where([
+                'id_test_question' => $this->id_test_question,                
+            ])
+            ->andWhere(['>', 'weight', '0'])
+            ->select('id, name')
+            ->one();        
     }
 
 }

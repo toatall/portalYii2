@@ -4,8 +4,6 @@ namespace app\modules\test\models;
 
 use Yii;
 use app\models\User;
-use DateTime;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 /**
  * This is the model class for table "{{%test}}".
@@ -20,6 +18,8 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
  * @property string|null $time_limit
  * @property string $date_create
  * @property string $author
+ * @property boolean $show_right_answer
+ * @property string $finish_text
  *
  * @property User $author0
  * @property TestQuestion[] $testQuestions
@@ -51,7 +51,8 @@ class Test extends \yii\db\ActiveRecord
             [['name', 'date_start', 'date_end', 'author'], 'required'],
             [['date_start', 'date_end', 'time_limit', 'date_create'], 'safe'],
             [['count_attempt', 'count_questions'], 'integer'],
-            [['description'], 'string'],
+            [['description', 'finish_text'], 'string'],
+            [['show_right_answer'], 'boolean'],
             [['name', 'author'], 'string', 'max' => 250],
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username_windows']],
         ];
@@ -73,6 +74,8 @@ class Test extends \yii\db\ActiveRecord
             'time_limit' => 'Ограничение по времени',
             'date_create' => 'Дата создания',
             'author' => 'Автор',
+            'show_right_answer' => 'Показывать правильные ответы',
+            'finish_text' => 'Сообщение по окончанию тестирования',
         ];
     }
 
@@ -164,8 +167,6 @@ class Test extends \yii\db\ActiveRecord
     }
 
     
-
-
     /**
      * Количество времени в секундах
      * @return false|float|int|string

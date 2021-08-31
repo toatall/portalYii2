@@ -131,6 +131,18 @@ class TestQuestion extends \yii\db\ActiveRecord
     }
 
     /**
+     * {@inheritdoc}
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
+        if ($this->test->show_right_answer) {
+            $this->type_question = self::TYPE_QUESTION_RADIO;
+        }
+        return true;
+    }
+
+    /**
      * @param $idTest
      * @return array
      * @throws NotFoundHttpException

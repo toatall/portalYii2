@@ -11,7 +11,7 @@ use kartik\range\RangeInput;
 
 <div class="test-answer-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['autocomplete' => 'off']]); ?>
    
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

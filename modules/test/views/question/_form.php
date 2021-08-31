@@ -1,11 +1,13 @@
 <?php
 
+use app\modules\test\models\TestQuestion;
+use kartik\range\RangeInput;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\test\models\TestQuestion */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\modules\test\models\TestQuestion $model */
+/** @var yii\widgets\ActiveForm $form */
 ?>
 
 <div class="test-question-form">
@@ -16,12 +18,14 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+    <?php if (!$model->test->show_right_answer): ?>
     <?= $form->field($model, 'type_question')->dropDownList([
-        \app\modules\test\models\TestQuestion::TYPE_QUESTION_RADIO => 'выбор одного варианта',
-        \app\modules\test\models\TestQuestion::TYPE_QUESTION_CHECK => 'выбор нескольких вариантов',
+        TestQuestion::TYPE_QUESTION_RADIO => 'выбор одного варианта',
+        TestQuestion::TYPE_QUESTION_CHECK => 'выбор нескольких вариантов',
     ]) ?>
+    <?php endif; ?>
 
-    <?= $form->field($model, 'weight')->widget(\kartik\range\RangeInput::class, [
+    <?= $form->field($model, 'weight')->widget(RangeInput::class, [
         'html5Container' => [
             'style' => 'width:350px;',
         ],
