@@ -22,6 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-header font-weight-bolder">Статистика</div>
         <div class="card-body">
 
+            <?php if ($modelTest->finish_text): ?>
+                <div class="alert alert-info">
+                    <?= $modelTest->finish_text ?>
+                </div>
+            <?php endif; ?>
+
             <table class="table col-6">
                 <tr>
                     <th>Количество вопросов</th>
