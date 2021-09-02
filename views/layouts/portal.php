@@ -11,6 +11,8 @@ use yii\bootstrap4\Breadcrumbs;
 use app\models\menu\MenuBuilder;
 use app\assets\ModalViewerAsset;
 use app\assets\AppAsset;
+use app\widgets\AlertConferenceApprove;
+use yii\bootstrap4\Alert;
 use yii\widgets\Menu;
 
 AppAsset::register($this);
@@ -54,7 +56,7 @@ ModalViewerAsset::register($this);
         'collapseOptions' => false,        
     ]);
     
-    $menuItems = MenuBuilder::buildMain();
+    $menuItems = MenuBuilder::buildMain();    
     
     $menuItemsRight = [];
     if (Yii::$app->user->isGuest) {       
@@ -82,8 +84,8 @@ ModalViewerAsset::register($this);
     
     ?>
 
-    <div class="container-fluid">        
-        
+    <div class="container-fluid">                       
+
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             'options' => [
@@ -127,7 +129,11 @@ ModalViewerAsset::register($this);
                  ?>
                       
             </div>
-            <div class="col-10">            
+            <div class="col-10">   
+                <?php if (Yii::$app->user->can('permConferenceApprove')): ?>
+                    <?= AlertConferenceApprove::widget() ?>
+                <?php endif; ?>
+
                 <?= $content ?>
             </div>
         </div>                

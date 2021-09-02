@@ -17,7 +17,10 @@ use yii\helpers\Url;
 use app\models\conference\EventsAll;
 use yii\helpers\StringHelper;
 use app\models\conference\AbstractConference;
+use yii\data\ActiveDataProvider;
 use yii\web\HttpException;
+use yii\web\Response;
+use yii\web\ServerErrorHttpException;
 
 /**
  * ConferenceController implements the CRUD actions for Conference model.
@@ -34,14 +37,23 @@ class ConferenceController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'request-delete' => ['POST'],
                 ],
             ],
             'access' => [
                 'class' => AccessControl::class,
                 'rules' => [
                     [
+                        'actions' => ['conference', 'vks-ufns', 'vks-fns', 'vks-external', 'view', 'calendar', 
+                            'calendar-data', 'table', 'resources', 'request', 'request-create', 'request-update',
+                            'request-delete'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['request-approve'],
+                        'allow' => true,
+                        'roles' => ['permConferenceApprove'],
                     ],
                 ],
             ],
@@ -225,7 +237,7 @@ class ConferenceController extends Controller
      */
     public function actionResources()
     {        
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $query = (new Query())
             ->from('{{%conference_location}}')
             ->orderBy(['val' => SORT_ASC])
@@ -238,19 +250,22 @@ class ConferenceController extends Controller
     }
     
     /**
-     * Не утвержденные заявки
-     * (создают пользователи без проли conferenceManager)
+     * Заявки для утверждения
      */
     public function actionRequest()
     {
         $requests = Conference::findPublic()
-            ->andWhere([
-                'editor' => Yii::$app->user->identity->username,
-            ])
-            ->andWhere(['not', [
+            ->where(['not', [
                 'status' => Conference::STATUS_COMPLETE,
             ]]);
-        $dataProvider = new \yii\data\ActiveDataProvider([
+        
+        if (!Yii::$app->user->can('permConferenceApprove')) {
+            $requests->andWhere([
+                'editor' => Yii::$app->user->identity->username,
+            ]);
+        }
+
+        $dataProvider = new ActiveDataProvider([
             'query' => $requests,
         ]);
         
@@ -260,36 +275,67 @@ class ConferenceController extends Controller
     }
     
     /**
-     * Создание события
+     * Создание заявки
      * @return string
      */
     public function actionRequestCreate()
     {
         $model = new Conference();
+        $model->status = Conference::STATUS_APPROVE;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['request/view', 'id' => $model->id]);
+            return $this->redirect(['request']);
         }
 
         return $this->render('request/create', [
             'model' => $model,
         ]);
-    }
+    }   
     
-    public function actionRequestView($id)
-    {
-        
-    }
-    
+    /**
+     * Изменение заявки
+     * @return string
+     */
     public function actionRequestUpdate($id)
     {
-        
+        $model = $this->findModelRequest($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['request']);
+        }
+
+        return $this->render('request/update', [
+            'model' => $model,
+        ]);        
     }
     
+    /**
+     * Удаление заявки
+     * Только, если статус на завершено
+     */
     public function actionRequestDelete($id)
     {
-        
+        $model = $this->findModelRequest($id);
+        if ($model->status === AbstractConference::STATUS_COMPLETE) {
+            throw new ServerErrorHttpException('Запрещено удаление утвержденной заявки');
+        }
+        $model->delete();
+        return $this->redirect('request');
     }
+
+    public function actionRequestApprove()
+    {
+        $requests = Conference::findPublic()
+            ->where(['status' => Conference::STATUS_APPROVE]);
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $requests,
+        ]);
+        
+        return $this->render('request/approve', [
+            'dataProvider' =>  $dataProvider,
+        ]);
+    }
+
 
     /**
      * Finds the Conference model based on its primary key value.
@@ -310,18 +356,20 @@ class ConferenceController extends Controller
     /**
      * 
      * @param int $id
-     * @return string
+     * @return Conference
      * @throws NotFoundHttpException
      */
     protected function findModelRequest($id)
     {
-        $model = Conference::findPublic()->andWhere(['not', ['status' => Conference::STATUS_COMPLETE]]);
-        if (!Yii::$app->user->can('conferenceManager')) {
+        $model = Conference::findPublic()
+            ->where(['id'=>$id])
+            ->andWhere(['not', ['status' => Conference::STATUS_COMPLETE]]);
+        if (!Yii::$app->user->can('permConferenceApprove')) {
             $model->andWhere(['editor' => Yii::$app->user->identity->username]);
         }
         
-        if ($model->one() !== null) {
-            return $model;
+        if (($result = $model->one()) !== null) {
+            return $result;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');

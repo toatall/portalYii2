@@ -31,6 +31,7 @@ use yii\web\NotFoundHttpException;
  * @property string|null $log_change
  * @property string $status
  * @property string $editor
+ * @property string $denied_text
  */
 abstract class AbstractConference extends \yii\db\ActiveRecord
 {
@@ -119,7 +120,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
         return [
             [['type_conference', 'theme', 'date_start'], 'required'],
             [['type_conference', 'time_start_msk', 'is_confidential'], 'integer'],
-            [['responsible', 'members_people', 'members_organization', 'note', 'log_change'], 'string'],
+            [['responsible', 'members_people', 'members_organization', 'note', 'log_change', 'denied_text'], 'string'],
             [['date_start', 'date_create', 'date_edit', 'date_delete'], 'safe'],
             [['theme', 'person_head', 'link_event', 'full_name_support_ufns'], 'string', 'max' => 500],
             [['duration'], 'string', 'max' => 20],
@@ -184,6 +185,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             'date_test_vks' => 'Дата проведения тестового ВКС',
             'count_notebooks' => 'Количество ноутбуков',
             'is_change_time_gymnastic' => 'Требуется перенос проведения зарядки (требуется согласование с приемной)',
+            'denied_text' => 'Причина отказа',
          ];
     }
 
@@ -364,6 +366,11 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      */
     public function notifyEmail($typeLabel, $to=null)
     {
+        // отправка только по утвержденным ВКС
+        if ($this->status != self::STATUS_COMPLETE) {
+            return;
+        }
+
         if (empty($to)) {
             $to = $this->getParamEmailAddress();
         }
@@ -474,9 +481,10 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     
     /**
      * Есть ли события, которые пересекают текущее событие
+     * @param boolean $onlyApproved учитывать только согласованные заявки
      * @return AbstractConference
      */
-    public function isCrossedMe()
+    public function isCrossedMe($onlyApproved=true)
     {
         $dateStart = \Yii::$app->formatter->asDatetime($this->date_start);
         $dateEnd = \Yii::$app->formatter->asDatetime($this->date_end);
@@ -488,14 +496,18 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             $places[] = ['like', 'place', $place];
         }        
         $query->andWhere($places);
+        if ($onlyApproved) {
+            $query->andWhere(['status' => self::STATUS_COMPLETE]);
+        }
         return $query->one();
     }
     
     /**
      * Есть ли события, которые пересекает это событие
+     * @param boolean $onlyApproved учитывать только согласованные заявки
      * @return AbstractConference
      */
-    public function isCrossedI()
+    public function isCrossedI($onlyApproved=true)
     {
         $dateStart = \Yii::$app->formatter->asDatetime($this->date_start);        
         $query = parent::find()
@@ -506,6 +518,9 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             $places[] = ['like', 'place', $place];
         }        
         $query->andWhere($places);
+        if ($onlyApproved) {
+            $query->andWhere(['status' => self::STATUS_COMPLETE]);
+        }
         return $query->one();
     }
     
@@ -733,6 +748,6 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
         }
         return false;
     }
-            
+
         
 }

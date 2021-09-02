@@ -10,7 +10,7 @@ use app\helpers\DateHelper;
 
 $this->title = 'ВКС с УФНС';
 $this->params['breadcrumbs'][] = $this->title;
-$this->registerCssFile('/css/dayPost.css');
+$this->registerCssFile('/public/assets/portal/css/dayPost.css');
 
 ?>
 <div class="conference-index">
@@ -29,7 +29,7 @@ $this->registerCssFile('/css/dayPost.css');
             'style' => 'table-layout:fixed',
         ],
         'rowOptions' => function($model, $index, $widget, $grid) {
-            return $model->isFinished() ? ['class' => 'text-success'] : [];
+            return $model->isFinished() ? ['class' => 'finished'] : [];
         },
         'columns' => [
             [
