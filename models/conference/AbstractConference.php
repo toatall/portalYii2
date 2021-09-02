@@ -312,12 +312,9 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             'vksExternal' => VksExternal::findToday()->all(),
         ];
 
-        return [
-           'name' =>
-                Yii::$app->view->renderFile('@app/views/conference/today.php', [
-                    'queryResult' => $queryResult,
-                ]),
-        ];
+        return Yii::$app->view->renderFile('@app/views/conference/today.php', [
+            'queryResult' => $queryResult,
+        ]);
     }
 
     /**

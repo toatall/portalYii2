@@ -103,30 +103,23 @@ ModalViewerAsset::register($this);
                     'submenuTemplate' => "\n<ul class=\"dropdown-menu\">\n{items}\n</ul>\n",
                 ]) ?>               
 
-                <?php    
-                    //MenuBuilder::initLeftMenuAdd();
-                    
+                <?php                       
                     foreach (MenuBuilder::buildLeftAdd() as $menuItem) {
                         echo Menu::widget([
-                        'items' => $menuItem,  
-                        'encodeLabels' => false,
-                        'options' => ['class' => 'dropdown-menu dropdown-menu-main dropdown-menu-wrap'],
-                        'submenuTemplate' => "\n<ul class=\"dropdown-menu\">\n{items}\n</ul>\n",
-                    ]);
-
-                    
-
-                        /*
-                        echo NavBarLeft::widget([
+                            'items' => $menuItem,  
                             'encodeLabels' => false,
-                            'options' => [
-                                'class' => 'dropdown-menu dropdown-menu-main dropdown-menu-wrap',
-                            ],
-                            'dropDownCaret' => '',
-                            'items' => $menuItem,
-                        ]);*/
+                            'options' => ['class' => 'dropdown-menu dropdown-menu-main dropdown-menu-wrap'],
+                            'submenuTemplate' => "\n<ul class=\"dropdown-menu\">\n{items}\n</ul>\n",
+                        ]);                       
                     }
                  ?>
+
+                 <ul class="dropdown-menu dropdown-menu-main dropdown-menu-wrap" style="border: none; padding: 0;">
+                     <?php foreach (MenuBuilder::buildLeftAddMenuContent() as $menuItem) {
+                         echo $menuItem;
+                     }
+                     ?>                      
+                 </ul>
                       
             </div>
             <div class="col-10">   
@@ -139,7 +132,6 @@ ModalViewerAsset::register($this);
         </div>                
     </div>
 </div>
-
 <footer class="footer mt-3 bg-light border-top pt-3" style="height: auto;">
     <div class="container-fluid">
         <div class="row px-5">
