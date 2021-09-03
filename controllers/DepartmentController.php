@@ -288,7 +288,7 @@ class DepartmentController extends Controller
                 'user_resp' => $card->user_resp,
             ];
         }
-
+        ksort($arrayCard);
         return $arrayCard;
     }
 
