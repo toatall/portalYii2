@@ -69,6 +69,8 @@ class Photos extends \yii\db\ActiveRecord
      */
     public function canVote()
     {
+        return false;
+
         if (Yii::$app->user->isGuest) {
             return false;
         }
