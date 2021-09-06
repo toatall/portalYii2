@@ -24,34 +24,14 @@ $this->registerCssFile('/public/assets/portal/css/dayPost.css');
     </div>    
     
    
-    <?= GridView::widget([
+    <?= GridView::widget([        
         'dataProvider' => $dataProvider,        
         'tableOptions' => ['class' => 'table table-bordered'],
         'options' => [
             'style' => 'table-layout:fixed',
         ],
-        'rowOptions' => function($model) {
-            /** @var AbstractConference $model */
-            return $model->status == AbstractConference::STATUS_DENIED ? ['class' => 'bg-danger'] : [];
-        },
-        'columns' => [
-           /*[
-                'label' => 'Дата начала',
-                'value' => function($model) {
-                    return '<p class="calendar">' 
-                        . date('d', strtotime($model->date_start)) . '<em>' 
-                        . DateHelper::getMonthName(date('n', strtotime($model->date_start))) . '</em>'                        
-                        . '</p>'; 
-                },
-                'format' => 'raw',
-            ],          
-            [
-                'attribute' => 'time_start',
-                'value' => function($model) {                    
-                    return '<div class="text-center"><span style="font-size: 2em;"><i class="fas fa-clock"></i> ' . $model->time_start . '</span></div>';
-                },
-                'format' => 'raw',
-            ],*/
+       
+        'columns' => [           
             'date_start:date:Дата начала',
             'time_start:time:Время начала',
             'theme',                                
@@ -77,7 +57,7 @@ $this->registerCssFile('/public/assets/portal/css/dayPost.css');
                 'template' => '{view}',
                 'buttons' => [
                     'view' => function($url, $model) {                      
-                        return Html::a('Подробнее', ['/conference/approve-view', 'id'=>$model->id], [
+                        return Html::a('Подробнее', ['/conference/request-approve-view', 'id'=>$model->id], [
                             'class' => 'btn btn-primary mv-link',
                             'data-toggle' => 'tooltip',
                             'title' => 'Согласовать или отказать в согласовании',
@@ -92,9 +72,9 @@ $this->registerCssFile('/public/assets/portal/css/dayPost.css');
 
 </div>
 <?php $this->registerJs(<<<JS
-/*
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip();        
+
+    $(modalViewer).on('onRequestJsonAfterAutoCloseModal', function() {
+        window.location.reload();
     });
-*/
+
 JS); ?>

@@ -32,6 +32,8 @@ use yii\web\NotFoundHttpException;
  * @property string $status
  * @property string $editor
  * @property string $denied_text
+ * @property string $approve_author
+ * @property string $author
  */
 abstract class AbstractConference extends \yii\db\ActiveRecord
 {
@@ -127,7 +129,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             [['place', 'date_test_vks', 'date_end'], 'safe'],
             [['format_holding'], 'string', 'max' => 50],
             [['members_count', 'members_count_ufns', 'count_notebooks'], 'string', 'max' => 10],
-            [['material_translation', 'platform', 'editor'], 'string', 'max' => 250],
+            [['material_translation', 'platform', 'editor', 'approve_author', 'author'], 'string', 'max' => 250],
             [['is_connect_vks_fns', 'is_change_time_gymnastic'], 'boolean'],
             [['arrPlace'], 'required'], 
             [['status'], 'string', 'max' => 15], 
@@ -186,6 +188,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             'count_notebooks' => 'Количество ноутбуков',
             'is_change_time_gymnastic' => 'Требуется перенос проведения зарядки (требуется согласование с приемной)',
             'denied_text' => 'Причина отказа',
+            'approve_author' => 'Автор согласования/отказа',
          ];
     }
 
@@ -278,7 +281,10 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
                 $this->date_end = Yii::$app->formatter->asDatetime(strtotime($this->date_start) + (intval($duration[0]) * 60 * 60) + (intval($duration[1]) * 60));
             }
         }
-        $this->saveStatusFirst();
+        if ($insert) {
+            $this->saveStatusFirst();
+            $this->author = Yii::$app->user->identity->username;
+        }
         return parent::beforeSave($insert);
     }    
     
@@ -290,7 +296,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     private function saveStatusFirst()
     {
         if ($this->isNewRecord) {
-            if (Yii::$app->user->can('conferenceManager')) {
+            if (Yii::$app->user->can('permConferenceApprove')) {
                 $this->status = self::STATUS_COMPLETE;
             }
             else {

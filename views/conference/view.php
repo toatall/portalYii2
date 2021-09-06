@@ -98,16 +98,16 @@ if ($model->type_conference == AbstractConference::TYPE_VKS_EXTERNAL) {
     
     $conferenceTypes = [
         AbstractConference::TYPE_VKS_UFNS => [
-            'view' => 'viewVksUfns',
+            'view' => 'view/viewVksUfns',
         ],
         AbstractConference::TYPE_VKS_FNS => [
-            'view' => 'viewVksFns',
+            'view' => 'view/viewVksFns',
         ],
         AbstractConference::TYPE_CONFERENCE => [
-            'view' => 'viewConference',
+            'view' => 'view/viewConference',
         ],
         AbstractConference::TYPE_VKS_EXTERNAL => [
-            'view' => 'viewVksExternal',
+            'view' => 'view/viewVksExternal',
         ],
     ];
     
