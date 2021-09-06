@@ -234,6 +234,7 @@ var modalViewer = {
     bindModalForm: function() {
         "use strict";
         var $this = this;
+        $(document).off('submit', '.mv-form');
         $(document).on('submit', '.mv-form', function(e) {
             e.preventDefault();
             var url = $(this).attr('action');
@@ -282,7 +283,8 @@ var modalViewer = {
         
         if (textData == 'OK' || textData == 'ok') {
             $(this.modalId).modal('hide');
-        }
+            $(this).trigger('onRequestJsonAfterAutoCloseModal');
+        }        
     },
 
     modalUpate: function(url, method, data) {

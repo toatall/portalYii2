@@ -39,7 +39,7 @@ class AlertConferenceApprove extends \yii\bootstrap\Widget
         parent::init();
         $this->isApprove = (new Query())
             ->from('{{%conference}}')
-            ->where(['status' => AbstractConference::STATUS_APPROVE])
+            ->where(['status' => AbstractConference::STATUS_APPROVE])            
             ->exists();       
     }
     

@@ -16,6 +16,8 @@ use app\models\conference\AbstractConference;
 
     <?php $form = ActiveForm::begin(['options' => ['autocomplete' => 'off']]); ?>
 
+    <?= $form->errorSummary($model) ?>
+
     <?= $form->field($model, 'type_conference')->widget(Select2::class, [
         'data' => AbstractConference::getTypes(),
     ]) ?>

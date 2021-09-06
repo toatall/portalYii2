@@ -44,9 +44,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <small><?= $model->typeLabel() ?></small>
 </h1>
 
+<div class="div-edit-button">
 <?php if ($isAjax && $model->isEditor()): ?>
     <?= Html::a('<i class="fas fa-external-link-alt"></i> Редактировать', ['/conference/view', 'id'=>$model->id], ['class' => 'btn btn-secondary', 'target'=>'_blank']) ?>
 <?php endif; ?>
+</div>
 
 <div class="mt-2">
     <?= DetailView::widget([

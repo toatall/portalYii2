@@ -17,6 +17,7 @@ use yii\helpers\Url;
 use app\models\conference\EventsAll;
 use yii\helpers\StringHelper;
 use app\models\conference\AbstractConference;
+use yii\base\DynamicModel;
 use yii\data\ActiveDataProvider;
 use yii\web\HttpException;
 use yii\web\Response;
@@ -46,12 +47,12 @@ class ConferenceController extends Controller
                     [
                         'actions' => ['conference', 'vks-ufns', 'vks-fns', 'vks-external', 'view', 'calendar', 
                             'calendar-data', 'table', 'resources', 'request', 'request-create', 'request-update',
-                            'request-delete'],
+                            'request-delete', 'request-view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['request-approve'],
+                        'actions' => ['request-approve', 'request-approve-view'],
                         'allow' => true,
                         'roles' => ['permConferenceApprove'],
                     ],
@@ -254,15 +255,17 @@ class ConferenceController extends Controller
      */
     public function actionRequest()
     {
-        $requests = Conference::findPublic()
-            ->where(['not', [
-                'status' => Conference::STATUS_COMPLETE,
-            ]]);
+        $requests = Conference::findPublic()->where(['not', ['approve_author' => null]]);
         
         if (!Yii::$app->user->can('permConferenceApprove')) {
             $requests->andWhere([
                 'editor' => Yii::$app->user->identity->username,
             ]);
+        }
+        else {
+            $requests->andWhere(['not', [
+                 'status' => Conference::STATUS_COMPLETE,
+            ]]);
         }
 
         $dataProvider = new ActiveDataProvider([
@@ -299,8 +302,12 @@ class ConferenceController extends Controller
     public function actionRequestUpdate($id)
     {
         $model = $this->findModelRequest($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['request']);
+        
+        if ($model->load(Yii::$app->request->post())) {
+            $model->status = Conference::STATUS_APPROVE;
+            if ($model->save()) {
+                return $this->redirect(['request']);
+            }
         }
 
         return $this->render('request/update', [
@@ -311,6 +318,7 @@ class ConferenceController extends Controller
     /**
      * Удаление заявки
      * Только, если статус на завершено
+     * @return string
      */
     public function actionRequestDelete($id)
     {
@@ -322,6 +330,27 @@ class ConferenceController extends Controller
         return $this->redirect('request');
     }
 
+    /**
+     * Просмотр заявки
+     * @return string
+     */
+    public function actionRequestView($id)
+    {
+        $model = $this->findModelRequest($id);
+        
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;        
+        return [
+            'title' => $model->getTitle(),
+            'content' => $this->renderAjax('request/view', [
+                'model' => $model,
+            ]),
+        ];
+    }
+
+    /**
+     * Список заявок для согласования
+     * @return string
+     */
     public function actionRequestApprove()
     {
         $requests = Conference::findPublic()
@@ -334,6 +363,50 @@ class ConferenceController extends Controller
         return $this->render('request/approve', [
             'dataProvider' =>  $dataProvider,
         ]);
+    }
+
+    /**
+     * Согласование или отказ в согласовании заявки
+     * @param int $id
+     * @return string
+     */
+    public function actionRequestApproveView($id)
+    {
+        $model = $this->findModelRequest($id);
+        if ($model->status !== AbstractConference::STATUS_APPROVE) {
+            throw new ServerErrorHttpException('Заявка уже ппрошла процедуру согласования');
+        }
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $formData = new DynamicModel(['result', 'denied_message']);
+        $formData->addRule('result', 'boolean')
+            ->addRule('result', 'required', ['message'=>'Выберите "Согласовать" или "Отказать"'])            
+            ->addRule('denied_message', 'string', ['max'=>2000])
+            ->addRule('denied_message', 'required', ['when' => function($model) { return $model->result === '0'; }, 'message'=>'Укажите причину отказа']);            
+        
+        if ($formData->load(Yii::$app->request->post()) && $formData->validate()) {              
+            // save
+            if ($formData->result) {
+                $model->status = AbstractConference::STATUS_COMPLETE;
+                $model->denied_text = null;                
+            }
+            else {
+                $model->status = AbstractConference::STATUS_DENIED;
+                $model->denied_text = $formData->denied_message;
+            }
+            $model->approve_author = Yii::$app->user->identity->username;
+            $model->save();
+            return 'OK';
+        }
+
+        return [
+            'title' => 'Согласование "' . $model->typeLabel() . ' в ' . $model->date_start . '"',
+            'content' => $this->renderAjax('request/approve-view', [
+                'formData' => $formData,
+                'model' => $model,
+            ]),
+        ];
+
     }
 
 

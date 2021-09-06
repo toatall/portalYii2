@@ -17,6 +17,9 @@ $this->params['breadcrumbs'][] = 'Изменение';
         </p>    
     </div>    
 
+    
+    <?= $this->render('_statuses', ['model' => $model]) ?>
+
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
