@@ -21,7 +21,7 @@ $this->title = 'Проекты новобранцев';
 
     <div class="card-deck mb-3 text-center row">   
         
-        <div class="col-5">
+        <div class="col-6">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
                     <h4 class="my-0">Конкурс "Фотоохота"</h4>
@@ -41,7 +41,7 @@ $this->title = 'Проекты новобранцев';
             </div>  
         </div>
 
-        <div class="col-5">
+        <div class="col-6">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
                     <h4 class="my-0">Конкурс "Неделя добрых дел"</h4>
@@ -61,7 +61,7 @@ $this->title = 'Проекты новобранцев';
             </div>  
         </div>
 
-        <div class="col-5">
+        <div class="col-6">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
                     <h4 class="my-0">Конкурс "Навстречу искусству"</h4>
@@ -81,7 +81,7 @@ $this->title = 'Проекты новобранцев';
             </div>  
         </div>
                    
-        <div class="col-5">
+        <div class="col-6">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
                     <h4 class="my-0">Конкурс "Видеооткрытка"</h4>
@@ -101,7 +101,7 @@ $this->title = 'Проекты новобранцев';
             </div>
         </div>
 
-        <div class="col-5">
+        <div class="col-6">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
                     <h4 class="my-0">Проект "SUPER STAЖ"</h4>
