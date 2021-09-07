@@ -158,6 +158,7 @@ ModalViewerAsset::register($this);
                     <li><a href="http://marmnpd.tax.nalog.ru:8081" target="_blank">Автоматизированное рабочее место «Налог на  профессиональный доход» (МАРМ НПД)</a></li>
                     <li><a href="https://bo.dpc.tax.nalog.ru" target="_blank">Государственный информационный ресурс бухгалтерской (финансовой) отчетности (ГИР БО)</a></li>                   
                     <li><a href="http://ias.ais3.tax.nalog.ru/uprrep" target="_blank">Информационно-аналитическая подсистема "Управленческий учет"</a></li>
+                    <li><a href="http://soon.tax.nalog.ru" target="_blank">Омниканальная система (СООН)</a></li>
                 </ul>                
             </div>
             <div class="col-4">
