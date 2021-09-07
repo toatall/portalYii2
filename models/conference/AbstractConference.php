@@ -282,7 +282,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             }
         }
         if ($insert) {
-            $this->saveStatusFirst();
+            //$this->saveStatusFirst();
             $this->author = Yii::$app->user->identity->username;
         }
         return parent::beforeSave($insert);

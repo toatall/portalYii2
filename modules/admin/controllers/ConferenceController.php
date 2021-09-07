@@ -86,6 +86,7 @@ class ConferenceController extends Controller
     public function actionCreate()
     {
         $model = new Conference();
+        $model->status = Conference::STATUS_COMPLETE;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

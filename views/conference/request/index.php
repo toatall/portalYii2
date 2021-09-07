@@ -23,9 +23,7 @@ $this->registerCssFile('/public/assets/portal/css/dayPost.css');
         </p>    
     </div>    
     
-    <?php if (!Yii::$app->user->can('permConferenceApprove')): ?>
-        <?= Html::a('Добавить заявку', ['/conference/request-create'], ['class' => 'btn btn-primary mb-2']) ?>
-    <?php endif; ?>
+    <?= Html::a('Добавить заявку', ['/conference/request-create'], ['class' => 'btn btn-primary mb-2']) ?>    
             
     <?= GridView::widget([
         'responsive' => true,
