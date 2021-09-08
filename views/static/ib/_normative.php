@@ -309,7 +309,21 @@
                 </div>
             </div>
 
-
+            <div class="card">
+                <div class="card-header" role="tab" id="heading9">
+                    <h5 class="mb-0">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse9" aria-controls="collapse9">
+                            Доверенность на передачу КЭП
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse9" class="collapse" role="tabpanel" aria-labelledby="heading9">
+                    <div class="card-body">
+                        <p><a href="/files_static/8600/ib/materials/ib/Шаблон.docx" target="_blank">
+                            <span class="fas fa-file-word"></span> Шаблон</a></p>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
