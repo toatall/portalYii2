@@ -19,7 +19,10 @@ return [
 
     // конференции (вкс, собрания)
     'conference' => [
-        'notifyMailAddress' => '8600_notifyVksUfns@regions.tax.nalog.ru',
+        // уведомление о ВКС с УФНС
+        'notifyMailAddress' => '8600_notifyVksUfns@nalog.ru',
+        // уведомление о новых заявках
+        'notifyMailAddressAppeal' => '8600_notifyConferenceAppeal@nalog.ru',
         // настройка доступа
         'access' => [
             'vks-ufns' => [

@@ -287,6 +287,7 @@ class ConferenceController extends Controller
         $model->status = Conference::STATUS_APPROVE;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->notifyMailAddressAppeal();
             return $this->redirect(['request']);
         }
 
@@ -306,6 +307,7 @@ class ConferenceController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->status = Conference::STATUS_APPROVE;
             if ($model->save()) {
+                $model->notifyMailAddressAppeal();
                 return $this->redirect(['request']);
             }
         }

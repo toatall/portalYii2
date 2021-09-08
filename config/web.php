@@ -36,6 +36,10 @@ $config = [
         'events' => [
             'class' => 'app\modules\events\Module',
         ],
+        // раздел только для администратора
+        'manager' => [
+            'class' => 'app\modules\manager\Module',
+        ],
     ],    
     'components' => [
         'request' => [

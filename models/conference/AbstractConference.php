@@ -157,7 +157,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             'id' => 'ИД',
             'type_conference' => 'Тип конференции',
             'theme' => 'Тема',
-            'responsible' => 'Отвественные',
+            'responsible' => 'Ответственные',
             'members_people' => 'Участники (сотрудники Управления)',
             'members_organization' => 'Участники (Инспекции)',
             'date_start' => 'Дата и время начала',
@@ -385,7 +385,33 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
         $message .= '<br /><br /><a href="' . Url::toRoute(['/conference/view', ['id'=>$this->id]], true) . '" target="_blank">Подробнее...</a>';
 
         Yii::$app->mailer->compose()
-            ->setFrom('portal86@regions.tax.nalog.ru')
+            ->setFrom('no-reply@portal86.ru')
+            ->setTo($to)
+            ->setSubject($subject)
+            ->setHtmlBody($message)
+            ->setCharset('utf-8')
+            ->send();
+    }
+
+    /**
+     * Отправка уведомления по почте 
+     * о соглсовании мероприятия
+     */
+    public function notifyMailAddressAppeal()
+    {
+        $to = $this->getParamEmailAddressAppeal();
+        if ($to === null) {
+            return;
+        }
+        
+        $subject = "Требуется ваше согласование \"{$this->getTypeLabel()}\", назначенное на " . Yii::$app->formatter->asDatetime($this->date_start);
+        $message = '<h1>' . Yii::$app->formatter->asDate($this->date_start) 
+            . ' в ' .  Yii::$app->formatter->asTime($this->date_start) . " будет проводиться {$this->getTypeLabel()}</h1>";
+        $message .= '<br />Тема: ' . $this->theme;        
+        $message .= '<br /><br /><a href="' . Url::toRoute(['/conference/request-approve'], true) . '" target="_blank">Перейти к согласованию</a>';
+
+        Yii::$app->mailer->compose()
+            ->setFrom('u8600-app045@regions.tax.nalog.ru')
             ->setTo($to)
             ->setSubject($subject)
             ->setHtmlBody($message)
@@ -399,6 +425,14 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     private function getParamEmailAddress()
     {
         return Yii::$app->params['conference']['notifyMailAddress'];
+    }
+
+    /**
+     * @return string
+     */
+    private function getParamEmailAddressAppeal()
+    {
+        return Yii::$app->params['conference']['notifyMailAddressAppeal'] ?? null;
     }
 
     /**
