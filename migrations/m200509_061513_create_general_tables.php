@@ -155,7 +155,7 @@ class m200509_061513_create_general_tables extends Migration
         $this->createTable('{{%group}}', [
             'id' => $this->primaryKey(),
             'id_organization' => $this->string(5)->notNull(),
-            'name' => $this->string(250)->notNull(),
+            'name' => $this->string(250)->notNull()->unique(),
             'description' => $this->text(),
             'sort' => $this->integer()->defaultValue(0)->notNull(),
             'date_create' => $this->dateTime()->defaultExpression('getdate()')->notNull(),

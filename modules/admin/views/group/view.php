@@ -7,24 +7,24 @@ use yii\widgets\DetailView;
 /** @var app\models\Group $model */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Groups', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Группы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="group-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+    <div class="btn-group mb-2">
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить?',
                 'method' => 'post',
             ],
         ]) ?>
-    </p>
+        <?= Html::a('Назад', ['index'], ['class' => 'btn btn-secondary']) ?>
+    </div>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -34,8 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
             'sort',
-            'date_create',
-            'date_edit',
+            'date_create:datetime',
+            'date_edit:datetime',
         ],
     ]) ?>
 
