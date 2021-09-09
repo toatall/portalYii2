@@ -51,7 +51,7 @@ class GroupController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new Group();
+        $searchModel = new Group();        
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -81,6 +81,7 @@ class GroupController extends Controller
     public function actionCreate()
     {
         $model = new Group();
+        $model->id_organization = Yii::$app->userInfo->current_organization;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

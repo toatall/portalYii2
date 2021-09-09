@@ -19,6 +19,8 @@ $idGroupListBox = Html::getInputId($model, 'groupUsers');
 
     <?php $form = ActiveForm::begin(['id' => 'form-group']); ?>
 
+    <?= $form->errorSummary($model) ?>
+
     <?= ''/*$form->field($model, 'id_organization')->widget(Select2::class, [
         'data' => $model->dropDownListOrganizations(),
     ])*/ ?>

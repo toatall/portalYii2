@@ -206,8 +206,7 @@ class Group extends \yii\db\ActiveRecord
     {
         if (!parent::beforeSave($insert)) {
             return false;
-        }
-        $this->id_organization = Yii::$app->userInfo->current_organization;        
+        }        
         return true;
     }
 
