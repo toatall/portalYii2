@@ -6,22 +6,24 @@ use yii\helpers\ArrayHelper;
 use app\assets\ModalViewerAsset;
 use app\models\Module;
 use app\models\Tree;
+use kartik\select2\Select2;
 
 ModalViewerAsset::register($this);
 
 /** @var yii\web\View $this */
 /** @var app\models\Tree $model */
 /** @var yii\bootstrap4\ActiveForm $form */
+
+$arrayParent = Yii::$app->user->can('admin') ? ['0' => 'Родитель'] : [];
 ?>
 
 <div class="tree-form">
 
     <?php $form = ActiveForm::begin(['id' => 'form-tree']); ?>
 
-    <?php
-        $arrayParent = Yii::$app->user->can('admin') ? ['0' => 'Родитель'] : [];
-    ?>
-    <?= $form->field($model, 'id_parent')->dropDownList($arrayParent + Tree::getTreeDropDownList()) ?>
+    <?= $form->field($model, 'id_parent')->widget(Select2::class, [
+        'data' => $arrayParent + Tree::getTreeDropDownList(),
+    ]) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
@@ -33,38 +35,39 @@ ModalViewerAsset::register($this);
 
     <?= $form->field($model, 'use_material')->checkbox() ?>
 
-    <div id="content-material" class="panel panel-default">
-        <div class="panel-body">
+    <div id="content-material" class="card">
+        <div class="card-body">
             <?php if (Yii::$app->user->can('admin')): ?>
             <?= $form->field($model, 'module')->dropDownList(['' => ''] + ArrayHelper::map(Module::find()->all(), 'name', 'description')) ?>
-            <?php endif; ?>
-            <?= ''//$form->field($model, 'use_tape')->checkbox() ?>
+            <?php endif; ?>            
         </div>
     </div>
 
     <?php if (Yii::$app->user->can('admin')): ?>
-    <div class="card">
+    <div class="card mt-2">
         <div class="card-header">
             Доступ
         </div>
 
         <div class="card-body">
-            <div class="col-12">
+            <div class="row col">
                 <?= $form->field($model, 'useParentRight')->checkbox() ?>
             </div>
             <div id="content-permission">
-                <div class="col-6">
-                    <?= $form->field($model, 'permissionGroup')->dropDownList($model->getPermissionGroups(), ['multiple'=>true, 'size'=>10]) ?>
-                    <div class="btn-group">
-                        <?= Html::a('Добавить', ['/admin/group/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-group']) ?>
-                        <?= Html::button('Удалить', ['class' => 'btn btn-danger', 'id'=>'btn-remove-group']) ?>
+                <div class="row">
+                    <div class="col">
+                        <?= $form->field($model, 'permissionGroup')->dropDownList($model->getPermissionGroups(), ['multiple'=>true, 'size'=>10]) ?>
+                        <div class="btn-group">
+                            <?= Html::a('Добавить', ['/admin/group/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-group']) ?>
+                            <?= Html::button('Удалить', ['class' => 'btn btn-danger', 'id'=>'btn-remove-group']) ?>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6">
-                    <?= $form->field($model, 'permissionUser')->dropDownList($model->getPermissionUsers(), ['multiple'=>true, 'size'=>10]) ?>
-                    <div class="btn-group">
-                        <?= Html::a('Добавить', ['/admin/user/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-user']) ?>
-                        <?= Html::button('Удалить', ['class' => 'btn btn-danger', 'id'=>'btn-remove-user']) ?>
+                    <div class="col">
+                        <?= $form->field($model, 'permissionUser')->dropDownList($model->getPermissionUsers(), ['multiple'=>true, 'size'=>10]) ?>
+                        <div class="btn-group">
+                            <?= Html::a('Добавить', ['/admin/user/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-user']) ?>
+                            <?= Html::button('Удалить', ['class' => 'btn btn-danger', 'id'=>'btn-remove-user']) ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -72,7 +75,7 @@ ModalViewerAsset::register($this);
     </div>
     <?php endif; ?>
 
-    <div class="card">
+    <div class="card mt-2 mb-2">
         <div class="card-header">
             <button id="btn-add-parameters" class="btn btn-primary">Дополнительные параметры</button>
         </div>

@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%group}}".
@@ -15,12 +16,14 @@ use yii\data\ActiveDataProvider;
  * @property int $sort
  * @property string $date_create
  * @property string $date_edit
+ * @property boolean $is_global
  *
  * @property Organization $organization
  * @property GroupUser[] $groupUsers
  */
 class Group extends \yii\db\ActiveRecord
 {
+    
     /**
      * @var array
      */
@@ -42,13 +45,14 @@ class Group extends \yii\db\ActiveRecord
         return [
             [['id_organization', 'name'], 'required'],
             [['description'], 'string'],
-            [['sort'], 'integer'],
+            [['sort', 'is_global'], 'integer'],
             [['date_create', 'date_edit'], 'safe'],
             [['id_organization'], 'string', 'max' => 5],
             [['name'], 'string', 'max' => 250],
-            [['id_organization'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['id_organization' => 'code']],
-//            [['name'], 'on' => 'search', 'safe'],
+            [['id_organization'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::class, 'targetAttribute' => ['id_organization' => 'code']],
             [['groupUsers'], 'safe'],
+            [['name'], 'unique'],  
+            [['sort', 'is_global'], 'default', 'value' => 0],
         ];
     }
 
@@ -65,7 +69,18 @@ class Group extends \yii\db\ActiveRecord
             'sort' => 'Сортировка',
             'date_create' => 'Дата создания',
             'date_edit' => 'Дата изменения',
+            'is_global' => 'Глобальная группа',
         ];
+    }
+
+    public function dropDownRolesCurrentOrganization()
+    {
+        $query = self::find();       
+        $query->andWhere(['or', 
+            ['id_organization'=>Yii::$app->userInfo->current_organization],
+            ['is_global'=>1],
+        ]);
+        return ArrayHelper::map($query->all(), 'id', 'name');
     }
 
     /**
@@ -80,14 +95,25 @@ class Group extends \yii\db\ActiveRecord
         if ($excludeId) {
             $query->andWhere(['not in', 'id', explode(',', $excludeId)]);
         }
-        $query->andWhere(['id_organization'=>Yii::$app->userInfo->current_organization]);
+        $query->andWhere(['or', 
+            ['id_organization'=>Yii::$app->userInfo->current_organization],
+            ['is_global'=>1],
+        ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $this->load($params); //?
+        $this->load($params); 
         $query->andFilterWhere(['like', 'name', $this->name]);
+        if ($this->id_organization) {            
+            $query->andWhere(['id_organization' => $this->id_organization]);        
+        }
+        if (is_numeric($this->is_global)) {
+            $query->andWhere(['is_global' => $this->is_global]);
+        }
+
+        $query->orderBy(['is_global' => SORT_DESC]);
 
         return $dataProvider;
     }
@@ -115,6 +141,55 @@ class Group extends \yii\db\ActiveRecord
     }
 
     /**
+     * Список орагнизаций
+     */
+    public function dropDownListOrganizations()
+    {        
+        return ArrayHelper::map(Organization::find()->all(), 'code', 'name');
+    }
+
+    /**
+     * Добавление пользователя в группу
+     * @param int $idUser идентификатор добавляемого пользователя
+     * @return boolean
+     */
+    public function assetUser($idUser)
+    {
+        $userModel = $this->getGroupUsers()->andWhere([
+            'id' => $idUser,
+        ])->exists();
+        // добавление, если нет еще такого пользователя
+        if (!$userModel) {
+            $model = User::findOne($idUser);
+            if ($model !== null) {
+                $this->link('groupUsers', $model);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Исключение пользователя из группы
+     * @param
+     */
+    public function revokeUser($idUser)
+    {
+        $userModel = $this->getGroupUsers()->andWhere([
+            'id' => $idUser,
+        ])->exists();
+        // удаление пользователя из группы, если такой есть
+        if ($userModel) {
+            $model = User::findOne($idUser);
+            if ($model !== null) {
+                $this->unlink('groupUsers', $model, true);                
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @param $values
      */
     public function setGroupUsers($values)
@@ -132,7 +207,7 @@ class Group extends \yii\db\ActiveRecord
         if (!parent::beforeSave($insert)) {
             return false;
         }
-        $this->id_organization = Yii::$app->userInfo->current_organization;
+        $this->id_organization = Yii::$app->userInfo->current_organization;        
         return true;
     }
 

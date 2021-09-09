@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\department\Department;
+use app\models\menu\Menu;
 use Yii;
 use app\models\Organization;
 use yii\data\ActiveDataProvider;
@@ -138,7 +140,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getDepartments()
     {
-        return $this->hasMany(Department::className(), ['author' => 'username_windows']);
+        return $this->hasMany(Department::class, ['author' => 'username_windows']);
     }
 
     /**
@@ -148,39 +150,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getFiles()
     {
-        return $this->hasMany(File::className(), ['author' => 'username_windows']);
+        return $this->hasMany(File::class, ['author' => 'username_windows']);
     }
 
-    /**
-     * Gets query for [[FileDownloads]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFileDownloads()
-    {
-        return $this->hasMany(FileDownload::className(), ['username' => 'username_windows']);
-    }
-
-    /**
-     * Gets query for [[GroupUsers]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getGroupUsers()
-    {
-        return $this->hasMany(GroupUser::className(), ['id_user' => 'id']);
-    }
-
-    /**
-     * Gets query for [[LogAuthenticates]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLogAuthenticates()
-    {
-        return $this->hasMany(LogAuthenticate::className(), ['username' => 'username_windows']);
-    }
-
+    
     /**
      * Gets query for [[Menus]].
      *
@@ -188,7 +161,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getMenus()
     {
-        return $this->hasMany(Menu::className(), ['author' => 'username_windows']);
+        return $this->hasMany(Menu::class, ['author' => 'username_windows']);
     }
 
     /**
@@ -198,29 +171,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getModules()
     {
-        return $this->hasMany(Module::className(), ['author' => 'username_windows']);
+        return $this->hasMany(Module::class, ['author' => 'username_windows']);
     }
-
-    /**
-     * Gets query for [[News]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getNews()
-    {
-        return $this->hasMany(News::className(), ['author' => 'username_windows']);
-    }
-
-    /**
-     * Gets query for [[Telephones]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTelephones()
-    {
-        return $this->hasMany(Telephone::className(), ['author' => 'username_windows']);
-    }
-
+    
     /**
      * Gets query for [[Trees]].
      *
@@ -228,36 +181,42 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getTrees()
     {
-        return $this->hasMany(Tree::className(), ['author' => 'username_windows']);
+        return $this->hasMany(Tree::class, ['author' => 'username_windows']);
     }
 
     /**
      * Поиск
      * @param array $params
-     * @param int|null $excludeId
+     * @param string|null $excludeId идентификаторы пользователей (1,2,3) для исключения их
+     * @param int|null $excludeIdGroup идентификатор группы, для исключения пользователей состоящих в этой группе
      * @return ActiveDataProvider
      */
-    public function search($params, $excludeId = null)
+    public function search($params, $excludeId = null, $excludeIdGroup=null)
     {
-        $query = self::find();
+        $query = self::find()->alias('t');
         if ($excludeId) {
-            $query->andWhere(['not in', 'id', explode(',', $excludeId)]);
+            $query->andWhere(['not in', 't.id', explode(',', $excludeId)]);
         }
-        $query->andWhere(['default_organization'=>Yii::$app->userInfo->current_organization]);
+        $query->andWhere(['t.default_organization'=>Yii::$app->userInfo->current_organization]);
+
+        // если указан идентификатор группы, то исключить этих пользователей из результата
+        if (is_numeric($excludeIdGroup)) {
+            $query->andWhere('t.id not in (select id_user from {{%group_user}} where id_group=:id_group)', [':id_group'=>$excludeIdGroup]);           
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $this->load($params); // ?
+        $this->load($params); 
 
         if (Yii::$app->user->can('admin')) {
-            $query->andFilterWhere(['like', 'current_organization', $this->current_organization]);
+            $query->andFilterWhere(['like', 't.current_organization', $this->current_organization]);
         }
-        $query->andFilterWhere(['like', 'department', $this->department]);
-        $query->andFilterWhere(['like', 'username', $this->username]);
-        $query->andFilterWhere(['like', 'username_windows', $this->username_windows]);
-        $query->andFilterWhere(['like', 'fio', $this->fio]);
+        $query->andFilterWhere(['like', 't.department', $this->department]);
+        $query->andFilterWhere(['like', 't.username', $this->username]);
+        $query->andFilterWhere(['like', 't.username_windows', $this->username_windows]);
+        $query->andFilterWhere(['like', 't.fio', $this->fio]);
 
         return $dataProvider;
     }

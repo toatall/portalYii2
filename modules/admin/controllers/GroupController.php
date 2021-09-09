@@ -51,11 +51,11 @@ class GroupController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Group::find()->where(['id_organization'=>Yii::$app->userInfo->current_organization]),
-        ]);
+        $searchModel = new Group();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -125,6 +125,21 @@ class GroupController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Управление подключение пользователей к роли
+     * @return string
+     */
+    public function actionManage($id)
+    {    
+        $model = $this->findModel($id);
+        return $this->render('manage', [
+            'model' => $model,
+            'dataProvider' => new ActiveDataProvider([
+                'query' => $model->getGroupUsers(),
+            ]),
+        ]);
     }
 
     /**

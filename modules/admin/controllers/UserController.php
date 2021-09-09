@@ -12,6 +12,7 @@ use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use app\models\Organization;
 use yii\web\Response;
+use yii\web\ServerErrorHttpException;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -138,20 +139,25 @@ class UserController extends Controller
      * @throws \yii\db\Exception
      */
     public function actionChangeOrganization($code)
-    {
+    {        
         $model = $this->findModel(\Yii::$app->user->id);        
         $organizations = ArrayHelper::map($model->organizations, 'code', 'code');
         if (!isset($organizations[$code])) {
             if (!$this->isOrganization($code)) {
-                throw new Exception("Организация с кодом $code не найдена");
+                throw new ServerErrorHttpException("Организация с кодом $code не найдена");
             }
             else {
-                throw new Exception("Отсутвует доступ к организации с кодом $code");
+                throw new ServerErrorHttpException("Отсутвует доступ к организации с кодом $code");
             }
         }        
         $model->changeOrganization($code);
-        \Yii::$app->userInfo->clearSession(); // для того, чтобы в сессии тоже изменился код организации
-        return $this->goBack(['/admin/default/index']);
+        \Yii::$app->userInfo->clearSession(); // для того, чтобы в сессии тоже изменился код организации   
+        if (Yii::$app->request->referrer) {
+            return $this->redirect(Yii::$app->request->referrer);            
+        }
+        else {
+            return $this->redirect(['/admin/default/index']);
+        }
     }
 
     /**
@@ -177,15 +183,16 @@ class UserController extends Controller
 
     /**
      * Вывод списка пользователей
-     * @param null $users
+     * @param array|null $users
+     * @param array|null $idGroup
      * @return array|string
      * @uses \app\modules\admin\controllers\TreeController::actionCreate()
      * @uses \app\modules\admin\controllers\TreeController::actionUpdate()
      */
-    public function actionList($users=null)
+    public function actionList($users=null, $idGroup=null)
     {
         $searchModel = new User();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $users);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $users, $idGroup);
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
