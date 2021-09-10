@@ -23,7 +23,7 @@ $this->params['breadcrumbs'] = ArrayHelper::merge($this->params['breadcrumbs'], 
         </p>    
     </div>
     
-    <div class="row">
+    <div class="">
     <?php Pjax::begin(['id'=>'ajax-page', 'timeout' => false, 'enablePushState'=>false]); ?>
 
     <?= ListView::widget([
