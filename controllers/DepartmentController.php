@@ -257,6 +257,14 @@ class DepartmentController extends Controller
         $query = new PageSearch();
         $query->id_tree = $id;
         $dataProvider = $query->searchPublic(null);
+        $resultDataProvider = $dataProvider->getModels();
+
+        // 4. Если только 1 новость, то выводим ее
+        if (($dataProvider->getTotalCount() === 1)) {
+            return $this->render('/news/view', [
+                'model' => array_shift($resultDataProvider),
+            ]);            
+        }
 
         return $this->render('news', [
             'dataProvider' => $dataProvider,
