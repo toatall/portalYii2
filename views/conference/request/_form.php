@@ -26,6 +26,8 @@ use app\models\conference\AbstractConference;
 
     <?= $form->field($model, 'members_people')->textarea(['rows' => 5]) ?>
 
+    <?= $form->field($model, 'members_organization')->textarea(['rows' => 5]) ?>
+
     <?= $form->field($model, 'date_start')->widget(DateTimePicker::class, [
         'pluginOptions' => [
             'todayHighlight' => true,
