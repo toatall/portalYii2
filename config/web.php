@@ -40,6 +40,10 @@ $config = [
         'manager' => [
             'class' => 'app\modules\manager\Module',
         ],
+        // конкурсы
+        'contest' => [
+            'class' => 'app\modules\contest\Module',
+        ],
     ],    
     'components' => [
         'request' => [
