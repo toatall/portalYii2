@@ -62,7 +62,7 @@ $queryGeneral = (new Query())
         </div>
         <div class="col text-primary">
             <div class="text-center text-light">
-                <span style="font-weight: bolder; font-size: medium;">Послупления</span>
+                <span style="font-weight: bolder; font-size: medium;">Поступления</span>
                 <div class="tick" style="font-size: 1.1em;" data-value="<?= round($queryGeneral['sum2'],2) ?> тыс">        
                     <div data-layout="vertical">            
                         <span data-view="flip"></span> 
