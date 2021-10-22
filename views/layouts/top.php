@@ -1,5 +1,5 @@
 <?php
-/* @var $this \yii\web\View */
+/** @var \yii\web\View $this */
 
 use yii\helpers\Url;
 use app\assets\FlipAsset;
@@ -62,6 +62,11 @@ if ($flagNewYear) {
         <img src="/images/8march/1520242549_0_7a017_afe03477_orig.png" style="height: 195px; filter: drop-shadow(5px 5px 1px white);" />        
     </div>
     <?php endif; ?>
+
+
+    <?= $this->render('top_pay_taxes') ?>
+
+    
 </div>
 <?php
 $this->registerCss(<<<CSS
@@ -109,3 +114,4 @@ $this->registerCss(<<<CSS
 CSS
 );
 ?>
+

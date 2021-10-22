@@ -13,6 +13,8 @@ use yii\helpers\ArrayHelper;
  * @property int|null $sort
  * @property string $date_create
  * @property string $date_edit
+ * @property string $name_short
+ * @property string $date_end
  *
  * @property Department[] $departments
  * @property File[] $files
@@ -41,9 +43,10 @@ class Organization extends \yii\db\ActiveRecord
         return [
             [['code', 'name', 'sort'], 'required'],
             [['sort'], 'integer'],
-            [['date_create', 'date_edit'], 'safe'],
+            [['date_create', 'date_edit', 'date_end'], 'safe'],
             [['code'], 'string', 'max' => 5],
             [['name'], 'string', 'max' => 250],
+            [['name_short'], 'string', 'max' => 200],
             [['code'], 'unique'],
         ];
     }
@@ -56,9 +59,11 @@ class Organization extends \yii\db\ActiveRecord
         return [
             'code' => 'Код',
             'name' => 'Наименование',
+            'name_short' => 'Краткое наименование',
             'sort' => 'Сортировка',
             'date_create' => 'Дата создания',
             'date_edit' => 'Дата изменения',
+            'date_end' => 'Дата окончания',
         ];
     }
 

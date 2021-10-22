@@ -113,7 +113,7 @@ $this->registerJs(<<<JS
         cont.html('<img id="img-face" class="img-thumbnail" src="' + item.photo + '" style="height: 0;" />');
         $('#img-face').delay(1000).animate({height:'100%'},{duration:3000, complete: function() {
             //console.log(item);
-            var timeout = (Math.random() * (10 - 5) + 5) * 1000;
+            var timeout = (Math.random() * (1000 - 5) + 5) * 1000;
             //console.log('timeout: ' + timeout);
             setTimeout(function() { animate(data, idResult) }, timeout);
         }});
