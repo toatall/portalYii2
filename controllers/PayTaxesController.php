@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\models\page\Page;
+use Exception;
 use Yii;
+use yii\db\Expression;
 use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
@@ -43,11 +45,32 @@ class PayTaxesController extends \yii\web\Controller
             order by t.sort asc
         ";
         $result = Yii::$app->db->createCommand($query)->queryAll();
+
+        $this->saveVisit();
         
         return $this->render('map', [
             'result' => $result,
             'raions' => $this->getRaions(),
         ]);
+    }
+
+    /**
+     * сохранение информации о посетителе
+     */
+    private function saveVisit()
+    {
+        if (!Yii::$app->user->isGuest) {
+            Yii::$app->db->createCommand()
+                ->insert('{{%pay_taxes_visit}}', [
+                    'ip_address' => Yii::$app->request->remoteIP,
+                    'client_host' => Yii::$app->request->remoteHost,
+                    'username' => Yii::$app->user->identity->username,
+                    'date_create' => new Expression('getdate()'),
+                ])->execute();
+        }
+        else {
+            return $this->redirect(['/site/login']);
+        }
     }
 
     /**
