@@ -32,6 +32,7 @@
                 <div id="collapse2_2" class="collapse" role="tabpanel" aria-labelledby="heading2_2">
                     <div class="card-body">
                         <p><a href="/files_static/8600/ib/zayavki/Заявка на доступ АИС Налог-3.doc" target="_blank">Заявка на доступ АИС Налог-3</a></p>
+                        <p><a href="/files_static/8600/ib/zayavki/Заявка на доступ АИС Налог-3 (с контекстом иного НО)_.doc" target="_blank">Заявка на доступ АИС Налог-3 (с контекстом иного НО)</a></p>
                         <p><a href="/files_static/8600/ib/zayavki/Заявка на доступ к ИР Управления.doc" target="_blank">Заявка на доступ к ИР Управления</a></p>
                         <p><a href="/files_static/8600/ib/zayavki/Заявка на доступ к ФИР.docx" target="_blank">Заявка на доступ к ФИР</a></p>
                         <p><a href="/files_static/8600/ib/zayavki/Заявка на выдачу электронного носителя информации НЕ ДСП.doc" target="_blank">Заявка на выдачу электронного носителя информации НЕ ДСП</a></p>
