@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             //'responsible',
             //'members_organization',
-            //'date_start',
+            'date_start',
             //'time_start_msk:datetime',
             //'duration',
             //'is_confidential',
