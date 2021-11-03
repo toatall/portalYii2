@@ -41,7 +41,7 @@ class PayTaxesController extends \yii\web\Controller
         $query = "
             select t.code, t.name_short, g.date, g.sum1, g.sum2, g.sum3, g.sms from {{%organization}} t
                 outer apply (select top 1 * from {{%pay_taxes_general}} where t.code=code_org order by date desc) g
-            where t.code <> '8624' 
+            where t.code in ('8600','8601','8602','8603','8606','8617','8619') 
             order by t.sort asc
         ";
         $result = Yii::$app->db->createCommand($query)->queryAll();
