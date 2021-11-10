@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\models\File;
+use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
 class FileController extends \yii\web\Controller
@@ -35,24 +37,27 @@ class FileController extends \yii\web\Controller
     public function actionDownload($id)
     {
         $modelFile = $this->find($id);
-        $filePath = \Yii::getAlias('@webroot') . $modelFile->file_name;
-        if (!file_exists($filePath)) {
+        $fileUrl = \Yii::getAlias('@web') . $modelFile->file_name;
+        if (!file_exists(Yii::getAlias('@webroot') . $modelFile->file_name)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
         // запись лога
         $this->writeLog($id);
 
+        // переадресация        
+        return $this->redirect($fileUrl);
+
         // передача файла пользователю
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header("Content-Type: " . mime_content_type($filePath));
-        header('Content-Length: ' . filesize($filePath));
-        header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
-        header('Content-Transfer-Encoding: binary');
-        ob_clean();
-        flush();
-        readfile($filePath);
-        Yii::app()->end();
+        // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        // header("Content-Type: " . mime_content_type($filePath));
+        // header('Content-Length: ' . filesize($filePath));
+        // header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
+        // header('Content-Transfer-Encoding: binary');
+        // ob_clean();
+        // flush();
+        // readfile($filePath);
+        // Yii::app()->end();
     }
 
     /**
