@@ -37,7 +37,7 @@ class FileController extends \yii\web\Controller
     public function actionDownload($id)
     {
         $modelFile = $this->find($id);
-        $fileUrl = \Yii::getAlias('@web') . $modelFile->file_name;
+        
         if (!file_exists(Yii::getAlias('@webroot') . $modelFile->file_name)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
@@ -45,8 +45,10 @@ class FileController extends \yii\web\Controller
         // запись лога
         $this->writeLog($id);
 
+        $fileUrl = \Yii::getAlias('@web') . rawurlencode($modelFile->file_name);
+
         // переадресация        
-        return $this->redirect(rawurlencode($fileUrl));
+        return $this->redirect($fileUrl);
 
         // передача файла пользователю
         // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
