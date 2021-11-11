@@ -44,22 +44,12 @@ class FileController extends \yii\web\Controller
 
         // запись лога
         $this->writeLog($id);
-
-        $fileUrl = \Yii::getAlias('@web') . rawurlencode($modelFile->file_name);
-
+        
+        $pathInfo = pathinfo(\Yii::getAlias('@web') . $modelFile->file_name);
+        $fileUrl = $pathInfo['dirname'] . '/' . rawurlencode($pathInfo['basename']);
+        
         // переадресация        
-        return $this->redirect($fileUrl);
-
-        // передача файла пользователю
-        // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        // header("Content-Type: " . mime_content_type($filePath));
-        // header('Content-Length: ' . filesize($filePath));
-        // header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
-        // header('Content-Transfer-Encoding: binary');
-        // ob_clean();
-        // flush();
-        // readfile($filePath);
-        // Yii::app()->end();
+        return $this->redirect($fileUrl);        
     }
 
     /**
