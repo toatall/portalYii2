@@ -145,7 +145,7 @@ class Organization extends \yii\db\ActiveRecord
     {
         $query = self::find();
         if ($onlyIfns) {
-            $query->where(['<>', 'code', '8600']);
+            $query->where(['<>', 'code', '8600'])->andWhere(['code_parent'=>null]);
         }
         $result = \yii\helpers\ArrayHelper::map($query->all(), 'code', 'fullName');
         if ($withNull) {
