@@ -46,7 +46,7 @@ class FileController extends \yii\web\Controller
         $this->writeLog($id);
 
         // переадресация        
-        return $this->redirect($fileUrl);
+        return $this->redirect(rawurlencode($fileUrl));
 
         // передача файла пользователю
         // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
