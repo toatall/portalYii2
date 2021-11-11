@@ -10,6 +10,7 @@ namespace app\models\menu;
 
 use app\models\conference\AbstractConference;
 use app\models\vote\VoteMain;
+use yii\helpers\Url;
 
 /**
  * Главное меню
@@ -64,6 +65,9 @@ class MenuBuilder
             $item = [
                 'label' => $query['name'],
                 'url' => \yii\helpers\Url::to($query['link']),
+                'linkOptions' => [
+                    'class' => Url::current() == \yii\helpers\Url::to($query['link']) ? 'active' : '',
+                ],
             ];
             
             if ($query['target']) {

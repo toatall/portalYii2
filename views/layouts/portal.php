@@ -12,7 +12,8 @@ use app\models\menu\MenuBuilder;
 use app\assets\ModalViewerAsset;
 use app\assets\AppAsset;
 use app\widgets\AlertConferenceApprove;
-use yii\bootstrap4\Alert;
+use app\widgets\DatePickerCalendarAis3;
+use yii\helpers\Url;
 use yii\widgets\Menu;
 
 AppAsset::register($this);
@@ -41,7 +42,7 @@ ModalViewerAsset::register($this);
 
 <div class="wrap black-wall">
     <?= $this->render('top') ?>
-
+    
     <?php
         
     // главное меню
@@ -50,10 +51,10 @@ ModalViewerAsset::register($this);
         'brandLabel' => false,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar navbar-expand-md navbar-light bg-light border-bottom py-1',
+            'class' => 'navbar navbar-expand-md navbar-light bg-light border-bottom py-1 main-menu',
         ],
         'renderInnerContainer' => false,
-        'collapseOptions' => false,        
+        'collapseOptions' => false,                
     ]);
     
     $menuItems = MenuBuilder::buildMain();    
@@ -71,10 +72,14 @@ ModalViewerAsset::register($this);
             . Html::endForm()
             . '</li>';
     }
+
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav mr-auto text-dark'],
-        'items' => $menuItems,
+        'options' => [
+            'class' => 'mr-auto text-dark',            
+        ],
+        'items' => $menuItems, 
     ]);
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav text-dark'],
         'items' => $menuItemsRight,
@@ -114,13 +119,15 @@ ModalViewerAsset::register($this);
                     }
                  ?>
 
-                 <ul class="dropdown-menu dropdown-menu-main dropdown-menu-wrap" style="border: none; padding: 0;">
+                <ul class="dropdown-menu dropdown-menu-main dropdown-menu-wrap" style="border: none; padding: 0;">
                      <?php foreach (MenuBuilder::buildLeftAddMenuContent() as $menuItem) {
                          echo $menuItem;
                      }
-                     ?>                      
-                 </ul>
-                      
+                     ?>
+                </ul>
+                
+                <?= ''//DatePickerCalendarAis3::widget() ?>
+
             </div>
             <div class="col-10">   
                 <?php if (Yii::$app->user->can('permConferenceApprove')): ?>

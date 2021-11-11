@@ -77,6 +77,8 @@
 
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus,
+a.dropdown-item:hover,
+a.dropdown-item:focus,
 .dropdown-submenu:hover > a,
 .dropdown-submenu:focus > a {
   color: #ffffff;
@@ -215,7 +217,7 @@
 .dropdown-menu-main {
     display: block; 
     position: relative; 
-    z-index:1; 
+    z-index: 500; 
     top:0; 
     margin-bottom: 5px; 
     width: 100%;
@@ -234,7 +236,7 @@
   color: #555 !important;
   /*font-weight: 500;*/
 }
-#navbar-main-menu .dropdown-toggle::after {
+/* #navbar-main-menu .dropdown-toggle::after {
   display: inline-block;
   margin-left: 0.255em;
   vertical-align: 0.155em;
@@ -243,4 +245,4 @@
   border-right: 0.3em solid transparent;
   border-bottom: 0;
   border-left: 0.3em solid transparent;
-}
+} */
