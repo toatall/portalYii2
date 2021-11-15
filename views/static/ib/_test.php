@@ -14,8 +14,8 @@ $tests = [
     8 => Url::to(['/news/view', 'id'=>8528]),
     // Материалы для специалистов по информационой безопасности
     9 => Url::to(['/news/view', 'id'=>8529]),
-    18 => null,
-    42 => null,
+    18 => '',
+    42 => '',
 ];
 ?>
 
@@ -23,11 +23,10 @@ $tests = [
     <?php foreach ($tests as $id=>$link): ?>
     <div class="test-container" data-url="<?= Url::to(['/test/public/view', 'id'=>$id]) ?>" data-material-url="<?= $link ?>"></div>
     <?php endforeach; ?>    
-    <div class="test-container" data-url="<?= Url::to(['/test/public/view', 'id'=>18]) ?>"></div>
 </div>
 <?php $this->registerJS(<<<JS
     $(window.portalTest).on('onRequestDone', function(event, data, container) {
-		if (container.data('material-url') != undefined) {
+		if (container.data('material-url') != '') {
 			container.find('div.btn-group[data-group="main"]').append('<a href="' + container.data('material-url') + '" class="btn btn-primary mv-link"><i class="fas fa-question-circle"></i> Материалы</a>');
 		}
     });
