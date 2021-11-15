@@ -14,6 +14,8 @@ $tests = [
     8 => Url::to(['/news/view', 'id'=>8528]),
     // Материалы для специалистов по информационой безопасности
     9 => Url::to(['/news/view', 'id'=>8529]),
+    18 => null,
+    42 => null,
 ];
 ?>
 
@@ -25,7 +27,9 @@ $tests = [
 </div>
 <?php $this->registerJS(<<<JS
     $(window.portalTest).on('onRequestDone', function(event, data, container) {
-        container.find('div.btn-group[data-group="main"]').append('<a href="' + container.data('material-url') + '" class="btn btn-primary mv-link"><i class="fas fa-question-circle"></i> Материалы</a>');
+		if (container.data('material-url') != undefined) {
+			container.find('div.btn-group[data-group="main"]').append('<a href="' + container.data('material-url') + '" class="btn btn-primary mv-link"><i class="fas fa-question-circle"></i> Материалы</a>');
+		}
     });
 JS
 );
