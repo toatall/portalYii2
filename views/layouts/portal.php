@@ -151,7 +151,6 @@ ModalViewerAsset::register($this);
                     <li><a href="http://edu.tax.nalog.ru" target="_blank">Образовательный портал ФНС России</a></li>
                     <li><a href="http://support.tax.nalog.ru/esk/phone/" target="_blank">Телефонный справочник работников ФНС / ФКУ</a></li>
                     <li><a href="http://wiki.tax.nalog.ru/mw/index.php" target="_blank">Глоссарий ФНС России</a></li>
-                    <li><a href="http://riski.regions.tax.nalog.ru/autorize.html" target="_blank">Реестр рисков</a></li>
                     <li><a href="http://lk3-usr.tax.nalog.ru/user/auth/index" target="_blank">Кабинет налогоплательщика юридического лица</a></li>
                     <li><a href="https://rdmz-nlb-nginx.lkfl21.tax.nalog.ru/lkfl-ofc/login" target="_blank">Личный кабинет налогоплательщика — физического лица</a></li>                    
                     <li><a href="http://consultant.tax.nalog.ru" target="_blank">Консультант Плюс</a></li>
