@@ -85,7 +85,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <tbody style="sfont-size: 1em !important;">  
                 <?php 
                 foreach ($result as $item): 
-                    $region = isset($raions[$item['code']]) ? $raions[$item['code']] : '';  
+                    $region = isset($raions[$item['code']]) ? $raions[$item['code']] : ''; 
+                    $sms1 = Yii::$app->formatter->asDecimal($item['sms_1'] ?? 0); 
+                    $sms2 = Yii::$app->formatter->asDecimal($item['sms_2'] ?? 0); 
+                    $sms3 = Yii::$app->formatter->asDecimal($item['sms_3'] ?? 0); 
                 ?>
                     <tr data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
                     <td>
@@ -101,12 +104,22 @@ $this->params['breadcrumbs'][] = $this->title;
                         <kbd style="font-size: larger;"><?= Yii::$app->formatter->asDecimal($item['sum3']) ?></kbd>
                     </td> -->
                     <td>
-                        <kbd style="font-size: larger;"><?= Yii::$app->formatter->asDecimal($item['sms']) ?></kbd>
+                        <kbd style="font-size: larger;" data-toggle="popover" data-trigger="hover" data-original-title="СМС показатели" data-html="true" data-content="НДФЛ: <?= $sms1 ?><br />Транспортный налог: <?= $sms2 ?><br />Земельный налог: <?= $sms3 ?>">
+                            <?= Yii::$app->formatter->asDecimal($item['sms']) ?>
+                        </kbd>
                     </td>
                     <td>
                         <button class="btn btn-outline-secondary btn-chart-ifns" data-org="<?= $item['code'] ?>" data-url="<?= Url::to(['/pay-taxes/chart-data', 'org'=>$item['code']]) ?>">
                             <i class="fas fa-chart-pie"></i>
                         </button>
+                    </td>
+                </tr>
+                <tr style="display: none;" id="sms_data_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
+                    <td colspan="5">
+                        <strong>СМС показатели</strong><br />
+                        НДФЛ: <?= $sms1 ?>
+                        <br />Транспортный налог: <?= $sms2 ?>
+                        <br />Земельный налог: <?= $sms3 ?>
                     </td>
                 </tr>
                 <tr style="display: none;" id="chart_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
@@ -264,6 +277,7 @@ $this->registerJs(<<<JS
     $('.btn-chart-ifns').on('click', function() {        
         const org = $(this).data('org');
         const url = $(this).data('url');
+        $('#sms_data_' + org).toggle();
         $('#chart_' + org).toggle();
         $('#chart2_' + org).toggle();
         if ($('#chart_' + org).is(':visible')) {
