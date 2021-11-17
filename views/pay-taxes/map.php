@@ -104,7 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <kbd style="font-size: larger;"><?= Yii::$app->formatter->asDecimal($item['sum3']) ?></kbd>
                     </td> -->
                     <td>
-                        <kbd style="font-size: larger;" data-toggle="popover" data-trigger="hover" data-original-title="СМС показатели" data-html="true" data-content="НДФЛ: <?= $sms1 ?><br />Транспортный налог: <?= $sms2 ?><br />Земельный налог: <?= $sms3 ?>">
+                        <kbd style="font-size: larger;" data-toggle="popover" data-trigger="hover" data-original-title="СМС показатели" data-html="true" data-content="НИФЛ: <?= $sms1 ?><br />Транспортный налог: <?= $sms2 ?><br />Земельный налог: <?= $sms3 ?>">
                             <?= Yii::$app->formatter->asDecimal($item['sms']) ?>
                         </kbd>
                     </td>
@@ -117,7 +117,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <tr style="display: none;" id="sms_data_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
                     <td colspan="5">
                         <strong>СМС показатели</strong><br />
-                        НДФЛ: <?= $sms1 ?>
+                        НИФЛ: <?= $sms1 ?>
                         <br />Транспортный налог: <?= $sms2 ?>
                         <br />Земельный налог: <?= $sms3 ?>
                     </td>
