@@ -2,8 +2,6 @@
 /* @var $this \yii\web\View */
 
 use yii\helpers\Url;
-use app\modules\test\assets\TestAsset;
-TestAsset::register($this);
 
 $tests = [
     // Материалы для государственных служащих
