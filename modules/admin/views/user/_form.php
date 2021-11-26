@@ -29,9 +29,7 @@ use app\models\Organization;
     <?= $form->field($model, 'current_organization')->dropDownList(Organization::getDropDownList()) ?>
 
     <?= $form->field($model, 'blocked')->checkbox() ?>
-
-    <?= $form->field($model, 'folder_path')->textInput(['maxlength' => true]) ?>
-
+        
     <?= $form->field($model, 'telephone')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'post')->textInput(['maxlength' => true]) ?>

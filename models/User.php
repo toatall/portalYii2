@@ -19,9 +19,7 @@ use yii\db\Query;
  * @property string|null $fio
  * @property string|null $default_organization
  * @property string|null $current_organization
- * @property int $role_admin
  * @property int $blocked
- * @property string|null $folder_path
  * @property string|null $telephone
  * @property string|null $post
  * @property string|null $rank
@@ -34,6 +32,13 @@ use yii\db\Query;
  * @property string|null $date_delete
  * @property string[] $roles
  * @property string $memberof
+ * @property string $mail_ad
+ * @property string $room_name_ad
+ * @property string $user_disabled_ad
+ * @property string $user_status_ad
+ * @property string $date_update_ad
+ * @property string $description_ad
+ * @property string $photo_file
  *
  * @property Department[] $departments
  * @property File[] $files
@@ -88,16 +93,18 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             [['username_windows'], 'required'],
-            [['role_admin', 'blocked'], 'integer'],
+            [['blocked'], 'integer'],
             [['about'], 'string'],
-            [['password1', 'password2'], 'string'],            
+            [['password1', 'password2', 'description_ad'], 'string'],            
             ['password1', 'compare', 'compareAttribute' => 'password2'],
-            [['date_create', 'date_edit', 'date_delete', 'roles', 'memberof'], 'safe'],
-            [['username', 'username_windows', 'fio', 'post', 'rank', 'department', 'organization_name'], 'string', 'max' => 250],
+            [['date_create', 'date_edit', 'date_delete', 'roles', 'memberof', 'date_update_ad'], 'safe'],
+            [['username', 'username_windows', 'fio', 'post', 'rank', 'department', 'organization_name', 'mail_ad'], 'string', 'max' => 250],
             [['default_organization', 'current_organization'], 'string', 'max' => 5],            
-            [['folder_path', 'telephone'], 'string', 'max' => 50],
+            [['telephone', 'room_name_ad'], 'string', 'max' => 50],
+            [['photo_file'], 'string', 'max' => 500],
             [['hash'], 'string', 'max' => 32],
             [['username_windows'], 'unique'],            
+            [['user_disabled_ad'], 'boolean'],
         ];
     }
 
@@ -115,10 +122,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'password2' => 'Подтверждение пароля',
             'fio' => 'ФИО',
             'default_organization' => 'Код организации по умолчанию',
-            'current_organization' => 'Код организации текущий',
-            'role_admin' => 'Администратор',
-            'blocked' => 'Заблокировать',
-            'folder_path' => 'Каталог пользователя',
+            'current_organization' => 'Код организации текущий',            
+            'blocked' => 'Заблокировать',            
             'telephone' => 'Телефон',
             'post' => 'Должность',
             'rank' => 'Чин',
@@ -130,6 +135,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'date_create' => 'Дата создания',
             'date_edit' => 'Дата изменения',
             'date_delete' => 'Дата удаления',
+            'last_login' => 'Дата последнего входа',
+            'mail_ad' => 'Email',
+            'room_name_ad' => 'Кабинет',
+            'description_ad' => 'Описание',            
         ];
     }
 
@@ -229,7 +238,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getOrganizations()
     {
-        if (Yii::$app->user->identity->role_admin/*Yii::$app->user->can('admin')*/) {
+        if (Yii::$app->user->can('admin')) {
             $relation = Organization::find();
             $relation->multiple = true;
             return $relation;
@@ -399,7 +408,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function setRoles($values)
     {
         $this->removeRolesByUser();
-        $this->tempRoles = $values;       
+        $this->tempRoles = $values;
     }
     
     /**
@@ -433,6 +442,21 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $query->execute();                
     }
 
+    /**
+     * @return string ссылка на фотографию пользователя
+     * Если фотографии нет, то показывается фото указанное 
+     * в params `user.profile.defaultPhoto`
+     */
+    public function getPhotoProfile()
+    {
+        $path = Yii::$app->basePath . DIRECTORY_SEPARATOR . 'web';
+        if (!empty($this->photo_file) && file_exists($path . $this->photo_file)) {
+            return $this->photo_file;
+        }
+        return Yii::$app->params['user']['profile']['defaultPhoto'];
+    }
+
+
 
     /** migrate from Yii1 */
 
@@ -447,7 +471,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         if ($organization===null) return false;
 
-        if (Yii::$app->user->identity->role_admin) {
+        if (Yii::$app->user->can('admin')) {
             return true;
         }
 

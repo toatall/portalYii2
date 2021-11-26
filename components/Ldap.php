@@ -9,6 +9,7 @@ use yii\base\Component;
  */
 class Ldap extends Component
 {
+
     /**
      * @var string
      */
@@ -104,19 +105,62 @@ class Ldap extends Component
      * @return array|mixed|null
      * @throws \Exception
      */
-    public function result()
+    public function asArray()
     {
-        if (!$ldap_search = ldap_search($this->ldapConnect, $this->baseDn, $this->filter)) {
+        $resultArray = [];
+
+        $server = $this->ldapConnect;
+        if (is_array($this->baseDn)) {
+            $server = [];
+            for ($i=0; $i<count($this->baseDn); $i++) {
+                $server[] = $this->ldapConnect;
+            }
+        }       
+        if (!$ldapSearch = ldap_search($server, $this->baseDn, $this->filter)) {
             throw new \Exception("Ошибка поиска!");
         }
-        $res = ldap_get_entries($this->ldapConnect, $ldap_search);
+        if (!is_array($ldapSearch)) {
+            $ldapSearch = [$ldapSearch];
+        }
+        
+        /** @var array $ldapSearch */
+        foreach ($ldapSearch as $search) {           
+            $entry = ldap_first_entry($this->ldapConnect, $search);
+            if ($entry) {
+                do {
+                    $resultArray[] = ldap_get_attributes($this->ldapConnect, $entry);
+                } while ($entry = ldap_next_entry($this->ldapConnect, $entry));            
+            }
+        }
+        return $resultArray;
+    }
 
-        if (isset($res['count']) && $res['count']>0) {
-            $resultSearch = (is_array($res) && count($res) > 1) ? $res[0] : array();
-            return $resultSearch;
+    /**
+     * @return LdapResult[]|array
+     */
+    public function all()
+    {
+        $result = [];
+        foreach ($this->asArray() as $item) {
+            $result[] = new LdapResult($item);
+        }
+        return $result;
+    }
+
+    /**
+     * @return LdapResult|null
+     */
+    public function one()
+    {
+        if (is_array($arr = $this->asArray())) {
+            $item = array_shift($arr);
+            if ($item !== null) {
+                return new LdapResult($item);
+            }
         }
         return null;
     }
+
 
     /**
      * Get information from LDAP by username
@@ -140,8 +184,6 @@ class Ldap extends Component
         }
         return null;
     }
-    
-    
     
 
     /**
