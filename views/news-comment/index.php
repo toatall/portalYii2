@@ -8,7 +8,7 @@ use yii\helpers\Html;
 <ul class="media-list mt-4">            
     <?php foreach ($query as $model): ?>
     <li class="media mt-2">
-        <img src="/img/user-default.png" class="img-thumbnail rounded-circle mr-2" style="max-width: 7em;" />
+        <img src="<?= $model->modelUser->getPhotoProfile() ?>" class="img-thumbnail rounded mr-2" style="max-width: 7em;" />
         <div class="media-body">        
             <div class="card">
                 <div class="card-header">
@@ -23,7 +23,7 @@ use yii\helpers\Html;
                             ],
                         ]) ?>
                     </div>
-                    <h5><?= $model->modelUser->fio ?> (<?= $model->username ?>)</h5>
+                    <h5><?= $model->modelUser->fio ?> (@<?= $model->username ?>)</h5>
                     <small>
                         <?= $model->modelUser->organization_name ?>
                         <?php if ($model->modelUser->department): ?> (<?= $model->modelUser->department ?>) <br /><?php endif; ?>
