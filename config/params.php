@@ -15,6 +15,14 @@ return [
         'findInAD' => true,
         // использовать ntlm аутентификацию
         'useLdapAuthenticated' => true,
+               
+        // настройка профилей
+        'profile' => [
+            // каталог загрузки изображений пользователей (аватаров)
+            'upload' => '/public/upload/portal/user/profile/',
+            // изображение по умолчанию (аватар)
+            'defaultPhoto' => '/public/upload/portal/user/profile/user-default.png',
+        ],
     ],
 
     // конференции (вкс, собрания)

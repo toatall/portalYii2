@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$ldapParams = require __DIR__ . '/ldap.php';
 
 $config = [
     'id' => 'basic-console',
@@ -38,6 +39,7 @@ $config = [
             'datetimeFormat' => 'php:d.m.Y H:i:s',
             'timeFormat' => 'php:H:i:s',
         ],
+        'ldap' => $ldapParams,
     ],
     'params' => $params,
     /*
