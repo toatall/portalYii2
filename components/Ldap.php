@@ -173,6 +173,9 @@ class Ldap extends Component
         if (!$username) {
             throw new \Exception('Пользователь не указан!');
         }
+
+        return $this->filter('(sAMAccountName='.$username.')')->one();
+        /*
         if (!$ldap_search = ldap_search($this->ldapConnect, $this->baseDn, '(sAMAccountName='.$username.')')) {
             throw new \Exception("Пользователь {$username} не найден в {$this->baseDn}!");
         }
@@ -182,7 +185,7 @@ class Ldap extends Component
             $resultSearch = (is_array($res) && count($res) > 1) ? $res[0] : array();
             return $resultSearch;
         }
-        return null;
+        return null;*/
     }
     
 
