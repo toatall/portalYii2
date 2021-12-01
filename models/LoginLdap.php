@@ -111,30 +111,21 @@ class LoginLdap
     {
         /* @var $ldap \app\components\Ldap */
         $ldap = \Yii::$app->ldap;
+
+        /** @var \app\components\LdapResult $ldapData */
         $ldapData = $ldap->userInfo($user->username);
         
-        /*
-        $modelUserLdap = new UserLdap([
-            'id_user' => $user->id,
-            'fio' => $this->getString($ldapData, 'cn'),
-            'rank' => $this->getString($ldapData, 'title'),
-            'telephone' => $this->getString($ldapData, 'telephonenumber'),
-            'department' => $this->getString($ldapData, 'department'),
-            'company' => $this->getString($ldapData, 'company'),
-            'memberof' => implode(', ', $this->getGroups($ldapData, 'memberof')),
-            'date_update' => new Expression('getdate()'),
-        ]);
-        $modelUserLdap->save();
-        */
-        
-        $user->fio = $this->getString($ldapData, 'cn');
+        $user->fio = $ldapData->asText('cn');
         if ($user->default_organization == null) {
             $user->default_organization = $user->current_organization;
         }
-        $user->telephone = $this->getString($ldapData, 'telephonenumber');
-        $user->post = $this->getString($ldapData, 'title');
-        $user->department = $this->getString($ldapData, 'department');        
-        $user->memberof = implode(', ', $this->getGroups($ldapData, 'memberof'));        
+        $user->telephone = $ldapData->asText('telephonenumber');
+        $user->post = $ldapData->asText('title');
+        $user->department = $ldapData->asText('department');
+        if (is_array($members = $ldapData->asArray('memberof'))) {
+            $user->memberof = implode(', ', $members); 
+        }
+               
     }
     
     /**
