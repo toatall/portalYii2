@@ -105,10 +105,7 @@ $config = [
                 
                 // для конкурса неделя добрых дел
                 'dobro' => 'events/dobro',               
-                'dobro/<action:\w+>' => 'events/dobro/<action>',     
-                
-                // просмотр профиля пользователя
-                '@<login:\d{4}.+>' => 'user/view-profile',
+                'dobro/<action:\w+>' => 'events/dobro/<action>',               
             ],
         ],
         

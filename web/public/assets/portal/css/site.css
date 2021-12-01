@@ -151,17 +151,6 @@ a.desc:after {
 }
 
 
-a.author {
-    color: #5D7BBA;
-    text-decoration: none;
-    border-bottom: 1px #5D7BBA dashed;
-}
-
-a.author:hover {
-    color: #3B5998;
-    /*border-bottom: 1px #3B5998 solid;*/
-
-}
 .popover-max-width {
     max-width: none;        
 }
