@@ -4,6 +4,7 @@
 
 use yii\helpers\Url;
 use app\helpers\DateHelper;
+use yii\bootstrap4\Html;
 
 $url = Url::to(['news/view', 'id'=>$model->id]);
 
@@ -39,11 +40,11 @@ $url = Url::to(['news/view', 'id'=>$model->id]);
                         </div>
                         <p class="lead"><?= $model->message1 ?></p>                    
                         <hr />
-                        <div style="color:#666;">
+                        <div style="color:#444;">
                             <i class="fa fa-building"></i> <?= $model->organization->name ?> 
                             <?= !empty($model->from_department) ? '(' . $model->from_department . ')' : '' ?><br />
-                            <i class="fa fa-clock"></i> <?= Yii::$app->formatter->asDatetime($model->date_edit) ?>
-                            <i class="fa fa-user-edit"></i> <?= $model->author ?>
+                            <i class="fa fa-clock"></i> <?= Yii::$app->formatter->asDatetime($model->date_edit) ?><br />                                             
+                            <?= Html::a('<i class="fas fa-user-alt"></i> ' . $model->modelAuthor->fio, '/@' . $model->author, ['class' => 'author mv-link']) ?>
                         </div>
                         <div class="clearfix"></div>
                     </div>                 
@@ -52,10 +53,3 @@ $url = Url::to(['news/view', 'id'=>$model->id]);
         </div>
     </div>   
 </div>
-<?php
-$this->registerJs(<<<JS
-    //$('[data-toggle="tooltip"]').tooltip(); 
-    //modalViewer.bindLinks();         
-JS
-);
-?>

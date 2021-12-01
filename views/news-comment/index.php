@@ -8,7 +8,9 @@ use yii\helpers\Html;
 <ul class="media-list mt-4">            
     <?php foreach ($query as $model): ?>
     <li class="media mt-2">
-        <img src="<?= $model->modelUser->getPhotoProfile() ?>" class="img-thumbnail rounded mr-2" style="max-width: 7em;" />
+        <a href="/@<?= $model->username ?>" target="_blank">
+            <img src="<?= $model->modelUser->getPhotoProfile() ?>" class="img-thumbnail rounded mr-2" style="max-width: 10em;" />
+        </a>
         <div class="media-body">        
             <div class="card">
                 <div class="card-header">
@@ -23,7 +25,9 @@ use yii\helpers\Html;
                             ],
                         ]) ?>
                     </div>
-                    <h5><?= $model->modelUser->fio ?> (@<?= $model->username ?>)</h5>
+                    <h5>
+                        <?= Html::a($model->modelUser->fio . ' (@' . $model->username . ')', '/@' . $model->username, ['class' => 'author', 'target' => '_blank']) ?>
+                    </h5>
                     <small>
                         <?= $model->modelUser->organization_name ?>
                         <?php if ($model->modelUser->department): ?> (<?= $model->modelUser->department ?>) <br /><?php endif; ?>

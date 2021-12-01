@@ -12,6 +12,7 @@ use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\helpers\FileHelper;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 class UserController extends \yii\web\Controller
@@ -75,6 +76,27 @@ class UserController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * Показать профиль пользователя
+     * @param string $login учетная запись пользователя
+     * @return string
+     */
+    public function actionViewProfile($login)
+    {
+        $model = $this->findUserModel($login);
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'title' => $model->fio,
+                'content' => $this->renderAjax('view-profile', [
+                    'model' => $model,
+                ]),
+            ];
+        }
+        return $this->render('view-profile', [
+            'model' => $model,
+        ]);
+    }
 
     /**
      * Поиск User текущего пользователя
@@ -88,6 +110,14 @@ class UserController extends \yii\web\Controller
         }
         return $model;
     }    
+
+    private function findUserModel($username)
+    {       
+        if (($model = User::find()->where(['username' => $username])->one()) === null) {
+            throw new NotFoundHttpException('Page not found!');
+        }
+        return $model;
+    }
 
     /**
      * Процедура загрузка фотографии

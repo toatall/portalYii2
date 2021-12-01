@@ -11,6 +11,7 @@ use yii\bootstrap4\Breadcrumbs;
 use app\models\menu\MenuBuilder;
 use app\assets\ModalViewerAsset;
 use app\assets\AppAsset;
+use app\modules\test\assets\TestAsset;
 use app\widgets\AlertConferenceApprove;
 use app\widgets\DatePickerCalendarAis3;
 use yii\helpers\Url;
@@ -18,6 +19,7 @@ use yii\widgets\Menu;
 
 AppAsset::register($this);
 ModalViewerAsset::register($this);
+TestAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>
@@ -61,27 +63,30 @@ ModalViewerAsset::register($this);
     
     $menuItemsRight = [];
     if (Yii::$app->user->isGuest) {       
-        $menuItemsRight[] = ['label' => 'Вход', 'url' => ['/site/login']];
-    } else {
-        $menuItemsRight[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post', ['class'=>'form-inline'])
-            . Html::submitButton(
-                '<i class="fas fa-logout"></i> Выход (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+        $menuItemsRight[] = ['label' => '<i class="fas fa-sign-in-alt"></i> Вход', 'url' => ['/site/login']];
+    } else {              
+        $menuItemsRight = [
+            [
+                'label' => '<i class="far fa-user"></i> ' . Yii::$app->user->identity->fio, 
+                
+                'items' => [                    
+                    ['label' => '<i class="far fa-user-circle"></i> Профиль', 'url'=> ['/user/profile']],                    
+                    ['label' => '<i class="fas fa-sign-out-alt"></i> Выход', 'url'=> ['/site/logout'], 'linkOptions'=>['data-method'=>'post']],        
+                ],
+                'dropdownOptions' => ['class' => 'dropdown-menu dropdown-menu-right'],
+            ],
+        ];
     }
 
     echo Nav::widget([
         'options' => [
-            'class' => 'mr-auto text-dark',            
+            'class' => 'mr-auto',            
         ],
         'items' => $menuItems, 
     ]);
 
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav text-dark'],
+    echo Nav::widget([         
+        'encodeLabels' => false,
         'items' => $menuItemsRight,
     ]);
     
