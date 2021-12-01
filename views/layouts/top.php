@@ -1,21 +1,50 @@
 <?php
 /** @var \yii\web\View $this */
 
-use yii\helpers\Url;
 use app\assets\FlipAsset;
-use app\helpers\DateHelper;
 use app\assets\newyear\GerljandaAsset;
 use app\assets\fancybox\FancyboxAsset;
 
 FancyboxAsset::register($this);
 
-$flagNewYear = (date('m') == 12);
+$flagNewYear = false;//(date('m') == 12);
 
 if ($flagNewYear) {
     FlipAsset::register($this);
     GerljandaAsset::register($this);
 }
+
+$logoTopPath = '/public/assets/portal/img/';
+$logoTopImg = 'top_default.png';
+$month = date('m');
+switch ($month) {
+    case 12:
+    case 1:
+    case 2:
+        $logoTopImg = 'top_winter.png';
+        break;
+    case 3:
+    case 4:
+    case 5:
+        $logoTopImg = 'top_spring.png';
+        break;
+    case 6:
+    case 7:
+    case 8:
+        $logoTopImg = 'top_summer.png';
+        break;
+    case 9:
+    case 10:
+    case 11:
+        $logoTopImg = 'top_fall.png';
+        break;
+    default:
+        $logoTopImg = 'top_default.png';
+}
+
+
 ?>
+<?php /*
 <div id="logo-background">
     <div id="logo-image"></div>    
     <!--div style="top: 25px; right: 20px; position: absolute;">
@@ -63,11 +92,28 @@ if ($flagNewYear) {
     </div>
     <?php endif; ?>
 
+  
 
     <?= $this->render('top_pay_taxes') ?>
 
     
 </div>
+*/ ?>
+
+<div class="container-fluid">
+    <div class="row justify-content-between" id="logo-background">
+        
+        <div class="col-7 text-left" id="logo-image" style="background-image: url('<?= $logoTopPath . $logoTopImg ?>');"></div>
+        
+        <div class="col text-right">
+            <?= $this->render('top_pay_taxes') ?>
+            <?= $this->render('top_calendar') ?>
+        </div>
+
+    </div>
+    
+</div>
+
 <?php
 $this->registerCss(<<<CSS
 /*
