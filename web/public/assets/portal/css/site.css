@@ -127,21 +127,18 @@ a.desc:after {
     PORTAL CSS 
 ------------------- */
 
-#logo-background {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 200px;
+#logo-background {    
+    height: 13rem;
     background: url(../img/top_background.png) repeat-x;    
 }
 
 #logo-image {
-    background: url(../img/top_right.png) no-repeat;
+    /* background: url(../img/top_right.png) no-repeat; */
+    background-repeat: no-repeat;
     margin: 0;
     padding: 0;
     float: left;
-    height: 200px;
-    width:970px;
+    height: 13rem;   
 }
 
 .modal-dialog-super-large {
@@ -153,6 +150,7 @@ a.desc:after {
     font-weight: bold;
 }
 
+
 a.author {
     color: #5D7BBA;
     text-decoration: none;
@@ -163,4 +161,12 @@ a.author:hover {
     color: #3B5998;
     /*border-bottom: 1px #3B5998 solid;*/
 
+}
+.popover-max-width {
+    max-width: none;        
+}
+.popover-header-blue {
+    background-color: #afbfd8;
+    font-size: 0.8rem;
+    font-weight: bolder;
 }
