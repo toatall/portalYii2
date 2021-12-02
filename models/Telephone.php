@@ -118,7 +118,7 @@ class Telephone extends \yii\db\ActiveRecord
             ->where(['t.id_tree'=>$idTree])
             ->orderBy('t.id_organization asc');
 
-        if (!Yii::$app->user->can('admin')) {
+        if (Yii::$app->user->can('admin')) {
 
             $idUser = Yii::$app->user->id;
 
@@ -131,7 +131,7 @@ class Telephone extends \yii\db\ActiveRecord
 
             // подключение привязанных к группам и пользователям организаций
             $query->leftJoin('{{%access_organization_group}} access_organization_group', 'access_organization_group.id_access_group=access_group.id')
-                  ->leftJoin('{{%access_organization_user}} access_organization_user', 'access_organization_user.id_access_user=access_user.id');
+                  ->leftJoin('{{%access_organization_user}} access_organization_user', 'access_organization_user.id_access_user=access_user.id_user');
 
             $query->andWhere('(group_user.id_user=:user1 and access_organization_group.id_organization=t.id_organization) or 
                 (access_user.id_user=:user2 and access_organization_user.id_organization=t.id_organization)
@@ -170,7 +170,7 @@ class Telephone extends \yii\db\ActiveRecord
 
             // подключение привязанных к группам и пользователям организаций
             $query->leftJoin('{{%access_organization_group}} access_organization_group', 'access_organization_group.id_access_group=access_group.id')
-                  ->leftJoin('{{%access_organization_user}} access_organization_user', 'access_organization_user.id_access_user=access_user.id');
+                  ->leftJoin('{{%access_organization_user}} access_organization_user', 'access_organization_user.id_access_user=access_user.id_user');
 
             $query->andWhere('(group_user.id_user=:user1 and access_organization_group.id_organization=t.code) or 
                 (access_user.id_user=:user2 and access_organization_user.id_organization=t.code)
