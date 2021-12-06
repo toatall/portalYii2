@@ -52,6 +52,7 @@ $config = [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
+            'defaultDuration' => 60, // 1 minute
         ],
         'user' => [
             'class' => 'app\components\UserAuthentication',

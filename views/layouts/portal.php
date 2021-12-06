@@ -37,10 +37,6 @@ TestAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 <div id="div-loader" class="loader loader-default" data-halfs></div>
-<?php
-    // подключаем 30-летие
-    //echo $this->render('top_thirty');
-?>
 
 <div class="wrap black-wall">
     <?= $this->render('top') ?>
@@ -67,7 +63,7 @@ TestAsset::register($this);
     } else {              
         $menuItemsRight = [
             [
-                'label' => '<i class="far fa-user"></i> ' . Yii::$app->user->identity->fio, 
+                'label' => '<i class="far fa-user"></i> ' . Yii::$app->user->identity->fio,
                 
                 'items' => [                    
                     ['label' => '<i class="far fa-user-circle"></i> Профиль', 'url'=> ['/user/profile']],                    
@@ -105,13 +101,13 @@ TestAsset::register($this);
 
         <div class="row mt-2">
             <div class="col-2"> 
-
+                
                 <?= Menu::widget([
                     'items' => MenuBuilder::buildLeft(['class' => 'dropdown-submenu']),  
                     'encodeLabels' => false,
                     'options' => ['class' => 'dropdown-menu dropdown-menu-main dropdown-menu-wrap'],
                     'submenuTemplate' => "\n<ul class=\"dropdown-menu\">\n{items}\n</ul>\n",
-                ]) ?>               
+                ]) ?>
 
                 <?php                       
                     foreach (MenuBuilder::buildLeftAdd() as $menuItem) {
@@ -130,8 +126,6 @@ TestAsset::register($this);
                      }
                      ?>
                 </ul>
-                
-                <?= ''//DatePickerCalendarAis3::widget() ?>
 
             </div>
             <div class="col-10">   
@@ -174,8 +168,7 @@ TestAsset::register($this);
             </div>
             <div class="col-4">
                 <h5><strong>Внутренние сервисы Управления</strong></h5>
-                <ul class="list-unstyled">
-                    <li><?= ''//Html::a('Рекомендуемые браузеры', array('site/browsers')); ?></li>
+                <ul class="list-unstyled">                    
                     <li><a href="http://u8600-app045:81" target="_blank">Реестр невзысканных сумм по налоговым проверкам (ВНП, КНП)</a></li>
                     <li><a href="http://u8600-app045:82" target="_blank">Реестр прав доступа внешних ресурсов</a></li>
                     <li><a href="http://u8600-app045:83" target="_blank">Электронный архив</a></li>

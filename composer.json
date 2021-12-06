@@ -31,7 +31,8 @@
       "ext-mbstring": "*",
         "kosoukhov/ldap": "^1.0",
         "yiisoft/yii2-httpclient": "*",
-        "yiisoft/yii2-bootstrap4": "^2.0"
+        "yiisoft/yii2-bootstrap4": "^2.0",
+        "kartik-v/yii2-editors": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
