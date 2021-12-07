@@ -3,7 +3,7 @@
 use app\models\calendar\Calendar;
 use kartik\date\DatePicker;
 use yii\bootstrap4\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
