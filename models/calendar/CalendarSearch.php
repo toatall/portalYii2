@@ -10,6 +10,12 @@ use yii\data\ActiveDataProvider;
  */
 class CalendarSearch extends Calendar
 {
+
+    /**
+     * @var string
+     */
+    public $searchMonth;
+
     /**
      * {@inheritdoc}
      */
@@ -17,9 +23,9 @@ class CalendarSearch extends Calendar
     {
         return [
             [['id'], 'integer'],
-            [['date', 'color', 'code_org', 'date_create', 'date_delete', 'author', 'log_change', 'is_global'], 'safe'],
+            [['date', 'color', 'code_org', 'date_create', 'date_delete', 'author', 'log_change', 'is_global', 'searchMonth'], 'safe'],
         ];
-    }
+    }    
 
     /**
      * {@inheritdoc}
@@ -48,11 +54,18 @@ class CalendarSearch extends Calendar
         ]);
 
         $this->load($params);
-
+       
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+
+        if ($this->searchMonth) {
+            $query->andWhere('MONTH(date) = MONTH(:date1) AND YEAR(date) = YEAR(:date2)', [
+                ':date1' => $this->searchMonth,
+                ':date2' => $this->searchMonth,
+            ]);
         }
 
         // grid filtering conditions

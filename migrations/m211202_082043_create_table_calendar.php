@@ -27,10 +27,18 @@ class m211202_082043_create_table_calendar extends Migration
         $this->addForeignKey('fk__calendar__organization', '{{%calendar}}', 'code_org', '{{%organization}}', 'code');
         $this->addForeignKey('fk__calendar__user', '{{%calendar}}', 'author', '{{%user}}', 'username');
 
+        $this->createTable('{{%calendar_types}}', [
+            'id' => $this->primaryKey(),
+            'type_text' => $this->string(50)->notNull()->unique(),
+            'date_create' => $this->dateTime()->notNull(),
+            'date_update' => $this->dateTime()->notNull(),
+            'author' => $this->string(250)->notNull(),
+        ]);        
 
         $this->createTable('{{%calendar_data}}', [
             'id' => $this->primaryKey(),
             'id_calendar' => $this->integer()->notNull(),
+            'type_text' => $this->string(50)->notNull(),
             'color' => $this->string(50),
             'description' => $this->text()->notNull(),
             'is_global' => $this->boolean()->notNull(), 
@@ -39,7 +47,8 @@ class m211202_082043_create_table_calendar extends Migration
             'date_update' => $this->dateTime()->notNull(),
             'author' => $this->string(250)->notNull(),
         ]);        
-        $this->addForeignKey('fk__calendar__calendar_data', '{{%calendar_data}}', 'id_calendar', '{{%calendar}}', 'id');
+        $this->addForeignKey('fk__calendar__calendar_data', '{{%calendar_data}}', 'id_calendar', '{{%calendar}}', 'id');        
+        
     }
 
     /**
@@ -49,6 +58,8 @@ class m211202_082043_create_table_calendar extends Migration
     {
         $this->dropForeignKey('fk__calendar__calendar_data', '{{%calendar_data}}');
         $this->dropTable('{{%calendar_data}}');
+
+        $this->dropTable('{{%calendar_types}}');
 
         $this->dropForeignKey('fk__calendar__organization', '{{%calendar}}');
         $this->dropForeignKey('fk__calendar__user', '{{%calendar}}');

@@ -51,6 +51,9 @@ class CalendarController extends Controller
     {
         $searchModel = new CalendarSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if (empty($searchModel->searchMonth)) {            
+            $searchModel->searchMonth = date('01.m.Y');
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,

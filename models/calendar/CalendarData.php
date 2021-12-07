@@ -6,6 +6,8 @@ use app\behaviors\AuthorBehavior;
 use app\behaviors\DatetimeBehavior;
 use app\models\User;
 use Yii;
+use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%calendar_data}}".
@@ -15,6 +17,7 @@ use Yii;
  * @property string|null $color
  * @property string $description
  * @property boolean $is_global
+ * @property string $type_text
  * @property int $sort
  * @property string $date_create
  * @property string $author
@@ -53,11 +56,11 @@ class CalendarData extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_calendar', 'description'], 'required'],
+            [['id_calendar', 'description', 'type_text'], 'required'],
             [['id_calendar', 'sort'], 'integer'],
             [['description'], 'string'],
             [['date_create'], 'safe'],
-            [['color'], 'string', 'max' => 50],
+            [['color', 'type_text'], 'string', 'max' => 50],
             [['author'], 'string', 'max' => 250],
             [['is_global'], 'boolean'],
             [['is_global', 'sort'], 'default', 'value'=>0],
@@ -78,6 +81,7 @@ class CalendarData extends \yii\db\ActiveRecord
             'date_create' => 'Дата создания',
             'author' => 'Автор',
             'is_global' => 'Глобальная запись (для всех организаций)',
+            'type_text' => 'Тип мероприятия',
         ];
     }
 
@@ -97,5 +101,16 @@ class CalendarData extends \yii\db\ActiveRecord
     public function getUserModel()
     {
         return $this->hasOne(User::class, ['username' => 'author']);
+    }
+
+    /**
+     * @return array
+     */
+    public function dropDownTypeText()
+    {
+        $query = (new Query())
+            ->from('{{%calendar_types}}')
+            ->all();
+        return ArrayHelper::map($query, 'type_text', 'type_text');
     }
 }

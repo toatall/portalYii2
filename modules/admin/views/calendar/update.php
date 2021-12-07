@@ -8,7 +8,7 @@ use yii\bootstrap4\Html;
 $this->title = 'Изменение календаря: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Календарь', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Изменение';
 ?>
 <div class="calendar-update">
 

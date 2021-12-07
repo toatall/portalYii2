@@ -4,6 +4,7 @@ use app\models\calendar\Calendar;
 use kartik\date\DatePicker;
 use yii\bootstrap4\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
 /** @var app\models\CalendarResourceSearch $searchModel */
@@ -14,7 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="calendar-index">
 
-    <p class="display-4 border-bottom"><?= Html::encode($this->title) ?></h1>    
+    <p class="display-4 border-bottom"><?= Html::encode($this->title) ?></h1>
+
+
+    <?php Pjax::begin(['timeout'=>false]) ?>
+
+    <?= $this->render('_search', ['model' => $searchModel]) ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -53,6 +59,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+
+    <?php Pjax::end() ?>
 
 
 </div>

@@ -35,7 +35,7 @@ use yii\web\JsExpression;
         'options' => [
             'autocomplete' => 'off',
         ]
-    ]) ?>
+    ]) ?>    
 
 <?php 
 $result = <<< JS

@@ -7,7 +7,7 @@ use yii\bootstrap4\ActiveForm;
 use yii\web\JsExpression;
 
 /** @var yii\web\View $this */
-/** @var app\models\Calendar $model */
+/** @var app\models\calendar\CalendarData $model */
 /** @var yii\widgets\ActiveForm $form */
 
 ?>
@@ -20,6 +20,10 @@ use yii\web\JsExpression;
 
     <?= $form->errorSummary($model) ?>
     
+    <?= $form->field($model, 'type_text')->widget(Select2::class, [
+        'data' => $model->dropDownTypeText(),
+    ]) ?>
+
     <?= $form->field($model, 'description') ?>    
     
 
@@ -42,7 +46,7 @@ JS; ?>
     <?= $form->field($model, 'is_global')->checkbox([
         'template' => '<div class="custom-control custom-switch">{input} {label}</div><div>{error}</div>',
     ]) ?>
-    <?php endif; ?>
+    <?php endif; ?>    
 
     <div class="border-top">
         <div class="btn-group  pt-1">

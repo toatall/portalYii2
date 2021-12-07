@@ -162,9 +162,9 @@ a.author:hover {
     /*border-bottom: 1px #3B5998 solid;*/
 
 }
-.popover-max-width {
-    max-width: none;        
-}
+/* .popover-max-width {
+    max-width: auto;        
+} */
 .popover-header-blue {
     background-color: #afbfd8;
     font-size: 0.8rem;
