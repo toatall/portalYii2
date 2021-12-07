@@ -2,6 +2,7 @@
 
 use app\models\calendar\Calendar;
 use kartik\date\DatePicker;
+use kartik\grid\ActionColumn;
 use yii\bootstrap4\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
@@ -53,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
             ],
             [
-                'class' => 'yii\grid\ActionColumn',
+                'class' => ActionColumn::class,
                 'header' => Html::a('<i class="fas fa-plus-circle"></i> Добавить', ['/admin/calendar/create'], ['class' => 'btn btn-primary']),
                 'template' => '{update} {delete}',
             ],
