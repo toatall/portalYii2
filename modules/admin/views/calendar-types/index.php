@@ -1,6 +1,6 @@
 <?php
 use yii\bootstrap4\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -9,7 +9,7 @@ $this->title = 'Типы мероприятий';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="calendar-index">
-
+    
     <p class="display-4 border-bottom"><?= Html::encode($this->title) ?></h1>
 
     <?= GridView::widget([
@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => Html::a('<i class="fas fa-plus-circle"></i> Добавить', ['/admin/calendar-types/create'], ['class' => 'btn btn-primary']),
-                'template' => '{update} {delete}',
+                'template' => '{update} {delete}',                            
             ],
         ],
     ]); ?>

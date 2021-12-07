@@ -4,6 +4,7 @@ use app\models\calendar\Calendar;
 use app\models\calendar\CalendarData;
 use yii\grid\GridView;
 use yii\bootstrap4\Html;
+use yii\helpers\StringHelper;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 
@@ -72,7 +73,11 @@ JS); ?>
                 [
                     'attribute' => 'description',
                     'value' => function(CalendarData $model) {
-                        return Html::tag('span', $model->description, ['class' => 'badge badge-' . $model->color, 'style' => 'font-size: 1rem;']);
+                        return Html::tag('span', StringHelper::truncateWords($model->description, 6), [
+                            'class' => 'badge badge-' . $model->color, 
+                            'style' => 'font-size: 1rem;',
+                            'title' => $model->description,
+                        ]);
                     },
                     'format' => 'raw',
                 ],  

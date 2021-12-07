@@ -3,6 +3,7 @@ namespace app\widgets;
 
 use Yii;
 use kartik\date\DatePicker;
+use yii\bootstrap4\Html;
 use yii\caching\DbQueryDependency;
 use yii\db\Expression;
 use yii\db\Query;
@@ -59,7 +60,8 @@ class DatePickerCalendarAis3 extends \yii\bootstrap\Widget
         foreach ($data as $item) {
             
             $date = Yii::$app->formatter->asDate($item['date']);
-            $string = "<span class='badge calendar-badge-{$item['descr_color']} f-size-08 text-white white-space-normal text-left'>{$item['description']}</span>";
+            $description = Html::encode($item['description']);
+            $string = "<span class='badge calendar-badge-{$item['descr_color']} f-size-08 text-white white-space-normal text-left'>{$description}</span>";
             $typeText = $item['type_text'];
 
             if (isset($result[$date])) {
@@ -246,8 +248,11 @@ $js = <<<JS
             var vContent = '';
 
             for(k in jsonData[dt]['content']) {
-                vContent += "<div class='card mb-2'><div class='card-header p-1 text-center'><p class='calendar-card-header'>" 
-                    + k + "</p></div><div class='card-body p-1'>" + jsonData[dt]['content'][k] + "</div></div>";
+                vContent += "<div class='card mb-2'>";
+                if (k != '-') {
+                    vContent += "<div class='card-header p-1 text-center'><p class='calendar-card-header'>" + k + "</p></div>";
+                }
+                vContent += "<div class='card-body p-1'>" + jsonData[dt]['content'][k] + "</div></div>";
             }
 
             return {
