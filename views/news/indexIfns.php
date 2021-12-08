@@ -15,8 +15,16 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="news-index">
-
-    <?php Pjax::begin(['id'=>'ajax-news-ifns', 'timeout'=>false, 'enablePushState'=>false, 'scrollTo'=>0]); ?>     
+   
+    <?php Pjax::begin([
+        'id'=>'ajax-news-ifns',
+        'timeout'=>false,
+        'enablePushState'=>false,
+        'options'=>[
+            'data-pjax'=>true,
+        ],
+        'scrollTo'=>0,
+    ]); ?>
 
     <div class="card">        
         <div class="card-body">                        

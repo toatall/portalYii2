@@ -234,14 +234,14 @@ class NewsSearch extends News
      */
     public function searchIfns($params)
     {
+        $this->load($params);
+
         $query = $this->basePublicSearch();
 
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-        ]);
-
-        $this->load($params);
+        ]);        
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
