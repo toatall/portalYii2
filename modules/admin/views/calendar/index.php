@@ -5,6 +5,8 @@ use kartik\date\DatePicker;
 use kartik\grid\ActionColumn;
 use yii\bootstrap4\Html;
 use kartik\grid\GridView;
+use yii\bootstrap4\ButtonDropdown;
+use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -37,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'date',
                 ]),
                 'value' => function(Calendar $model) {
-                    return Html::tag('span', $model->date, ['class'=>'badge badge-' . $model->color, 'style'=>'font-size:1.3rem;']);                    
+                    return Html::tag('span', $model->date, ['class'=>'badge badge-' . $model->color, 'style'=>'font-size:1rem;']);                    
                 },
                 'format' => 'raw',
             ],       
@@ -46,16 +48,37 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => false,
                 'format' => 'datetime',
             ],
-            'userModel.fio:text:Автор',            
+            //'userModel.fio:text:Автор',            
             [
+                'label' => 'События',
                 'value' => function(Calendar $model) {
-                    return Html::a('<i class="fas fa-star text-white"></i> События', ['/admin/calendar/view', 'id' => $model->id], ['class' => 'btn btn-warning']);                    
+                    //return $model->getDataByText();
+                    return Html::ul($model->getDataByText(), ['tag' => 'ol', 'encode' => false]);
                 },
-                'format' => 'raw',
+                'format' => 'html',
             ],
             [
+                'value' => function(Calendar $model) {
+                    return Html::a('<i class="fas fa-table text-white"></i> Подробнее', ['/admin/calendar/view', 'id' => $model->id], ['class' => 'btn btn-secondary btn-sm']);                    
+                },
+                'format' => 'raw',
+            ],            
+            [
                 'class' => ActionColumn::class,
-                'header' => Html::a('<i class="fas fa-plus-circle"></i> Добавить', ['/admin/calendar/create'], ['class' => 'btn btn-primary']),
+                //'header' => Html::a('<i class="fas fa-plus-circle"></i> Добавить', ['/admin/calendar/create'], ['class' => 'btn btn-primary']),
+                'header' => ButtonDropdown::widget([
+                    'label' => '<i class="fas fa-plus-circle"></i> Добавить',
+                    'encodeLabel' => false,
+                    'dropdown' => [
+                        'items' => [
+                            ['label' => 'Добавить одну запись', 'url' => ['/admin/calendar/create']],
+                            ['label' => 'Массовое добавление', 'url' => ['/admin/calendar/create-multi']],
+                        ],
+                    ],
+                    'buttonOptions' => [
+                        'class' => 'btn btn-primary',
+                    ],
+                ]),
                 'template' => '{update} {delete}',
             ],
         ],

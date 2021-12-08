@@ -50,10 +50,8 @@ class CalendarController extends Controller
     public function actionIndex()
     {
         $searchModel = new CalendarSearch();
+        $searchModel->searchMonth = date('01.m.Y');
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        if (empty($searchModel->searchMonth)) {            
-            $searchModel->searchMonth = date('01.m.Y');
-        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -86,6 +84,7 @@ class CalendarController extends Controller
     public function actionCreate()
     {
         $model = new Calendar();
+        $model->scenario = 'create';
         $model->code_org = Yii::$app->user->identity->current_organization;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -94,6 +93,56 @@ class CalendarController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+        ]);
+    }
+
+    /**
+     * Массовое создание событий
+     * @return mixed
+     */
+    public function actionCreateMulti()
+    {
+        $model = new Calendar();
+        $model->scenario = 'create-multi';
+        $model->code_org = Yii::$app->user->identity->current_organization;
+
+        $modelData = new CalendarData();
+        $modelData->id_calendar = 9999;
+        
+        if ($model->load(Yii::$app->request->post()) && $modelData->load(Yii::$app->request->post())) {
+                        
+            if ($model->validate() && $modelData->validate(['description', 'type_text'])) {
+                
+                $dates = explode('/', $model->dates);
+                // сохранение по каждой дате
+                foreach ($dates as $date) {
+                    $date = trim($date);
+                    // сохранение даты
+                    $modelCalendar = $this->findByDate($date);
+                    if ($modelCalendar === null) {
+                        $modelCalendar = new Calendar([
+                            'date' => $date,
+                            'code_org' => Yii::$app->user->identity->current_organization,                            
+                        ]);
+                        $modelCalendar->save();
+                    }
+                    //  сохранение события                   
+                    (new CalendarData([
+                        'id_calendar' => $modelCalendar->id,
+                        'type_text' => $modelData->type_text,
+                        'color' => $modelData->color,
+                        'description' => $modelData->description,
+                        'is_global' => $modelData->is_global,
+                        'sort' => $modelData->sort,
+                    ]))->save();                    
+                }
+                return $this->redirect(['index']);
+            }
+        }
+
+        return $this->render('create-multi', [
+            'model' => $model,
+            'modelData' => $modelData,
         ]);
     }
 
@@ -130,7 +179,6 @@ class CalendarController extends Controller
 
         return $this->redirect(['index']);
     }
-
 
     /**
      * Добавление событие в дату календаря
@@ -249,6 +297,20 @@ class CalendarController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * Поиск модели по дата
+     * @param string $date
+     * @return Calendar|null
+     */
+    private function findByDate($date)
+    {
+        return Calendar::find()->where([
+                'date' => $date,
+                'code_org' => Yii::$app->user->identity->current_organization,
+            ])
+            ->one();
     }
 
     /**

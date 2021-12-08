@@ -9,6 +9,7 @@ use app\models\Organization;
 use app\models\User;
 use Yii;
 use yii\db\ActiveQuery;
+use yii\helpers\StringHelper;
 
 /**
  * This is the model class for table "{{%calendar}}".
@@ -24,10 +25,18 @@ use yii\db\ActiveQuery;
  * @property string|null $log_change
  * 
  * @property Organization $organizationModel
+ * @property CalendarData $data
  * @property User $userModel
  */
 class Calendar extends \yii\db\ActiveRecord
 {
+
+    /**
+     * Список дат
+     * @var string
+     */
+    public $dates;
+
     /**
      * {@inheritdoc}
      */
@@ -67,7 +76,16 @@ class Calendar extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date'], 'required'],
+            [['date'], 'required', 'on' => 'create'],
+            [['dates'], 'required', 'on' => 'create-multi'],
+            [['dates'], function($attribute, $params) {                
+                $dates = explode('/', trim($this->$attribute));
+                foreach ($dates as $date) {
+                    if (date('d.m.Y', strtotime($date)) != $date) {
+                        $this->addError('dates', "Дата `{$date}` введена некорректно!");
+                    }
+                }                
+            }],
             [['date', 'date_create', 'date_delete'], 'safe'],
             [['log_change'], 'string'],
             [['color'], 'string', 'max' => 50],
@@ -85,13 +103,14 @@ class Calendar extends \yii\db\ActiveRecord
         return [
             'id' => 'ИД',
             'date' => 'Дата',
-            'color' => 'Фон',
+            'dates' => 'Даты',
+            'color' => 'Цвет фона даты в календаре',
             'code_org' => 'Организация',
             'date_create' => 'Дата создания',
             'date_delete' => 'Дата удаления',
             'author' => 'Автор',
             'log_change' => 'Журнал изменений',            
-        ];
+        ];        
     }
 
     /**
@@ -144,6 +163,19 @@ class Calendar extends \yii\db\ActiveRecord
     {
         $query = $this->hasMany(CalendarData::class, ['id_calendar' => 'id']);
         return $query;
+    }
+
+    public function getDataByText(string $separator = '<br />')
+    {
+        $result = [];
+        foreach ($this->getData()->all() as $item) {
+            $result[] = '<span class="text-' . $item['color'] . '">' 
+                . StringHelper::truncateWords($item['description'], 5) 
+                . ($item['is_global'] ? ' <span class="badge badge-success">глобальная</span>' : '')
+                . '</span>';
+        }        
+        //return implode($separator, $result);
+        return $result;
     }
     
     /**

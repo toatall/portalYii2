@@ -76,14 +76,9 @@ class CalendarSearch extends Calendar
             'date_delete' => $this->date_delete,            
         ]);
 
-        // админ видит записи всех организаций
-        if (\Yii::$app->user->can('admin')) {
-            $query->andFilterWhere(['like', 'code_org', $this->code_org]);
-        }
-        // остальные пользователи видят только записи по своей организации
-        else {
-            $query->andWhere(['code_org' => \Yii::$app->user->identity->current_organization]);
-        }
+        
+        // пользователи видят только записи по своей организации        
+        $query->andWhere(['code_org' => \Yii::$app->user->identity->current_organization]);
         
         $query->andFilterWhere(['like', 'color', $this->color])
             ->andFilterWhere(['like', 'author', $this->author])

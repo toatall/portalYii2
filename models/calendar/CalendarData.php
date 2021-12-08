@@ -76,7 +76,7 @@ class CalendarData extends \yii\db\ActiveRecord
         return [
             'id' => 'ИД',
             'id_calendar' => 'ИД календаря',
-            'color' => 'Цвет',
+            'color' => 'Цвет фона описания',
             'description' => 'Описание',
             'date_create' => 'Дата создания',
             'author' => 'Автор',
