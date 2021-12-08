@@ -46,6 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'autoclose' => true,
                         ],
                         'options' => [
+                            'id' => 'datepicker_search_date1_ufns',
                             'placeholder'=>'Поиск по дате от...',
                         ],
                     ])->label(false) ?>
@@ -58,6 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'autoclose' => true,
                         ],
                         'options' => [
+                            'id' => 'datepicker_search_date2_ufns',
                             'placeholder'=>'Поиск по дате до...',
                         ],
                     ])->label(false) ?>

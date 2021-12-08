@@ -47,6 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'options' => [
                             'placeholder'=>'Поиск по дате от...',
+                            'id' => 'datepicker_search_date1_ifns',
                         ],
                     ])->label(false) ?>
                 </div>
@@ -60,6 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'options' => [
                             'placeholder'=>'Поиск по дате до...',
+                            'id' => 'datepicker_search_date2_ifns',
                         ],
                     ])->label(false) ?>
                 </div>
