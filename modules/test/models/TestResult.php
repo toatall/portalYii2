@@ -8,6 +8,7 @@ use app\models\Organization;
 use app\models\User;
 use DateTime;
 use Exception;
+use yii\db\Expression;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -161,16 +162,19 @@ class TestResult extends \yii\db\ActiveRecord
         if ($modelTest === null) {
             throw new NotFoundHttpException();
         }
-
-        /** @var TestQuestion[] $modelQuestions */
+        
         $modelQuestions = TestQuestion::find()->where([
             'id_test' => $this->id_test,
         ])
         ->limit($modelTest->count_questions > 0 ? $modelTest->count_questions : false)
-        ->orderBy('newid()')
-        ->all();
+        ->orderBy('newid()');
+
+        if (!empty($modelTest->use_formula_filter)) {
+            $modelQuestions->andWhere($modelTest->use_formula_filter);
+        }
+        $modelQuestionsResult = $modelQuestions->all();      
                 
-        foreach ($modelQuestions as $modelQuestion) {            
+        foreach ($modelQuestionsResult as $modelQuestion) {            
             (new TestResultQuestion([
                 'id_test_result' => $this->id,
                 'id_test_question' => $modelQuestion->id,

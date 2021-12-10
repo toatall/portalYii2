@@ -51,6 +51,8 @@ use kartik\widgets\DatePicker;
         
     ])->label($model->getAttributeLabel('time_limit') . ' (ЧЧ:ММ)') ?>
 
+    <?= $form->field($model, 'use_formula_filter') ?>
+
     <?= $form->field($model, 'show_right_answer')->checkbox() ?>
 
     <?= $form->field($model, 'finish_text')->textarea(['rows' => 5]) ?>

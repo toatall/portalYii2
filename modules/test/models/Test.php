@@ -20,6 +20,7 @@ use app\models\User;
  * @property string $author
  * @property boolean $show_right_answer
  * @property string $finish_text
+ * @property string $use_formula_filter
  *
  * @property User $author0
  * @property TestQuestion[] $testQuestions
@@ -29,7 +30,7 @@ use app\models\User;
  */
 class Test extends \yii\db\ActiveRecord
 {
-    // статус выполнения теста: еще на начался, выполняется, закончен
+    // статусы выполнения теста: еще на начался, выполняется, закончен
     const PROCESS_STATUS_NOT_START = 'not-start';
     const PROCESS_STATUS_RUNNING = 'running';
     const PROCESS_STATUS_FINISHED = 'finished';
@@ -54,6 +55,7 @@ class Test extends \yii\db\ActiveRecord
             [['description', 'finish_text'], 'string'],
             [['show_right_answer'], 'boolean'],
             [['name', 'author'], 'string', 'max' => 250],
+            [['use_formula_filter'], 'string', 'max' => 500],
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username_windows']],
         ];
     }
@@ -74,8 +76,9 @@ class Test extends \yii\db\ActiveRecord
             'time_limit' => 'Ограничение по времени',
             'date_create' => 'Дата создания',
             'author' => 'Автор',
-            'show_right_answer' => 'Показывать правильные ответы',
+            'show_right_answer' => 'Сразу показывать результат ответа',
             'finish_text' => 'Сообщение по окончанию тестирования',
+            'use_formula_filter' => 'Дополнительная формула фильтра',
         ];
     }
 
