@@ -3,6 +3,7 @@
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 $dbPortalOld = require __DIR__ . '/dbPortalOld.php';
+$dbDKS = require __DIR__ . '/dbDKS.php';
 $ldapParams = require __DIR__ . '/ldap.php';
 
 $config = [
@@ -43,6 +44,10 @@ $config = [
         // конкурсы
         'contest' => [
             'class' => 'app\modules\contest\Module',
+        ],
+        // раздел для отдела кадров
+        'kadry' => [
+            'class' => 'app\modules\kadry\Module',
         ],
     ],    
     'components' => [
@@ -88,6 +93,7 @@ $config = [
         ],
         'db' => $db,
         'dbPortalOld' => $dbPortalOld,
+        'dbDKS' => $dbDKS,
         'formatter' => [
             'class' => 'yii\i18n\Formatter',
             'locale' => 'ru-RU',
