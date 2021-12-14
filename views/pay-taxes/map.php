@@ -4,7 +4,6 @@
 /** @var array $result */
 /** @var array $raions */
 
-use yii\bootstrap4\Html;
 use app\assets\ChartJs;
 use yii\helpers\Url;
 
@@ -23,12 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <div class="row mt-2">
-    <div class="col-6">
-        <!-- <div class="mb-3 btn-group border-bottom-danger">
-            <?= Html::a('<i class="fas fa-chart-line"></i> График', ['/pay-taxes/chart'], ['class' => 'btn btn-primary']) ?>
-            <?= Html::a('<i class="fas fa-table"></i> Детализация', ['/pay-taxes/detail'], ['class' => 'btn btn-secondary']) ?>
-        </div> -->
-        
+    <div class="col-6">        
         <div id="place-description" style="font-size: larger; visibility: hidden; height: 2em;" class="mb-4 text-gray-500 text-uppercase">            
             <span class="text-muted lead">Белоярский район, Березовский район</span>
         </div>
@@ -71,41 +65,52 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="col-6">
         <span class="lead float-right mb-2" style="font-size: small;">По состоянию на <?= Yii::$app->formatter->asDate($result[0]['date']) ?></span>
-        <table class="table table-hover" id="table-statistic">
+        <table class="table table-hover" id="table-statistic" style="font-size: 0.8rem;">
             <thead class="thead-light">
                 <tr>
                     <th>Налоговый орган</th>
-                    <th>Начисления (прогнозируемые), тыс. рублей</th>
-                    <th>Поступления с 01.09.2021, тыс. рублей</th>
-                    <!-- <th>Поступления с последней даты формирования рейтинга</th> -->
-                    <th>СМС показатель (предварительный)</th>
+                    <th>                        
+                        Начисления (прогнозируемые), тыс. рублей
+                    </th>
+                    <th>
+                        Поступления с 01.09.2021, тыс. рублей
+                    </th>                   
+                    <th>
+                        СМС показатель (предварительный)
+                    </th>
+                    <th>
+                    Доля поступлений от начислений (за год)
+                    </th>
                     <th></th>
                 </tr>
             </thead>
-            <tbody style="sfont-size: 1em !important;">  
+            <tbody>  
                 <?php 
                 foreach ($result as $item): 
                     $region = isset($raions[$item['code']]) ? $raions[$item['code']] : ''; 
                     $sms1 = Yii::$app->formatter->asDecimal($item['sms_1'] ?? 0); 
                     $sms2 = Yii::$app->formatter->asDecimal($item['sms_2'] ?? 0); 
                     $sms3 = Yii::$app->formatter->asDecimal($item['sms_3'] ?? 0); 
+                    $smsFns = Yii::$app->formatter->asDecimal($item['sms_fns'] ?? 0);
                 ?>
                     <tr data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
                     <td>
                         <?= $item['name_short'] ?>
                     </td>
                     <td>
-                        <kbd style="font-size: larger;"><?= Yii::$app->formatter->asDecimal($item['sum1']) ?></kbd>
+                        <kbd style="font-size: 0.8rem;"><?= Yii::$app->formatter->asDecimal($item['sum1']) ?></kbd>
                     </td>
                     <td>                        
-                        <kbd style="font-size: larger;"><?= Yii::$app->formatter->asDecimal($item['sum2']) ?></kbd>
-                    </td>
-                    <!-- <td>
-                        <kbd style="font-size: larger;"><?= Yii::$app->formatter->asDecimal($item['sum3']) ?></kbd>
-                    </td> -->
+                        <kbd style="font-size: 0.8rem;"><?= Yii::$app->formatter->asDecimal($item['sum2']) ?></kbd>
+                    </td>                  
                     <td>
-                        <kbd style="font-size: larger;" data-toggle="popover" data-trigger="hover" data-original-title="СМС показатели" data-html="true" data-content="НИФЛ: <?= $sms1 ?><br />Транспортный налог: <?= $sms2 ?><br />Земельный налог: <?= $sms3 ?>">
+                        <kbd style="font-size: 0.8rem;" data-toggle="popover" data-trigger="hover" data-original-title="СМС показатели" data-html="true" data-content="НИФЛ: <?= $sms1 ?><br />Транспортный налог: <?= $sms2 ?><br />Земельный налог: <?= $sms3 ?>">
                             <?= Yii::$app->formatter->asDecimal($item['sms']) ?>
+                        </kbd>
+                    </td>
+                    <td>
+                        <kbd style="font-size: 0.8rem;">
+                            <?= $smsFns ?>
                         </kbd>
                     </td>
                     <td>
