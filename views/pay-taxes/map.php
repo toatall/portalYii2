@@ -110,7 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </td>
                     <td>
                         <kbd style="font-size: 0.8rem;">
-                            <?= $smsFns ?>
+                            <?= $smsFns ?>%
                         </kbd>
                     </td>
                     <td>
