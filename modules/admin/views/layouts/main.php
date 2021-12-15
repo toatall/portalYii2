@@ -55,13 +55,7 @@ ModalViewerAsset::register($this);
                     //'<li class="divider"></li>',
                     ['label' => 'Организации', 'url' => ['/admin/organization/index']],
                     ['label' => 'Меню', 'url' => ['/admin/menu/index']],
-                ], 'visible' => (Yii::$app->user->can('admin'))],                
-                ['label' => 'Календарь', 'visible' => Calendar::roleModerator(),
-                    'items' => [
-                        ['label' => 'Редактирование событий', 'url' => ['/admin/calendar/index'], 'visible' => Calendar::roleModerator()],
-                        ['label' => 'Типы событий', 'url' => ['/admin/calendar-types/index'], 'visible' => Yii::$app->user->can('admin')],
-                    ],                
-                ],
+                ], 'visible' => (Yii::$app->user->can('admin'))],                                
                 ['label' => 'Контент', 'items' => [
                     ['label' => 'Структура', 'url' => ['/admin/tree/index']],
                     ['label' => 'Отделы', 'url' => ['/admin/department/index']],
