@@ -26,13 +26,21 @@ class AppAsset extends AssetBundle
          
          // font-awesome
         'public/vendor/fontawesome/css/all.min.css',
+
+        // bootstrap-4-advanced-toast
+        'public/vendor/bootstrap-4-advanced-toast/css/bs4Toast.css',
     ];
     public $js = [
-        'js/voteHelper.js',
-        'js/main.js',        
-
         // font-awesome
         'public/vendor/fontawesome/js/all.min.js',
+
+        // bootstrap-4-advanced-toast
+        'public/vendor/bootstrap-4-advanced-toast/js/bs4-toast.js',
+
+
+        'js/voteHelper.js',
+        'js/main.js',        
+        
     ];
     public $depends = [
         'yii\web\YiiAsset',

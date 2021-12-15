@@ -1,14 +1,16 @@
 <?php
 
-namespace app\modules\admin\controllers;
+namespace app\modules\calendar\controllers;
 
 use Yii;
-use app\models\calendar\CalendarTypes;
+use app\modules\calendar\models\CalendarTypes;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
+use yii\web\Response;
 
 /**
  * CalendarTypesController implements the CRUD actions for CalendarTypes model.
@@ -25,12 +27,11 @@ class CalendarTypesController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
-                    'delete-calendar-data' => ['POST'],
                 ],
             ],
             'access' => [
                 'class' => AccessControl::class,
-                'rules' => [
+                'rules' => [                   
                     [
                         'allow' => true,
                         'roles' => ['admin'],
@@ -46,11 +47,15 @@ class CalendarTypesController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index', [            
-            'dataProvider' => new ActiveDataProvider([
-                'query' => CalendarTypes::find(),
+        Yii::$app->response->format = Response::FORMAT_JSON;                
+        return [
+            'title' => 'Типы событий',
+            'content' => $this->renderAjax('index', [            
+                'dataProvider' => new ActiveDataProvider([
+                    'query' => CalendarTypes::find(),
+                ]),
             ]),
-        ]);
+        ];
     }
 
    
@@ -63,11 +68,11 @@ class CalendarTypesController extends Controller
     {
         $model = new CalendarTypes();
         
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {            
+            return $this->redirectPjax(['index']);
         }
 
-        return $this->render('create', [
+        return $this->renderAjax('create', [
             'model' => $model,
         ]);
     }
@@ -84,10 +89,10 @@ class CalendarTypesController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirectPjax(['index']);
         }
 
-        return $this->render('update', [
+        return $this->renderAjax('update', [
             'model' => $model,
         ]);
     }
@@ -102,11 +107,20 @@ class CalendarTypesController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        return $this->redirectPjax(['index']);
     }
 
-
+    /**
+     * Перенаправление с учетом pjax (без перегрузки страницы)
+     * @return string
+     */
+    private function redirectPjax($url)
+    {
+        return $this->renderAjax('../redirect-pjax', [
+            'url' => Url::to($url),
+            'container' => '#pjax-calendar-types-index',
+        ]);
+    }
 
     /**
      * Finds the Calendar model based on its primary key value.
@@ -123,5 +137,5 @@ class CalendarTypesController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-   
+    
 }

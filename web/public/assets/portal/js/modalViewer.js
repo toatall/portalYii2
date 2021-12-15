@@ -69,6 +69,7 @@ var modalViewer = {
 
     modalId: '#modal-dialog-main',
     modalTitle: '#modal-dialog-title',
+    modalHeader: '#modal-dialog-header',
     modalBody: '#modal-dialog-body',
     
     templateError: '<div class="alert alert-danger">{text}</div>',
@@ -108,6 +109,7 @@ var modalViewer = {
                 + '<div class="modal-dialog" role="document" style="max-width: 95%;">'
                     + '<div class="modal-content">'
                         +'<div class="modal-header">'                            
+                            + '<div id="modal-dialog-header"></div>'
                             + '<h2 class="modal-title" id="modal-dialog-title">Load title...</h2>'
                             + '<button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>'
                         + '</div>'
@@ -159,7 +161,7 @@ var modalViewer = {
         "use strict";
                 
         $(this).trigger('onModalShow', [{ link: url }]);
-        this.requestJson(this.modalTitle, this.modalBody, url);
+        this.requestJson(this.modalTitle, this.modalHeader, this.modalBody, url);
         $(this.modalId).modal('show');
 
         // удаление ссылки `w` после закрытия диалога
@@ -185,12 +187,12 @@ var modalViewer = {
      * @param requestMethod
      * @param requestData
      */
-    showModalManual: function(url, changeUrl, requestMethod, requestData) {
+    showModalManual: function(url, changeUrl, requestMethod, requestData, processData) {
         'use strict';
         requestMethod = requestMethod || 'get';
         requestData = requestData || null;
         $(this).trigger('onModalShow', [{ link: url }]);
-        this.requestJson(this.modalTitle, this.modalBody, url, requestMethod, requestData);
+        this.requestJson(this.modalTitle, this.modalHeader, this.modalBody, url, requestMethod, requestData, processData);
         $(this.modalId).modal('show');
 
         var $this = this;
@@ -243,7 +245,7 @@ var modalViewer = {
             $($this).on('onRequestJsonDone', function(event, data) {
                 $this.autoCloseModal(data);
             });
-            $this.requestJson($this.modalTitle, $this.modalBody, url, 'post', formData);
+            $this.requestJson($this.modalTitle, this.modalHeader, $this.modalBody, url, 'post', formData);
 
             return false;
         });
@@ -260,7 +262,7 @@ var modalViewer = {
             $($this).on('onRequestJsonDone', function(event, data) {
                 $this.autoCloseModal(data);
             });
-            $this.requestJson($this.modalTitle, $this.modalBody, url, 'post', formData);
+            $this.requestJson($this.modalTitle, this.modalHeader, $this.modalBody, url, 'post', formData);
 
             return false;
         });
@@ -289,7 +291,7 @@ var modalViewer = {
 
     modalUpate: function(url, method, data) {
         "use strict";
-        this.requestJson(this.modalTitle, this.modalBody, url, method, data);
+        this.requestJson(this.modalTitle, this.modalHeader, this.modalBody, url, method, data);
     },
     
     /**
@@ -301,10 +303,11 @@ var modalViewer = {
      * @param {type} data
      * @returns {undefined}
      */
-    requestJson: function(containerTitleId, containerBodyId, url, method, data) {
+    requestJson: function(containerTitleId, containerHeaderId, containerBodyId, url, method, data, processData) {
         "use strict";
         method = method || 'get';
         data = data || null;
+        processData = processData || false;
 
         // анимация
         $(containerTitleId).html(this.templateAnimation);
@@ -316,13 +319,21 @@ var modalViewer = {
             type: method,
             url: url,
             dataType: 'json',
-            processData: false,
+            processData: processData,
             contentType: false,
             data: data
         })
         .done(function (data) {
             
-            // заголовок
+            // заголовок header
+            if (data.hasOwnProperty('header')) {
+                $(containerHeaderId).html(data.header);
+            } 
+            else {
+                $(containerHeaderId).html('');
+            }
+
+            // заголовок title
             if (data.hasOwnProperty('title')) {
                 $(containerTitleId).html(data.title);
             } 

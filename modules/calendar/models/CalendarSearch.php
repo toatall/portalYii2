@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\calendar;
+namespace app\modules\calendar\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;

@@ -4,13 +4,18 @@
  * and open the template in the editor.
  */
 
-$(document).on('pjax:send', function() {
+$(document).on('pjax:send', function(event) {
     $('#div-loader').addClass('is-active');
 });
 
-
 $(document).on('pjax:complete', function() {
     $('#div-loader').removeClass('is-active');
+});
+
+$(document).on('pjax:error', function(xhr, textStatus, error, options) {
+    bs4Toast.error('Ошибка', textStatus.responseText, { delay: 15000 });   
+    console.log(xhr);
+    return false;
 });
 
 $(document).ready(function () {

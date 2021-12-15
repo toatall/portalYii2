@@ -44,3 +44,4 @@ tests/_support/_generated
 /.vagrant
 
 
+/config/dbDKS.php

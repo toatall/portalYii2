@@ -49,6 +49,10 @@ $config = [
         'kadry' => [
             'class' => 'app\modules\kadry\Module',
         ],
+        // календарь
+        'calendar' => [
+            'class' => 'app\modules\calendar\Module',
+        ],
     ],    
     'components' => [
         'request' => [

@@ -9,7 +9,11 @@ use yii\bootstrap4\ActiveForm;
 
 <div class="calendar-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'options' => [
+            'data-pjax' => true,
+        ],
+    ]); ?>
 
     <?= $form->errorSummary($model) ?>
 
@@ -18,7 +22,7 @@ use yii\bootstrap4\ActiveForm;
     <div class="border-top">
         <div class="btn-group  pt-1">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-            <?= Html::a('Отмена', ['/admin/calendar-types/index'], ['class' => 'btn btn-secondary']) ?>
+            <?= Html::a('Отмена', ['/calendar/calendar-types/index'], ['class' => 'btn btn-secondary', 'pjax' => 1]) ?>
         </div>
     </div>
 

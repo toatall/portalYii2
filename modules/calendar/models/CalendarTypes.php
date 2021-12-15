@@ -1,10 +1,9 @@
 <?php
 
-namespace app\models\calendar;
+namespace app\modules\calendar\models;
 
 use app\behaviors\AuthorBehavior;
 use app\behaviors\DatetimeBehavior;
-use Yii;
 
 /**
  * This is the model class for table "{{%calendar_types}}".
@@ -15,7 +14,6 @@ use Yii;
  * @property string $date_update
  * @property string $author
  *
- * @property CalendarData[] $calendarDatas
  */
 class CalendarTypes extends \yii\db\ActiveRecord
 {
@@ -70,13 +68,4 @@ class CalendarTypes extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[CalendarDatas]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCalendarDatas()
-    {
-        return $this->hasMany(CalendarData::class, ['type_text' => 'type_text']);
-    }
 }

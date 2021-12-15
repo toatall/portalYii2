@@ -1,126 +1,73 @@
 <?php
-namespace app\widgets;
+namespace app\modules\calendar\widgets;
 
-use Yii;
-use kartik\date\DatePicker;
+use app\modules\calendar\models\Calendar;
+use app\modules\calendar\widgets\DatePickerOnlyCalendar;
+use yii\bootstrap4\Dropdown;
 use yii\bootstrap4\Html;
-use yii\caching\DbQueryDependency;
-use yii\db\Expression;
-use yii\db\Query;
+use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\web\View;
+use yii\widgets\Pjax;
 
 /**
  * Календарь в шапке сайта
  */
 class DatePickerCalendarAis3 extends \yii\bootstrap\Widget
 {
-
     /**
      * @var string
      */
     public $id = 'ais3-calendar';
-    
-    /**
-     * @var mixed
-     */
-    private $data;
 
+    /**
+     * @var string
+     */
+    public $idDatePicker = 'ais3-calendar-datepicker';
+    
     /**
      * {@inheritdoc}
      */
     public function init()
     {
-        parent::init();      
-        $this->loadData();
-    }
-
-    /**
-     * Загрузка данных из базы
-        */
-    public function loadData()
-    {               
-        $resultQuery = Yii::$app->cache->getOrSet('calendar_cache_' . Yii::$app->user->identity->current_organization, function() {
-            return $this->baseQuery()->all();
-        }, 0, new DbQueryDependency([
-            'query' => $this->baseQuery()->orderBy([])->select('max(cal.date_update + cal_data.date_update)'),
-        ]));
-
-        $this->data = json_encode($this->prepareData($resultQuery));
-    }
-
-    /**
-     * Подготовка данных
-     * @return array
-     */
-    private function prepareData($data)
-    {
-        $result = [];
-
-        foreach ($data as $item) {
-            
-            $date = Yii::$app->formatter->asDate($item['date']);
-            $description = Html::encode($item['description']);
-            $string = "<span class='badge calendar-badge-{$item['descr_color']} f-size-08 text-white white-space-normal text-left'>{$description}</span>";
-            $typeText = $item['type_text'];
-
-            if (isset($result[$date])) {
-                if (isset($result[$date]['content'][$typeText])) {
-                    $result[$date]['content'][$typeText] .= '<br />' . $string; 
-                }
-                else {
-                    $result[$date]['content'][$typeText] = $string;  
-                }              
-            }
-            else {
-                $result[$date] = [
-                    'title' => $date,
-                    'content' => [$typeText => $string],
-                    'colorClass' => 'badge calendar-badge-' . $item['date_color'] . ' d-table-cell fa-1x',
-                ];
-            }
-        }
-              
-        return $result;        
-    }
-
-    /**
-     * Настройка базового запроса (с определенными фильтрами, сортировкой, ...)
-     * @return Query
-     */
-    private function baseQuery()
-    {
-        return (new Query())
-            ->select('cal.id, cal.date, cal.color as date_color, cal_data.description, cal_data.color as descr_color, cal_data.is_global, cal_data.type_text')
-            ->from('{{%calendar}} cal')
-            ->leftJoin('{{%calendar_data}} cal_data', 'cal.id = cal_data.id_calendar')
-            ->where(['>=', 'cal.date', new Expression('DATEADD(YEAR,-1,getdate())')])
-            ->andWhere(['cal.date_delete' => null])
-            ->andWhere(['not', ['cal_data.id' => null]])
-            ->andWhere(['or', 
-                ['cal.code_org' => Yii::$app->user->identity->current_organization ?? null],
-                ['cal_data.is_global' => 1],
-            ])
-            ->orderBy([                
-                'cal_data.is_global' => SORT_ASC, // сначала не глобальные, потом глобальные
-                'cal_data.sort' => SORT_DESC, // сотрировка события
-                'cal_data.date_create' => SORT_ASC, // дата создания
-            ]);
-    }
-
+        parent::init();           
+    }   
 
     /**
      * {@inheritdoc}
      */
     public function run()
     {
+
+$urlJson = Url::to(['/calendar/default/json-data', 'date'=>'-date-', 'ver'=>'-ver-']);
 $this->view->registerJs(<<<JS
     
-    $('input[name="datepicker_ais3"]').hide();
+    nowDate = new Date();
+    window.currentMonthYear = '01.' + getNumWithZero(nowDate.getMonth() + 1) + '.' + getNumWithZero(nowDate.getFullYear());
     
-    // данные из файла
-    jsonData = $this->data;    
+    window.jsonData = '';
 
+    function updateCaledarAis3() {
+        url = '$urlJson'.replace('-date-', window.currentMonthYear);
+        url = url.replace('-ver-',  (new Date()).getTime());
+        $.getJSON(url)
+        .done(function(data) {
+            jsonData = data;
+            $('#{$this->idDatePicker}').parent('div').kvDatepicker('update', convertToISO(window.currentMonthYear));
+        });        
+    }           
+
+    function convertToISO(date)
+    { 
+        return date.substring(6,10) + '-' + date.substring(3,5) + '-' + date.substring(0,2);
+    }
+    
+    updateCaledarAis3();
+    
+    /**
+     * Подгонка числа к вдузначному виду
+     * @return string
+     */
     function getNumWithZero(val)
     {
         return ((val <= 9) ? '0' : '') + val.toString();
@@ -162,7 +109,7 @@ $this->view->registerCss(<<<CSS
         color: white !important;
     }
 
-    #{$this->id} .datepicker table tr td.old, .datepicker table tr td.new {        
+    #{$this->id} .datepicker table tr td.old, #{$this->id} .datepicker table tr td.new {        
         color: #fff !important;
         opacity: 0.4;
     }
@@ -241,8 +188,8 @@ $js = <<<JS
     function(date) {
         //var dt = date.toLocaleDateString('ru');   - так не работает в IE ((((
         var dt = getNumWithZero(date.getDate()) + '.' + getNumWithZero(date.getMonth() + 1) + '.' + getNumWithZero(date.getFullYear());
-                
-        if (jsonData.hasOwnProperty(dt)) {
+               
+        if (jsonData.hasOwnProperty(dt)) {           
             var vTitle = jsonData[dt].title;
             var vClasses = jsonData[dt].colorClass;
             var vContent = '';
@@ -275,14 +222,29 @@ $js = <<<JS
     }
 JS;
 
-       
-        echo '<div id="' . $this->id . '">';
-        echo DatePicker::widget([
-            'type' => DatePicker::TYPE_INLINE,
+        Pjax::begin(['timeout'=>false, 'enablePushState'=>false, 'options'=>['id'=>'pjax-datepicker-ais3']]);
+        $urlDate = Url::toRoute(['/calendar/default/view', 'date'=>'-date-']);
+
+        $jsChangeDate = new JsExpression("function(d) {
+            //var dt = d.date.toLocaleDateString('ru-RU');
+            var dt = getNumWithZero(d.date.getDate()) + '.' + getNumWithZero(d.date.getMonth() + 1) + '.' + getNumWithZero(d.date.getFullYear());
+            var url = '$urlDate'.replace('-date-', dt);            
+            $('.popover, .show').popover('hide');
+            modalViewer.showModalManual(url, true, 'get');
+        }");
+
+        echo '<div id="' . $this->id . '" class="row">';
+        echo '<div class="col">';
+        echo DatePickerOnlyCalendar::widget([            
+            'type' => DatePickerOnlyCalendar::TYPE_INLINE,
             'name' => 'datepicker_ais3',
-            'pluginEvents' => [
-                //'changeDate' => new JsExpression("function(d) { var dt = d.date.toLocaleDateString('ru'); modalViewer.showModalManual('/calendar/date-view', true, 'get', { date: dt, id: 234 }); } "),  
-                //'changeMonth' => new JsExpression("function(d) { console.log(d.date.getMonth()+1); }"),
+            'pluginEvents' => [                
+                'changeDate' => $jsChangeDate,
+                'changeMonth' => new JsExpression("function(d) { 
+                    currentMonthYear = '01.' + getNumWithZero(d.date.getMonth() + 1) + '.' + getNumWithZero(d.date.getFullYear()); 
+                    updateCaledarAis3();
+                    //console.log(d.date.getMonth()+1); 
+                }"),
                 //'show' => new JsExpression("function(d) { console.log(d); }"),
             ],                 
             'pluginOptions' => [
@@ -291,8 +253,22 @@ JS;
                 //'beforeShowMonth' => new JsExpression('function(d) {console.log(d);}'),                                                 
                 'todayHighlight' => true,
             ],
+            'options' => ['id' => $this->idDatePicker],
         ]);      
         echo '</div>';
+        if (Calendar::roleModerator()) {
+            echo '<div clas="dropdown">';           
+            echo Html::a('<i class="fas fa-ellipsis-v"></i>', null, ['data-toggle'=>'dropdown', 'class' => 'btn btn-sm  text-light']) 
+            . Dropdown::widget([
+                'items' => [
+                        ['label' => 'Типы событий', 'url' => ['/calendar/calendar-types/index'], 'linkOptions'=>['class'=>'mv-link']],                    
+                    ],
+            ]);
+            echo '</div>';
+        }
+        echo '</div>';
+
+        Pjax::end();
     }
 
 }
