@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="col-6">
         <span class="lead float-right mb-2" style="font-size: small;">По состоянию на <?= Yii::$app->formatter->asDate($result[0]['date']) ?></span>
-        <table class="table table-hover" id="table-statistic" style="font-size: 0.8rem;">
+        <table class="table table-hover" id="table-statistic" style="font-size: 0.9rem;">
             <thead class="thead-light">
                 <tr>
                     <th>Налоговый орган</th>
@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         СМС показатель (предварительный)
                     </th>
                     <th>
-                    Доля поступлений от начислений (за год)
+                        Оставшаяся сумма до 75 %
                     </th>
                     <th></th>
                 </tr>
@@ -91,26 +91,30 @@ $this->params['breadcrumbs'][] = $this->title;
                     $sms1 = Yii::$app->formatter->asDecimal($item['sms_1'] ?? 0); 
                     $sms2 = Yii::$app->formatter->asDecimal($item['sms_2'] ?? 0); 
                     $sms3 = Yii::$app->formatter->asDecimal($item['sms_3'] ?? 0); 
-                    $smsFns = Yii::$app->formatter->asDecimal($item['sms_fns'] ?? 0);
+                    $sumLeftAll = Yii::$app->formatter->asDecimal($item['sum_left_all'] ?? 0);
+                    $sumLeftNifl = Yii::$app->formatter->asDecimal($item['sum_left_nifl'] ?? 0);
+                    $sumLeftTn = Yii::$app->formatter->asDecimal($item['sum_left_tn'] ?? 0);
+                    $sumLeftZn = Yii::$app->formatter->asDecimal($item['sum_left_zn'] ?? 0);
+                    $sizeNumValues = '0.83rem';
                 ?>
                     <tr data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
-                    <td>
+                    <td style="font-size: 0.8rem;">
                         <?= $item['name_short'] ?>
                     </td>
                     <td>
-                        <kbd style="font-size: 0.8rem;"><?= Yii::$app->formatter->asDecimal($item['sum1']) ?></kbd>
+                        <kbd style="font-size: <?= $sizeNumValues ?>;"><?= Yii::$app->formatter->asDecimal($item['sum1']) ?></kbd>
                     </td>
                     <td>                        
-                        <kbd style="font-size: 0.8rem;"><?= Yii::$app->formatter->asDecimal($item['sum2']) ?></kbd>
+                        <kbd style="font-size: <?= $sizeNumValues ?>;"><?= Yii::$app->formatter->asDecimal($item['sum2']) ?></kbd>
                     </td>                  
                     <td>
-                        <kbd style="font-size: 0.8rem;" data-toggle="popover" data-trigger="hover" data-original-title="СМС показатели" data-html="true" data-content="НИФЛ: <?= $sms1 ?><br />Транспортный налог: <?= $sms2 ?><br />Земельный налог: <?= $sms3 ?>">
+                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-toggle="popover" data-trigger="hover" data-original-title="СМС показатели" data-html="true" data-content="НИФЛ: <?= $sms1 ?><br />Транспортный налог: <?= $sms2 ?><br />Земельный налог: <?= $sms3 ?>">
                             <?= Yii::$app->formatter->asDecimal($item['sms']) ?>
                         </kbd>
                     </td>
                     <td>
-                        <kbd style="font-size: 0.8rem;">
-                            <?= $smsFns ?>%
+                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-toggle="popover" data-trigger="hover" data-original-title="Оставшаяся сумма до 75 %" data-html="true" data-content="НИФЛ: <?= $sumLeftNifl ?><br />Транспортный налог: <?= $sumLeftTn ?><br />Земельный налог: <?= $sumLeftZn ?>">
+                            <?= $sumLeftAll ?>
                         </kbd>
                     </td>
                     <td>
@@ -121,10 +125,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 </tr>
                 <tr style="display: none;" id="sms_data_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
                     <td colspan="5">
-                        <strong>СМС показатели</strong><br />
-                        НИФЛ: <?= $sms1 ?>
-                        <br />Транспортный налог: <?= $sms2 ?>
-                        <br />Земельный налог: <?= $sms3 ?>
+                        <div class="row">
+                            <div class="col">
+                                <strong>СМС показатели</strong><br />
+                                НИФЛ: <?= $sms1 ?>
+                                <br />Транспортный налог: <?= $sms2 ?>
+                                <br />Земельный налог: <?= $sms3 ?>
+                            </div>
+                            <div class="col">
+                                <strong>Оставшаяся сумма до 75 %</strong><br />
+                                НИФЛ: <?= $sumLeftNifl ?>
+                                <br />Транспортный налог: <?= $sumLeftTn ?>
+                                <br />Земельный налог: <?= $sumLeftZn ?>
+                            </div>
+                        </div>                        
                     </td>
                 </tr>
                 <tr style="display: none;" id="chart_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
@@ -176,10 +190,12 @@ $this->registerJs(<<<JS
                 $('#map-select-all').show();
             } else {                
                 var region = $('.scheme path[data-id=' + $(this).data('org') + ']').data('region'); 
-                var regions = region.split(',');
-                regions.forEach(function (element) {
-                    $('.scheme path[data-id=' + element + ']').attr('id', 'hover');
-                });
+                if (region != undefined) { 
+                    var regions = region.split(',');
+                    regions.forEach(function (element) {
+                        $('.scheme path[data-id=' + element + ']').attr('id', 'hover');
+                    });
+                }
             }
 
             // вывод текста в подсказке
@@ -205,11 +221,13 @@ $this->registerJs(<<<JS
             if ($(this).data('region') == 'all') {
                 $('#map-select-all').hide();
             } else {
-                var region = $('.scheme path[data-id=' + $(this).data('org') + ']').data('region');  
-                var regions = region.split(',');
-                regions.forEach(function (element) {
-                    $('.scheme path[data-id=' + element + ']').attr('id', '');  
-                });                     
+                var region = $('.scheme path[data-id=' + $(this).data('org') + ']').data('region'); 
+                if (region != undefined) { 
+                    var regions = region.split(',');
+                    regions.forEach(function (element) {
+                        $('.scheme path[data-id=' + element + ']').attr('id', '');  
+                    });                     
+                }
             }
 
             // очистить вывод пояснительного текста       
