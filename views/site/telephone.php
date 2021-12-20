@@ -16,6 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>    
     </div>
 
+    <div class="mb-2">
+        <?= Html::a('Телефонный справочник (из СЭД-Регион) <i class="fas fa-info-circle"></i>', 
+            ['/telephone/index'], ['class' => 'font-weight-bold', 'data-toggle'=>'popover', 'data-content'=>'В тестовом режиме']) ?>
+    </div>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'showHeader' => false,
