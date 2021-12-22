@@ -19,6 +19,7 @@ use yii\web\Response;
  */
 class DefaultController extends Controller
 {
+
     /**
      * {@inheritdoc}
      */
@@ -155,12 +156,7 @@ class DefaultController extends Controller
 
 
     public function actionJsonData($date=null)
-    {        
-        // $resultQuery = Yii::$app->cache->getOrSet('calendar_cache_' . Yii::$app->user->identity->current_organization, function() {
-        //     return $this->baseQuery()->all();
-        // }, 0, new DbQueryDependency([
-        //     'query' => $this->baseQuery()->orderBy([])->select('max(date_update)'),
-        // ]));        
+    {               
         if ($date == null) {
             $date = Yii::$app->formatter->asDate('now');
         }
@@ -218,33 +214,56 @@ class DefaultController extends Controller
     private function baseQuery($date)
     {      
         $sql = "
+        select * from (
             select 
-                 t.*
+                 t.date
+                ,t.description
+                ,t.color 
+                ,t.type_text
                 ,color.color as color_date
+                ,t.is_global
             from {{%calendar}} t
             outer apply (
                 select top 1 * from p_calendar_color color 
                 where color.date = t.date 
                 order by case when color.org_code=:org_code_color then 1 else 0 end desc
             ) color
-            where t.date_delete is null
-                --and t.date >= DATEADD(YEAR,-1,getdate())
-                and t.date >= :date1 and t.date <= :date2
+            where t.date_delete is null                
+                and t.date >= :date1_1 and t.date <= :date1_2
                 and (t.org_code = :org_code_t or t.is_global = 1)
-            order by 
-                 t.is_global asc
-                ,t.sort desc
-                ,t.date_create asc
+            
+            union select 
+                t_b.date
+               ,t_b.fio + case when t_b.department is not null then ' (' + t_b.department + ')' else '' end description
+               ,:color_text color
+               ,:type_text type_text
+               ,:color_date color_date
+               ,0 
+            from {{%calendar_bithdays}} t_b
+            where t_b.date >= :date2_1 and t_b.date <= :date2_2
+        ) as t
+        order by 
+               t.is_global asc
+            --,t.sort desc
+            --,t.date_create asc
         ";
 
         $orgCode = Yii::$app->user->isGuest ? null : Yii::$app->user->identity->current_organization;
 
+
+        $params = Yii::$app->params['calendar']['birhdays'];
+
         return Yii::$app->db->createCommand($sql, [
             ':org_code_color' => $orgCode,
             ':org_code_t' => $orgCode,
-            ':date1' => Yii::$app->formatter->asDate(strtotime('-1 months', strtotime($date))),
-            ':date2' => Yii::$app->formatter->asDate(strtotime('+2 months', strtotime($date))),
-        ]);        
+            ':date1_1' => Yii::$app->formatter->asDate(strtotime('-1 months', strtotime($date))),
+            ':date1_2' => Yii::$app->formatter->asDate(strtotime('+2 months', strtotime($date))),
+            ':date2_1' => Yii::$app->formatter->asDate(strtotime('-1 months', strtotime($date))),
+            ':date2_2' => Yii::$app->formatter->asDate(strtotime('+2 months', strtotime($date))),
+            ':color_text' => $params['color_day'],
+            ':type_text' => $params['type_text'],
+            ':color_date' => $params['color_text'],
+        ]);
     }
 
     /**

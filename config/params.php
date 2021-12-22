@@ -189,5 +189,13 @@ return [
             'files' => '/public/upload/portal/lifehack/{id}/'
         ],
     ],
+
+    'calendar' => [
+        'birhdays' => [
+            'type_text' => 'Дни рождения',
+            'color_day' => 'danger',
+            'color_text' => 'danger',
+        ],
+    ],
     
 ];

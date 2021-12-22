@@ -95,9 +95,13 @@ $config = [
                 ],
             ],
         ],
+        
+        // настройка подключений к базам данных
         'db' => $db,
         'dbPortalOld' => $dbPortalOld,
         'dbDKS' => $dbDKS,
+
+        // настройка форматирования
         'formatter' => [
             'class' => 'yii\i18n\Formatter',
             'locale' => 'ru-RU',
@@ -108,6 +112,7 @@ $config = [
             'thousandSeparator' => ' ',
         ],
 
+        // настройка адресации
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
