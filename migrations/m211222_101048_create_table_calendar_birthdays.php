@@ -17,7 +17,7 @@ class m211222_101048_create_table_calendar_birthdays extends Migration
             'date' => $this->date()->notNull(),
             'fio' => $this->string(1000)->notNull(),
             'department' => $this->string(),
-            'date_crate' => $this->dateTime(),
+            'date_create' => $this->dateTime(),
         ]);
     }
 
