@@ -183,5 +183,11 @@ return [
                         
         ],
     ],
+
+    'lefehack' => [
+        'path' => [
+            'files' => '/public/upload/portal/lifehack/{id}/'
+        ],
+    ],
     
 ];
