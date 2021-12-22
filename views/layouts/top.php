@@ -14,6 +14,7 @@ if ($flagNewYear) {
     GerljandaAsset::register($this);
 }
 
+
 $logoTopPath = '/public/assets/portal/img/';
 $logoTopImg = 'top_default.png';
 $month = date('m');
@@ -99,19 +100,19 @@ switch ($month) {
     
 </div>
 */ ?>
+<?php echo $this->render('top_new_year'); ?>
 
 <div class="container-fluid">
     <div class="row justify-content-between" id="logo-background">
         
         <div class="col-7 text-left" id="logo-image" style="background-image: url('<?= $logoTopPath . $logoTopImg ?>');"></div>
         
-        <div class="col text-right">
+        <div class="col text-right" style="">
             <?= $this->render('top_pay_taxes') ?>
             <?= $this->render('top_calendar') ?>
         </div>
 
-    </div>
-    
+    </div>    
 </div>
 
 <?php
