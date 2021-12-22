@@ -41,7 +41,7 @@ class PayTaxesController extends \yii\web\Controller
         $query = "
             select 
                 t.code, t.name_short, g.date, g.sum1, g.sum2, g.sum3, g.sms, g.sms_1, g.sms_2, g.sms_3, 
-                g.sum_left_all, g.sum_left_nifl, g.sum_left_tn, g.sum_left_zn
+                g.sum_left_all, g.sum_left_nifl, g.sum_left_tn, g.sum_left_zn, g.growth_sms
             from {{%organization}} t
                 outer apply (select top 1 * from {{%pay_taxes_general}} where t.code=code_org order by date desc) g
             where t.code in ('8600','8601','8602','8603','8606','8617','8619') 

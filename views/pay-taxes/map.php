@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <div class="row mt-2">
-    <div class="col-6">        
+    <div class="col" style="width: 650px;">        
         <div id="place-description" style="font-size: larger; visibility: hidden; height: 2em;" class="mb-4 text-gray-500 text-uppercase">            
             <span class="text-muted lead">Белоярский район, Березовский район</span>
         </div>
@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </svg>                                    
         </div>
     </div>
-    <div class="col-6">
+    <div class="col">
         <span class="lead float-right mb-2" style="font-size: small;">По состоянию на <?= Yii::$app->formatter->asDate($result[0]['date']) ?></span>
         <table class="table table-hover" id="table-statistic" style="font-size: 0.9rem;">
             <thead class="thead-light">
@@ -81,6 +81,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     <th>
                         Оставшаяся сумма до 75 %
                     </th>
+                    <th>
+                        Прирост СМС показателя с предыдущей даты
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -95,6 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $sumLeftNifl = Yii::$app->formatter->asDecimal($item['sum_left_nifl'] ?? 0);
                     $sumLeftTn = Yii::$app->formatter->asDecimal($item['sum_left_tn'] ?? 0);
                     $sumLeftZn = Yii::$app->formatter->asDecimal($item['sum_left_zn'] ?? 0);
+                    $growthSms = Yii::$app->formatter->asDecimal($item['growth_sms'] ?? 0);
                     $sizeNumValues = '0.83rem';
                 ?>
                     <tr data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
@@ -118,13 +122,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         </kbd>
                     </td>
                     <td>
+                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-toggle="popover" data-trigger="hover" data-original-title="Оставшаяся сумма до 75 %" data-html="true" data-content="НИФЛ: <?= $sumLeftNifl ?><br />Транспортный налог: <?= $sumLeftTn ?><br />Земельный налог: <?= $sumLeftZn ?>">
+                            <?= $growthSms ?>
+                        </kbd>
+                    </td>
+                    <td>
                         <button class="btn btn-outline-secondary btn-chart-ifns" data-org="<?= $item['code'] ?>" data-url="<?= Url::to(['/pay-taxes/chart-data', 'org'=>$item['code']]) ?>">
                             <i class="fas fa-chart-pie"></i>
                         </button>
                     </td>
                 </tr>
                 <tr style="display: none;" id="sms_data_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
-                    <td colspan="5">
+                    <td colspan="7">
                         <div class="row">
                             <div class="col">
                                 <strong>СМС показатели</strong><br />
@@ -142,14 +151,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     </td>
                 </tr>
                 <tr style="display: none;" id="chart_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
-                    <td colspan="5">
+                    <td colspan="7">
                         <div style="max-width:100%;">
                             <canvas></canvas>
                         </div>
                     </td>
                 </tr>
                 <tr style="display: none;" id="chart2_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
-                    <td colspan="5">
+                    <td colspan="7">
                         <div style="max-width:100%">
                             <canvas></canvas>
                         </div>
