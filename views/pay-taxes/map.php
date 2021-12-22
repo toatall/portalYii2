@@ -122,7 +122,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </kbd>
                     </td>
                     <td>
-                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-toggle="popover" data-trigger="hover" data-original-title="Оставшаяся сумма до 75 %" data-html="true" data-content="НИФЛ: <?= $sumLeftNifl ?><br />Транспортный налог: <?= $sumLeftTn ?><br />Земельный налог: <?= $sumLeftZn ?>">
+                        <kbd style="font-size: <?= $sizeNumValues ?>;">
                             <?= $growthSms ?>
                         </kbd>
                     </td>
