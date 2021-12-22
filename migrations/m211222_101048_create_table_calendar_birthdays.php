@@ -14,6 +14,7 @@ class m211222_101048_create_table_calendar_birthdays extends Migration
     {
         $this->createTable('{{%calendar_bithdays}}', [
             'id' => $this->primaryKey(),
+            'org_code' => $this->string(5)->notNull(),
             'date' => $this->date()->notNull(),
             'fio' => $this->string(1000)->notNull(),
             'department' => $this->string(),

@@ -241,6 +241,7 @@ class DefaultController extends Controller
                ,0 
             from {{%calendar_bithdays}} t_b
             where t_b.date >= :date2_1 and t_b.date <= :date2_2
+                and t_b.org_code = :org_code_t_b
         ) as t
         order by 
                t.is_global asc
@@ -256,6 +257,7 @@ class DefaultController extends Controller
         return Yii::$app->db->createCommand($sql, [
             ':org_code_color' => $orgCode,
             ':org_code_t' => $orgCode,
+            ':org_code_t_b' => $orgCode,
             ':date1_1' => Yii::$app->formatter->asDate(strtotime('-1 months', strtotime($date))),
             ':date1_2' => Yii::$app->formatter->asDate(strtotime('+2 months', strtotime($date))),
             ':date2_1' => Yii::$app->formatter->asDate(strtotime('-1 months', strtotime($date))),
