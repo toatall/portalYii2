@@ -1,10 +1,12 @@
 <?php
 
 use app\models\lifehack\Lifehack;
+use app\models\lifehack\LifehackFile;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use yii\bootstrap4\Dropdown;
 use yii\bootstrap4\Html;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -25,18 +27,60 @@ $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [ 
-        'organizationModel.name',
-        'tags',
+        'organizationModel.name',       
+        [
+            'attribute' => 'tags',
+            'value' => function(Lifehack $model) {
+                $res = '';
+                foreach ($model->tagsArray as $tag) {
+                    $res .= Html::a($tag, ['/lifehack/index', 'tag'=>$tag]) . ' ';
+                }
+                return $res;
+            },
+            'format' => 'raw',
+        ],
         'title',
-        'files',
-        'date_create',   
+        [
+            'label' => 'Файлы',
+            'value' => function($model) {
+                /** @var LifehackFile[] $files */
+                $files = $model->getLifehackFiles()->all();
+                $result = '';
+                foreach ($files as $file) {
+                    $result .= '<i class="far fa-file"></i> ' . Html::a(basename($file->filename), Url::to($file->filename, true), ['target' => '_blank',  'data-pjax'=>0]) . '<br />';
+                }
+                return $result;
+            },
+            'format' => 'raw',
+        ],        
+        'date_create:datetime:Дата',   
         [
             'class' => ActionColumn::class,
-            'template' => '{view}',  
+            'template' => '<div class="btn-group">{view}{update}{delete}</div>',  
             'buttons' => [
                 'view' => function($url, $model) {
-                    return Html::a('<i class="fas fa-eye"></i> Просмотр', ['view', 'id'=>$model->id], ['class'=>'btn btn-primary btn-sm mv-link']);
+                    return Html::a('<i class="fas fa-list-alt"></i>', ['view', 'id'=>$model->id], 
+                        ['class'=>'btn btn-outline-primary mv-link', 'title' => 'Подробнее']);
                 },
+                'update' => function($url, $model) {                    
+                    return Html::a('<i class="fas fa-pencil-alt "></i>', ['update', 'id'=>$model->id], 
+                        ['class'=>'btn btn-outline-secondary mv-link', 'title' => 'Изменить']);
+                },
+                'delete' => function($url, $model) {
+                    return Html::a('<i class="fas fa-trash"></i>', ['delete', 'id'=>$model->id], 
+                        [
+                            'class'=>'btn btn-outline-danger mv-link', 
+                            'title' => 'Удалить',
+                            'data' => [
+                                'confirm' => 'Вы уверены, что хотите удалить?',
+                                'method' => 'post',                           
+                            ],
+                        ]);                  
+                },
+            ],
+            'visibleButtons' => [
+                'update' => Lifehack::isEditor(),
+                'delete' => Lifehack::isEditor(),
             ],
         ],     
     ],
@@ -46,11 +90,11 @@ $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
         [
             'content' => Lifehack::isEditor() ?                
                 '<div clas="dropdown dropdown-menu-left">'     
-                . Html::a('<i class="fas fa-ellipsis-v"></i>', null, ['data-toggle'=>'dropdown', 'class' => 'btn']) 
+                . Html::a('<i class="fas fa-ellipsis-v"></i>', null, ['data-toggle'=>'dropdown', 'class' => 'btn btn-outline-secondary']) 
                 . Dropdown::widget([
                     'items' => [
                         ['label' => '<i class="fas fa-plus-circle"></i> Добавить', 'url' => ['/lifehack/create'], 'linkOptions'=>['class'=>'mv-link']],         
-                        ['label' => 'Управление тегами', 'url' => ['/lifehack/index-tags'], 'linkOptions'=>['class'=>'mv-link']],                    
+                        ['label' => '<i class="fas fa-tags"></i> Управление тегами', 'url' => ['/lifehack/index-tags'], 'linkOptions'=>['class'=>'mv-link']],                    
                     ],
                     'options' => [
                         'class' => 'dropdown-menu-right',
@@ -59,12 +103,12 @@ $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
                 ])
                 . '</div>' : '',
         ],
-    ],    
-    'exportConfig' => [        
+    ],
+    'exportConfig' => [   
         GridView::EXCEL => [
-            'filename' => "Награды и поощрения {$searchModel->org_code}",  
-        ],      
-    ],    
+            'filename' => "Лайфхаки",
+        ],
+    ],
     'panel' => [
         'type' => GridView::TYPE_DEFAULT,       
     ],

@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function(Lifehack $model) {
                     $res = '';
                     foreach ($model->tagsArray as $tag) {
-                        $res .= Html::a('#'.$tag, ['/lifehack/index', 'tag'=>$tag], ['target' => '_blank']) . ' ';
+                        $res .= Html::a($tag, ['/lifehack/index', 'tag'=>$tag], ['target' => '_blank']) . ' ';
                     }
                     return $res;
                 },
