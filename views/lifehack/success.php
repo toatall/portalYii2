@@ -1,9 +1,9 @@
 <?php
 /** @var yii\web\View $this */
-
+/** @var string $message */
 ?>
 <div class="alert alert-success">
-    Данные успешно сохранены!
+    <?= $message ?>
 </div>
 <button class="btn btn-primary" id="btn001" data-dismiss="modal">Закрыть</button>
 <?php  $this->registerJs(<<<JS

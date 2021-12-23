@@ -75,6 +75,7 @@ $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
                                 'confirm' => 'Вы уверены, что хотите удалить?',
                                 'method' => 'post',                           
                             ],
+                            'data-pjax' => true,
                         ]);                  
                 },
             ],

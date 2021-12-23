@@ -81,7 +81,6 @@ class LifehackController extends \yii\web\Controller
      */
     public function actionCreate()
     {
-    
         $model = new Lifehack();
         if (!Yii::$app->user->can('admin')) {
             $model->org_code = Yii::$app->user->identity->current_organization;
@@ -90,13 +89,44 @@ class LifehackController extends \yii\web\Controller
         if ($model->load(Yii::$app->request->post())) {  
             $model->uploadFiles = UploadedFile::getInstances($model, 'uploadFiles');
             if ($model->save()) {
-                return $this->renderAjax('success');
+                return $this->renderAjax('success', [
+                    'message' => 'Данные успешно сохранены!',
+                ]);
             }
         }
 
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [
             'title' => 'Добавление лайфхака',
+            'content' => $this->renderAjax('_form', [
+                'model' => $model,
+            ]),
+        ];
+    }
+
+    /**
+     * Изменение лайфхака
+     * @return string
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        if (!Yii::$app->user->can('admin')) {
+            $model->org_code = Yii::$app->user->identity->current_organization;
+        }
+        
+        if ($model->load(Yii::$app->request->post())) {  
+            $model->uploadFiles = UploadedFile::getInstances($model, 'uploadFiles');
+            if ($model->save()) {
+                return $this->renderAjax('success', [
+                    'message' => 'Данные успешно сохранены!',
+                ]);
+            }
+        }
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'title' => 'Изменение лайфхака',
             'content' => $this->renderAjax('_form', [
                 'model' => $model,
             ]),
@@ -117,6 +147,19 @@ class LifehackController extends \yii\web\Controller
                 'model' => $model,
             ]),
         ];
+    }
+
+    /**
+     * Deletes an existing CalendarTypes model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();       
+        return $this->redirect(['index']);
     }
 
     /**

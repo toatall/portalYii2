@@ -34,7 +34,7 @@ use yii\widgets\Pjax;
     'options' => ['multiple' => true],
     'pluginOptions' => [
         'allowClear' => true,
-        'tags' => true,
+        //'tags' => true,
         'tokenSeparators' => [',', ';', '/'],
     ], 
 ]) ?>

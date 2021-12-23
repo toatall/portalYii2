@@ -30,7 +30,6 @@ use yii\web\UploadedFile;
  */
 class Lifehack extends \yii\db\ActiveRecord
 {
-
     /**
      * Файлы
      * @var UploadedFile[]
@@ -67,8 +66,7 @@ class Lifehack extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%lifehack}}';
-    }
-    
+    }    
 
     /**
      * {@inheritdoc}
@@ -109,13 +107,12 @@ class Lifehack extends \yii\db\ActiveRecord
             'deleteFiles' => 'Отметьте файлы для удаления',
         ];
     }
-
     
     /**
      * @return array
      */
     public function getTagsArray()
-    {
+    {        
         if (trim($this->tags) != '') {
             return explode('/', $this->tags);
         }
@@ -164,7 +161,7 @@ class Lifehack extends \yii\db\ActiveRecord
     protected function deleteUploadFiles($idFiles = [])
     {
         // получение идентификаторов файлов
-        $files = $this->getFiles($idFiles)->all();
+        $files = $this->getLifehackFiles($idFiles)->all();
 
         // удаление файлов
         foreach ($files as $file) {
@@ -188,7 +185,7 @@ class Lifehack extends \yii\db\ActiveRecord
                 ]);
                 $fileModel->filename = \Yii::$app->storage->addEndSlash($path) . $file->name;              
                 if ($fileModel->save()) {
-                    //$this->link('files', $fileModel);
+
                 }
             });
         }
