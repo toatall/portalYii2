@@ -173,13 +173,13 @@ class DefaultController extends Controller
         $result = [];
 
         foreach ($data as $item) {
-            
+
             $date = Yii::$app->formatter->asDate($item['date']);
             $description = Html::encode($item['description']);
             $string = "<span class='badge calendar-badge-{$item['color']} f-size-08 text-white white-space-normal text-left'>{$description}</span>";
             $typeText = $item['type_text'];
-
-            $colorClass = 'd-table-cell fa-1x ';
+           
+            $colorClass = '';
             if (!empty($item['color_date'])) {
                 $colorClass .= 'badge calendar-badge-' . $item['color_date'];
             }
@@ -187,23 +187,32 @@ class DefaultController extends Controller
                 $colorClass .= 'font-weight-bold';
             }
 
-            if (isset($result[$date])) {
-                if (isset($result[$date]['content'][$typeText])) {
-                    $result[$date]['content'][$typeText] .= '<br />' . $string; 
-                }
-                else {
-                    $result[$date]['content'][$typeText] = $string;  
-                }              
+            if (!isset($result[$date])) {
+                $result[$date] = [];
+            }
+            $d = &$result[$date];          
+
+            if (isset($d['content'][$typeText])) {
+                $d['content'][$typeText] .= '<br />' . $string;
             }
             else {
-                $result[$date] = [
-                    'title' => $date,
-                    'content' => [$typeText => $string],
-                    'colorClass' => $colorClass,//'badge calendar-badge-' . $item['color_date'] . ' d-table-cell fa-1x font-weight-normal',
-                ];
+                $d['content'][$typeText] = $string;
+            }
+
+            $d['title'] = isset($d['title']) ? $d['title'] : $date;            
+            $d['content'] = isset($d['content']) ? $d['content'] : [$typeText => $string];
+
+
+            // если день рождения
+            if ($item['is_birthday']) {                
+                $d['dopColorClass'] = $item['color_date'];
+            }
+            // если не день рождения
+            else {
+                $d['colorClass'] = isset($d['colorClass']) ? $d['colorClass'] : $colorClass;                
             }
         }
-              
+
         return $result;        
     }
 
@@ -222,6 +231,7 @@ class DefaultController extends Controller
                 ,t.type_text
                 ,color.color as color_date
                 ,t.is_global
+                ,0 is_birthday
             from {{%calendar}} t
             outer apply (
                 select top 1 * from p_calendar_color color 
@@ -239,6 +249,7 @@ class DefaultController extends Controller
                ,:type_text type_text
                ,:color_date color_date
                ,0 
+               ,1 is_birthday
             from {{%calendar_bithdays}} t_b
             where t_b.date >= :date2_1 and t_b.date <= :date2_2
                 and t_b.org_code = :org_code_t_b
@@ -262,9 +273,9 @@ class DefaultController extends Controller
             ':date1_2' => Yii::$app->formatter->asDate(strtotime('+2 months', strtotime($date))),
             ':date2_1' => Yii::$app->formatter->asDate(strtotime('-1 months', strtotime($date))),
             ':date2_2' => Yii::$app->formatter->asDate(strtotime('+2 months', strtotime($date))),
-            ':color_text' => $params['color_day'],
+            ':color_text' => $params['color_text'],
             ':type_text' => $params['type_text'],
-            ':color_date' => $params['color_text'],
+            ':color_date' => $params['color_day'],
         ]);
     }
 

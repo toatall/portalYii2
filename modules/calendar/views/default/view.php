@@ -8,9 +8,7 @@ use app\modules\calendar\models\Calendar;
 use yii\bootstrap4\Html;
 use yii\widgets\Pjax;
 
-
 ?>
-
 
 <?php Pjax::begin(['id'=>'pjax-calendar-view', 'timeout'=>false, 'enablePushState' => false]); ?>
 
@@ -28,8 +26,7 @@ use yii\widgets\Pjax;
         $(modalViewer.modalTitle).html('<span class="badge badge-{$model->color} fa-1x">{$model->date}</span>');
     JS);
     */
-
-    
+   
     // список событий
     foreach ($model as $group => $items): ?>
         <div class="card mb-2">
@@ -70,8 +67,7 @@ use yii\widgets\Pjax;
             </div>
         </div>
     <?php endforeach; 
-    
-    
+        
     ?>
 <?php else: ?>
 

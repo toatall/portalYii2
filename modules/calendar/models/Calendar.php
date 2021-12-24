@@ -11,7 +11,6 @@ use Yii;
 use yii\db\ActiveQuery;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
-use yii\helpers\StringHelper;
 
 /**
  * This is the model class for table "{{%calendar}}".

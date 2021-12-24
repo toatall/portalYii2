@@ -119,6 +119,11 @@ $this->view->registerCss(<<<CSS
         background: #1163ad;
         cursor: pointer;
     }
+    
+    #{$this->id} .datepicker table td.day {
+        display: table-cell !important;
+        font-size: .85rem;
+    }
 
     #{$this->id} .datepicker .datepicker-switch:hover,
     #{$this->id} .datepicker .prev:hover,
@@ -178,6 +183,23 @@ $this->view->registerCss(<<<CSS
         font-weight: normal !important;
     }  
 
+    .calendar-badge-birthday {
+        text-decoration: underline #9e000f 2px;;
+    }
+
+    .event:after {
+        background: #007bff;
+        border-radius: 50%;
+        bottom: .5em;
+        display: block;
+        content: '';
+        height: .5em;
+        width: .5em;
+        margin: 0 auto;
+    }
+
+    
+
     .max-width-50 {
         max-width: 30%;
     }
@@ -193,6 +215,10 @@ $js = <<<JS
             var vTitle = jsonData[dt].title;
             var vClasses = jsonData[dt].colorClass;
             var vContent = '';
+
+            if (jsonData[dt].dopColorClass != undefined) {
+                vClasses += ' ' + jsonData[dt].dopColorClass;
+            }
 
             for(k in jsonData[dt]['content']) {
                 vContent += "<div class='card mb-2'>";

@@ -193,7 +193,7 @@ return [
     'calendar' => [
         'birhdays' => [
             'type_text' => 'Дни рождения',
-            'color_day' => 'danger',
+            'color_day' => 'calendar-badge-birthday',
             'color_text' => 'danger',
         ],
     ],
