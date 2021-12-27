@@ -54,6 +54,13 @@ $this->params['breadcrumbs'][] = $model->name;
         '{export}',
     ],
     'pjax' => true,
+    'pjaxSettings' => [        
+        'options'=>[
+            'id' => 'pjax-grid-user-result',
+            'enablePushState' => false,
+            'timeout' => false,
+        ],
+    ],
     'exportConfig' => [
         GridView::EXCEL => [
             'filename' => "{$model->name} (статистика по сотрудникам {$orgCode})",  

@@ -2,10 +2,10 @@
 
 namespace app\modules\test\controllers;
 
+use app\modules\test\models\TestQuestion;
 use app\modules\test\models\TestResult;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\Controller;;
 use yii\web\NotFoundHttpException;
@@ -98,9 +98,14 @@ class ResultController extends Controller
     {
         $model = $this->findModel($id);
         foreach ($model->testResultQuestions as $question) {
-            $question->is_right = Yii::$app->request->post("result_{$question->id}", 0);
-            $question->save();
+            if ($question->testQuestion->type_question === TestQuestion::TYPE_QUSTION_INPUT) {
+                $question->is_right = Yii::$app->request->post("result_{$question->id}", 0);
+                $question->save();               
+            }
         }
+        $model->is_checked = true;
+        $model->save();
+        return $this->renderAjax('resultSaveCheck');
     }
 
     /**

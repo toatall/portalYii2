@@ -146,12 +146,17 @@ class TestResultQuestion extends \yii\db\ActiveRecord
      */
     public function unpackUserInput()
     {
+        $jsonQuestion = [];
+        if ($this->testQuestion->input_answers) {
+            $jsonQuestion = json_decode($this->testQuestion->input_answers, true); 
+            $jsonQuestion = isset($jsonQuestion['answers']) ? $jsonQuestion['answers'] : [];       
+        }
         $json = json_decode($this->input_answers);
         $result = '';
         if (is_array($json)) {
-            foreach ($json as $j) {
-                $result .= $j . '<br />';
-            }
+            for ($i=0; $i<count($json);$i++) {
+                $result .= (isset($jsonQuestion[$i]['label']) ? $jsonQuestion[$i]['label'] . ': ' : '') . $json[$i] . '<br />';
+            }           
         }
         return $result;
     }
