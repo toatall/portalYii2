@@ -5,6 +5,7 @@
 /** @var app\modules\kadry\models\Award $searchModel */
 
 use app\modules\kadry\models\Award;
+use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
 use kartik\grid\GridView;
 use kartik\select2\Select2;
@@ -82,7 +83,7 @@ $this->title = 'Награды и поощрения сотрудников на
         ],
         'aw_doc',
         'aw_doc_num', 
-        'aw_date_doc:date',
+        'aw_date_doc:date',        
     ],
     'toolbar' => [
         '{export}',

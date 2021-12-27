@@ -28,6 +28,12 @@ class Award extends ActiveRecord
 {
 
     /**
+     * Даты для поиска в диапазоне
+     */
+    public $aw_date_doc1;
+    public $aw_date_doc2;
+
+    /**
      * @var string
      */
     public $searchMonth;
@@ -79,6 +85,7 @@ class Award extends ActiveRecord
         return [
             [['id'], 'integer'],
             [['org_code', 'org_name', 'fio', 'dep_index', 'dep_name', 'post', 'aw_name', 'aw_doc', 'aw_doc_num', 'aw_date_doc', 'date_create'], 'safe'],
+            [['aw_date_doc1', 'aw_date_doc2'], 'safe'],
         ];
     }
 
@@ -115,9 +122,25 @@ class Award extends ActiveRecord
         $query->andFilterWhere([
             'dep_index' => $this->dep_index,      
             'org_code' => $this->org_code,
-            'aw_date_doc' => $this->aw_date_doc,
+            //'aw_date_doc' => $this->aw_date_doc,
         ]);
        
+
+        if ($this->aw_date_doc) {
+            $dates = explode('/', $this->aw_date_doc);
+            if (count($dates) == 1) {
+                $query->andWhere(['aw_date_doc' => $dates]);
+            }   
+            else {         
+                if (isset($dates[0])) {
+                    $query->andWhere(['>=', 'aw_date_doc', $dates[0]]);
+                }
+                if (isset($dates[1])) {
+                    $query->andWhere(['<=', 'aw_date_doc', $dates[1]]);
+                }
+            }
+        }
+
         $query->andFilterWhere(['like', 'fio', $this->fio])
             ->andFilterWhere(['like', 'org_name', $this->org_name])
             ->andFilterWhere(['like', 'dep_name', $this->dep_name])
@@ -125,6 +148,13 @@ class Award extends ActiveRecord
             ->andFilterWhere(['like', 'aw_name', $this->aw_name])
             ->andFilterWhere(['like', 'aw_doc', $this->aw_doc])
             ->andFilterWhere(['like', 'aw_doc_num', $this->aw_doc_num]);
+
+        // if ($this->aw_date_doc1) {
+        //     $query->andWhere(['>=', 'aw_doc_num', $this->aw_date_doc1]);
+        // }
+        // if ($this->aw_date_doc2) {
+        //     $query->andWhere(['<=', 'aw_doc_num', $this->aw_date_doc2]);
+        // }
 
         return $dataProvider;
     }
