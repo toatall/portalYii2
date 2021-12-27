@@ -21,6 +21,7 @@ use app\models\User;
  * @property boolean $show_right_answer
  * @property string $finish_text
  * @property string $use_formula_filter
+ * @property boolean $user_input
  *
  * @property User $author0
  * @property TestQuestion[] $testQuestions
@@ -53,7 +54,7 @@ class Test extends \yii\db\ActiveRecord
             [['date_start', 'date_end', 'time_limit', 'date_create'], 'safe'],
             [['count_attempt', 'count_questions'], 'integer'],
             [['description', 'finish_text'], 'string'],
-            [['show_right_answer'], 'boolean'],
+            [['show_right_answer', 'user_input'], 'boolean'],
             [['name', 'author'], 'string', 'max' => 250],
             [['use_formula_filter'], 'string', 'max' => 500],
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username_windows']],
@@ -79,6 +80,7 @@ class Test extends \yii\db\ActiveRecord
             'show_right_answer' => 'Сразу показывать результат ответа',
             'finish_text' => 'Сообщение по окончанию тестирования',
             'use_formula_filter' => 'Дополнительная формула фильтра',
+            'user_input' => 'Ответы пользователь вводит вручную',
         ];
     }
 

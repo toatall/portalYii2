@@ -14,6 +14,7 @@ use yii\db\Query;
  * @property int|null $weight
  * @property int|null $is_right
  * @property string $date_create
+ * @property string $input_answers
  *
  * @property TestResultAnswer[] $testResultAnswers
  * @property TestResult $testResult
@@ -37,7 +38,7 @@ class TestResultQuestion extends \yii\db\ActiveRecord
         return [
             [['id_test_result', 'id_test_question'], 'required'],
             [['id_test_result', 'id_test_question', 'weight', 'is_right'], 'integer'],
-            [['date_create'], 'safe'],
+            [['date_create', 'input_answers'], 'safe'],
             [['id_test_result'], 'exist', 'skipOnError' => true, 'targetClass' => TestResult::class, 'targetAttribute' => ['id_test_result' => 'id']],
             [['id_test_question'], 'exist', 'skipOnError' => true, 'targetClass' => TestQuestion::class, 'targetAttribute' => ['id_test_question' => 'id']],
         ];
@@ -62,8 +63,7 @@ class TestResultQuestion extends \yii\db\ActiveRecord
      * Gets query for [[TestResultAnswers]].
      *
      * @return \yii\db\ActiveQuery
-     */
-    
+     */    
     public function getTestResultAnswers()
     {
         return $this->hasMany(TestResultAnswer::class, ['id_test_result_question' => 'id']);
@@ -97,29 +97,31 @@ class TestResultQuestion extends \yii\db\ActiveRecord
         // определение общего веса 
         $modelQuestion = $this->testQuestion;
 
-        $query = (new Query())
-            ->from('{{%test_answer}} test_answer')
-            ->leftJoin('{{%test_result_answer}} test_result_answer', 'test_result_answer.id_test_answer=test_answer.id')   
-            ->where([
-                'test_answer.id_test_question' => $this->id_test_question,
-                'test_result_answer.id_test_result_question' => $this->id,
-            ])
-            ->select('test_answer.id as id_answer, test_answer.weight, test_result_answer.id as id_answer_result')
-            ->all();
+        if ($this->testQuestion->type_question != TestQuestion::TYPE_QUSTION_INPUT) {                    
+            $query = (new Query())
+                ->from('{{%test_answer}} test_answer')
+                ->leftJoin('{{%test_result_answer}} test_result_answer', 'test_result_answer.id_test_answer=test_answer.id')   
+                ->where([
+                    'test_answer.id_test_question' => $this->id_test_question,
+                    'test_result_answer.id_test_result_question' => $this->id,
+                ])
+                ->select('test_answer.id as id_answer, test_answer.weight, test_result_answer.id as id_answer_result')
+                ->all();
 
-        // Выполняется проверка по каждому ответу 
-        // 1. Если ответ правильный и пользователь тоже выбрал этот ответ то результат увеличивается на 1
-        // 2. Если ответ не правильный и пользователь выбрал этот ответ, то уменьшается на 1
-        $weight = 0;
-        foreach ($query as $item) {
-            if ($item['weight'] > 0 && $item['id_answer_result'] != null) {
-                $weight += 1;
+            // Выполняется проверка по каждому ответу 
+            // 1. Если ответ правильный и пользователь тоже выбрал этот ответ то результат увеличивается на 1
+            // 2. Если ответ не правильный и пользователь выбрал этот ответ, то уменьшается на 1
+            $weight = 0;
+            foreach ($query as $item) {
+                if ($item['weight'] > 0 && $item['id_answer_result'] != null) {
+                    $weight += 1;
+                }
+                elseif ($item['id_answer_result'] != null) {
+                    $weight -= 1;
+                }
             }
-            elseif ($item['id_answer_result'] != null) {
-                $weight -= 1;
-            }
+            $this->is_right = (int)($weight == $modelQuestion->weight);
         }
-        $this->is_right = (int)($weight == $modelQuestion->weight);
         $this->save();
     }
 
@@ -136,6 +138,22 @@ class TestResultQuestion extends \yii\db\ActiveRecord
             ->andWhere(['>', 'weight', '0'])
             ->select('id, name')
             ->one();        
+    }
+
+    /**
+     * Преобразование ответов пользователя из json в читаемый текст
+     * @return string
+     */
+    public function unpackUserInput()
+    {
+        $json = json_decode($this->input_answers);
+        $result = '';
+        if (is_array($json)) {
+            foreach ($json as $j) {
+                $result .= $j . '<br />';
+            }
+        }
+        return $result;
     }
 
 }

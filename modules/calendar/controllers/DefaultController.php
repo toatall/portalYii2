@@ -58,7 +58,7 @@ class DefaultController extends Controller
         $query = $this->findByDate($date);
         $model = ArrayHelper::map($query, 'id', 'full', 'type_text');
         $modelColor = $this->findDateColor($date);
-        if ($modelColor==null) {
+        if ($modelColor===null) {
             $modelColor = new CalendarColor([
                 'date' => $date,
                 'org_code' => Yii::$app->user->identity->current_organization,
@@ -224,6 +224,7 @@ class DefaultController extends Controller
     {      
         $sql = "
         select * from (
+            
             select 
                  t.date
                 ,t.description
@@ -232,6 +233,8 @@ class DefaultController extends Controller
                 ,color.color as color_date
                 ,t.is_global
                 ,0 is_birthday
+                ,t.sort
+                ,t.date_create
             from {{%calendar}} t
             outer apply (
                 select top 1 * from p_calendar_color color 
@@ -248,20 +251,22 @@ class DefaultController extends Controller
                ,:color_text color
                ,:type_text type_text
                ,:color_date color_date
-               ,0 
+               ,0 is_global
                ,1 is_birthday
+               ,0 sort
+               ,t.date_create
             from {{%calendar_bithdays}} t_b
             where t_b.date >= :date2_1 and t_b.date <= :date2_2
                 and t_b.org_code = :org_code_t_b
+
         ) as t
         order by 
                t.is_global asc
-            --,t.sort desc
-            --,t.date_create asc
+              ,t.sort desc
+              ,t.date_create asc
         ";
 
         $orgCode = Yii::$app->user->isGuest ? null : Yii::$app->user->identity->current_organization;
-
 
         $params = Yii::$app->params['calendar']['birhdays'];
 

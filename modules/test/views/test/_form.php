@@ -56,6 +56,8 @@ use kartik\widgets\DatePicker;
     <?= $form->field($model, 'show_right_answer')->checkbox() ?>
 
     <?= $form->field($model, 'finish_text')->textarea(['rows' => 5]) ?>
+
+    <?= $form->field($model, 'user_input')->checkbox() ?>
     
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

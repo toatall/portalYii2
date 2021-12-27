@@ -4,6 +4,7 @@ namespace app\modules\test\models;
 
 use Yii;
 use app\models\User;
+use stdClass;
 use yii\db\Query;
 use yii\web\NotFoundHttpException;
 
@@ -14,6 +15,7 @@ use yii\web\NotFoundHttpException;
  * @property int $id_test
  * @property string $name
  * @property int|null $type_question
+ * @property string $input_answers
  * @property string|null $attach_file
  * @property int|null $weight
  * @property string $date_create
@@ -37,6 +39,11 @@ class TestQuestion extends \yii\db\ActiveRecord
     const TYPE_QUESTION_CHECK = 1;
 
     /**
+     * Ввод ответа пользователем
+     */
+    const TYPE_QUSTION_INPUT = 2;    
+
+    /**
      * {@inheritdoc}
      */
     public static function tableName()
@@ -52,7 +59,7 @@ class TestQuestion extends \yii\db\ActiveRecord
         return [
             [['id_test', 'name', 'author'], 'required'],
             [['id_test', 'type_question', 'weight'], 'integer'],
-            [['date_create'], 'safe'],
+            [['date_create', 'input_answers'], 'safe'],
             [['name'], 'string', 'max' => 2500],
             [['attach_file'], 'string', 'max' => 200],
             [['author'], 'string', 'max' => 250],
@@ -71,6 +78,7 @@ class TestQuestion extends \yii\db\ActiveRecord
             'id_test' => 'Тест',
             'name' => 'Наименование',
             'type_question' => 'Тип вопроса',
+            'input_answers' => 'Формат ответов',
             'attach_file' => 'Файл',
             'weight' => 'Количество баллов',
             'date_create' => 'Дата создания',
@@ -143,54 +151,15 @@ class TestQuestion extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param $idTest
      * @return array
-     * @throws NotFoundHttpException
      */
-    /*
-    public static function searchQuestions($idTest)
-    {
-        $modelTest = Test::findOne($idTest);
-        if ($modelTest === null) {
-            throw new NotFoundHttpException();
+    public function parseInputAnsewrs()
+    {        
+        $json = json_decode($this->input_answers);                
+        if ($json instanceof stdClass  && isset($json->answers) && is_array($json->answers)) {
+            return $json->answers;
         }
-
-        $queryQuestion = new Query();
-        $queryQuestion->from('{{%test_question}}')
-            ->where(['id_test' => $idTest]);
-        if ($modelTest->count_questions > 0) {
-            $queryQuestion->limit($modelTest->count_questions);
-        }
-        $queryQuestion->orderBy('newid()');
-
-        $resultData = [];
-
-        $resultQuestion = $queryQuestion->all();
-        foreach ($resultQuestion as $itemQuestion) {
-
-            $queryAnswer = new Query();
-            $queryAnswer->from('{{%test_answer}}')
-                ->where(['id_test_question' => $itemQuestion['id']])
-                ->orderBy('newid()');
-            $resultAnswer = $queryAnswer->all();
-
-            $dataAnswers = [];
-            foreach ($resultAnswer as $itemAnswer) {
-                $dataAnswers[] = [
-                    'id' => $itemAnswer['id'],
-                    'name' => $itemAnswer['name'],
-                    'file' => !empty($itemAnswer['attach_file']) ? $itemAnswer['attach_file'] : null,
-                ];
-            }
-            $resultData[] = [
-                'id' => $itemQuestion['id'],
-                'name' => $itemQuestion['name'],
-                'type' => $itemQuestion['type_question'],
-                'file' => !empty($itemQuestion['attach_file']) ? $itemQuestion['attach_file'] : null,
-                'answers' => $dataAnswers,
-            ];
-        }
-        return $resultData;
+        return [];
     }
-    */
+
 }

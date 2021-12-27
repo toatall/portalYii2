@@ -82,11 +82,21 @@ class ResultController extends Controller
                 'modelTest' => $model->test,
                 'modelRating' => $model->getTestResultOpinion()->one(),
                 'countWrong' => $model->getTestResultQuestions()->where('is_right=0 or is_right is null')->count(),
-                'countRight' => $model->getTestResultQuestions()->where('is_right=1')->count(),            
+                'countRight' => $model->getTestResultQuestions()->where('is_right=1')->count(),
+                'statistsic' => true,
             ]); 
         }
         else {
             return '<div class="alert alert-info">Данных не найдено!</div>';
+        }
+    }
+
+    public function actionSaveChecked($id)    
+    {
+        $model = $this->findModel($id);
+        foreach ($model->testResultQuestions as $question) {
+            $question->is_right = Yii::$app->request->post("result_{$question->id}", 0);
+            $question->save();
         }
     }
 

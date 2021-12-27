@@ -3,8 +3,8 @@
 use yii\bootstrap4\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\test\models\TestQuestion */
+/** @var yii\web\View $this */
+/** @var app\modules\test\models\TestQuestion $model */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Тесты', 'url' => ['/test/test/index']];
@@ -29,7 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'method' => 'post',
                     ],
                 ]) ?>
+                <?php if (/*!$model->test->user_input*/true): ?>
                 <?= Html::a('Управление ответами', ['/test/answer/index', 'idQuestion'=>$model->id], ['class' => 'btn btn-secondary']) ?>
+                <?php endif; ?>
             </div>
 
             <?= DetailView::widget([

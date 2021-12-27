@@ -12,14 +12,15 @@ use yii\web\Response;
 use app\modules\test\models\TestResult;
 use app\modules\test\models\TestResultOpinion;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\HttpException;
 use yii\web\ServerErrorHttpException;
 
 /**
- * Statistic controller for the `test` module
+ * ResultUserController controller for the `test` module
  */
-class StatisticController extends Controller
+class ResultUserController extends Controller
 {
 
     /**
@@ -33,12 +34,34 @@ class StatisticController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin', 'test-statistic'],
                     ],
                 ],
             ],
         ];
     }
+
+    public function actionIndex($id)
+    {
+        $model = $this->findModel($id);
+               
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => TestResult::find()->where([
+                'id_test' => $id,                
+            ]),
+        ]);
+
+        return [
+            'title' => 'Результаты теста "' . $model->name . '"',
+            'body' => $this->renderAjax('index', [
+                'dataProvider' => $dataProvider,
+            ]),
+        ];
+        
+    }
+
 
     /**
      * Статистика теста
@@ -147,14 +170,12 @@ class StatisticController extends Controller
             ->from('{{%test_result}} test_result')
             ->select("
                 test_result.username
-                ,test_result.is_checked
                 ,u.fio
                 ,test_result.id
                 ,test_result.date_create
                 ,test_result.status
                 ,count(DISTINCT test_result_question.id) count_question
                 ,count(DISTINCT test_result_question_right.id) count_right
-                
             ")
             ->leftJoin('{{%test_result_question}} test_result_question', 'test_result_question.id_test_result=test_result.id')
             ->leftJoin('{{%test_result_question}} test_result_question_right', 'test_result_question_right.id_test_result=test_result.id and test_result_question_right.is_right=1')
@@ -165,7 +186,7 @@ class StatisticController extends Controller
                 'test_result.org_code' => $orgCode,
             ])
             ->andWhere(['not', ['test_result.status' => TestResult::STATUS_START]])
-            ->groupBy("test_result.username, test_result.is_checked, u.fio, test_result.id, test_result.date_create, test_result.status")
+            ->groupBy("test_result.username, u.fio, test_result.id, test_result.date_create, test_result.status")
             ->indexBy('id')
             ->all();
         

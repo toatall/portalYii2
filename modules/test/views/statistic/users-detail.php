@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $model->name;
         [
             'class' => ExpandRowColumn::class,
             'value' => function() { return GridView::ROW_COLLAPSED; },
-            'detailUrl' => Url::to(['/test/result/view-ajax']),            
+            'detailUrl' => Url::to(['/test/result/view-ajax']),
         ],
     ],
     'toolbar' => [
@@ -66,4 +66,9 @@ $this->params['breadcrumbs'][] = $model->name;
         'type' => GridView::TYPE_DEFAULT,
         'heading' => $this->title, 
     ],
+    'rowOptions' => function($item) use ($model) {        
+        if ($model->user_input) {
+            return ['class' => $item['is_checked'] ? 'table-success' : 'table-warning'];
+        }        
+    },
 ]) ?>

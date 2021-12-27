@@ -21,6 +21,7 @@ use yii\web\NotFoundHttpException;
  * @property string $date_create
  * @property int $status
  * @property int $seconds
+ * @property boolean $is_checked
  *
  * @property Test $test
  * @property Organization $orgCode
@@ -58,7 +59,7 @@ class TestResult extends \yii\db\ActiveRecord
             [['org_code'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::class, 'targetAttribute' => ['org_code' => 'code']],
             [['username'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['username' => 'username_windows']],
         ];
-    }    
+    }
 
     /**
      * Gets query for [[Test]].
@@ -128,22 +129,29 @@ class TestResult extends \yii\db\ActiveRecord
 
     /**
      * Сохранение ответов из переданного массива
+     * @param array $data
      */
     public function saveAnswers($data) 
-    {
-        foreach ($data as $id => $values) {
+    {        
+        foreach ($data as $id => $values) {                        
             if (!is_array($values)) {
                 $values = [$values];
             }
+            
             /** @var TestResultQuestion $question */
             $question = $this->getTestResultQuestions()->where(['id_test_question' => $id])->one();
             if ($question !== null) {
-                foreach ($values as $value) {
-                    (new TestResultAnswer([
-                        'id_test_result_question' => $question->id,
-                        'id_test_answer' => $value,
-                        'date_create' => Yii::$app->formatter->asDatetime(time()),
-                    ]))->save();
+                if ($question->testQuestion->type_question == TestQuestion::TYPE_QUSTION_INPUT) {
+                    $question->input_answers = json_encode($values);
+                }
+                else {
+                    foreach ($values as $value) {                    
+                        (new TestResultAnswer([
+                            'id_test_result_question' => $question->id,
+                            'id_test_answer' => $value,
+                            'date_create' => Yii::$app->formatter->asDatetime(time()),
+                        ]))->save();
+                    }
                 }
             }
             $question->checkRightAnswer();
@@ -183,7 +191,7 @@ class TestResult extends \yii\db\ActiveRecord
                 'date_create' => Yii::$app->formatter->asDatetime(time()),
             ]))
             ->save();
-        }        
+        }
     }
 
     /**
@@ -242,6 +250,7 @@ class TestResult extends \yii\db\ActiveRecord
 
     /**
      * Получение следующего вопроса
+     * @return yii\db\ActiveQuery
      */
     public function getNextQuestion()
     {    
@@ -249,6 +258,6 @@ class TestResult extends \yii\db\ActiveRecord
             'id_test_result' => $this->id,
             'is_right' => null,
         ])->one();
-    }
+    }    
 
 }

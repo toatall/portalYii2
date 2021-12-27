@@ -26,25 +26,36 @@ $resultAnswers = ArrayHelper::map($model->testResultAnswers, 'id_test_answer', '
     <hr />
         
     <div class="form-answer" data-url="<?= Url::to(['/test/public/partial-save-answer', 'idResult'=>$model->id_test_result, 'idQuestion'=>$question->id]) ?>">
-    <?php foreach ($question->testAnswers as $answer): ?>
-        <div class="form-check">
-            <?php 
-                if ($question->type_question == TestQuestion::TYPE_QUESTION_RADIO) {
-                    echo Html::radio('Test[' . $question->id . ']', isset($resultAnswers[$answer->id]),
-                        ['value'=>$answer->id, 'class'=>'form-check-input', 'id'=>'answer-'.$answer->id, 'data-id-question'=>$question->id]);
-                }
-                else {
-                    echo Html::checkbox('Test[' . $question->id . '][]', isset($resultAnswers[$answer->id]), 
-                        ['value'=>$answer->id, 'class'=>'form-check-input', 'id'=>'answer-'.$answer->id, 'data-id-question'=>$question->id]);
-                }
-                // Файл
-                if (!empty($answer->attach_file)) {
-                    echo '<br />' . Html::a(basename($answer->attach_file), $answer->attach_file, ['target'=>'_blank']);
-                }
+    <?php if ($question->type_question == TestQuestion::TYPE_QUSTION_INPUT): ?>        
+        <?php foreach ($question->parseInputAnsewrs() as $id => $q): 
+            $inputId = "answer-{$question->id}-{$id}";
             ?>
-            <label class="form-check-label" for="answer-<?= $answer->id ?>" style="cursor: pointer;"><?= $answer->name ?></label>
-        </div>
-    <?php endforeach; ?>
+            <div class="form-input mb-3">
+                <?= isset($q->label) ? Html::label($q->label, $inputId, ['class' => 'form-input-label']) : '' ?>
+                <?= Html::input('text', "Test[{$question->id}][$id]", null, ['id'=>$inputId, 'class'=>'form-control']) ?>                
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <?php foreach ($question->testAnswers as $answer): ?>
+            <div class="form-check">
+                <?php 
+                    if ($question->type_question == TestQuestion::TYPE_QUESTION_RADIO) {
+                        echo Html::radio('Test[' . $question->id . ']', isset($resultAnswers[$answer->id]),
+                            ['value'=>$answer->id, 'class'=>'form-check-input', 'id'=>'answer-'.$answer->id, 'data-id-question'=>$question->id]);
+                    }
+                    else {
+                        echo Html::checkbox('Test[' . $question->id . '][]', isset($resultAnswers[$answer->id]), 
+                            ['value'=>$answer->id, 'class'=>'form-check-input', 'id'=>'answer-'.$answer->id, 'data-id-question'=>$question->id]);
+                    }
+                    // Файл
+                    if (!empty($answer->attach_file)) {
+                        echo '<br />' . Html::a(basename($answer->attach_file), $answer->attach_file, ['target'=>'_blank']);
+                    }
+                ?>
+                <label class="form-check-label" for="answer-<?= $answer->id ?>" style="cursor: pointer;"><?= $answer->name ?></label>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
     </div>    
 
     <hr />

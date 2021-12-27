@@ -83,7 +83,8 @@ class QuestionController extends Controller
         $modelTest = $this->findModelTest($idTest);
         $model = new TestQuestion();
         $model->id_test = $idTest;
-        $model->weight = 1;            
+        $model->weight = 1;
+        $model->input_answers = '{"answers": [ {"label":"Текст перед полем ввода 1","right_value":"правильный ответ"} ]}';   
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

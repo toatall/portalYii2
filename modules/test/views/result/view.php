@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\test\models\Test;
 use app\modules\test\models\TestResultOpinion;
 use kartik\rating\StarRating;
 use yii\bootstrap4\Html;
@@ -10,14 +11,17 @@ use yii\bootstrap4\Html;
 /** @var TestResultOpinion $modelRating */
 /** @var int $countWrong */
 /** @var int $countRight */
+/** @var bool $statistsic */
 
 $this->title = 'Результаты теста "' . $modelTest->name . '"';
 $this->params['breadcrumbs'][] = ['label'=>'Результаты тестов', 'url'=>['/test/result/index']];
 $this->params['breadcrumbs'][] = $this->title;
+$statistsic = isset($statistsic) ? true : false;
 ?>
 
 <div class="test-default-index">
 
+    <?php if ($modelTest->user_input && $model->is_checked): ?>
     <div class="card shadow mb-4">
         <div class="card-header font-weight-bolder">Статистика</div>
         <div class="card-body">
@@ -92,83 +96,28 @@ $this->params['breadcrumbs'][] = $this->title;
 
         </div>                
     </div>    
+    <?php endif; ?>
 
 
-    <div class="card shadow">
-        <div class="card-header font-weight-bolder">            
-            Результаты теста
-        </div>
-        <div class="card-body text-dark">
-            <?php foreach ($model->testResultQuestions as $question): ?>
-                <div class="alert <?= $question->is_right ? 'alert-success' : 'alert-danger' ?>">
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <strong>
-                                <?= $question->testQuestion->name ?>
-                            </strong>        
-                        </div>                
-                        <div class="col-sm-1 text-right">
-                            <button class="btn btn-light btn-toggle" data-target="#answers-<?= $question->id ?>"><i class="fas fa-arrow-down"></i></button>
-                        </div>
-                    </div>
-                    <div class="row" id="answers-<?= $question->id ?>" style="display: none;">
-                        <div class="col">                        
-                        <?php $answers = $question->testResultAnswers; ?>
-                        <?php if ($answers): ?>
-                            <?php if (count($answers) > 1): ?>
-                                <?php foreach ($answers as $answer): ?>
-                                    <div class="custom-control">
-                                        <input type="checkbox" checked disabled="disabled" id="answ-<?= $answer->id ?>" />
-                                        <label for="answ-<?= $answer->id ?>"><?= $answer->testAnswer->name ?></label>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <?php $answer = array_shift($answers); ?>
-                                <div class="custom-control">
-                                    <input type="radio" checked disabled="disabled" id="answ-<?= $answer->id ?>" />
-                                    <label for="answ-<?= $answer->id ?>"><?= $answer->testAnswer->name ?></label>
-                                </div>
-                            <?php endif; ?>
-                        <?php else: ?>
-                            <div class="custom-control">
-                                Ответ не выбран
-                            </div>
-                        <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-                    
+    <?php 
+    if ($modelTest->user_input) {
 
-        </div>
-    </div>
-    
+        if ($statistsic && $model->test->canStatisticTest()) {
+            echo $this->render('_viewResultChecked', [
+                'model' => $model,
+            ]);
+        }
+        else {
+            echo $this->render('_viewResultInputUser', [
+                'model' => $model,
+            ]);
+        }
+    }
+    else {
+        echo $this->render('_viewResultGeneral', [
+            'model' => $model,
+        ]);
+    }
+    ?>
+
 </div>
-<?php $this->registerJs(<<<JS
-    // сворачивание и разворачивание ответов
-    $('.btn-toggle').on('click', function() {
-        $($(this).data('target')).toggle();
-        return false;
-    });
-
-    // сохранение результатов оценки
-    $('#form-rating').on('submit', function(e) {
-        e.preventDefault();
-        
-        const form = $(this);
-        $.ajax({
-            url: form.attr('action'),
-            data: form.serialize(),
-            method: 'post',
-        })
-        .done(function(data) {
-            form.parents('div.alert-info').html('<strong>Спасибо за вашу оценку!</strong>');
-        })
-        .fail(function(err) {                        
-            $('#container-rating-error').html(err.responseText);
-            $('#container-rating-error').show();
-        });
-        return false;
-    });
-
-JS); ?>
