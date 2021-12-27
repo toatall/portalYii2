@@ -37,6 +37,10 @@ $secondsLeave = $secondsTest - $modelResult->seconds;
         <h6 class="m-0 font-weight-bold text-primary"><?= $model->name ?></h6>
     </div>
     <div class="card-body">
+        <?php if (!empty($model->description)): ?>
+            <div class="card card-body"><?= $model->description ?></div>
+        <?php endif; ?>
+
         <?php $questions = $modelResult->testResultQuestions; ?>
 
         <div class="mb-2">
