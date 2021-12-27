@@ -187,7 +187,7 @@ class TestResult extends \yii\db\ActiveRecord
                 'id_test_result' => $this->id,
                 'id_test_question' => $modelQuestion->id,
                 'weight' => $modelQuestion->weight,
-                'is_right' => null,
+                'is_right' => 0,
                 'date_create' => Yii::$app->formatter->asDatetime(time()),
             ]))
             ->save();

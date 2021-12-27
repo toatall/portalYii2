@@ -91,6 +91,9 @@ class ResultController extends Controller
         }
     }
 
+    /**
+     * 
+     */
     public function actionSaveChecked($id)    
     {
         $model = $this->findModel($id);

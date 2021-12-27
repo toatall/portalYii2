@@ -44,10 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?= Html::a('Вопросы', ['/test/question/index', 'idTest'=>$model->id], ['class'=>'dropdown-item']) ?>                                
                             <?php endif; ?>
                             <?php if ($model->canStatisticTest()): ?>
-                                <?php if ($model->user_input): ?>
-                                    <div class="dropdown-divider"></div>
-                                    <?= Html::a('Установка правильных ответов', ['/test/result-user/index', 'id'=>$model->id], ['class'=>'dropdown-item link-modal']) ?>
-                                <?php endif; ?>
                                 <div class="dropdown-divider"></div>
                                 <div class="dropdown-header">Статистика</div>
                                 <?= Html::a('Общая', ['/test/statistic/general', 'id'=>$model->id], ['class'=>'dropdown-item link-modal']) ?>
