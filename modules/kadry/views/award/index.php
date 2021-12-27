@@ -68,11 +68,17 @@ $this->title = 'Награды и поощрения сотрудников на
         ],         
         [
             'attribute' => 'dep_name',
+            'value' => function($model) {
+                return $model->dep_name == null ? '-' : $model->dep_name;
+            },
             'group' => true,
         ],
         [
             'attribute' => 'post',
-            'group' => true,
+            'value' => function($model) {
+                return $model->post == null ? '-' : $model->post;
+            },
+            'group' => true,            
         ],
         [
             'attribute' => 'aw_name',

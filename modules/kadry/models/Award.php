@@ -104,6 +104,15 @@ class Award extends ActiveRecord
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'org_code' => SORT_ASC,
+                    'org_name' => SORT_ASC,
+                    'fio' => SORT_ASC, 
+                    'dep_name' => SORT_ASC, 
+                    'post' => SORT_ASC,
+                ],
+            ],
         ]);
 
         $this->load($params);
