@@ -254,7 +254,7 @@ class DefaultController extends Controller
                ,0 is_global
                ,1 is_birthday
                ,0 sort
-               ,t.date_create
+               ,t_b.date_create
             from {{%calendar_bithdays}} t_b
             where t_b.date >= :date2_1 and t_b.date <= :date2_2
                 and t_b.org_code = :org_code_t_b
