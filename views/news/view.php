@@ -50,7 +50,9 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
         <div class="card-body">
-            <?= $model->message2 ?>
+            <div style="font-size:20px;">
+                <?= $model->message2 ?>
+            </div>
         </div>
     </div>
     

@@ -102,6 +102,7 @@ class NewsController extends Controller
         $model->date_end_pub = DateHelper::maxDate();
         $model->flag_enable = true;
         $model->on_general_page = (Yii::$app->userInfo->current_organization == '8600');
+        $model->message2 = '<p style="font-size:20px;"></p>';
 
         if ($model->load(Yii::$app->request->post())) {
             $model->id_tree = $idTree;

@@ -24,11 +24,19 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'message1')->textArea(['rows' => 5]) ?>
 
+<?php $this->registerCss(<<<CSS
+    .font-20px, .font-20px p {
+        font-size: 20px;
+    }
+CSS); ?>
+    <div class="font-20px">
     <?= $form->field($model, 'message2')->widget(CKEditor::class, [
         'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
             'preset' => 'full',
-        ]),
+            'fontSize_sizes' => '20/20px;22/22px;24/24px;26/26px;28/28px;36/36px;48/48px;72/72px',
+        ]),        
     ]) ?>
+    </div>
 
     <div class="card">
         <div class="card-header"><?= $model->getAttributeLabel('thumbail_image') ?></div>
