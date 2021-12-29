@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use app\models\news\News;
 use Yii;
-use yii\db\Query;
 use yii\filters\AccessControl;
 use app\models\news\NewsSearch;
 use yii\helpers\Json;
@@ -138,6 +137,30 @@ class NewsController extends \yii\web\Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * Лента новостей
+     * @return string
+     */
+    public function actionGeneral()
+    {
+        $this->getView()->title = 'Новости';
+        $searchModel = new NewsSearch();
+        $dataProvider = $searchModel->searchPublic(\Yii::$app->request->queryParams);
+              
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('indexGeneral', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        else {
+            return $this->render('indexGeneral', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
 
     /**

@@ -2,9 +2,12 @@
 
 namespace app\models\news;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
+use yii\web\Cookie;
+use yii\web\Session;
 
 /**
  * NewsSearch represents the model behind the search form of `app\models\news\News`.
@@ -36,6 +39,10 @@ class NewsSearch extends News
      */
     public $searchSection;
 
+    public $onlyUfns;
+    public $onlyIfns;
+
+
     /**
      * {@inheritdoc}
      */
@@ -47,7 +54,7 @@ class NewsSearch extends News
             [['id_organization', 'title', 'message1', 'message2', 'author', 'date_start_pub', 'date_end_pub',
                 'thumbail_title', 'thumbail_image', 'thumbail_text', 'date_create', 'date_edit', 'date_delete',
                 'log_change', 'tags', 'date_sort'], 'safe'],
-            [['searchText', 'searchDate1', 'searchDate2'], 'safe'],
+            [['searchText', 'searchDate1', 'searchDate2', 'onlyIfns', 'onlyUfns'], 'safe'],
         ];
     }
 
@@ -174,7 +181,29 @@ class NewsSearch extends News
      */
     public function searchPublic($params)
     {
+                
         $this->load($params);
+
+        /** @var yii\web\Session $session */
+        $session = Yii::$app->session;
+        if (!$session->isActive) {
+            $session->open();
+        }
+                    
+        if ($this->onlyIfns === null) {
+            $this->onlyIfns = $session->get('News_onlyIfns', false);
+        }
+        else {
+            $session->set('News_onlyIfns', $this->onlyIfns);
+        }
+        if ($this->onlyUfns === null) {
+            $this->onlyUfns = $session->get('News_onlyUfns', false);
+        }
+        else {
+            $session->set('News_onlyUfns', $this->onlyUfns);
+        }
+
+
         $query = $this->basePublicSearch();
 
         // add conditions that should always apply here
@@ -188,6 +217,14 @@ class NewsSearch extends News
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+
+        if ($this->onlyUfns) {
+            $query->andFilterWhere(['t.id_organization' => '8600']);
+            $query->andWhere(['t.on_general_page' => 1]);
+        }
+        elseif ($this->onlyIfns) {
+            $query->andFilterWhere(['<>', 't.id_organization', '8600']);
         }
 
         $query->andFilterWhere(['t.id_organization' => $this->id_organization]);
