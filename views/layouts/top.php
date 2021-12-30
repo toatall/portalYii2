@@ -4,6 +4,7 @@
 use app\assets\FlipAsset;
 use app\assets\newyear\GerljandaAsset;
 use app\assets\fancybox\FancyboxAsset;
+use app\helpers\DateHelper;
 
 FancyboxAsset::register($this);
 
@@ -100,15 +101,20 @@ switch ($month) {
     
 </div>
 */ ?>
-<?php echo $this->render('top_new_year'); ?>
+
+<?php 
+if (date('Y') < 2022) {
+    echo $this->render('top_new_year'); 
+}
+?>
 
 <div class="container-fluid">
     <div class="row justify-content-between" id="logo-background">
         
         <div class="col-7 text-left" id="logo-image" style="background-image: url('<?= $logoTopPath . $logoTopImg ?>');"></div>
         
-        <div class="col text-right" style="">
-            <?= $this->render('top_pay_taxes') ?>
+        <div class="col text-right">
+            <?php if (date('Y') < 2022) { echo $this->render('top_pay_taxes'); } ?>
             <?= $this->render('top_calendar') ?>
         </div>
 
