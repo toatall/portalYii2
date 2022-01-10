@@ -303,15 +303,22 @@ class Department extends \yii\db\ActiveRecord
                 'id_parent'=>$idParent,
                 'date_delete'=>null,
             ])
-            ->select('id, name')
+            ->select('id, name, is_url, url')
             ->all();
 
         foreach ($resultQuery as $item) {
             $subItems = $this->getMenu($item['id']);
 
+            if ($item['is_url']) {
+                $url = Url::to($item['url']);
+            }
+            else {
+                $url = ['department/view', 'id'=>$this->id, 'idTree'=>$item['id']];
+            }
+
             $result[] = [
                 'label' => $item['name'],
-                'url' => ['department/view', 'id'=>$this->id, 'idTree'=>$item['id']],
+                'url' => $url,
                 'items' => $subItems,
                 'options' => $subItems ? ['class' => 'dropdown-submenu'] : [],
             ];

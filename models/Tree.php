@@ -32,6 +32,8 @@ use yii\helpers\Url;
  * @property string $date_create
  * @property string $date_edit
  * @property string|null $date_delete
+ * @property boolean $is_url
+ * @property string $url
  *
  * @property AccessGroup[] $accessGroups
  * @property AccessUser[] $accessUsers
@@ -91,10 +93,11 @@ class Tree extends \yii\db\ActiveRecord
             [['name', 'author'], 'string', 'max' => 250],
             [['module', 'alias', 'view_static'], 'string', 'max' => 50],
             [['param1'], 'string', 'max' => 100],
-            [['module'], 'ruleModuleExists'],
-            //[['id_organization'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::class, 'targetAttribute' => ['id_organization' => 'code']],
+            [['module'], 'ruleModuleExists'],            
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username_windows']],
             [['permissionGroup', 'permissionUser'], 'safe'],
+            [['is_url'], 'boolean'],
+            [['url'], 'string', 'max' => 500],
         ];
     }
 
@@ -150,58 +153,60 @@ class Tree extends \yii\db\ActiveRecord
             'useParentRight' => 'Добавить разрешения, наследуемые от родительских групп и пользователей',
             'allOrganization' => 'Для всех налоговых орнанов',
             'view_static' => 'Статистическая страница (только с модулем static)',
+            'is_url' => 'Использование ссылки',
+            'url' => 'Ссылка',
         ];
     }
 
-    /**
-     * Gets query for [[AccessGroups]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAccessGroups()
-    {
-        return $this->hasMany(AccessGroup::className(), ['id_tree' => 'id']);
-    }
+    // /**
+    //  * Gets query for [[AccessGroups]].
+    //  *
+    //  * @return \yii\db\ActiveQuery
+    //  */
+    // public function getAccessGroups()
+    // {
+    //     return $this->hasMany(AccessGroup::className(), ['id_tree' => 'id']);
+    // }
 
-    /**
-     * Gets query for [[AccessUsers]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAccessUsers()
-    {
-        return $this->hasMany(AccessUser::className(), ['id_tree' => 'id']);
-    }
+    // /**
+    //  * Gets query for [[AccessUsers]].
+    //  *
+    //  * @return \yii\db\ActiveQuery
+    //  */
+    // public function getAccessUsers()
+    // {
+    //     return $this->hasMany(AccessUser::className(), ['id_tree' => 'id']);
+    // }
 
-    /**
-     * Gets query for [[Departments]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDepartments()
-    {
-        return $this->hasMany(Department::className(), ['id_tree' => 'id']);
-    }
+    // /**
+    //  * Gets query for [[Departments]].
+    //  *
+    //  * @return \yii\db\ActiveQuery
+    //  */
+    // public function getDepartments()
+    // {
+    //     return $this->hasMany(Department::className(), ['id_tree' => 'id']);
+    // }
 
-    /**
-     * Gets query for [[News]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getNews()
-    {
-        return $this->hasMany(News::className(), ['id_tree' => 'id']);
-    }
+    // /**
+    //  * Gets query for [[News]].
+    //  *
+    //  * @return \yii\db\ActiveQuery
+    //  */
+    // public function getNews()
+    // {
+    //     return $this->hasMany(News::className(), ['id_tree' => 'id']);
+    // }
 
-    /**
-     * Gets query for [[RatingMains]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRatingMains()
-    {
-        return $this->hasMany(RatingMain::className(), ['id_tree' => 'id']);
-    }
+    // /**
+    //  * Gets query for [[RatingMains]].
+    //  *
+    //  * @return \yii\db\ActiveQuery
+    //  */
+    // public function getRatingMains()
+    // {
+    //     return $this->hasMany(RatingMain::className(), ['id_tree' => 'id']);
+    // }
 
     /**
      * Gets query for [[Telephones]].
@@ -210,7 +215,7 @@ class Tree extends \yii\db\ActiveRecord
      */
     public function getTelephones()
     {
-        return $this->hasMany(Telephone::className(), ['id_tree' => 'id']);
+        return $this->hasMany(Telephone::class, ['id_tree' => 'id']);
     }
 
     /**

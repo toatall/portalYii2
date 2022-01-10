@@ -29,17 +29,25 @@ $arrayParent = Yii::$app->user->can('admin') ? ['0' => 'Родитель'] : [];
 
     <?= $form->field($model, 'sort')->textInput() ?>
 
-    <?php if (Yii::$app->user->can('admin')): ?>
-        <?= $form->field($model,'allOrganization')->checkbox() ?>
-    <?php endif; ?>
+    <?= $form->field($model, 'is_url')->checkbox() ?>
 
-    <?= $form->field($model, 'use_material')->checkbox() ?>
+    <div id="div-url">
+        <?= $form->field($model, 'url') ?>
+    </div>
 
-    <div id="content-material" class="card">
-        <div class="card-body">
-            <?php if (Yii::$app->user->can('admin')): ?>
-            <?= $form->field($model, 'module')->dropDownList(['' => ''] + ArrayHelper::map(Module::find()->all(), 'name', 'description')) ?>
-            <?php endif; ?>            
+    <div id="div-general">
+        <?php if (Yii::$app->user->can('admin')): ?>
+            <?= $form->field($model,'allOrganization')->checkbox() ?>
+        <?php endif; ?>
+
+        <?= $form->field($model, 'use_material')->checkbox() ?>
+
+        <div id="content-material" class="card">
+            <div class="card-body">
+                <?php if (Yii::$app->user->can('admin')): ?>
+                <?= $form->field($model, 'module')->dropDownList(['' => ''] + ArrayHelper::map(Module::find()->all(), 'name', 'description')) ?>
+                <?php endif; ?>            
+            </div>
         </div>
     </div>
 
@@ -75,7 +83,7 @@ $arrayParent = Yii::$app->user->can('admin') ? ['0' => 'Родитель'] : [];
     </div>
     <?php endif; ?>
 
-    <div class="card mt-2 mb-2">
+    <!-- <div class="card mt-2 mb-2">
         <div class="card-header">
             <button id="btn-add-parameters" class="btn btn-primary">Дополнительные параметры</button>
         </div>
@@ -86,7 +94,7 @@ $arrayParent = Yii::$app->user->can('admin') ? ['0' => 'Родитель'] : [];
                 <?= $form->field($model, 'view_static')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <?= $form->field($model, 'disable_child')->checkbox() ?>
 
@@ -101,94 +109,109 @@ $arrayParent = Yii::$app->user->can('admin') ? ['0' => 'Родитель'] : [];
 
 </div>
 <?php
+
+// показать/скрыть при выборе ссылки
+$this->registerJs("
+    $('#" . Html::getInputId($model, 'is_url') . "').change(function() {
+        if ($(this).is(':checked')) { 
+            $('#div-general').hide(); 
+            $('#div-url').show(); 
+        } 
+        else { 
+            $('#div-general').show(); 
+            $('#div-url').hide(); 
+        }  
+    });
+    $('#" . Html::getInputId($model, 'is_url') . "').change();
+");
+
 // показать/скрыть выбор модуля
 $this->registerJs("
-$('#" . Html::getInputId($model, 'use_material') . "').change(function() {
-    if ($(this).is(':checked')) { 
-        $('#content-material').show(); 
-    } 
-    else { 
-        $('#content-material').hide(); 
-    }  
-});
-$('#" . Html::getInputId($model, 'use_material') . "').change();
+    $('#" . Html::getInputId($model, 'use_material') . "').change(function() {
+        if ($(this).is(':checked')) { 
+            $('#content-material').show(); 
+        } 
+        else { 
+            $('#content-material').hide(); 
+        }  
+    });
+    $('#" . Html::getInputId($model, 'use_material') . "').change();
 ");
+
 
 // показать/скрыть наследование прав
 $this->registerJs("
-$('#" . Html::getInputId($model, 'useParentRight') . "').change(function() {
-    if ($(this).is(':checked')) { 
-        $('#content-permission').hide(); 
-    } 
-    else { 
-        $('#content-permission').show(); 
-    }  
-});
-$('#" . Html::getInputId($model, 'useParentRight') . "').change();
+    $('#" . Html::getInputId($model, 'useParentRight') . "').change(function() {
+        if ($(this).is(':checked')) { 
+            $('#content-permission').hide(); 
+        } 
+        else { 
+            $('#content-permission').show(); 
+        }  
+    });
+    $('#" . Html::getInputId($model, 'useParentRight') . "').change();
 ");
 
 
 // кнопка показа доролнительных параметров
 $this->registerJs("
-$('#btn-add-parameters').on('click', function() {
-    $('#content-add-parameters').toggle();   
-    return false; 
-});
-");
+    $('#btn-add-parameters').on('click', function() {
+        $('#content-add-parameters').toggle();   
+        return false; 
+    });
+    ");
 
-// выбор группы
-$this->registerJs("
-$('#btn-add-group').on('click', function() {
-    listGroup = $('#" . Html::getInputId($model, 'permissionGroup') . "');
-    listGroup.children('option').prop('selected', true);
-    groups = listGroup.val();    
-    modalViewer.showModalManual($(this).attr('href'), false, 'get', 'groups=' + groups);
-    return false;
-});
+    // выбор группы
+    $this->registerJs("
+    $('#btn-add-group').on('click', function() {
+        listGroup = $('#" . Html::getInputId($model, 'permissionGroup') . "');
+        listGroup.children('option').prop('selected', true);
+        groups = listGroup.val();    
+        modalViewer.showModalManual($(this).attr('href'), false, 'get', 'groups=' + groups);
+        return false;
+    });
 
-$(modalViewer).on('onPortalSelectGroup', function(event, group) {
-    $('#" . Html::getInputId($model, 'permissionGroup') . "').append('<option value=\"' + group.id + '\">' + group.name + '</option>');
-    modalViewer.closeModal();
-});
-
+    $(modalViewer).on('onPortalSelectGroup', function(event, group) {
+        $('#" . Html::getInputId($model, 'permissionGroup') . "').append('<option value=\"' + group.id + '\">' + group.name + '</option>');
+        modalViewer.closeModal();
+    });
 ");
 
 // удаление группы
 $this->registerJs("
-$('#btn-remove-group').on('click', function() {
-    $('#" . Html::getInputId($model, 'permissionGroup') . "').children('option:selected').remove();
-});
-");
+    $('#btn-remove-group').on('click', function() {
+        $('#" . Html::getInputId($model, 'permissionGroup') . "').children('option:selected').remove();
+    });
+    ");
 
-// выбор пользователя
-$this->registerJs("
-$('#btn-add-user').on('click', function() {
-    listUser = $('#" . Html::getInputId($model, 'permissionUser') . "');
-    listUser.children('option').prop('selected', true);
-    users = listUser.val();    
-    modalViewer.showModalManual($(this).attr('href'), false, 'get', 'users=' + users);
-    return false;
-});
+    // выбор пользователя
+    $this->registerJs("
+    $('#btn-add-user').on('click', function() {
+        listUser = $('#" . Html::getInputId($model, 'permissionUser') . "');
+        listUser.children('option').prop('selected', true);
+        users = listUser.val();    
+        modalViewer.showModalManual($(this).attr('href'), false, 'get', 'users=' + users);
+        return false;
+    });
 
-$(modalViewer).on('onPortalSelectUser', function(event, user) {
-    $('#" . Html::getInputId($model, 'permissionUser') . "').append('<option value=\"' + user.id + '\">' + user.name + '</option>');
-    modalViewer.closeModal();
-});
-
+    $(modalViewer).on('onPortalSelectUser', function(event, user) {
+        $('#" . Html::getInputId($model, 'permissionUser') . "').append('<option value=\"' + user.id + '\">' + user.name + '</option>');
+        modalViewer.closeModal();
+    });
 ");
 
 // удаление пользователя
 $this->registerJs("
-$('#btn-remove-user').on('click', function() {
-    $('#" . Html::getInputId($model, 'permissionUser') . "').children('option:selected').remove();
-});
-");
+    $('#btn-remove-user').on('click', function() {
+        $('#" . Html::getInputId($model, 'permissionUser') . "').children('option:selected').remove();
+    });
+    ");
 
-// перед сохранением выделить все группы и всех пользователей
-$this->registerJs("
-$('#form-tree').on('submit', function() {
-    $('#" . Html::getInputId($model, 'permissionGroup') . "').children('option').prop('selected', true);
-    $('#" . Html::getInputId($model, 'permissionUser') . "').children('option').prop('selected', true);
-});
+    // перед сохранением выделить все группы и всех пользователей
+    $this->registerJs("
+    $('#form-tree').on('submit', function() {
+        $('#" . Html::getInputId($model, 'permissionGroup') . "').children('option').prop('selected', true);
+        $('#" . Html::getInputId($model, 'permissionUser') . "').children('option').prop('selected', true);
+    });
 ");
 ?>
