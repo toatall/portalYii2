@@ -37,7 +37,7 @@
                         <p><a href="/files_static/8600/ib/zayavki/Заявка на доступ к ФИР.docx" target="_blank">Заявка на доступ к ФИР</a></p>
                         <p><a href="/files_static/8600/ib/zayavki/Заявка на выдачу электронного носителя информации НЕ ДСП.doc" target="_blank">Заявка на выдачу электронного носителя информации НЕ ДСП</a></p>
                         <p><a href="/files_static/8600/ib/zayavki/Заявка на выдачу электронного носителя информации ДСП.doc" target="_blank">Заявка на выдачу электронного носителя информации ДСП</a></p>
-                        <p><a href="/files_static/8600/ib/zayavki/Реестр шаблонов с ограничениями доступа.xlsx" target="_blank">Реестр шаблонов АИС «Налог-3», доступ к которым ограничен письмами ФНС России.</a></p>
+                        <p><a href="/files_static/8600/ib/zayavki/Реестр шаблонов с ограничениями доступа.xlsx" target="_blank">Реестр шаблонов АИС «Налог-3», доступ к которым ограничен письмами ФНС России</a></p>
                     </div>
                 </div>
             </div>
@@ -70,6 +70,22 @@
                     <div class="card-body">
                         <p><a href="/files_static/8600/ib/zayavki/расп ФИР кадры.pdf" target="_blank">Распоряжение от 19.12.2019 № 02-41/55 "Об утверждении отдельных положений Порядка предоставления доступа к федеральным информационным ресурсам"</a></p>
                         <p><a href="/files_static/8600/ib/zayavki/инструкции по антивирусу.zip" target="_blank">Приказ от 30.10.2019 № 02-40/221 Об утверждении Инструкции  по защите от вредоносного программного обеспечения на рабочем месте сотрудника Ханты-Мансийского автономного округа – Югры </a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" role="tab" id="heading2_5">
+                    <h5 class="mb-0">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2_5" aria-controls="collapse2_5">
+                            Реестр шаблонов АИС «Налог-3», доступ к которым ограничен письмами ФНС России
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse2_5" class="collapse" role="tabpanel" aria-labelledby="heading2_5">
+                    <div class="card-body">                      
+                        <p><a href="/files_static/8600/ib/zayavki/Реестр шаблонов с ограничениями доступа.xlsx" 
+                            target="_blank">Реестр шаблонов АИС «Налог-3», доступ к которым ограничен письмами ФНС России</a></p>
                     </div>
                 </div>
             </div>
