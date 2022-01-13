@@ -2,12 +2,63 @@
 
 namespace app\models\telephone;
 
-use yii\db\Expression;
 use yii\db\Query;
 
 class TelephoneSearch
 {
+    /**
+     * Поиск по ФИО или телефону
+     * @param string $term поисковое поле
+     * @return array
+     */
+    public function searchTerm($term)
+    {
+        $resulQuery = (new Query())
+            ->from('{{%telephone_user}} u')
+            ->orFilterWhere(['like', 'u.fio', $term])
+            ->orFilterWhere(['like', 'u.telephone', $term])
+            ->orFilterWhere(['like', 'u.telephone_dop', $term])          
+            ->all();
+
+        $result = [];
+        foreach ($resulQuery as $item) {
+            $result[] = [
+                'user' => $item,
+                'path' => $this->getPath($item['unid_department']),
+            ];
+        }
+        return $result;
+    }
+
+
+    /**
+     * Путь в структуре (рекурсивная)
+     * @param string $unid идентификатор (отдела, организации)
+     * @return string
+     */
+    private function getPath($unid)
+    {
+        $result = [];
+        $query = (new Query())
+            ->from('{{%telephone_department}}')
+            ->where(['unid' => $unid])
+            ->one();
+        if ($query) {
+            $result[] = ['label' => $query['name']];
+        }
+        if ($query['unid_parent']) {
+            $result = array_merge($this->getPath($query['unid_parent']), $result);
+        }
+
+        return $result;
+    }
+
    
+    /**
+     * Алфавитка
+     * @param string $organizationUnid
+     * @return array|null
+     */
     public function search($organizationUnid)
     {
         if ($organizationUnid != null) {        
@@ -16,6 +67,10 @@ class TelephoneSearch
         return null;
     }
 
+    /**
+     * Поиск отделов
+     * @return string
+     */
     private function findDepartments($parentUnid)
     {
         $result = [];
@@ -43,6 +98,10 @@ class TelephoneSearch
         return $result;
     }
 
+    /**
+     * Поиск пользователей
+     * @return array
+     */
     private function findUsers($parentUnid)
     {
         $result = [];

@@ -29,8 +29,7 @@ class TelephoneController extends Controller
 
     
     /**
-     * Displays homepage.
-     *
+     * Главная страница
      * @return string
      */
     public function actionIndex($organizationUnid=null)
@@ -41,6 +40,20 @@ class TelephoneController extends Controller
             'organizations' => $this->getOrganizations(),
             'organizationDataProvider' => $telephoneSearch->search($organizationUnid),
             'organizationUnid' => $organizationUnid,
+            'dateUpdate' => $this->getLastDateUpdate(),
+        ]);
+    }
+
+    /**
+     * Поиск по ФИО и телефону
+     * @param string $term
+     * @return string
+     */
+    public function actionSearch($term)
+    {                
+        $telephoneSearch = new TelephoneSearch();
+        return $this->renderAjax('search', [
+            'result' => $telephoneSearch->searchTerm($term),
         ]);
     }
 
@@ -57,6 +70,18 @@ class TelephoneController extends Controller
             ])
             ->orderBy(['org_code' => SORT_ASC])
             ->all();
+    }
+
+    /**
+     * Последняя дата обновления справочника
+     * @return array
+     */
+    private function getLastDateUpdate()
+    {
+        return (new Query())
+            ->from('{{%telephone_update}}')
+            ->orderBy(['date' => SORT_DESC])
+            ->one();
     }
 
      
