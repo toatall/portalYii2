@@ -185,23 +185,23 @@ class NewsSearch extends News
         $this->load($params);
 
         /** @var yii\web\Session $session */
-        $session = Yii::$app->session;
-        if (!$session->isActive) {
-            $session->open();
-        }
+        // $session = Yii::$app->session;
+        // if (!$session->isActive) {
+        //     $session->open();
+        // }
                     
-        if ($this->onlyIfns === null) {
-            $this->onlyIfns = $session->get('News_onlyIfns', false);
-        }
-        else {
-            $session->set('News_onlyIfns', $this->onlyIfns);
-        }
-        if ($this->onlyUfns === null) {
-            $this->onlyUfns = $session->get('News_onlyUfns', false);
-        }
-        else {
-            $session->set('News_onlyUfns', $this->onlyUfns);
-        }
+        // if ($this->onlyIfns === null) {
+        //     $this->onlyIfns = $session->get('News_onlyIfns', false);
+        // }
+        // else {
+        //     $session->set('News_onlyIfns', $this->onlyIfns);
+        // }
+        // if ($this->onlyUfns === null) {
+        //     $this->onlyUfns = $session->get('News_onlyUfns', false);
+        // }
+        // else {
+        //     $session->set('News_onlyUfns', $this->onlyUfns);
+        // }
 
 
         $query = $this->basePublicSearch();
