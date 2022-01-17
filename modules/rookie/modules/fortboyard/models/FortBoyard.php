@@ -110,7 +110,10 @@ class FortBoyard extends \yii\db\ActiveRecord
         if ((new Query())
             ->from('{{%fort_boyard_answers}} t')
             ->innerJoin('{{%fort_boyard}} f', 't.id_fort_boyard = f.id')
-            ->where(['f.id_team' => $this->id_team])
+            ->where([
+                'f.id_team' => $this->id_team,
+                't.username' => \Yii::$app->user->identity->username,
+            ])
             ->exists()) {
             return false;
         }        
