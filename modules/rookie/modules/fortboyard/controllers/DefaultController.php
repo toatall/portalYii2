@@ -6,6 +6,8 @@ use app\modules\rookie\modules\fortboyard\models\FortBoyard;
 use app\modules\rookie\modules\photohunter\models\Photos;
 use app\modules\rookie\modules\photohunter\models\PhotosVotes;
 use Yii;
+use yii\db\Expression;
+use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -75,70 +77,44 @@ class DefaultController extends Controller
 
     }
 
-    /**
-     * Render vote form
-     * @return string
-     */
-    public function actionVote(int $id)
+    
+
+    public function actionSaveAnswer($id)
     {
-        $modelPhotos = $this->findModel($id);
-        
-        if (!$modelPhotos->canVote()) {
-            throw new ServerErrorHttpException('Вам запрещено голосовать!');
-        }
-
-        $model = $this->findModelVote($id);
-        if ($model === null) {
-            $model = new PhotosVotes();
-            $model->id_photos = $id;            
-        }
-        
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if (Yii::$app->request->isAjax) {
-                return 'OK';
+        $this->findModel($id);
+        $answer = Yii::$app->request->post('answer');
+        if ($answer != null) {
+            if (!(new Query())->from('{{%fort_boyard_answers}}')->where([
+                'id_fort_boyard' => $id,
+                'username' => Yii::$app->user->identity->username,
+            ])->exists()) {
+                if (Yii::$app->db->createCommand()
+                    ->insert('{{%fort_boyard_answers}}', [
+                        'id_fort_boyard' => $id,
+                        'answer' => $answer,
+                        'username' => Yii::$app->user->identity->username,
+                        'date_create' => new Expression('getdate()'),
+                    ])->execute() != 0) {
+                        Yii::$app->session->setFlash('success', 'Ваш ответ успешно сохранен!');
+                    }
+                    else {
+                        Yii::$app->session->setFlash('danger', 'При сохранении произошла ошибка! Попробуйте еще раз!');
+                    }
             }
-            else {
-                return $this->redirect(['/rookie/photohunter']);
-            }
         }
-
-        if (Yii::$app->request->isAjax) {
-           return $this->renderAjax('vote', [
-                'model'=>$model,
-                'modelPhotos'=>$modelPhotos,
-            ]);
-        }       
-
-        return $this->render('vote', [
-            'model'=>$model,
-            'modelPhotos'=>$modelPhotos,
-        ]);
+        return $this->redirect(['/rookie/fortboyard/default']);
     }
 
     /**
      * @param int $id
-     * @return Photos|null
+     * @return FortBoyard|null
      */
     private function findModel($id)
     {
-        if (($model = Photos::findOne($id)) !== null) {
+        if (($model = FortBoyard::findOne($id)) !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    /**
-     * Find PhotoVotes model binding to id_photos and current user
-     * @param int $idPhotos
-     * @return PhotosVotes|null
-     */
-    private function findModelVote(int $idPhotos)
-    {
-        return PhotosVotes::find()->where([
-            'id_photos' => $idPhotos,
-            'username' => Yii::$app->user->identity->username,
-        ])
-        ->one();
     }
 
     

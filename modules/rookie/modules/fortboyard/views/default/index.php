@@ -33,19 +33,23 @@ $this->title = 'Проект "Фотоохота"';
                 <p><?= $questionToday->text ?></p>
                 <?php if ($questionToday->isRight()): ?>
                 <hr class="bg-white" />
-                <?= Html::beginForm('/rookie/fortboyard/save-answer') ?>
+                <?= Html::beginForm(Url::to(['/rookie/fortboyard/default/save-answer', 'id'=>$questionToday->id])) ?>
                 <div class="row">
                     <div class="col-2">
                         <?= Html::label('Ваш ответ', 'input-answer') ?>
                     </div>
                     <div class="col">
-                        <?= Html::textInput('answer', '', ['class' => 'form-control', 'id'=>'input-answer']) ?> 
+                        <?= Html::textInput('answer', '', ['class' => 'form-control', 'id'=>'input-answer', 'required' => true]) ?> 
                     </div>
                     <div class="col-2">
                         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>               
                     </div>
                 </div>
                 <?= Html::endForm() ?>
+                <?php elseif (Yii::$app->session->hasFlash('success')): ?>
+                    <div class="alert alert-secondary"><?= Yii::$app->session->getFlash('success') ?></div>
+                <?php elseif (Yii::$app->session->hasFlash('danger')): ?>
+                    <div class="alert alert-danger"><?= Yii::$app->session->getFlash('danger') ?></div>
                 <?php endif; ?>
             </div>            
             <?php else: ?>
