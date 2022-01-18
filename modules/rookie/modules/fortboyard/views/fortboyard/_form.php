@@ -18,14 +18,17 @@ use yii\widgets\ActiveForm;
         'data' => $model->dropDownTeams(),
     ]) ?>
 
-    <?= $form->field($model, 'date_show')->widget(DatePicker::class, [
+    <?= /*$form->field($model, 'date_show')->widget(DatePicker::class, [
         'pluginOptions' => [
             'todayHighlight' => true,
             'todayBtn' => true,
             'autoclose' => true,
             'startDate' => date('d.m.Y'),
         ],
-    ]) ?>
+    ])*/'' ?>
+
+    <?= $form->field($model, 'date_show_1')->textInput() ?>
+    <?= $form->field($model, 'date_show_2')->textInput() ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 

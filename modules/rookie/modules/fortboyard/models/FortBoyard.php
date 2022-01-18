@@ -3,6 +3,7 @@
 namespace app\modules\rookie\modules\fortboyard\models;
 
 use Yii;
+use yii\db\Expression;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
@@ -11,10 +12,11 @@ use yii\helpers\ArrayHelper;
  *
  * @property int $id
  * @property int $id_team
- * @property string $date_show
  * @property string $title
  * @property string|null $text
  * @property string|null $date_create
+ * @property string $date_show_1
+ * @property string $date_show_2
  *
  * @property FortBoyardTeams $team
  * @property FortBoyardAnswers[] $fortBoyardAnswers
@@ -35,7 +37,7 @@ class FortBoyard extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_team', 'date_show', 'title'], 'required'],
+            [['id_team', 'date_show_1', 'date_show_2', 'title'], 'required'],
             [['id_team'], 'integer'],
             [['date_show', 'date_create'], 'safe'],
             [['text'], 'string'],
@@ -52,7 +54,8 @@ class FortBoyard extends \yii\db\ActiveRecord
         return [
             'id' => 'ИД',
             'id_team' => 'Команда',
-            'date_show' => 'Дата показа',
+            'date_show_1' => 'Дата показа от',
+            'date_show_2' => 'Дата показа до',
             'title' => 'Заголовок',
             'text' => 'Описание',
             'date_create' => 'Дата создания',
@@ -65,7 +68,23 @@ class FortBoyard extends \yii\db\ActiveRecord
      */
     public static function todayQuestion()
     {
-        return self::find()->where(['date_show' => \Yii::$app->formatter->asDate('today')])->one();
+        return self::find()
+            ->where(['<=', 'date_show_1', new Expression('getdate()')])
+            ->andWhere(['>=', 'date_show_2', new Expression('getdate()')])
+            ->one();
+    }
+
+    /**
+     * Имя команды
+     * @return string|null
+     */
+    public function getTeamName()
+    {
+        return (new Query())
+            ->from('{{%fort_boyard_teams}}')
+            ->where(['id' => $this->id_team])
+            ->select('name')
+            ->one()['name'] ?? null;
     }
 
     /**
@@ -126,7 +145,10 @@ class FortBoyard extends \yii\db\ActiveRecord
      */
     public function afterFind()
     {
-        $this->date_show = Yii::$app->formatter->asDate($this->date_show);
+        $this->date_show_1 = $this->date_show_1 
+            ? Yii::$app->formatter->asDatetime($this->date_show_1) : $this->date_show_1;
+        $this->date_show_2 = $this->date_show_2 
+            ? Yii::$app->formatter->asDatetime($this->date_show_2) : $this->date_show_2;
     }
     
 }

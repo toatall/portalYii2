@@ -33,7 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'attributes' => [
                 'id',
                 'id_team',
-                'date_show:date',
+                'date_show_1:datetime',
+                'date_show_2:datetime',
                 'title',
                 'text',
                 'date_create:datetime',

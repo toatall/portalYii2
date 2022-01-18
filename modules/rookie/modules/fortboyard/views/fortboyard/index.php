@@ -1,10 +1,12 @@
 <?php
 
+use kartik\grid\ActionColumn;
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
+use kartik\grid\SerialColumn;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Fort Boyard';
 $this->params['breadcrumbs'][] = $this->title;
@@ -22,16 +24,17 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
+                //['class' => SerialColumn::class],
 
                 'id',
-                'id_team',
-                'date_show',
+                'teamName:text:Команда',
+                'date_show_1',
+                'date_show_2',
                 'title',
                 'text',
                 //'date_create',
 
-                ['class' => 'yii\grid\ActionColumn'],
+                ['class' => ActionColumn::class],
             ],
         ]); ?>
 

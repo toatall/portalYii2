@@ -29,7 +29,8 @@ class m220113_103212_create_table_fort_boyard extends Migration
         $this->createTable('{{%fort_boyard}}', [
             'id' => $this->primaryKey(),
             'id_team' => $this->integer()->notNull(),
-            'date_show' => $this->date()->notNull()->unique(),
+            'date_show_1' => $this->dateTime()->notNull(),
+            'date_show_2' => $this->dateTime()->notNull(),
             'title' => $this->string(250)->notNull(),
             'text' => $this->text(),
             'date_create' => $this->dateTime(),
