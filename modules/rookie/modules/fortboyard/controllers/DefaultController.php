@@ -80,7 +80,7 @@ class DefaultController extends Controller
                     FROM {{%fort_boyard_answers}} answ
                         LEFT JOIN {{%fort_boyard_access}} acc ON answ.username = acc.username
                         RIGHT JOIN {{%fort_boyard}} main ON main.id = answ.id_fort_boyard                       
-                    WHERE answ.is_right = 1 AND acc.id_team = t.id AND main.date_show_2 > GETDATE()) count_rights
+                    WHERE answ.is_right = 1 AND acc.id_team = t.id AND main.date_show_2 < GETDATE()) count_rights
             FROM {{%fort_boyard_teams}} t	 
             ORDER BY t.name
         ')->queryAll();
