@@ -41,8 +41,7 @@ class FortBoyard extends \yii\db\ActiveRecord
             [['id_team'], 'integer'],
             [['date_show', 'date_create'], 'safe'],
             [['text'], 'string'],
-            [['title'], 'string', 'max' => 250],
-            [['date_show'], 'unique'],           
+            [['title'], 'string', 'max' => 250],               
         ];
     }
 
