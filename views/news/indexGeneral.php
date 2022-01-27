@@ -1,10 +1,12 @@
 <?php
 
+use app\models\Organization;
 use yii\bootstrap4\Html;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 use yii\bootstrap4\ActiveForm;
 use kartik\date\DatePicker;
+use kartik\select2\Select2;
 use yii\bootstrap4\LinkPager;
 
 /** @var yii\web\View $this */
@@ -79,20 +81,39 @@ $this->params['breadcrumbs'][] = $this->title;
                         'template' => '<div class="custom-control custom-switch">{input} {label}</div><div>{error}</div>',
                     ])->label('Новости Инспекций') ?>
                 </div>
+            </div>
+            <div class="row" id="div-select-only-ifns">
+                <div class="col">
+                    <?= Select2::widget([
+                        'model' => $searchModel,
+                        'attribute' => 'onlyIfnsCodes',
+                        'data' => Organization::getDropDownList(true, true),
+                    ]) ?>
+                </div>
+            </div>
 <?php 
 $idOnlyIfns = Html::getInputId($searchModel, 'onlyIfns');
 $idOnlyUfns = Html::getInputId($searchModel, 'onlyUfns');
+$idOnlyIfnsCodes = Html::getInputId($searchModel, 'onlyIFnsCodes');
 $this->registerJs(<<<JS
+
+    $('#div-select-only-ifns').toggle($('#$idOnlyIfns').is(':checked'));
+
     $('#$idOnlyIfns').on('change', function() {
         $('#$idOnlyUfns').prop('checked', false);
         $('#form-news').submit();
     });
+
     $('#$idOnlyUfns').on('change', function() {
         $('#$idOnlyIfns').prop('checked', false);
         $('#form-news').submit();
     });
+
+    $('#$idOnlyIfnsCodes').on('change', function() {
+        $('#form-news').submit();
+    });
+
 JS); ?>
-            </div>       
             <?php ActiveForm::end(); ?>            
         </div>        
     </div>

@@ -1,14 +1,13 @@
 <?php
 
 use yii\helpers\Url;
-use yii\bootstrap4\Tabs;
 
-/* @var $this yii\web\View */
+/** @var yii\web\View $this **/
 
 $this->title = Yii::$app->name;
 ?>
 <div class="site-index">
-    <div id="container-news" data-ajax-url="<?= Url::to(['/news/general'])  ?>"></div>   
+    <div id="container-news" data-ajax-url="<?= Url::to(['/news/general'])  ?>"></div>
 </div>
 <?php
 $this->registerJs(<<<JS
@@ -25,7 +24,7 @@ $this->registerJs(<<<JS
         });
     }
     
-    runAjaxGetRequest($('#container-news'));    
+    runAjaxGetRequest($('#container-news'));
 
 JS
 );

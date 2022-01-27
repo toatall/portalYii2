@@ -41,6 +41,7 @@ class NewsSearch extends News
 
     public $onlyUfns;
     public $onlyIfns;
+    public $onlyIfnsCodes;
 
 
     /**
@@ -54,7 +55,7 @@ class NewsSearch extends News
             [['id_organization', 'title', 'message1', 'message2', 'author', 'date_start_pub', 'date_end_pub',
                 'thumbail_title', 'thumbail_image', 'thumbail_text', 'date_create', 'date_edit', 'date_delete',
                 'log_change', 'tags', 'date_sort'], 'safe'],
-            [['searchText', 'searchDate1', 'searchDate2', 'onlyIfns', 'onlyUfns'], 'safe'],
+            [['searchText', 'searchDate1', 'searchDate2', 'onlyIfns', 'onlyUfns', 'onlyIfnsCodes'], 'safe'],
         ];
     }
 
@@ -129,7 +130,10 @@ class NewsSearch extends News
         return $dataProvider;
     }
 
-
+    /**
+     * Базовый запрос
+     * @return yii\db\ActiveQuery
+     */
     public function basePublicSearch()
     {
         $query = News::find()
@@ -179,30 +183,38 @@ class NewsSearch extends News
      * @param $params
      * @return ActiveDataProvider
      */
-    public function searchPublic($params)
-    {
-                
+    public function searchPublic($params, $toggleOrganizations=false)
+    {                
         $this->load($params);
 
-        /** @var yii\web\Session $session */
-        // $session = Yii::$app->session;
-        // if (!$session->isActive) {
-        //     $session->open();
-        // }
-                    
-        // if ($this->onlyIfns === null) {
-        //     $this->onlyIfns = $session->get('News_onlyIfns', false);
-        // }
-        // else {
-        //     $session->set('News_onlyIfns', $this->onlyIfns);
-        // }
-        // if ($this->onlyUfns === null) {
-        //     $this->onlyUfns = $session->get('News_onlyUfns', false);
-        // }
-        // else {
-        //     $session->set('News_onlyUfns', $this->onlyUfns);
-        // }
+        if ($toggleOrganizations) {
+            /** @var yii\web\Session $session */
+            $session = Yii::$app->session;
+            if (!$session->isActive) {
+                $session->open();
+            }
+                        
+            if ($this->onlyIfns === null) {
+                $this->onlyIfns = $session->get('News_onlyIfns', false);
+            }
+            else {
+                $session->set('News_onlyIfns', $this->onlyIfns);
+            }
+            
+            if ($this->onlyUfns === null) {
+                $this->onlyUfns = $session->get('News_onlyUfns', false);
+            }
+            else {
+                $session->set('News_onlyUfns', $this->onlyUfns);
+            }
 
+            if ($this->onlyIfnsCodes === null) {
+                $this->onlyIfnsCodes = $session->get('News_onlyIfnsCodes', false);
+            }
+            else {
+                $session->set('News_onlyIfnsCodes', $this->onlyIfnsCodes);
+            }
+        }
 
         $query = $this->basePublicSearch();
 
@@ -224,8 +236,13 @@ class NewsSearch extends News
             $query->andWhere(['t.on_general_page' => 1]);
         }
         elseif ($this->onlyIfns) {
-            $query->andFilterWhere(['<>', 't.id_organization', '8600']);
-        }
+            if ($this->onlyIfnsCodes) {
+                $query->andFilterWhere(['t.id_organization' => $this->onlyIfnsCodes]);
+            }
+            else {
+                $query->andFilterWhere(['<>', 't.id_organization', '8600']);
+            }
+        }        
 
         $query->andFilterWhere(['t.id_organization' => $this->id_organization]);
         $query->andFilterWhere(['t.id_tree' => $this->id_tree]);
@@ -250,8 +267,6 @@ class NewsSearch extends News
             'query' => $query,
         ]);
 
-
-
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -261,7 +276,6 @@ class NewsSearch extends News
         $query->andFilterWhere(['t.id_organization' => '8600']);
 
         return $dataProvider;
-
     }
 
     /**
@@ -289,7 +303,6 @@ class NewsSearch extends News
         $query->andFilterWhere(['<>', 't.id_organization', '8600']);
 
         return $dataProvider;
-
     }
 
 }

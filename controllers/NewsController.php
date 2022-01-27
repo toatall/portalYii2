@@ -147,7 +147,7 @@ class NewsController extends \yii\web\Controller
     {
         $this->getView()->title = 'Новости';
         $searchModel = new NewsSearch();
-        $dataProvider = $searchModel->searchPublic(\Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchPublic(\Yii::$app->request->queryParams, true);
               
         if (Yii::$app->request->isAjax) {
             return $this->renderAjax('indexGeneral', [

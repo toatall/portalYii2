@@ -65,17 +65,7 @@ class Organization extends \yii\db\ActiveRecord
             'date_edit' => 'Дата изменения',
             'date_end' => 'Дата окончания',
         ];
-    }
-
-    /**
-     * Gets query for [[Departments]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDepartments()
-    {
-        return $this->hasMany(Department::className(), ['id_organization' => 'code']);
-    }
+    }   
 
     /**
      * Gets query for [[Files]].
@@ -84,7 +74,7 @@ class Organization extends \yii\db\ActiveRecord
      */
     public function getFiles()
     {
-        return $this->hasMany(File::className(), ['id_organization' => 'code']);
+        return $this->hasMany(File::class, ['id_organization' => 'code']);
     }
 
     /**
@@ -94,18 +84,9 @@ class Organization extends \yii\db\ActiveRecord
      */
     public function getGroups()
     {
-        return $this->hasMany(Group::className(), ['id_organization' => 'code']);
+        return $this->hasMany(Group::class, ['id_organization' => 'code']);
     }
-
-    /**
-     * Gets query for [[News]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getNews()
-    {
-        return $this->hasMany(News::className(), ['id_organization' => 'code']);
-    }
+    
 
     /**
      * Gets query for [[Telephones]].
@@ -114,7 +95,7 @@ class Organization extends \yii\db\ActiveRecord
      */
     public function getTelephones()
     {
-        return $this->hasMany(Telephone::className(), ['id_organization' => 'code']);
+        return $this->hasMany(Telephone::class, ['id_organization' => 'code']);
     }
 
     /**
@@ -124,22 +105,12 @@ class Organization extends \yii\db\ActiveRecord
      */
     public function getTrees()
     {
-        return $this->hasMany(Tree::className(), ['id_organization' => 'code']);
-    }
-
-    /**
-     * Gets query for [[UserOrganizations]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getOrganizations()
-    {
-        return $this->hasMany(UserOrganization::className(), ['id_organization' => 'code']);
-    }
+        return $this->hasMany(Tree::class, ['id_organization' => 'code']);
+    }    
     
     /**
      * Список организаций для списков
-     * @return type
+     * @return array
      */
     public static function getDropDownList($onlyIfns = false, $withNull = false)
     {
@@ -149,7 +120,7 @@ class Organization extends \yii\db\ActiveRecord
         }
         $result = \yii\helpers\ArrayHelper::map($query->all(), 'code', 'fullName');
         if ($withNull) {
-            $result = ArrayHelper::merge([''=>''], $result);
+            $result = ArrayHelper::merge([''=>'Все'], $result);
         }
         return $result;
     }
@@ -201,7 +172,7 @@ class Organization extends \yii\db\ActiveRecord
                 if (isset($userModel->organization[0]->code))
                 {
                     $userCurrentOrganization = $userModel->organization[0]->code;
-                    User::changeOrganization($userCurrentOrganization);
+                    Yii::$app->user->identity->changeOrganization($userCurrentOrganization);
                 }
             }
         }
