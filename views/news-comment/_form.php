@@ -40,7 +40,7 @@ EmojiAsset::register($this);
         window.emojiPicker = new EmojiPicker({
             emojiable_selector: '[data-emojiable=true]',
             assetsPath: '/public/vendor/emoji-picker/lib/img/',
-            popupButtonClasses: 'far fa-smile text-secondary'
+            popupButtonClasses: 'far fa-smile text-primary'
         });
         window.emojiPicker.discover();        
     });

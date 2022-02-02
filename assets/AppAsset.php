@@ -32,7 +32,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         // font-awesome
-        'public/vendor/fontawesome/js/all.min.js',
+        //'public/vendor/fontawesome/js/all.min.js',
 
         // bootstrap-4-advanced-toast
         'public/vendor/bootstrap-4-advanced-toast/js/bs4-toast.js',
