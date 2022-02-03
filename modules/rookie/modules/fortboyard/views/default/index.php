@@ -66,7 +66,7 @@ $this->title = 'Проект "Форт Боярд"';
                         <?php foreach ($resultQuestions as $item) : ?>
                             <tr>
                                 <td><?= $item['name'] ?></td>
-                                <td><?= /*$item['count_rights']*/ str_repeat('<i class="fas fa-key text-warning"></i>', $item['count_rights']) ?></td>
+                                <td><?= /*$item['count_rights']*/ str_repeat('<i class="fas fa-scroll text-warning"></i>', $item['count_rights']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
