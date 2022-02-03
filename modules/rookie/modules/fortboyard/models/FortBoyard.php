@@ -131,6 +131,7 @@ class FortBoyard extends \yii\db\ActiveRecord
             ->where([
                 'f.id_team' => $this->id_team,
                 't.username' => \Yii::$app->user->identity->username,
+                't.id_fort_boyard' => $this->id,
             ])
             ->exists()) {
             return false;
