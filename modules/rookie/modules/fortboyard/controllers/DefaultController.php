@@ -152,7 +152,7 @@ class DefaultController extends Controller
         $modelVote = $this->findTeamModel($idTeam);
 
         $model = new DynamicModel(['rating_name', 'rating_trial']);
-        $model->addRule(['rating_name', 'rating_trial'], 'required');
+        $model->addRule(['rating_name', 'rating_trial'], 'safe');
         $model->setAttributeLabels([
             'rating_name' => 'За оригинальное название и девиз команды',
             'rating_trial' => 'За лучшее испытание',
@@ -226,8 +226,8 @@ class DefaultController extends Controller
             ->insert('{{%fort_boyard_team_vote}}', [
                 'id_team' => $idTeam,
                 'username' => Yii::$app->user->identity->username,
-                'rating_trial' => $voteTrial,
-                'rating_name' => $voteName,
+                'rating_trial' => is_numeric($voteTrial) ? $voteTrial : 0,
+                'rating_name' => is_numeric($voteName) ? $voteName : 0,
                 'date_create' => new Expression('getdate()'),
             ])
             ->execute();
