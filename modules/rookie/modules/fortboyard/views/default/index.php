@@ -4,9 +4,12 @@
 /** @var app\modules\rookie\modules\fortboyard\models\FortBoyard $questionToday */
 /** @var array $resultQuestions */
 
+use app\helpers\DateHelper;
+use app\modules\rookie\modules\fortboyard\models\FortBoyard;
 use yii\helpers\Url;
 use app\modules\rookie\modules\photohunter\assets\ViewerjsAsset;
 use yii\bootstrap4\Html;
+use yii\widgets\Pjax;
 
 ViewerjsAsset::register($this);
 
@@ -45,10 +48,10 @@ $this->title = 'Проект "Форт Боярд"';
                     <?php elseif (Yii::$app->session->hasFlash('danger')) : ?>
                         <div class="alert alert-danger"><?= Yii::$app->session->getFlash('danger') ?></div>
                     <?php endif; ?>
-                </div>
+                </div>           
             <?php else : ?>
                 <div class="col-12 bg-dark rounded shadow">
-                    <p class="fa-3x text-white font-weight-bolder border-bottom text-center">На сегодня заданий нет</p>
+                    <!-- <p class="fa-3x text-white font-weight-bolder border-bottom text-center">На сегодня заданий нет</p> -->
                 </div>
             <?php endif; ?>
         </div>
@@ -56,17 +59,59 @@ $this->title = 'Проект "Форт Боярд"';
 </div>
 
 
-<?php if ($resultQuestions) : ?>
+<?php 
+
+Pjax::begin(['id' => 'pjax-fort-boyard-teams', 'timeout'=>false, 'enablePushState' => false]);
+
+if ($resultQuestions) : ?>
     <div class="album bg-light mt-4" style="background-color: #22140b !important;">
         <div class="container">
             <div class="row">
                 <div class="col-12 bg-dark rounded shadow text-white pb-4">
-                    <p class="fa-3x text-white font-weight-bolder border-bottom text-center">Результаты</p>
+                    <p class="fa-3x text-white font-weight-bolder border-bottom text-center">Голосование</p>
                     <table class="table table-bordered text-white">
                         <?php foreach ($resultQuestions as $item) : ?>
                             <tr>
                                 <td><?= $item['name'] ?></td>
-                                <td><?= /*$item['count_rights']*/ str_repeat('<i class="fas fa-scroll text-warning"></i>', $item['count_rights']) ?></td>
+                                <td>
+                                    <?= ''//str_repeat('<i class="fas fa-scroll text-warning"></i>', $item['count_rights']) ?>
+                                    За лучшее испытание 
+                                    <span class="badge badge-counter badge-light fa-1x">                                        
+                                        <?= Yii::$app->formatter->asDecimal($item['avg_trial'], 2) ?>
+                                        <i class="text-warning fas fa-star"></i>
+                                    </span><br />
+                                    
+                                    За оригинальное название и девиз команды 
+                                    <span class="badge badge-counter badge-light fa-1x">
+                                        <?= Yii::$app->formatter->asDecimal($item['avg_name'], 2) ?>
+                                        <i class="text-warning fas fa-star"></i>
+                                    </span>
+                                 </td>
+                                <?php if (FortBoyard::canVoid($item['id'])): ?>
+                                <td style="width: 10rem;">
+                                    <?= Html::a('<i class="fas fa-star"></i> Голосовать', ['/rookie/fortboyard/default/vote', 'idTeam'=>$item['id']], [
+                                        'class' => 'btn btn-sm btn-primary link-modal',
+                                        'data' => [
+                                            'description' => 'Голосование',
+                                            'title' => "за команду \"{$item['name']}\"",
+                                            'pjax' => 0,
+                                        ],
+                                    ]) ?>
+                                </td>
+                                <?php else: ?>
+                                <td>&nbsp;</td>
+                                <?php endif; ?>
+                                <td>
+                                    <?= Html::a('<i class="fas fa-info-circle"></i>', ['/rookie/fortboyard/default/info', 'idTeam'=>$item['id']], [
+                                        'class' => 'btn btn-info link-modal',
+                                        'title' => 'Информация о команде',
+                                        'data' => [
+                                            'description' => 'Результаты ответов',
+                                            'title' => "команды \"{$item['name']}\"",
+                                            'pjax' => 0,
+                                        ],
+                                    ]) ?>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
@@ -124,8 +169,10 @@ $this->title = 'Проект "Форт Боярд"';
         return false;
     });
    
-    const gallery = new Viewer(document.getElementById('images'), {
-        url: 'data-original'
-    });
+    // const gallery = new Viewer(document.getElementById('images'), {
+    //     url: 'data-original'
+    // });
     
 JS);
+
+Pjax::end(); ?>

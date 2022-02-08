@@ -1,7 +1,7 @@
 <?php
 /** @var yii\web\View $this */
-/** @var app\modules\rookie\modules\photohunter\models\Photos $modelPhotos */
-/** @var app\modules\rookie\modules\photohunter\models\PhotosVotes $model */
+/** @var array $modelVote */
+/** @var yii\base\DynamicModel $model */
 
 use kartik\form\ActiveForm;
 use kartik\widgets\StarRating;
@@ -9,21 +9,19 @@ use yii\bootstrap4\Html;
 
 ?>
 <div id="container-form-vote">
-    <div class="card text-center">
-        <div class="card-body">
-            <img src="<?= $modelPhotos->thumb ?>" style="max-height: 20em;" class="img-thumbnail" />
+
+    <?php if ($modelVote['id_vote']): ?>
+
+        <div class="alert alert-info">
+            Вы уже проголосовали <?= Yii::$app->formatter->asDateTime($modelVote['date_create']) ?>
         </div>
-        <div class="card-footer">
-            <p class="lead">
-                <?= $modelPhotos->title ?><br />
-                <strong><?= $modelPhotos->description ?></strong>
-            </p>    
-        </div>
-    </div>
-    
+
+    <?php else: ?>
+
+
     <div class="card mt-3">
         <div class="card-header">
-            <h5>Пожалуйста, оцените фотографию данную работу по следующим критериям</h5>
+            <h5>Пожалуйста, оцените команду "<?= $modelVote['name'] ?>" по следующим критериям</h5>
         </div>
         <div class="card-body">            
             <div>
@@ -35,19 +33,10 @@ use yii\bootstrap4\Html;
 
                 <?= $form->errorSummary($model) ?>
 
-                <?= $form->field($model, 'mark_creative')->widget(StarRating::class, [
+                <?= $form->field($model, 'rating_trial')->widget(StarRating::class, [
                     'pluginOptions'=>['step'=>1],
                 ]) ?>
-                <?= $form->field($model, 'mark_art')->widget(StarRating::class, [
-                    'pluginOptions'=>['step'=>1],
-                ]) ?>
-                <?= $form->field($model, 'mark_original')->widget(StarRating::class, [
-                    'pluginOptions'=>['step'=>1],
-                ]) ?>
-                <?= $form->field($model, 'mark_accordance')->widget(StarRating::class, [
-                    'pluginOptions'=>['step'=>1],
-                ]) ?>
-                <?= $form->field($model, 'mark_quality')->widget(StarRating::class, [
+                <?= $form->field($model, 'rating_name')->widget(StarRating::class, [
                     'pluginOptions'=>['step'=>1],
                 ]) ?>
 
@@ -60,6 +49,8 @@ use yii\bootstrap4\Html;
             </div>        
         </div>
     </div>
+
+    <?php endif; ?>
 
     <div id="container-failed"></div>
 </div>
@@ -78,7 +69,8 @@ use yii\bootstrap4\Html;
         })
         .done(function(resp) {
             if (resp.toUpperCase() == "OK") {
-                modal.modal('hide');
+                $.pjax.reload({ container: '#pjax-fort-boyard-teams' });
+                modal.modal('hide');                
             }
             else {
                 modalBody.html(resp);

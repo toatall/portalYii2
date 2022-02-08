@@ -2,6 +2,7 @@
 
 namespace app\modules\rookie\modules\fortboyard\models;
 
+use app\helpers\DateHelper;
 use Yii;
 use yii\db\Expression;
 use yii\db\Query;
@@ -149,6 +150,41 @@ class FortBoyard extends \yii\db\ActiveRecord
             ? Yii::$app->formatter->asDatetime($this->date_show_1) : $this->date_show_1;
         $this->date_show_2 = $this->date_show_2 
             ? Yii::$app->formatter->asDatetime($this->date_show_2) : $this->date_show_2;
+    }
+
+    /**
+     * Может ли пользователь голосовать
+     * @param int $idTeam
+     * @return bolean
+     */
+    public static function canVoid(int $idTeam) : bool
+    {       
+        if (!Yii::$app->user->identity->isOrg('8600')) {
+            return false;
+        }
+
+        if (DateHelper::dateDiffDays('11.02.2022', 'today') <= 0) {
+            return false;
+        }
+
+        if ((new Query())
+            ->from('{{%fort_boyard_team_vote}}')
+            ->where([
+                'id_team' => $idTeam,
+                'username' => Yii::$app->user->identity->username,
+                ])
+            ->exists()) {
+                return false;
+            }
+        
+        // пользователь не должен являеться сотрудником отдела команды
+        return (new Query())
+            ->from('{{%fort_boyard_access}} t')
+            ->leftJoin('{{%user}} u', 't.username = u.username')
+            ->where(['t.id_team' => $idTeam])
+            ->andWhere(['not', ['u.department' => Yii::$app->user->identity->department]])
+            ->exists();
+
     }
     
 }
