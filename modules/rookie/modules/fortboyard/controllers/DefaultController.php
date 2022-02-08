@@ -207,9 +207,9 @@ class DefaultController extends Controller
         $query = (new Query())
             ->select('t.id, t.name, v.id as id_vote, v.date_create')
             ->from('{{%fort_boyard_teams}} t')
-            ->leftJoin('{{%fort_boyard_team_vote}} v', 't.id = v.id_team and v.username=:usernmae', [':username' => Yii::$app->user->identity->username])
+            ->leftJoin('{{%fort_boyard_team_vote}} v', 't.id = v.id_team and v.username=:username', [':username' => Yii::$app->user->identity->username])
             ->where([
-                't.id' => $id,
+                't.id' => $id,                
             ]);
         return $query->one();
     }
