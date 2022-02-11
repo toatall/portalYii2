@@ -54,7 +54,10 @@ $this->registerCssFile('public/assets/kadry/css/album.css', [
                     <img src="/public/assets/kadry/img/Service-FNS-Logo-B.png" />
                 </div>
                 <div class="col text-center">
-                    <p class="display-3">"Лекториум"</p>
+                    <h2 class="sdisplay-4">
+                        Комплекс программ профессионального развития в рамках цифровой трансформации                    
+                    </h2>
+                    <i>Новые вызовы - новые умения!</i>
                 </div>
             </div>
         </div>

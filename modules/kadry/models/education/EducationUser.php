@@ -142,7 +142,7 @@ class EducationUser extends \yii\db\ActiveRecord
     /**
      * @param EducationData[] $datas 
      */
-    private function saveDatas($datas)
+    public function saveDatas($datas)
     {
         if (empty($datas) || !is_array($datas)) {
             return;

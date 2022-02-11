@@ -122,16 +122,8 @@ class EducationDataFiles extends \yii\db\ActiveRecord
      * Если нет, то он создается
      */
     private function checkData()
-    {
-        if ($this->educationData->educationUserDatas == null) {
-            $modelUser = $this->educationUserDataFiles->educationUserData;
-            $modelEducationUserData = new EducationUserData([
-                'id_kadry_education_user' => $modelUser->id,
-                'id_kadry_education_data' => $this->educationData->id,
-            ]);
-            $modelEducationUserData->save();
-            $modelUser->link('educationUserDatas', $modelEducationUserData);
-        }
+    {        
+        $this->educationData->education->educationUser->saveDatas([$this->educationData]);
     }
 
 }
