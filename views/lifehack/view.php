@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'raw',
             ],        
-            'text',          
+            'text:raw',          
             'date_create:datetime:Добавлено',
             'username',          
         ],
