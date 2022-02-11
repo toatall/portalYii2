@@ -1,12 +1,11 @@
 <?php
 
-use phpDocumentor\Reflection\Types\This;
 use yii\db\Migration;
 
 /**
- * Class m211221_055436_create_awards
+ * Class m221221_055436_create_awards
  */
-class m211221_055436_create_awards extends Migration
+class m221221_055436_create_awards extends Migration
 {
 
     public function init()
