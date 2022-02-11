@@ -53,11 +53,11 @@ $this->registerCssFile('public/assets/kadry/css/album.css', [
                 <div style="width: 253px;">
                     <img src="/public/assets/kadry/img/Service-FNS-Logo-B.png" />
                 </div>
-                <div class="col text-center">
-                    <h2 class="sdisplay-4">
-                        Комплекс программ профессионального развития в рамках цифровой трансформации                    
-                    </h2>
-                    <i>Новые вызовы - новые умения!</i>
+                <div class="col text-center mt-1">
+                    <p class="fa-2x font-weight-bold">
+                        Комплекс программ профессионального развития в рамках цифровой трансформации
+                    </p>
+                    <h5 class="lead fa-2x"><i>Новые вызовы - новые умения!</i></h5>
                 </div>
             </div>
         </div>

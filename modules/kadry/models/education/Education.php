@@ -236,6 +236,7 @@ class Education extends \yii\db\ActiveRecord
         }
         $educationUser = new EducationUser([
             'id_kadry_education' => $this->id,
+            'username' => Yii::$app->user->identity->username,
         ]);
         $educationUser->save();
         $this->link('educationUser', $educationUser);
