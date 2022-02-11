@@ -101,11 +101,12 @@ class EducationDataFiles extends \yii\db\ActiveRecord
      */
     public function saveDownloadVisit()
     {
+        $this->checkData();
         $model = EducationUserDataFiles::find()->where([
             'id_kadry_education_user_data' => $this->educationData->id,
             'id_kadry_education_data_files' => $this->id,
             'username' => Yii::$app->user->identity->username,
-        ])->one();
+        ])->one();        
         if ($model === null) {
             $model = new EducationUserDataFiles([
                 'id_kadry_education_user_data' => $this->educationData->educationUserDatas->id,
@@ -115,5 +116,22 @@ class EducationDataFiles extends \yii\db\ActiveRecord
             $model->educationUserData->updatePercent();
         }
     }        
+
+    /**
+     * Проверка наличия раздела data
+     * Если нет, то он создается
+     */
+    private function checkData()
+    {
+        if ($this->educationData->educationUserDatas == null) {
+            $modelUser = $this->educationUserDataFiles->educationUserData;
+            $modelEducationUserData = new EducationUserData([
+                'id_kadry_education_user' => $modelUser->id,
+                'id_kadry_education_data' => $this->educationData->id,
+            ]);
+            $modelEducationUserData->save();
+            $modelUser->link('educationUserDatas', $modelEducationUserData);
+        }
+    }
 
 }
