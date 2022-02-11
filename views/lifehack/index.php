@@ -26,8 +26,14 @@ $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
-    'columns' => [ 
-        'organizationModel.name',       
+    'columns' => [        
+        [
+            'label' => 'Наименование',
+            'value' => function(Lifehack $model) {
+                return $model->organizationModel->name . (!empty($model->author_name) ? ' (' . $model->author_name . ')' : '');
+            },
+            'format' => 'raw',
+        ],       
         [
             'attribute' => 'tags',
             'value' => function(Lifehack $model) {
