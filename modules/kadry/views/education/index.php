@@ -4,7 +4,7 @@
 /** @var app\modules\kadry\models\education\Education[] $models */
 
 use yii\bootstrap4\Html;
-$this->title = 'Лекториум';
+$this->title = 'Комплекс программ профессионального развития в рамках цифровой трансформации';
 ?>
 
 <?php if (Yii::$app->user->can('admin')): ?>
