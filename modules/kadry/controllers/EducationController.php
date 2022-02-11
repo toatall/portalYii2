@@ -68,7 +68,7 @@ class EducationController extends Controller
     {
         $model = $this->findEducationDataFile($id);
         $model->saveDownloadVisit();       
-        return Yii::$app->response->sendFile($model->filename);
+        return Yii::$app->response->sendFile(Yii::getAlias('@webroot') . $model->filename);
     }
 
     /**
