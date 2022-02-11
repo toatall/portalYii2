@@ -182,6 +182,16 @@ return [
             ],
                         
         ],
+        // кадровые проекты
+        'kadry' => [
+            // учебные материалы
+            'education' => [
+                // файл с описанием учебных материалов
+                'jsonFile' => '/public/content/kadry/education/data.json',
+                'uploadPath' => '/public/upload/kadry/education/',
+                'thumbnailNotSet' => '/public/content/kadry/education/no-image-course.jpg',
+            ],
+        ],
     ],
 
     'lefehack' => [

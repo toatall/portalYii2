@@ -53,6 +53,9 @@ $config = [
         'calendar' => [
             'class' => 'app\modules\calendar\Module',
         ],
+        'spa' => [
+            'class' => 'app\modules\spa\Module',
+        ],
     ],    
     'components' => [
         'request' => [
