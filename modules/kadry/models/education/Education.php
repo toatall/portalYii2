@@ -134,7 +134,9 @@ class Education extends \yii\db\ActiveRecord
      */
     public function getEducationUser()
     {
-        return $this->hasOne(EducationUser::class, ['id_kadry_education' => 'id']);
+        return $this->hasOne(EducationUser::class, ['id_kadry_education' => 'id'])->where([
+            'username' => Yii::$app->user->identity->username,
+        ]);
     }
 
     /**
@@ -239,7 +241,7 @@ class Education extends \yii\db\ActiveRecord
             'username' => Yii::$app->user->identity->username,
         ]);
         $educationUser->save();
-        $this->link('educationUser', $educationUser);
+        $this->link('educationUser', $educationUser);        
     }
 
 }
