@@ -22,13 +22,14 @@ $this->title = 'Комплекс программ профессионально
             <div class="card-header">
                 <h5 class="font-weight-bolder"><?= $item->title ?? null ?></h5>
             </div>
+            <div class="bg-success" style="height:0.2rem; width: <?= $item->educationUser->percent ?? 0 ?>%;"></div>
             <div class="card-body">                
                 <p class="card-text text-justify"><?= $item->description ?? null ?></p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                         <?= Html::a('Просмотр', ['/kadry/education/view', 'id'=>$item->id], ['class' => 'btn btn-sm btn-outline-primary']) ?>
                     </div>
-                    <?php if (isset($item->duration)): ?>
+                    <?php if (!empty($item->duration)): ?>
                     <small class="text-muted"><i class="fas fa-clock"></i> <?= $item->duration ?></small>
                     <?php endif; ?>
                 </div>
