@@ -15,9 +15,9 @@ $this->title = 'Комплекс программ профессионально
 
 <div class="row">
 <?php foreach ($models as $item): ?>
-    <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-            <img src="<?= $item->getThumbnailImage() ?>" style="height: 100%; width: 100%;" />
+    <div class="col-6">
+        <div class="card mb-4 shadow-sm h-100">            
+            <img src="<?= $item->getThumbnailImage() ?>" class="card-img" />            
             <hr class="m-0" />           
             <div class="card-header">
                 <h5 class="font-weight-bolder"><?= $item->title ?? null ?></h5>
