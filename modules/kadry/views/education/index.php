@@ -15,7 +15,7 @@ $this->title = 'Комплекс программ профессионально
 
 <div class="row">
 <?php foreach ($models as $item): ?>
-    <div class="col-6">
+    <div class="col-6 mb-4">
         <div class="card mb-4 shadow-sm h-100">            
             <img src="<?= $item->getThumbnailImage() ?>" class="card-img" />            
             <hr class="m-0" />           
@@ -23,14 +23,18 @@ $this->title = 'Комплекс программ профессионально
                 <h5 class="font-weight-bolder"><?= $item->title ?? null ?></h5>
             </div>
             <div class="bg-success" style="height:0.2rem; width: <?= $item->educationUser->percent ?? 0 ?>%;"></div>
-            <div class="card-body">                
-                <p class="card-text text-justify"><?= $item->description ?? null ?></p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
+            <div class="card-body d-flex align-items-start flex-column">
+                <div class="mb-auto mw-100">
+                    <p class="card-text text-justify"><?= $item->description ?? null ?></p>
+                </div>
+                <div class="w-100">
+                    <div class="btn-group float-left">
                         <?= Html::a('Просмотр', ['/kadry/education/view', 'id'=>$item->id], ['class' => 'btn btn-sm btn-outline-primary']) ?>
                     </div>
                     <?php if (!empty($item->duration)): ?>
-                    <small class="text-muted"><i class="fas fa-clock"></i> <?= $item->duration ?></small>
+                    <div class="float-right">
+                        <small class="text-muted"><i class="fas fa-clock"></i> <?= $item->duration ?></small>
+                    </div>
                     <?php endif; ?>
                 </div>
             </div>
