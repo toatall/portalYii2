@@ -21,12 +21,18 @@ class LifehackSearch extends Lifehack
 {
 
     /**
+     * Поиск по организации (автору)
+     * @var string
+     */
+    public $searchOrgName;
+
+    /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['org_code', 'title', 'text', 'author_name'], 'safe'],
+            [['org_code', 'title', 'text', 'author_name', 'searchOrgName'], 'safe'],
         ];
     }
 
@@ -36,7 +42,9 @@ class LifehackSearch extends Lifehack
      */
     public function search($params)
     {
-        $query = static::find();
+        $query = static::find()->alias('t')
+            ->select('t.*')
+            ->leftJoin('{{%organization}} org', 't.org_code=org.code');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,14 +65,20 @@ class LifehackSearch extends Lifehack
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,            
-            'org_code' => $this->org_code,            
+            't.id' => $this->id,            
+            't.org_code' => $this->org_code,
         ]);
 
-        $query->andFilterWhere(['like', 'tags', $this->tags]);
-        $query->andFilterWhere(['like', 'title', $this->title]);
-        $query->andFilterWhere(['like', 'text', $this->text]);
-        $query->andFilterWhere(['like', 'author_name', $this->author_name]);
+        $query->andFilterWhere(['like', 't.tags', $this->tags]);
+        $query->andFilterWhere(['like', 't.title', $this->title]);
+        $query->andFilterWhere(['like', 't.text', $this->text]);
+        $query->andFilterWhere(['like', 't.author_name', $this->author_name]);
+        if ($this->searchOrgName) {
+            $query->andFilterWhere(['or', 
+                ['like', 't.author_name', $this->searchOrgName],
+                ['like', 'org.name', $this->searchOrgName],
+            ]);  
+        }
 
         return $dataProvider;
     }

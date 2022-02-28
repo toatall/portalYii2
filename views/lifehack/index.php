@@ -33,6 +33,7 @@ $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
                 return $model->organizationModel->name . (!empty($model->author_name) ? ' (' . $model->author_name . ')' : '');
             },
             'format' => 'raw',
+            'attribute' => 'searchOrgName',
         ],       
         [
             'attribute' => 'tags',
