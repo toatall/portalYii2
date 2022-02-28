@@ -5,14 +5,20 @@
 
 use yii\bootstrap4\Html;
 use app\assets\AppAsset;
+use app\assets\fancybox\FancyboxAsset;
 use app\assets\ModalViewerAsset;
 use yii\bootstrap4\Breadcrumbs;
 
+FancyboxAsset::register($this);
 AppAsset::register($this);
 ModalViewerAsset::register($this);
 $this->registerCssFile('public/assets/kadry/css/album.css', [
     'depends' => AppAsset::class,
-])
+]);
+$this->registerJs(<<<JS
+    $('.gallery').fancybox();
+JS);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

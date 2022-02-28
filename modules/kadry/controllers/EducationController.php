@@ -6,6 +6,7 @@ use app\modules\kadry\models\education\Education;
 use app\modules\kadry\models\education\EducationDataFiles;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\FileHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -67,8 +68,10 @@ class EducationController extends Controller
     public function actionDownload($id)
     {
         $model = $this->findEducationDataFile($id);
-        $model->saveDownloadVisit();       
-        return Yii::$app->response->sendFile(Yii::getAlias('@webroot') . $model->filename);
+        $model->saveDownloadVisit();
+        $mime= FileHelper::getMimeType(Yii::getAlias('@webroot') . $model->filename);
+        header("Content-type: $mime;", true);
+        return readfile(Yii::getAlias('@webroot') . $model->filename);
     }
 
     /**
