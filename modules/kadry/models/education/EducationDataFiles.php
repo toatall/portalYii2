@@ -112,9 +112,9 @@ class EducationDataFiles extends \yii\db\ActiveRecord
                 'id_kadry_education_user_data' => $this->educationData->educationUserDatas->id,
                 'id_kadry_education_data_files' => $this->id,
             ]);   
-            $model->save();            
-            $model->educationUserData->updatePercent();
+            $model->save();
         }
+        $model->educationUserData->updatePercent();
     }        
 
     /**

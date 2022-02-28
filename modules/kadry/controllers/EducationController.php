@@ -69,9 +69,13 @@ class EducationController extends Controller
     {
         $model = $this->findEducationDataFile($id);
         $model->saveDownloadVisit();
-        $mime= FileHelper::getMimeType(Yii::getAlias('@webroot') . $model->filename);
-        header("Content-type: $mime;", true);
-        return readfile(Yii::getAlias('@webroot') . $model->filename);
+        $file = Yii::getAlias('@webroot') . $model->filename;
+        $mime= FileHelper::getMimeType($file);
+        ob_clean();
+        header("Content-Type: $mime;", true);
+        header("Content-Length: " . filesize($file));
+        header("Content-Disposition: attachment; filename=" . basename($file));
+        readfile($file);        
     }
 
     /**

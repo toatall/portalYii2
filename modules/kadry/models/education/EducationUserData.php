@@ -6,6 +6,7 @@ use app\behaviors\AuthorBehavior;
 use app\behaviors\DatetimeBehavior;
 use app\models\User;
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "{{%kadry_education_user_data}}".
@@ -109,12 +110,15 @@ class EducationUserData extends \yii\db\ActiveRecord
         return $this->hasMany(EducationUserDataFiles::class, ['id_kadry_education_user_data' => 'id']);
     }
 
+    /**
+     * @return int
+     */
     public function getCountStudyFiles()
     {
         $count = $this->getEducationUserDataFiles()->count();
         foreach ($this->educationData->educationChildrenDatas as $data) {
-            $count += $data->educationUserDatas->getCountStudyFiles();
-        }
+             $count += $data->educationUserDatas->getCountStudyFiles();
+        }        
         return $count;
     }
 
@@ -135,21 +139,35 @@ class EducationUserData extends \yii\db\ActiveRecord
         return true;
     }
 
+    
     /**
-     * Обновление процентов изученного материала
+     * Получение процента изученного материала с учетом дочерних объектов:
+     * 1. Получить количество материалов (всего)
+     * 2. Получить количество изученного текущим пользователем материалов
      */
     public function updatePercent()
-    {        
-        $countAllFiles = $this->educationData->getCountFiles();
-        $countStudyFiles = $this->getCountStudyFiles(); //$this->getEducationUserDataFiles()->count();
+    {
+        $countAllFiles = 0;
+        $countStudyFiles = 0;
+        $do = function($idData) use (&$countAllFiles, &$countStudyFiles, &$do) {
+            /** @var EducationDataFiles[] $query */
+            $query = EducationDataFiles::find()->where(['id_kadry_education_data' => $idData])->all();
+            foreach ($query as $item) {
+                $countAllFiles++;
+                if ($item->getEducationUserDataFiles()->exists()) {
+                    $countStudyFiles++;
+                }
+            }    
+            $modelData = EducationData::findOne($idData);
+            if ($modelData) {
+                foreach ($modelData->educationChildrenDatas as $data) {
+                    $do($data->id);
+                }
+            }        
+        };
+        $do($this->id_kadry_education_data);
         $this->percent = $countStudyFiles / $countAllFiles * 100;        
         $this->save(false, ['percent']);        
-        if ($this->educationData->educationParentData != null) {
-            $this->educationData->educationParentData->educationUserDatas->updatePercent();
-        }
-        else {
-            $this->educationUser->updatePercent();
-        }
     }
 
 }

@@ -16,8 +16,6 @@ class EducationDetailView extends \yii\bootstrap\Widget
      */
     public $model;
 
-    
-
     /**
      * {@inheritdoc}
      */
@@ -43,7 +41,7 @@ class EducationDetailView extends \yii\bootstrap\Widget
         if ($duration) {
             echo Html::tag('p', 'Продолжительность изучения: <i class="far fa-clock"></i> ' . $duration);
         }
-
+        
         echo Html::beginTag('div', ['class' => 'progress', 'style'=>'height:0.7rem;']);            
             echo Html::beginTag('div', [
                 'class' => 'progress-bar bg-success',
@@ -95,6 +93,9 @@ class EducationDetailView extends \yii\bootstrap\Widget
         return $out;
     }
 
+    /**
+     * @param string $type
+     */
     protected function getIconByType($type)
     {
         return '<i class="far fa-file"></i>';

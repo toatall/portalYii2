@@ -133,11 +133,20 @@ class EducationData extends \yii\db\ActiveRecord
             ->where(['username' => Yii::$app->user->identity->username]);
     }
 
-    public function getCountFiles()
+    /**
+     * Количество
+     * @return int
+     */
+    public function getCountFiles($downloadCurrentUser = false)
     {
-        $count = $this->getEducationDataFiles()->count();
+        if ($downloadCurrentUser) {
+            $count = $this->educationUserDatas->getEducationUserDataFiles()->count();
+        }
+        else {
+            $count = $this->getEducationDataFiles()->count();            
+        }
         foreach ($this->educationChildrenDatas as $data) {
-            $count += $data->getCountFiles();
+            $count += $data->getCountFiles($downloadCurrentUser);
         }
         return $count;
     }

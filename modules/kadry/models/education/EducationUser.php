@@ -167,7 +167,7 @@ class EducationUser extends \yii\db\ActiveRecord
     {
         $countAllFiles = 0;
         foreach ($this->education->educationData as $data) {
-            $countAllFiles += $data->getCountFiles();
+            $countAllFiles += $data->getCountFiles(true);
         }
         $countStudyFiles = 0;
         foreach ($this->educationUserDatas as $data) {           
