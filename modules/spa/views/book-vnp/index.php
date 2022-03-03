@@ -118,7 +118,7 @@
                         </h1>                        
                     </div>
 
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
+                    <div class="wow fadeIn mb-55 mt-55" data-wow-duration="1s" data-wow-delay="1s">
                         <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
                         <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_2_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
                     </div> <!-- about image -->
@@ -181,30 +181,28 @@
     <!-- SLIDE 2 END -->
 
     
-
-
-    <!-- SLIDE 3 START -->
+    <!-- SLIDE 11 START -->
     
-    <section id="slide3_1" data-scroll-index="3" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
+    <section id="slide11_1" data-scroll-index="3" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-9">
                     <div class="text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.8s">
-                        <h1 class="text-white" style="font-size: 4rem;">
+                        <h1 class="text-white" style="font-size: 4.5rem;">
                             <i>Победитель в номинации </i><br />
-                            <strong>Рекордсмен по доначислениям!</strong>
+                            <strong>Хранитель традиций!</strong>
                         </h1>                        
                     </div>
 
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
+                    <div class="wow fadeIn mt-80 mb-80" data-wow-duration="1s" data-wow-delay="1s">
                         <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
-                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_3_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
+                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_11_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
                     </div> <!-- about image -->
 
                     <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
-                        <h2 class="text-white">
-                            В номинации оценивались сотрудники инспекций, которыми по результатам выездных налоговых проверок доначислена наибольшая сумма платежей
-                        </h2>
+                        <h1 class="text-white">
+                        В номинации оценивались сотрудники, которые имеют наибольший стаж работы в отделе выездных проверок
+                        </h1>
                     </div>
                 </div>
             </div> <!-- row -->            
@@ -219,7 +217,76 @@
         </div>
     </section>
 
-    <section id="slide3_2" data-scroll-index="4" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
+    <section id="slide11_2" data-scroll-index="4" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
+        <div class="container-fluid" style="width: 100%; height: 100%;">            
+            <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_11_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
+            bottom: 0; margin: auto; position: absolute; left: 0; right: 0;" /> 
+            
+            <div class="row align-items-center" style="width: 100%; height: 100%;">            
+                <div class="col-md-6 offset-md-6 text-dark text-center wow fadeInLeftBig">
+                    <div class="justify-content-center">
+                        <div class="offset-md-2 col-8">                          
+                            <h1 class="mt-4" style="font-size:5rem;">Пузатова Элла Юрьевна</h1>
+                            <h3 class="mt-30">сотрудник Межрайонной ИФНС России № 6 по ХМАО-Югре </h3>
+                            <h2 class="mt-30">Стаж работы инспектора в отделе выездных проверок составляет
+                                <br /><span class="counter fa-4x">27</span><br />лет
+                           </h2>                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- container -->
+        <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
+            <a data-scroll-nav="3" href="#" class=""title="Предыдущий слайд">
+                <i class="fas fa-arrow-circle-up fa-3x text-dark"></i>
+            </a>
+            <a data-scroll-nav="5" href="#" class=""title="Следующий слайд">
+                <i class="fas fa-arrow-circle-down fa-3x text-dark"></i>
+            </a>
+        </div>
+        
+    </section>
+
+    <!-- SLIDE 11 END -->
+
+
+    <!-- SLIDE 3 START -->
+    
+    <section id="slide3_1" data-scroll-index="5" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-9">
+                    <div class="text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.8s">
+                        <h1 class="text-white" style="font-size: 4rem;">
+                            <i>Победитель в номинации </i><br />
+                            <strong>Рекордсмен по доначислениям!</strong>
+                        </h1>                        
+                    </div>
+
+                    <div class="wow fadeIn mt-55 mb-55" data-wow-duration="1s" data-wow-delay="1s">
+                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
+                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_3_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
+                    </div> <!-- about image -->
+
+                    <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
+                        <h2 class="text-white">
+                            В номинации оценивались сотрудники инспекций, которыми по результатам выездных налоговых проверок доначислена наибольшая сумма платежей
+                        </h2>
+                    </div>
+                </div>
+            </div> <!-- row -->            
+        </div> <!-- container -->
+        <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
+            <a data-scroll-nav="4" href="#" class=""title="Предыдущий слайд">
+                <i class="fas fa-arrow-circle-up fa-3x text-light"></i>
+            </a>
+            <a data-scroll-nav="6" href="#" class=""title="Следующий слайд">
+                <i class="fas fa-arrow-circle-down fa-3x text-light"></i>
+            </a>
+        </div>
+    </section>
+
+    <section id="slide3_2" data-scroll-index="6" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
         <div class="container-fluid" style="width: 100%; height: 100%;">            
             <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_3_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
             bottom: 0; margin: auto; position: absolute; left: 0; right: 0;" /> 
@@ -240,76 +307,6 @@
             </div>
         </div> <!-- container -->
         <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
-            <a data-scroll-nav="3" href="#" class=""title="Предыдущий слайд">
-                <i class="fas fa-arrow-circle-up fa-3x text-dark"></i>
-            </a>
-            <a data-scroll-nav="5" href="#" class=""title="Следующий слайд">
-                <i class="fas fa-arrow-circle-down fa-3x text-dark"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- SLIDE 3 END -->
-
-
-
-    <!-- SLIDE 4 START -->
-    
-    <section id="slide4_1" data-scroll-index="5" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
-        <div class="container">
-            <div class="row justify-content-center text-center">
-                <div class="col-lg-9">
-                    <div class="text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.8s">
-                        <h1 class="text-white" style="font-size: 4rem;">
-                            <i>Победитель в номинации </i><br />
-                            <strong>Бюджет пополнен! <br />Рекордсмен по взысканию</strong>
-                        </h1>                        
-                    </div>
-
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
-                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
-                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_4_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
-                    </div> <!-- about image -->
-
-                    <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
-                        <h2 class="text-white">
-                            В номинации оценивались сотрудники инспекций, по результатам выездных налоговых проверок которых взыскана наибольшая сумма доначисленных платежей
-                        </h2>
-                    </div>
-                </div>
-            </div> <!-- row -->            
-        </div> <!-- container -->
-        <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
-            <a data-scroll-nav="4" href="#" class=""title="Предыдущий слайд">
-                <i class="fas fa-arrow-circle-up fa-3x text-light"></i>
-            </a>
-            <a data-scroll-nav="6" href="#" class=""title="Следующий слайд">
-                <i class="fas fa-arrow-circle-down fa-3x text-light"></i>
-            </a>
-        </div>
-    </section>
-
-    <section id="slide4_2" data-scroll-index="6" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
-        <div class="container-fluid" style="width: 100%; height: 100%;">            
-            <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_4_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
-            bottom: 0; margin: auto; position: absolute; left: 0; right: 0;" /> 
-            
-            <div class="row align-items-center" style="width: 100%; height: 100%;">            
-                <div class="col-md-6 offset-md-6 text-dark text-center wow fadeInLeftBig">
-                    <div class="justify-content-center">
-                        <div class="offset-md-2 col-8">
-                            <h2>руководитель проверяющей группу </h2>
-                            <h1 class="mt-4">Авсейчик Алексей Андреевич</h1>
-                            <h3 class="mt-4">сотрудник ИФНС России по г. Сургуту ХМАО-Югры </h3>
-                            <h2 class="mt-4">По результатам проверки ООО УК «Юграгидрострой» взыскано –
-                                <br /><span class="counter fa-3x">73500</span><span class="fa-2x">тыс. рублей.</span><br />
-                           </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- container -->
-        <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
             <a data-scroll-nav="5" href="#" class=""title="Предыдущий слайд">
                 <i class="fas fa-arrow-circle-up fa-3x text-dark"></i>
             </a>
@@ -319,25 +316,25 @@
         </div>
     </section>
 
-    <!-- SLIDE 4 END -->
+    <!-- SLIDE 3 END -->
 
 
     <!-- SLIDE 5 START -->
     
-    <section id="slide5_1" data-scroll-index="7" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
+    <section id="slide5_1" data-scroll-index="7" class="about-area pt-10 position-relative" style="background-color: #323249; height: 100vh;">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-9">
                     <div class="text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.8s">
-                        <h1 class="text-white" style="font-size: 4rem;">
+                        <h1 class="text-white" style="font-size: 3.5rem;">
                             <i>Победитель в номинации </i><br />
                             <strong>Самый «быстрый» проверяющий!</strong>
                         </h1>                        
                     </div>
 
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
+                    <div class="wow fadeIn mt-30 mb-30" data-wow-duration="1s" data-wow-delay="1s">
                         <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
-                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_5_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
+                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_5_icon.png" style="width: 12rem;" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
                     </div> <!-- about image -->
 
                     <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
@@ -370,10 +367,10 @@
                     <div class="justify-content-center">
                         <div class="offset-md-2 col-8">
                             <h2>руководитель проверяющей группы</h2>
-                            <h1 class="mt-4">Панчурова Лидия Давыдовна</h1>
-                            <h3 class="mt-4">сотрудник Межрайонной ИФНС России № 1 по ХМАО-Югре</h3>
+                            <h1 class="mt-4" style="font-size: 4rem;">Панчурова Лидия Давыдовна</h1>
+                            <h2 class="mt-4">сотрудник Межрайонной ИФНС России № 1 по ХМАО-Югре</h2>
                             <h2 class="mt-4">Выездная проверка <strong>АО «ЮИСП»</strong> проведена За
-                                <br /><span class="counter fa-3x">177</span><span class="fa-2x">дней</span><br />
+                                <br /><span class="counter fa-3x">177</span><br /><span class="fa-2x">дней</span><br />
                            </h2>
                         </div>
                     </div>
@@ -394,27 +391,27 @@
     <!-- SLIDE 5 END -->
 
 
-    <!-- SLIDE 6 START -->
+    <!-- SLIDE 4 START -->
     
-    <section id="slide6_1" data-scroll-index="9" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
+    <section id="slide4_1" data-scroll-index="9" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-9">
                     <div class="text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.8s">
                         <h1 class="text-white" style="font-size: 4rem;">
                             <i>Победитель в номинации </i><br />
-                            <strong>Великий устранитель «сложных» расхождений!</strong>
+                            <strong>Бюджет пополнен! <br />Рекордсмен по взысканию</strong>
                         </h1>                        
                     </div>
 
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
+                    <div class="wow fadeIn mt-50 mb-50" data-wow-duration="1s" data-wow-delay="1s">
                         <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
-                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_6_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
+                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_4_icon.png" style="width: 13rem;" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
                     </div> <!-- about image -->
 
                     <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
                         <h2 class="text-white">
-                        В номинации оценивались сотрудники инспекций, которыми проведена выездная налоговая проверка, по результатам которой устранено «сложное» расхождение на наибольшую сумму разрыва
+                            В номинации оценивались сотрудники инспекций, по результатам выездных налоговых проверок которых взыскана наибольшая сумма доначисленных платежей
                         </h2>
                     </div>
                 </div>
@@ -430,7 +427,79 @@
         </div>
     </section>
 
-    <section id="slide6_2" data-scroll-index="10" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
+    <section id="slide4_2" data-scroll-index="10" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
+        <div class="container-fluid" style="width: 100%; height: 100%;">            
+            <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_4_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
+            bottom: 0; margin: auto; position: absolute; left: 0; right: 0;" /> 
+            
+            <div class="row align-items-center" style="width: 100%; height: 100%;">            
+                <div class="col-md-6 offset-md-6 text-dark text-center wow fadeInLeftBig">
+                    <div class="justify-content-center">
+                        <div class="offset-md-2 col-8">
+                            <h2>руководитель проверяющей группу </h2>
+                            <h1 class="mt-4" style="font-size:4rem;">Авсейчик Алексей Андреевич</h1>
+                            <h2 class="mt-4">сотрудник ИФНС России по г. Сургуту ХМАО-Югры </h2>
+                            <h2 class="mt-4">По результатам проверки ООО УК «Юграгидрострой» взыскано –
+                                <br /><span class="counter fa-3x">73500</span><span class="fa-2x">тыс. рублей.</span><br />
+                           </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- container -->
+        <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
+            <a data-scroll-nav="9" href="#" class=""title="Предыдущий слайд">
+                <i class="fas fa-arrow-circle-up fa-3x text-dark"></i>
+            </a>
+            <a data-scroll-nav="11" href="#" class=""title="Следующий слайд">
+                <i class="fas fa-arrow-circle-down fa-3x text-dark"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- SLIDE 4 END -->
+
+
+    
+
+
+    <!-- SLIDE 6 START -->
+    
+    <section id="slide6_1" data-scroll-index="11" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-9">
+                    <div class="text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.8s">
+                        <h1 class="text-white" style="font-size: 4rem;">
+                            <i>Победитель в номинации </i><br />
+                            <strong>Великий устранитель «сложных» расхождений!</strong>
+                        </h1>                        
+                    </div>
+
+                    <div class="wow fadeIn mt-50 mb-50" data-wow-duration="1s" data-wow-delay="1s">
+                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
+                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_6_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
+                    </div> <!-- about image -->
+
+                    <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
+                        <h2 class="text-white">
+                        В номинации оценивались сотрудники инспекций, которыми проведена выездная налоговая проверка, по результатам которой устранено «сложное» расхождение на наибольшую сумму разрыва
+                        </h2>
+                    </div>
+                </div>
+            </div> <!-- row -->            
+        </div> <!-- container -->
+        <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
+            <a data-scroll-nav="10" href="#" class=""title="Предыдущий слайд">
+                <i class="fas fa-arrow-circle-up fa-3x text-light"></i>
+            </a>
+            <a data-scroll-nav="12" href="#" class=""title="Следующий слайд">
+                <i class="fas fa-arrow-circle-down fa-3x text-light"></i>
+            </a>
+        </div>
+    </section>
+
+    <section id="slide6_2" data-scroll-index="12" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
         <div class="container-fluid" style="width: 100%; height: 100%;">            
             <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_6_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
             bottom: 0; margin: auto; position: absolute; left: 0; right: 0;" /> 
@@ -451,10 +520,10 @@
             </div>
         </div> <!-- container -->
         <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
-            <a data-scroll-nav="9" href="#" class=""title="Предыдущий слайд">
+            <a data-scroll-nav="11" href="#" class=""title="Предыдущий слайд">
                 <i class="fas fa-arrow-circle-up fa-3x text-dark"></i>
             </a>
-            <a data-scroll-nav="11" href="#" class=""title="Следующий слайд">
+            <a data-scroll-nav="13" href="#" class=""title="Следующий слайд">
                 <i class="fas fa-arrow-circle-down fa-3x text-dark"></i>
             </a>
         </div>
@@ -466,7 +535,7 @@
 
     <!-- SLIDE 7 START -->
     
-    <section id="slide7_1" data-scroll-index="11" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
+    <section id="slide7_1" data-scroll-index="13" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-9">
@@ -477,9 +546,9 @@
                         </h1>                        
                     </div>
 
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
+                    <div class="wow fadeIn mb-60 mt-60" data-wow-duration="1s" data-wow-delay="1s">
                         <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
-                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_7_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
+                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_7_icon.png" style="width:11rem;" class="wow bounceInRight rounded" data-wow-duration="2s" data-wow-delay="1.2s" />
                     </div> <!-- about image -->
 
                     <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
@@ -491,16 +560,16 @@
             </div> <!-- row -->            
         </div> <!-- container -->
         <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
-            <a data-scroll-nav="10" href="#" class=""title="Предыдущий слайд">
+            <a data-scroll-nav="12" href="#" class=""title="Предыдущий слайд">
                 <i class="fas fa-arrow-circle-up fa-3x text-light"></i>
             </a>
-            <a data-scroll-nav="12" href="#" class=""title="Следующий слайд">
+            <a data-scroll-nav="14" href="#" class=""title="Следующий слайд">
                 <i class="fas fa-arrow-circle-down fa-3x text-light"></i>
             </a>
         </div>
     </section>
 
-    <section id="slide7_2" data-scroll-index="12" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
+    <section id="slide7_2" data-scroll-index="14" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
         <div class="container-fluid" style="width: 100%; height: 100%;">            
             <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_7_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
             bottom: 0; margin: auto; position: absolute; left: 0; right: 0;" /> 
@@ -520,10 +589,10 @@
             </div>
         </div> <!-- container -->
         <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
-            <a data-scroll-nav="11" href="#" class=""title="Предыдущий слайд">
+            <a data-scroll-nav="13" href="#" class=""title="Предыдущий слайд">
                 <i class="fas fa-arrow-circle-up fa-3x text-dark"></i>
             </a>
-            <a data-scroll-nav="13" href="#" class=""title="Следующий слайд">
+            <a data-scroll-nav="15" href="#" class=""title="Следующий слайд">
                 <i class="fas fa-arrow-circle-down fa-3x text-dark"></i>
             </a>
         </div>
@@ -535,7 +604,7 @@
 
     <!-- SLIDE 8 START -->
     
-    <section id="slide8_1" data-scroll-index="13" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
+    <section id="slide8_1" data-scroll-index="15" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-9">
@@ -546,86 +615,15 @@
                         </h1>                        
                     </div>
 
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
+                    <div class="wow fadeIn mt-50 mb-50" data-wow-duration="1s" data-wow-delay="1s">
                         <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
                         <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_8_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
                     </div> <!-- about image -->
 
                     <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
-                        <h2 class="text-white">
+                        <h1 class="text-white">
                         В номинации оценивались сотрудники инспекций, включенные в наибольшее количество проверяющих групп по выездным налоговым проверкам
-                        </h2>
-                    </div>
-                </div>
-            </div> <!-- row -->            
-        </div> <!-- container -->
-        <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
-            <a data-scroll-nav="12" href="#" class=""title="Предыдущий слайд">
-                <i class="fas fa-arrow-circle-up fa-3x text-light"></i>
-            </a>
-            <a data-scroll-nav="14" href="#" class=""title="Следующий слайд">
-                <i class="fas fa-arrow-circle-down fa-3x text-light"></i>
-            </a>
-        </div>
-    </section>
-
-    <section id="slide8_2" data-scroll-index="14" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
-        <div class="container-fluid" style="width: 100%; height: 100%;">            
-            <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_8_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
-            bottom: 0; margin: auto; position: absolute; left: 0; right: 0;" /> 
-            
-            <div class="row align-items-center" style="width: 100%; height: 100%;">            
-                <div class="col-md-6 offset-md-6 text-dark text-center wow fadeInLeftBig">
-                    <div class="justify-content-center">
-                        <div class="offset-md-2 col-8">
-                            <!-- <h2>руководитель проверяющей группы</h2> -->
-                            <h1 class="mt-4">Тен Роман Борисович</h1>
-                            <h3 class="mt-4">сотрудник ИФНС России по г. Сургуту ХМАО-Югры</h3>
-                            <h2 class="mt-4">Инспектор включен в состав 
-                                <strong>8-ми проверяющих групп </strong>
-                                по выездным налоговым проверкам
-                           </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- container -->
-        <div class="buttons-control wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.2s">
-            <a data-scroll-nav="13" href="#" class=""title="Предыдущий слайд">
-                <i class="fas fa-arrow-circle-up fa-3x text-dark"></i>
-            </a>
-            <a data-scroll-nav="15" href="#" class=""title="Следующий слайд">
-                <i class="fas fa-arrow-circle-down fa-3x text-dark"></i>
-            </a>
-        </div>
-        
-    </section>
-
-    <!-- SLIDE 8 END -->
-
-
-    <!-- SLIDE 9 START -->
-    
-    <section id="slide9_1" data-scroll-index="15" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
-        <div class="container">
-            <div class="row justify-content-center text-center">
-                <div class="col-lg-9">
-                    <div class="text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.8s">
-                        <h1 class="text-white" style="font-size: 4rem;">
-                            <i>Победитель в номинации </i><br />
-                            <strong>Лучший «инициатор»!</strong>
-                        </h1>                        
-                    </div>
-
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
-                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
-                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_9_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
-                    </div> <!-- about image -->
-
-                    <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
-                        <h2 class="text-white">
-                        В номинации оценивались сотрудники инспекций, которыми инициировано наибольшее количество мероприятий налогового контроля в ходе проведения выездной налоговой проверки
-                        </h2>
+                        </h1>
                     </div>
                 </div>
             </div> <!-- row -->            
@@ -640,20 +638,20 @@
         </div>
     </section>
 
-    <section id="slide9_2" data-scroll-index="16" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
+    <section id="slide8_2" data-scroll-index="16" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
         <div class="container-fluid" style="width: 100%; height: 100%;">            
-            <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_9_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
+            <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_8_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
             bottom: 0; margin: auto; position: absolute; left: 0; right: 0;" /> 
             
             <div class="row align-items-center" style="width: 100%; height: 100%;">            
                 <div class="col-md-6 offset-md-6 text-dark text-center wow fadeInLeftBig">
                     <div class="justify-content-center">
-                        <div class="offset-md-2 col-8">
-                            <h2>руководитель проверяющей группы</h2>
-                            <h1 class="mt-4">Ефремова Елена Константиновна</h1>
-                            <h3 class="mt-4">сотрудник ИФНС России по г. Сургуту ХМАО-Югры</h3>
-                            <h2 class="mt-4">В ходе проверки ООО «Северстроймонолит» инициировано 
-                                <br /><span class="counter fa-3x">959</span><br />мероприятий налогового контроля
+                        <div class="offset-md-2 col-8">                           
+                            <h1 class="mt-4" style="font-size: 5rem;">Тен Роман Борисович</h1>
+                            <h2 class="mt-100">сотрудник ИФНС России по г. Сургуту ХМАО-Югры</h2>
+                            <h2 class="mt-100">Инспектор включен в состав 
+                                <strong>8-ми проверяющих групп </strong>
+                                по выездным налоговым проверкам
                            </h2>
                         </div>
                     </div>
@@ -671,30 +669,30 @@
         
     </section>
 
-    <!-- SLIDE 9 END -->
+    <!-- SLIDE 8 END -->
 
 
-    <!-- SLIDE 10 START -->
+    <!-- SLIDE 9 START -->
     
-    <section id="slide10_1" data-scroll-index="17" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
+    <section id="slide9_1" data-scroll-index="17" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-9">
                     <div class="text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.8s">
                         <h1 class="text-white" style="font-size: 4rem;">
                             <i>Победитель в номинации </i><br />
-                            <strong>Самый «чистый» ресурс!</strong>
+                            <strong>Лучший «инициатор»!</strong>
                         </h1>                        
                     </div>
 
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
+                    <div class="wow fadeIn mb-100 mt-100" data-wow-duration="1s" data-wow-delay="1s">
                         <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
-                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_10_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
+                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_9_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
                     </div> <!-- about image -->
 
                     <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
                         <h2 class="text-white">
-                        В номинации оценивалась «чистота» отражения инспекцией сведений в АИС «Налог-3», отсутствие направления запросов инспекциями о проведении технических корректировок
+                        В номинации оценивались сотрудники инспекций, которыми инициировано наибольшее количество мероприятий налогового контроля в ходе проведения выездной налоговой проверки
                         </h2>
                     </div>
                 </div>
@@ -710,22 +708,21 @@
         </div>
     </section>
 
-    <section id="slide10_2" data-scroll-index="18" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
+    <section id="slide9_2" data-scroll-index="18" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
         <div class="container-fluid" style="width: 100%; height: 100%;">            
-            <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_10_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
+            <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_9_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
             bottom: 0; margin: auto; position: absolute; left: 0; right: 0;" /> 
             
             <div class="row align-items-center" style="width: 100%; height: 100%;">            
                 <div class="col-md-6 offset-md-6 text-dark text-center wow fadeInLeftBig">
                     <div class="justify-content-center">
                         <div class="offset-md-2 col-8">
-                            <!-- <h2>руководитель проверяющей группы</h2>
-                            <h1 class="mt-4">Ефремова Елена Константиновна</h1>
-                            <h3 class="mt-4">сотрудник ИФНС России по г. Сургуту ХМАО-Югры</h3>
+                            <h2>руководитель проверяющей группы</h2>
+                            <h1 class="mt-4" style="font-size:4rem;">Ефремова Елена Константиновна</h1>
+                            <h2 class="mt-4">сотрудник ИФНС России по г. Сургуту ХМАО-Югры</h2>
                             <h2 class="mt-4">В ходе проверки ООО «Северстроймонолит» инициировано 
                                 <br /><span class="counter fa-3x">959</span><br />мероприятий налогового контроля
-                           </h2> -->
-                           <h1>Инспекцией в течение 2021 года направлено меньше всего запросов на проведение технических корректировок</h1>
+                           </h2>
                         </div>
                     </div>
                 </div>
@@ -742,30 +739,30 @@
         
     </section>
 
-    <!-- SLIDE 10 END -->
+    <!-- SLIDE 9 END -->
 
 
-    <!-- SLIDE 11 START -->
+    <!-- SLIDE 10 START -->
     
-    <section id="slide11_1" data-scroll-index="19" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
+    <section id="slide10_1" data-scroll-index="19" class="about-area pt-80 position-relative" style="background-color: #323249; height: 100vh;">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-9">
                     <div class="text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.8s">
                         <h1 class="text-white" style="font-size: 4rem;">
                             <i>Победитель в номинации </i><br />
-                            <strong>Хранитель традиций!</strong>
+                            <strong>Самый «чистый» ресурс!</strong>
                         </h1>                        
                     </div>
 
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
+                    <div class="wow fadeIn mt-50 mb-50" data-wow-duration="1s" data-wow-delay="1s">
                         <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
-                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_11_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
+                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_10_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
                     </div> <!-- about image -->
 
                     <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
-                        <h2 class="text-white">
-                        В номинации оценивались сотрудники, которые имеют наибольший стаж работы в отделе выездных проверок
+                        <h2 class="text-white" style="font-size: 2.5rem;">
+                        В номинации оценивалась «чистота» отражения инспекцией сведений в АИС «Налог-3», отсутствие направления запросов инспекциями о проведении технических корректировок
                         </h2>
                     </div>
                 </div>
@@ -781,21 +778,16 @@
         </div>
     </section>
 
-    <section id="slide11_2" data-scroll-index="20" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
+    <section id="slide10_2" data-scroll-index="20" class="our-services-area position-relative" style="background-color: #323249; height: 100vh; padding: 2rem; position: relative;">
         <div class="container-fluid" style="width: 100%; height: 100%;">            
-            <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_11_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
+            <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_10_2.png" style="width: auto; max-width: 100vw; height: 95vh; position: absolute; top: 0;
             bottom: 0; margin: auto; position: absolute; left: 0; right: 0;" /> 
             
             <div class="row align-items-center" style="width: 100%; height: 100%;">            
                 <div class="col-md-6 offset-md-6 text-dark text-center wow fadeInLeftBig">
                     <div class="justify-content-center">
-                        <div class="offset-md-2 col-8">
-                            <!-- <h2>руководитель проверяющей группы</h2> -->
-                            <h1 class="mt-4">Пузатова Элла Юрьевна</h1>
-                            <h3 class="mt-4">сотрудник Межрайонной ИФНС России № 6 по ХМАО-Югре </h3>
-                            <h2 class="mt-4">Стаж работы инспектора в отделе выездных проверок составляет
-                                <br /><span class="counter fa-3x">27</span><br />лет
-                           </h2>                           
+                        <div class="offset-md-2 col-8">                           
+                           <h1 style="font-size:4rem;">Инспекцией в течение 2021 года направлено меньше всего запросов на проведение технических корректировок</h1>
                         </div>
                     </div>
                 </div>
@@ -812,7 +804,10 @@
         
     </section>
 
-    <!-- SLIDE 11 END -->
+    <!-- SLIDE 10 END -->
+
+
+    
 
 
     <!-- SLIDE 12 START -->
@@ -828,9 +823,9 @@
                         </h1>                        
                     </div>
 
-                    <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
+                    <div class="wow fadeIn mt-40 mb-40" data-wow-duration="1s" data-wow-delay="1s">
                         <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/place_one.png" class="wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.2s" />
-                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_12_icon.png" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
+                        <img src="<?= Yii::getAlias('@book-vnp-asset') ?>/images/slide_12_icon.png" style="width:18rem;" class="wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.2s" />
                     </div> <!-- about image -->
 
                     <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
@@ -859,10 +854,9 @@
             <div class="row align-items-center" style="width: 100%; height: 100%;">            
                 <div class="col-md-6 offset-md-6 text-dark text-center wow fadeInLeftBig">
                     <div class="justify-content-center">
-                        <div class="offset-md-2 col-8">
-                            <!-- <h2>руководитель проверяющей группы</h2> -->
-                            <h1 class="mt-4">Садрисламова Линара Алфрисовна</h1>
-                            <h3 class="mt-4">сотрудник отдела выездных проверок № 2 Межрайонной ИФНС России № 11 по ХМАО-Югре</h3>
+                        <div class="offset-md-2 col-8">                           
+                            <h1 class="mt-4" style="font-size:4rem;">Садрисламова Линара Алфрисовна</h1>
+                            <h2 class="mt-4">сотрудник отдела выездных проверок № 2 Межрайонной ИФНС России № 11 по ХМАО-Югре</h2>
                             <h2 class="mt-4">Инспектором инициировано
                                 <br /><span class="counter fa-3x">3811</span><br />процедур 
                                 истребования документов (информации)
