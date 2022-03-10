@@ -19,7 +19,7 @@ use yii\bootstrap4\ActiveForm;
                         <?= Html::img($model->getPhoto(), ['class' => 'w-100']) ?>
                     </div>
                     <div class="col">
-                        <strong>Описание:</strong> <?= Yii::$app->formatter->asText($model->description) ?>
+                        <strong>Описание:</strong> <?= $model->description ?>
                         <hr />
                         <?php Pjax::begin(['id' => 'pjax-bookshelf-rating', 'enablePushState' => false]) ?>
                         <?php $form = ActiveForm::begin([
