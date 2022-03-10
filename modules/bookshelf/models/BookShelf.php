@@ -99,7 +99,7 @@ class BookShelf extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['writer', 'title', 'place', 'book_status'], 'required'],
+            [['writer', 'title', 'place', 'book_status', 'date_received'], 'required'],
             [['rating'], 'number'],
             [['description', 'log_change'], 'string'],
             [['date_received', 'date_away', 'date_create', 'date_update'], 'safe'],
@@ -301,6 +301,9 @@ class BookShelf extends \yii\db\ActiveRecord
      */
     public function isNewBook()
     {
+        if (!$this->date_received) {
+            return false;
+        }
         return DateHelper::dateDiffDays($this->date_received) <= 31;
     }
 
