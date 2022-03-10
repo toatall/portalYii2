@@ -192,6 +192,20 @@ return [
                 'thumbnailNotSet' => '/public/content/kadry/education/no-image-course.jpg',
             ],
         ],
+
+        // книжная полка
+        'bookshelf' => [
+            'uploadPathBook' => '/public/upload/bookshelf/images/book/',
+            'defaultImageBook' => '/public/content/bookshelf/images/book.png',
+            'uploadPathWriter' => '/public/upload/bookshelf/images/writer/',
+            'defaultImageWriter' => '/public/content/bookshelf/images/writer-1600x800.png',
+            // роли
+            'roles' => [
+                // default role: bookshelf.admin
+                //'books-admin' => 'role-name',
+            ],
+        ],
+
     ],
 
     'lefehack' => [
@@ -207,5 +221,7 @@ return [
             'color_text' => 'danger',
         ],
     ],
+
+    
     
 ];

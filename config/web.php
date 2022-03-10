@@ -56,6 +56,9 @@ $config = [
         'spa' => [
             'class' => 'app\modules\spa\Module',
         ],
+        'bookshelf' => [
+            'class' => 'app\modules\bookshelf\Module',
+        ],
     ],    
     'components' => [
         'request' => [
