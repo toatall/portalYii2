@@ -73,6 +73,13 @@ class BookShelfSearch extends BookShelf
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'title' => SORT_ASC,                    
+                    'writer' => SORT_ASC,
+                    'date_received' => SORT_DESC,
+                ],
+            ],
         ]);
 
         $this->load($params);

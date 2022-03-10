@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="card-body">
                                     <div class="row">
                                         <div style="width:auto;">
-                                            <?= Html::img($model->getPhoto()) ?>                                
+                                            <?= Html::img($model->getPhoto(), ['style' => 'height: 20rem;']) ?>                                
                                         </div>
                                         <div class="col text-left">
                                             <h3><?= $model->title ?></h3>
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <?php endif; ?>
                                             </div>
                                             <hr />
-                                            <p class="mb-2 text-justify"><?= StringHelper::truncateWords($model->description, 10, '...', true) ?></p>
+                                            <p class="mb-2 text-justify"><?= StringHelper::truncateWords($model->description, 80, '...', true) ?></p>
                                         </div>
                                     </div>
                                 </div>

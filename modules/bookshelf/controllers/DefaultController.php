@@ -77,7 +77,10 @@ class DefaultController extends Controller
     private function lastBooks($limit=5)
     {
         return BookShelf::find()
-            ->orderBy(['id' => SORT_DESC])
+            ->orderBy([
+                'date_received' => SORT_DESC,
+                'date_create' => SORT_DESC,
+            ])
             ->limit($limit)
             ->where(['book_status' => BookShelf::STATUS_IN_STOCK])
             ->all();
