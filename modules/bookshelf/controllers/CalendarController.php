@@ -73,8 +73,11 @@ class CalendarController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $model = $this->findModel($id);
         
+        $d1 = Yii::$app->formatter->asDate($model->date_birthday);
+        $d2 = Yii::$app->formatter->asDate($model->date_die);
+
         return [
-            'title' => $model->writer,
+            'title' => $model->writer . "<br /><span class=\"lead\">($d1 - $d2)</span>",
             'content' => $this->renderAjax('view', [
                 'model' => $model,                
             ]),

@@ -9,6 +9,7 @@
 
 use yii\bootstrap4\Html;
 use yii\helpers\StringHelper;
+use yii\helpers\Url;
 
 $this->title = 'Книжная полка';
 $this->params['breadcrumbs'][] = $this->title;
@@ -82,22 +83,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php if (!empty($modelCalendarToday) && is_array($modelCalendarToday)): ?>
                         <?php foreach ($modelCalendarToday as $model): ?>
                             <div class="alert alert-info">
-                                В этот день 
+                                
                                 <?php
                                     $dBirthay = Yii::$app->formatter->asDate($model->date_birthday, 'dd.MM');
                                     $dDie = Yii::$app->formatter->asDate($model->date_die, 'dd.MM');
                                     $dNow = Yii::$app->formatter->asDate('today', 'dd.MM');
 
-                                    if ($dBirthay == $dNow) {
-                                        echo 'родился';
-                                    }
-                                    elseif ($dDie == $dNow) {
-                                        echo 'умер';
-                                    }
+                                    // if ($dBirthay == $dNow) {
+                                    //     echo 'родился';
+                                    // }
+                                    // elseif ($dDie == $dNow) {
+                                    //     echo 'умер';
+                                    // }
                                 ?>
+                                
+                                <a href="<?= Url::to(['/bookshelf/calendar/view', 'id'=>$model->id]) ?>" class="mv-link">
                                 <b>
                                     <?= $model->writer ?>
-                                </b><br />
+                                </b></a>
+                                <br />
                                 (<?= Yii::$app->formatter->asDate($model->date_birthday) ?>
                                     -
                                 <?= Yii::$app->formatter->asDate($model->date_die) ?>)

@@ -1,45 +1,23 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\bookshelf\models\BookShelfCalendar */
+/** @var yii\web\View $this */
+/** @var app\modules\bookshelf\models\BookShelfCalendar $model */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Book Shelf Calendars', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
-<div class="book-shelf-calendar-view">
+<div class="book-shelf-calendar-view">   
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'date_birthday',
-            'date_die',
-            'writer',
-            'photo',
-            'description',
-            'author',
-            'date_create',
-            'date_update',
-            'log_change',
-        ],
-    ]) ?>
+    <div class="card card-body">
+        <div class="row">
+            <div>
+                <?= Html::img($model->getPhoto(), ['style' => 'width:15rem;', 'class' => 'img-thumbnail']); ?>                
+            </div>
+            <div class="col p-2 text-justify">
+                <?= $model->description ?>
+            </div>
+        </div>
+    </div>
 
 </div>
