@@ -88,15 +88,34 @@ class DefaultController extends Controller
 
     /**
      * Кто родился или умер в этот день
+     * @param int $limit
      * @return BookShelfCalendar[]|null
      */
-    private function calendarToday()
+    private function calendarToday($limit=3)
     {
         return BookShelfCalendar::find()
-            ->where(['or', 
-                ['date_birthday' => new Expression('cast(getdate() as date)')],
-                ['date_die' => new Expression('cast(getdate() as date)')],
-            ])
+            // выбирать писателей у которых +-3 дня от даты рождения или от даты смерти
+            ->where("
+                (
+                    CAST(
+                        CAST(DATEPART(DAY, date_birthday) AS NVARCHAR) + '.' +
+                        CAST(DATEPART(MONTH, date_birthday) AS NVARCHAR) + '.' +
+                        CAST(DATEPART(YEAR, GETDATE()) AS NVARCHAR)
+                        AS DATE
+                    ) BETWEEN CAST(DATEADD(DAY,-7,GETDATE()) AS DATE)
+                        AND CAST(DATEADD(DAY,7,GETDATE()) AS DATE)
+                ) OR
+                (
+                    CAST(
+                        CAST(DATEPART(DAY, date_die) AS NVARCHAR) + '.' +
+                        CAST(DATEPART(MONTH, date_die) AS NVARCHAR) + '.' +
+                        CAST(DATEPART(YEAR, GETDATE()) AS NVARCHAR)
+                        AS DATE
+                    ) BETWEEN CAST(DATEADD(DAY,-7,GETDATE()) AS DATE)
+                        AND CAST(DATEADD(DAY,7,GETDATE()) AS DATE)
+                )
+            ")
+            ->limit($limit)
             ->all();
     }
 
