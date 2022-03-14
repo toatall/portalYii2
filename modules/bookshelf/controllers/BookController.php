@@ -42,7 +42,7 @@ class BookController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['create', 'update', 'delete'],
-                        'roles' => ['admin'],
+                        'roles' => ['admin', BookShelf::roleAdmin()],
                     ],
                 ],
             ],

@@ -2,9 +2,11 @@
 
 namespace app\modules\bookshelf\controllers;
 
+use app\modules\bookshelf\models\BookShelf;
 use Yii;
 use app\modules\bookshelf\models\WhatReading;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -25,6 +27,21 @@ class WhatReadingController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create', 'update', 'delete'],
+                        'roles' => ['admin', BookShelf::roleAdmin()],
+                    ],
                 ],
             ],
         ];

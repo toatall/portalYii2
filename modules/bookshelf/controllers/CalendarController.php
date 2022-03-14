@@ -5,6 +5,7 @@ namespace app\modules\bookshelf\controllers;
 use Yii;
 use app\modules\bookshelf\models\BookShelfCalendar;
 use app\modules\bookshelf\models\BookCalendarSearch;
+use app\modules\bookshelf\models\BookShelf;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -40,7 +41,7 @@ class CalendarController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['create', 'update', 'delete'],
-                        'roles' => ['admin'],
+                        'roles' => ['admin', BookShelf::roleAdmin()],
                     ],
                 ],
             ],

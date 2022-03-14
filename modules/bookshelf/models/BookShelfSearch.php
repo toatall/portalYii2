@@ -112,7 +112,7 @@ class BookShelfSearch extends BookShelf
             $query->andWhere(['>=', 'date_received', new Expression("dateadd(month, -1, getdate())")]);
         }
 
-        if ($this->isEditor()) {
+        if (self::isEditor()) {
             $query->andFilterWhere(['book_status' => $this->book_status]);
         }        
         else {

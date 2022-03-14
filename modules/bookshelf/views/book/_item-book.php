@@ -36,7 +36,7 @@ use yii\bootstrap4\Html;
         <div class="card-body pb-0">
             <div class="d-flex justify-content-between">
                 <span title="Размещение"><i class="fas fa-map-signs text-secondary"></i> <?= $model->place ?></span>
-                <?php if ($model->isEditor()): ?>
+                <?php if (BookShelf::isEditor()): ?>
                     <?php if ($model->book_status == BookShelf::STATUS_IN_STOCK): ?>                
                         <span class="badge badge-success fa-1x">В наличии</span>                                                 
                     <?php elseif ($model->book_status == BookShelf::STATUS_AWAY): ?>
@@ -49,7 +49,7 @@ use yii\bootstrap4\Html;
         <div class="card-footer d-flex justify-content-center">
             <div class="btn-group">
                 <?= Html::a('Подробнее', ['view', 'id'=>$model->id], ['class' => 'btn btn-outline-primary btn-sm mv-link']) ?>
-                <?php if (Yii::$app->user->can('admin')): ?>
+                <?php if (BookShelf::isEditor()): ?>
                 <?= Html::a('Изменить', ['update', 'id'=>$model->id], ['class' => 'btn btn-outline-secondary btn-sm mv-link']) ?>
                 <?= Html::a('Удалить', ['delete', 'id'=>$model->id], [
                     'class' => 'btn btn-outline-danger btn-sm mv-link',

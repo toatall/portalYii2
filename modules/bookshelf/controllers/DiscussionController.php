@@ -2,6 +2,7 @@
 
 namespace app\modules\bookshelf\controllers;
 
+use app\modules\bookshelf\models\BookShelf;
 use Yii;
 use app\modules\bookshelf\models\BookShelfDiscussion;
 use yii\data\ActiveDataProvider;
@@ -38,7 +39,7 @@ class DiscussionController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['create', 'update', 'delete'],
-                        'roles' => ['admin'],
+                        'roles' => ['admin', BookShelf::roleAdmin()],
                     ],
                 ],
             ],

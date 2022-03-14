@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\bookshelf\models\BookShelf;
 use yii\bootstrap4\Html;
 use kartik\grid\GridView;
 use kartik\grid\SerialColumn;
@@ -17,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::encode($this->title) ?>
     </p>
 
-    <?php if (Yii::$app->user->can('admin')): ?>
+    <?php if (BookShelf::isEditor()): ?>
     <div class="btn-group mt-2 mb-2">
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-outline-success btn-sm mv-link']) ?>        
     </div>
@@ -37,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model) {
                     /** @var app\modules\bookshelf\models\WhatReading $model */
                     $html = '';
-                    if (Yii::$app->user->can('admin')) {
+                    if (BookShelf::isEditor()) {
                         $html = Html::beginTag('div', ['class' => 'btn-group']);
                         $html .= Html::a('<i class="fas fa-pencil-alt"></i>', ['update', 'id'=>$model->id], [
                             'class' => 'mv-link btn btn-outline-primary btn-sm', 

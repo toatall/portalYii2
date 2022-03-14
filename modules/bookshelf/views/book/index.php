@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\bookshelf\models\BookShelf;
 use yii\bootstrap4\LinkPager;
 use yii\bootstrap4\Html;
 use yii\widgets\Pjax;
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::encode($this->title) ?>
     </p>
 
-    <?php if (Yii::$app->user->can('admin')): ?>
+    <?php if (BookShelf::isEditor()): ?>
     <div class="btn-group mt-2 mb-2">
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-outline-success btn-sm mv-link']) ?>
         <?= Html::a('Места размещения книг', ['/bookshelf/place/index'], ['class' => 'btn btn-outline-secondary btn-sm mv-link']) ?>        

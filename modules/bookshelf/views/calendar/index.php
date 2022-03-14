@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\bookshelf\models\BookShelf;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::encode($this->title) ?>
     </p>
 
-    <?php if (Yii::$app->user->can('admin')): ?>
+    <?php if (BookShelf::isEditor()): ?>
     <div class="btn-group mt-2 mb-2">
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-outline-success btn-sm mv-link']) ?>       
     </div>
@@ -75,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $html;
                 },
                 'format' => 'raw',
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => BookShelf::isEditor(),
             ],
         ],
     ]); ?>

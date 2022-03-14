@@ -2,6 +2,7 @@
 
 namespace app\modules\bookshelf\controllers;
 
+use app\modules\bookshelf\models\BookShelf;
 use Yii;
 use app\modules\bookshelf\models\BookShelfPlace;
 use yii\data\ActiveDataProvider;
@@ -33,7 +34,7 @@ class PlaceController extends Controller
                 'rules' => [                  
                     [
                         'allow' => true,                        
-                        'roles' => ['admin'],
+                        'roles' => ['admin', BookShelf::roleAdmin()],
                     ],
                 ],
             ],
