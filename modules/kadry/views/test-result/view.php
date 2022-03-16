@@ -2,6 +2,12 @@
 /** @var yii\web\View $this */
 /** @var array $query */
 
+$total = [
+    'count_mark_five' => 0,
+    'count_mark_four' => 0,
+    'count_mark_three' => 0,
+    'count_kpk' => 0,
+];
 ?>
 <table class="table table-bordered table-striped">
     <thead class="thead-light">
@@ -22,7 +28,12 @@
         </tr>        
     </thead>
     <tbody>
-        <?php foreach($query as $item): ?>
+        <?php foreach($query as $item): 
+            $total['count_mark_five'] += $item['count_mark_five'];
+            $total['count_mark_four'] += $item['count_mark_four'];
+            $total['count_mark_three'] += $item['count_mark_three'];
+            $total['count_kpk'] += $item['count_kpk'];
+        ?>
         <tr>
             <td><?= $item['name'] ?></td>
             <td>
@@ -40,7 +51,23 @@
             <td>
                 <code class="text-secondary fa-2x"><?= Yii::$app->formatter->asDecimal($item['avg_mark'], 2) ?></code>
             </td>
-        </tr>
+        </tr>        
         <?php endforeach; ?>
+        <tr>
+            <th>Итого</th>
+            <th>
+                <code class="text-primary font-weight-bolder fa-2x"><?= $total['count_mark_five'] ?></code>
+            </th>
+            <th>
+                <code class="text-primary font-weight-bolder fa-2x"><?= $total['count_mark_four'] ?></code>
+            </th>
+            <th>
+                <code class="text-primary font-weight-bolder fa-2x"><?= $total['count_mark_three'] ?></code>
+            </th>
+            <th>
+                <code class="text-primary font-weight-bolder fa-2x"><?= $total['count_kpk'] ?></code>
+            </th>
+            <th>&nbsp;</th>
+        </tr>
     </tbody>
 </table>
