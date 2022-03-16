@@ -65,11 +65,11 @@ class BookCalendarSearch extends BookShelfCalendar
             'date_update' => $this->date_update,
         ]);
 
-        $query->andFilterWhere(['like', 'writer', $this->writer])
-            ->andFilterWhere(['like', 'photo', $this->photo])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'author', $this->author])
-            ->andFilterWhere(['like', 'log_change', $this->log_change]);
+        // $query->andFilterWhere(['like', 'writer', $this->writer])
+        //     ->andFilterWhere(['like', 'photo', $this->photo])
+        //     ->andFilterWhere(['like', 'description', $this->description])
+        //     ->andFilterWhere(['like', 'author', $this->author])
+        //     ->andFilterWhere(['like', 'log_change', $this->log_change]);
 
         return $dataProvider;
     }

@@ -119,13 +119,10 @@ class BookShelfSearch extends BookShelf
             $query->andWhere(['book_status' => self::STATUS_IN_STOCK]);
         }
 
-        $query->andFilterWhere(['like', 'writer', $this->writer])
-            ->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'place', $this->place])
-            ->andFilterWhere(['like', 'photo', $this->photo])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'author', $this->author])
-            ->andFilterWhere(['like', 'log_change', $this->log_change]);
+        // $query->andFilterWhere(['like', 'writer', $this->writer])
+        //     ->andFilterWhere(['like', 'title', $this->title])
+        //     ->andFilterWhere(['like', 'place', $this->place])
+        //     ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

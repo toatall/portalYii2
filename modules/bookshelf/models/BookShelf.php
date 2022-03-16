@@ -85,7 +85,7 @@ class BookShelf extends \yii\db\ActiveRecord
      */
     public static function roleAdmin()
     {
-        $role = Yii::$app->params['bookshelf']['roles']['books-admin'] ?? null;
+        $role = Yii::$app->params['modules']['bookshelf']['roles']['books-admin'] ?? null;
         if ($role == null) {
             $role = 'bookshelf.admin';
         }
