@@ -3,12 +3,17 @@
 /** @var array $periodsAll */
 
 use yii\bootstrap4\Html;
-$this->title = 'Сведения о результатах итогового тестирования сотрудников Инспекций, прошедших курсы повышения квалификации (дистанционно)';
+use yii\helpers\StringHelper;
+
+$title = 'Сведения о результатах итогового тестирования сотрудников Инспекций, 
+прошедших курсы повышения квалификации в Приволжском институте повышения квалификации ФНС России
+и Северо-Западном институте повышения квалификации ФНС России (дистанционно)';
+$this->title = StringHelper::truncateWords($title, 11, '');
 $this->params['breadcrumbs'][] = ['label'=>'Кадровые проекты', 'url' => ['/kadry']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<p class="display-4 border-bottom">
-    <?= $this->title ?>
+<p class="border-bottom fa-2x">
+    <?= $title ?>
 </p> 
 
 <?php if ($periodsAll): ?>
