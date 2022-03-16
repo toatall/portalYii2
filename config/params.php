@@ -208,6 +208,13 @@ return [
 
     ],
 
+    // исполнение задач
+    'executeTasks' => [
+        'roles' => [
+            'moderator' => 'execute-tasks.moderator',
+        ],
+    ],
+
     'lefehack' => [
         'path' => [
             'files' => '/public/upload/portal/lifehack/{id}/'
