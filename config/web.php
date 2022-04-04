@@ -59,6 +59,10 @@ $config = [
         'bookshelf' => [
             'class' => 'app\modules\bookshelf\Module',
         ],
+        // опрос
+        'quiz' => [
+            'class' => 'app\modules\quiz\Module',
+        ],
     ],    
     'components' => [
         'request' => [
