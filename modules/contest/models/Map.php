@@ -45,6 +45,15 @@ class Map
             ->one();
     }
 
+    public static function findById($id)
+    {
+        return (new Query())
+            ->from('{{%contest_map}}')
+            ->where(['id' => $id])
+            ->andWhere('date_show < cast(getdate() as date)')
+            ->one();
+    }
+
     /**
      * Отвечал ли текущий пользователь
      * @return array|null
@@ -77,5 +86,36 @@ class Map
                 ->execute();
         }
     }
+
+    public static function findRightAnswers($id, $answer)
+    {
+        return (new Query())
+            ->select('t.*, u.fio')
+            ->from('{{%contest_map_answer}} t')
+            ->leftJoin('{{%user}} u', 'u.username=t.username')
+            ->innerJoin('{{%contest_map}} m', 'm.id = t.id_contest_map')
+            ->where([
+                't.id_contest_map' => $id,
+                't.place_name' => $answer,
+            ])                        
+            ->andWhere('m.date_show < cast(getdate() as date)')
+            ->orderBy(['u.fio' => SORT_ASC])
+            ->all();
+    }
+
+    public static function findWrongAnswers($id, $answer)
+    {
+        return (new Query())
+            ->select('t.place_name, count(t.id) count')
+            ->from('{{%contest_map_answer}} t')
+            ->innerJoin('{{%contest_map}} m', 'm.id = t.id_contest_map')
+            ->where(['t.id_contest_map' => $id])
+            ->andWhere(['not', ['t.place_name' => $answer]])
+            ->andWhere('m.date_show < cast(getdate() as date)')
+            ->orderBy(['count(t.id)' => SORT_DESC])
+            ->groupBy('t.place_name')
+            ->all();
+    }
+    
 
 }
