@@ -47,6 +47,10 @@ $this->registerCss(<<<CSS
         background-size: contain;
         text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
     }    
+    svg {        
+        width: 98vw;
+        height: 100vh;       
+    }
 CSS);
 ?>
 <?php $this->beginPage() ?>
