@@ -12,7 +12,7 @@ use yii\bootstrap4\Tabs;
 
 <?= Tabs::widget([
     'items' => [
-        ['label' => 'Здесь родились', 'content' => '<div class="card card-body border-top-0">' . $model['fio_home_place'] . '</div>'],
+        ['label' => 'Описание', 'content' => '<div class="card card-body border-top-0">' . $model['note'] . '</div>'],
         ['label' => 'Загадка', 'content' => '<div class="card card-body border-top-0">' . $model['text_question'] . '</div>'],
     ],
 ]) ?>
@@ -29,7 +29,7 @@ use yii\bootstrap4\Tabs;
                     ]),                    
                 ],
                 [
-                    'label' => 'Думали что это',
+                    'label' => 'А еще думали что это',
                     'content' => $this->render('_viewWrong', [
                         'model' => $wrongAnswers,
                     ]),

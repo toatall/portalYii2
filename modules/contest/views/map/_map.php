@@ -152,33 +152,17 @@ CSS) ?>
             </div>
         </div>
 
-        <div class="card mt-5">
+        <!--div class="card mt-5">
             <div class="card-header font-weight-bold card-header-bg"><i class="fas fa-trophy text-warning"></i> Победители</div>
             <div class="card-body card-body-bg">
                 <div class="alert alert-secondary">Нет данных</div>
             </div>
-        </div>
-
+        </div-->
     </div>
    
-
-    
-    
-
 </div>
 
 <?php $this->registerJs(<<<JS
     $('[data-toggle="tooltip"]').off();
     $('[data-toggle="tooltip"]').tooltip();    
-
-    // $('.region').hover(
-    //     function() {
-    //         $('#svg-title-text').show();
-    //         $('#svg-title-text').html($(this).attr('title'));
-    //     }, 
-    //     function() {
-    //         $('#svg-title-text').hide();
-    //     }
-    // );
-
 JS); ?>

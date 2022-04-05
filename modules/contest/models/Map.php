@@ -95,9 +95,9 @@ class Map
             ->leftJoin('{{%user}} u', 'u.username=t.username')
             ->innerJoin('{{%contest_map}} m', 'm.id = t.id_contest_map')
             ->where([
-                't.id_contest_map' => $id,
-                't.place_name' => $answer,
-            ])                        
+                't.id_contest_map' => $id,                
+            ]) 
+            ->andFilterWhere(['like', 't.place_name', $answer])
             ->andWhere('m.date_show < cast(getdate() as date)')
             ->orderBy(['u.fio' => SORT_ASC])
             ->all();
@@ -110,7 +110,7 @@ class Map
             ->from('{{%contest_map_answer}} t')
             ->innerJoin('{{%contest_map}} m', 'm.id = t.id_contest_map')
             ->where(['t.id_contest_map' => $id])
-            ->andWhere(['not', ['t.place_name' => $answer]])
+            ->andWhere(['not', ['like', 't.place_name', $answer]])
             ->andWhere('m.date_show < cast(getdate() as date)')
             ->orderBy(['count(t.id)' => SORT_DESC])
             ->groupBy('t.place_name')

@@ -49,7 +49,7 @@ $this->registerCss(<<<CSS
     }    
     svg {        
         width: 98vw;
-        height: 100vh;       
+        height: 100vh;
     }
 CSS);
 ?>
