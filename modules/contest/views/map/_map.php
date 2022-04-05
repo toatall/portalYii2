@@ -92,7 +92,7 @@ CSS) ?>
     
     <div class="container">
 
-        <?php if ($missionToday != null): ?>
+        <?php if ($missionToday != null && date('H') >= 10): ?>
         <div class="card mt-4">
             <div class="card-header font-weight-bold card-header-bg">Задание</div>
             <div class="card-body card-body-bg">
