@@ -118,6 +118,9 @@ if (date('Y') < 2022) {
             <?= $this->render('top_calendar') ?>
         </div>
 
+        <a href="/contest/map">
+            <img src="/public/content/map/images/svgg.png" class="img-thumbnail" style="height: 185px; margin: 10px 10px 0 0;" />
+        </a>
     </div>    
 </div>
 
