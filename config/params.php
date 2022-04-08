@@ -231,8 +231,8 @@ return [
 
     'protocol' => [
         'path' => [
-            'files_main' => '/public/upload/portal/protocol/main/{id}/',
-            'files_execute' => '/public/upload/portal/protocol/execute/{id}/',
+            'files_main' => '/public/upload/portal/protocol/{id}/main/',
+            'files_execute' => '/public/upload/portal/protocol/{id}/execute/',
         ],
         'roles' => [
             'moderator'=> 'protocol-moderator',
@@ -245,7 +245,5 @@ return [
             'moderator' => 'change-legislation-moderator',
         ],
     ],
-
-    
     
 ];
