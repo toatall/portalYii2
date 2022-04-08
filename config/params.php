@@ -229,6 +229,23 @@ return [
         ],
     ],
 
+    'protocol' => [
+        'path' => [
+            'files_main' => '/public/upload/portal/protocol/main/{id}/',
+            'files_execute' => '/public/upload/portal/protocol/execute/{id}/',
+        ],
+        'roles' => [
+            'moderator'=> 'protocol-moderator',
+        ],
+    ],
+
+    // раздел изменения в законодателстве
+    'change-legislation' => [
+        'roles' => [
+            'moderator' => 'change-legislation-moderator',
+        ],
+    ],
+
     
     
 ];
