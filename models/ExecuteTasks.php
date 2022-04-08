@@ -7,6 +7,7 @@ use app\behaviors\ChangeLogBehavior;
 use app\behaviors\DatetimeBehavior;
 use app\models\department\Department;
 use Yii;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -31,20 +32,7 @@ use yii\helpers\ArrayHelper;
 class ExecuteTasks extends \yii\db\ActiveRecord
 {
 
-    private static $periods = [
-        // месяцы
-        // '01_1_mes' => 'Январь',
-        // '02_1_mes' => 'Февраль',
-        // '03_1_mes' => 'Март',
-        // '04_1_mes' => 'Апрель',
-        // '05_1_mes' => 'Май',
-        // '06_1_mes' => 'Июнь',
-        // '07_1_mes' => 'Июль',
-        // '08_1_mes' => 'Август',
-        // '09_1_mes' => 'Сентябрь',
-        // '10_1_mes' => 'Октябрь',
-        // '11_1_mes' => 'Ноябрь',
-        // '12_1_mes' => 'Декабрь',
+    private static $periods = [        
         // кварталы
         '03_2_kv' => '1 квартал',
         '06_2_kv' => '2 квартал',
@@ -97,10 +85,11 @@ class ExecuteTasks extends \yii\db\ActiveRecord
     {
         return [
             [['org_code', 'id_department', 'period', 'period_year'], 'required'],
-            [['id_department', 'period_year', 'count_tasks', 'finish_tasks'], 'integer'],
+            [['id_department', 'period_year'], 'integer'],
+            [['count_tasks', 'finish_tasks'], 'double'],
             [['date_create', 'date_update'], 'safe'],
             [['log_change'], 'string'],
-            [['org_code'], 'string', 'max' => 5],
+            [['org_code'], 'number', 'min' => 8600, 'max' => 8699],
             [['period'], 'string', 'max' => 30],
             [['author'], 'string', 'max' => 250],
             [['id_department'], 'exist', 'skipOnError' => true, 'targetClass' => Department::class, 'targetAttribute' => ['id_department' => 'id']],
@@ -214,6 +203,38 @@ class ExecuteTasks extends \yii\db\ActiveRecord
         return ArrayHelper::map($query, 'id', 'concatened');
     }
 
+    /**
+     * @return ExecuteTasks[]
+     */
+    public static function getModelsByPeriod($department, $preiod, $periodYear)
+    {
+        $result = [];
+        $query = Organization::getDropDownList();
+
+        foreach ($query as $code=>$name) {
+            $model = ExecuteTasks::find()
+                ->where([
+                    'id_department' => $department,
+                    'period' => $preiod,
+                    'period_year' => $periodYear,
+                    'org_code' => $code,
+                ])
+                ->one();
+            if ($model === null) {
+                $model = new ExecuteTasks([
+                    'org_code' => $code,
+                    'id_department' => $department,
+                    'period' => $preiod,
+                    'period_year' => $periodYear,                        
+                ]);
+                if (!$model->save()) { 
+                    //--                                       
+                }
+            }
+            $result[$code] = $model;           
+        }
+        return $result;
+    }
 
 
 }
