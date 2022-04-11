@@ -6,6 +6,7 @@
 /** @var array $missionToday */
 /** @var array $missionAll */
 /** @var array $isAnswered */
+/** @var array $leadersWeeks */
 
 use kartik\select2\Select2;
 use yii\bootstrap4\Html;
@@ -149,6 +150,27 @@ CSS) ?>
                     <?php endforeach; ?>
                 </div>
                 
+            </div>
+        </div>
+
+        <div class="card mt-5">
+            <div class="card-header font-weight-bold card-header-bg">Список лидеров</div>
+            <div class="card-body card-body-bg">
+                <?php foreach($leadersWeeks as $week=>$leaders): ?>
+                    <div class="card">
+                        <div class="card-header"><?= $week ?> неделя</div>
+                        <div class="card-body">
+                            <ol>
+                            <?php foreach($leaders as $leader): ?>
+                                <li>
+                                    <strong><?= $leader['fio'] ?></strong>
+                                    (ответов: <?= $leader['count'] ?>)
+                                </li>
+                            <?php endforeach; ?>
+                            </ol>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
 

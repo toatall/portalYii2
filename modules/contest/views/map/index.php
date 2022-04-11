@@ -6,6 +6,7 @@
 /** @var array $missionToday */
 /** @var array $missionAll */
 /** @var array $isAnswered */
+/** @var array $leadersWeeks */
 
 use yii\bootstrap4\Html;
 use app\assets\AppAsset;
@@ -106,6 +107,7 @@ CSS);
                 'missionToday' => $missionToday,
                 'missionAll' => $missionAll,
                 'isAnswered' => $isAnswered,
+                'leadersWeeks' => $leadersWeeks,
             ]) ?>
         </div>
     </main>

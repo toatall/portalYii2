@@ -51,6 +51,7 @@ class MapController extends Controller
             'missionToday' => $missionToday,
             'missionAll' => Map::findAll(),
             'isAnswered' => Map::isAnswered(isset($missionToday['id']) ? $missionToday['id'] : null),
+            'leadersWeeks' => Map::leadersWeek(),
         ]);
     }
 

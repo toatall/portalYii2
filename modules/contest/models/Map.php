@@ -54,6 +54,38 @@ class Map
             ->one();
     }
 
+    public static function leadersWeek()
+    {
+        $sql = "
+            select 
+                count(t.id) count, u.fio, datepart(week, t.date_create) week
+            from {{%contest_map_answer}} t
+            left join {{%user}} u on u.username=t.username
+            inner join {{%contest_map}} m on m.id = t.id_contest_map
+            where datepart(week, t.date_create) < datepart(week, getdate())
+                and t.place_name like '%' + m.place_name + '%'
+            group by u.fio, datepart(week, t.date_create)
+            order by datepart(week, t.date_create) asc, count(t.id) desc, u.fio asc
+        ";
+        $query = Yii::$app->db->createCommand($sql)
+            ->queryAll();
+
+        // $query = (new Query())
+        //     ->select('t.date_create, u.fio')
+        //     ->from('{{%contest_map_answer}} t')
+        //     ->leftJoin('{{%user}} u', 'u.username=t.username')
+        //     ->innerJoin('{{%contest_map}} m', 'm.id = t.id_contest_map')      
+        //     ->where('datepart(week, t.date_create) < datepart(week, getdate())')
+        //     ->andWhere("t.place_name like '%' + m.place_name + '%'")            
+        //     ->orderBy(['u.fio' => SORT_ASC])
+        //     ->all();
+        $result = [];
+        foreach($query as $item) {            
+            $result[$item['week']][] = $item;
+        }
+        return $result;
+    }
+
     /**
      * Отвечал ли текущий пользователь
      * @return array|null
