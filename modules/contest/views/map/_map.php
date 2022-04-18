@@ -155,31 +155,19 @@ CSS) ?>
 
         <div class="card mt-5">
             <div class="card-header font-weight-bold card-header-bg">Список лидеров</div>
-            <div class="card-body card-body-bg">
-                <?php foreach($leadersWeeks as $week=>$leaders): ?>
-                    <div class="card">
-                        <div class="card-header"><?= $week ?> неделя</div>
-                        <div class="card-body">
-                            <ol>
-                            <?php foreach($leaders as $leader): ?>
-                                <li>
-                                    <strong><?= $leader['fio'] ?></strong>
-                                    (ответов: <?= $leader['count'] ?>)
-                                </li>
-                            <?php endforeach; ?>
-                            </ol>
-                        </div>
-                    </div>
+            <div class="card-body card-body-bg">               
+                <ol>
+                <?php foreach($leadersWeeks as $leader): ?>
+                    <li>
+                        <strong><?= $leader['fio'] ?></strong>
+                        (ответов: <?= $leader['count'] ?>)
+                    </li>
                 <?php endforeach; ?>
+                </ol>                       
             </div>
         </div>
 
-        <!--div class="card mt-5">
-            <div class="card-header font-weight-bold card-header-bg"><i class="fas fa-trophy text-warning"></i> Победители</div>
-            <div class="card-body card-body-bg">
-                <div class="alert alert-secondary">Нет данных</div>
-            </div>
-        </div-->
+     
     </div>
    
 </div>
