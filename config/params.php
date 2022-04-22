@@ -191,6 +191,15 @@ return [
                 'uploadPath' => '/public/upload/kadry/education/',
                 'thumbnailNotSet' => '/public/content/kadry/education/no-image-course.jpg',
             ],
+            // раздел лучший профессионал 
+            'best-professional' => [
+                'path' => [
+                    'images' => '/public/upload/kadry/best-professional/images/{id}/',
+                ],
+                'roles' => [
+                    'moderator' => 'kadry-best-professional-moderator',
+                ],
+            ],
         ],
 
         // книжная полка
@@ -245,5 +254,7 @@ return [
             'moderator' => 'change-legislation-moderator',
         ],
     ],
+
+    
     
 ];
