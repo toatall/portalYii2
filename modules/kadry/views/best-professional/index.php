@@ -16,9 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <?php if (BestProfessional::isEditor()): ?>
     <p>
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success mv-link']) ?>
     </p>
+    <?php endif; ?>
 
     <hr />
 
