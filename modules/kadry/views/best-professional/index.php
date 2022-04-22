@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="col-3 flip-card mb-4">
             <div class="flip-card-inner">
-                <div class="flip-card-front rounded">
+                <div class="flip-card-front bg-light border border-light rounded shadow">
                     <?php if (($img = $model->getImage()) != null): ?>
                         <?= Html::img($img, [
                             'class' => 'mt-2',
@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $model->orgCode->name ?>
                     </p>
                 </div>
-                <div class="flip-card-back rounded">
+                <div class="flip-card-back rounded shadow">
                     <div class="h-100">
                         <div class="p-3">
                             <?= $model->description ?>                   
@@ -145,8 +145,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-    background-color: #6c757d;
-    color: white;
+    /* background-color: white;/*#6c757d;*/     */
+    /* color: white; */
 }
 
 /* Style the back side */
