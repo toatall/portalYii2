@@ -45,7 +45,7 @@ class ChangeLegislationSearch extends ChangeLegislation
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $isAntiCrisis=false)
     {
         $query = ChangeLegislation::find();
 
@@ -65,8 +65,8 @@ class ChangeLegislationSearch extends ChangeLegislation
 
         if ($this->searchText) {
             $query->andWhere(['or', 
-                ['like', $this->name, $this->searchText],
-                ['like', $this->text, $this->searchText],
+                ['like', 'name', $this->searchText],
+                ['like', 'text', $this->searchText],
             ]);
         }        
 
@@ -87,6 +87,8 @@ class ChangeLegislationSearch extends ChangeLegislation
                 ['<=', 'date_doc_3', $this->searchDate1],
             ]);
         }
+
+        $query->andWhere(['is_anti_crisis' => $isAntiCrisis]);
 
         // grid filtering conditions
         $query->andFilterWhere([

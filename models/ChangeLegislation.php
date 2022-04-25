@@ -12,6 +12,7 @@ use Yii;
  *
  * @property int $id
  * @property string $type_doc
+ * @property boolean $is_anti_crisis
  * @property string|null $date_doc
  * @property string|null $number_doc
  * @property string $name
@@ -62,7 +63,7 @@ class ChangeLegislation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type_doc', 'name'], 'required'],
+            [['type_doc', 'name', 'is_anti_crisis'], 'required'],
             [['date_doc', 'date_doc_1', 'date_doc_2', 'date_doc_3', 'date_create', 'date_update'], 'safe'],
             [['name', 'text', 'log_change'], 'string'],
             [['type_doc', 'number_doc', 'status_doc', 'author'], 'string', 'max' => 250],

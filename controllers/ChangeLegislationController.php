@@ -53,12 +53,17 @@ class ChangeLegislationController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ChangeLegislationSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel1 = new ChangeLegislationSearch();
+        $dataProvider1 = $searchModel1->search(Yii::$app->request->queryParams);
+
+        $searchModel2 = new ChangeLegislationSearch();
+        $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams, true);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'searchModel1' => $searchModel1,
+            'dataProvider1' => $dataProvider1,
+            'searchModel2' => $searchModel2,
+            'dataProvider2' => $dataProvider2,
         ]);
     }
 
@@ -85,9 +90,10 @@ class ChangeLegislationController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($isAntiCrisis=false)
     {
         $model = new ChangeLegislation();
+        $model->is_anti_crisis = $isAntiCrisis;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
