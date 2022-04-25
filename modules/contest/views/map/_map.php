@@ -155,18 +155,52 @@ CSS) ?>
 
         <div class="card mt-5">
             <div class="card-header font-weight-bold card-header-bg">Список лидеров</div>
-            <div class="card-body card-body-bg">               
-                <ol>
-                <?php foreach($leadersWeeks as $leader): ?>
-                    <li>
-                        <strong><?= $leader['fio'] ?></strong>
-                        (ответов: <?= $leader['count'] ?>)
-                    </li>
-                <?php endforeach; ?>
-                </ol>                       
+            <div class="card-body card-body-bg"> 
+                <div id="div-show-visible">
+                    <ol>
+                    <?php 
+                    $index = 0;
+                    foreach($leadersWeeks as $leader): 
+                    $index++; if ($index>6) break;
+                    ?>
+                        <li>
+                            <strong><?= $leader['fio'] ?></strong>
+                            (ответов: <?= $leader['count'] ?>)    
+                        </li>
+                    <?php endforeach; ?>
+                    </ol>
+                    <button id="show-detail" class="btn btn-link">Показать все...</button>
+                    <?php $this->registerJs(<<<JS
+                        $('#show-detail').on('click', function() {
+                            $('#div-show-visible').hide();
+                            $('#div-show-hided').show();
+                        });
+                    JS);
+                    ?>
+                </div>
+                <div id="div-show-hided" style="display: none;">
+                    <ol>
+                    <?php                     
+                    foreach($leadersWeeks as $leader):                    
+                    ?>                        
+                        <li>
+                            <strong><?= $leader['fio'] ?></strong>
+                            (ответов: <?= $leader['count'] ?>)
+                        </li>
+                    <?php endforeach; ?>
+                    </ol>  
+                </div>                     
             </div>
         </div>
 
+        <div class="card mt-5">
+            <div class="card-header font-weight-bold card-header-bg">Обратная связь</div>
+            <div class="card-body card-body-bg"> 
+                <?= app\widgets\CommentWidget::widget([
+                    'title' => ' ',
+                ]) ?>
+            </div>
+        </div>
      
     </div>
    
