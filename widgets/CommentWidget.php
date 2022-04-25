@@ -17,6 +17,8 @@ class CommentWidget extends Widget
 
     public $borderBottomClass = 'border-top';
 
+    public $title = '';
+
     /**
      * {@inheritdoc}
      */
@@ -33,10 +35,10 @@ class CommentWidget extends Widget
     {
         $hash = md5($this->currentUrl);
         $html = Html::beginTag('div', [
-            'data-url' =>  Url::to(['/comment/index', 'hash'=>$hash, 'url'=>$this->currentUrl]),
+            'data-url' =>  Url::to(['/comment/index', 'hash'=>$hash, 'url'=>$this->currentUrl, 'title'=>$this->title]),
             'data-comment-url'=>$this->currentUrl, 
             'data-comment-hash'=>$hash,
-            'class' => 'comment-container mt-5',
+            'class' => 'comment-container',
             'id' => 'commnet-container-' . $this->id,
         ]);
         $html .= Html::endTag('div');
@@ -48,7 +50,7 @@ class CommentWidget extends Widget
                 var commentUrl = $('#$idContainer').data('comment-url');
                 var commentHash = $('#$idContainer').data('comment-hash');
                 
-                container.html('<span class="fa-1x"><i class="fas fa-circle-notch fa-spin"></i> Загрузка комментариев...</span>');
+                container.html('<span class="fa-1x"><i class="fas fa-circle-notch fa-spin"></i> Загрузка...</span>');
 
                 $.get(url)
                 .done(function(data) {

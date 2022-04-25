@@ -7,7 +7,9 @@ use yii\helpers\Url;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 /** @var string $hash */
 /** @var string $url */
+/** @var string $title */
 
+$title = isset($title) && $title != '' ? $title : 'Комментарии';
 
 EmojiAsset::register($this);
 
@@ -19,7 +21,7 @@ $idPjaxComments = 'pjax-comment-'.$hash;
     
     <div class="card">
         <div class="card-header">
-            <h4>Комментарии</h4>
+            <h4><?= $title ?></h4>
         </div>
         <div class="card-body">
             <div class="ajax-load" id="container-create" data-url="<?= Url::to(['/comment/create', 'hash'=>$hash, 'url'=>$url, 'container'=>'container-create']) ?>"></div>            

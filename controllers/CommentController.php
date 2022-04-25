@@ -48,12 +48,13 @@ class CommentController extends Controller
      * @param string @url
      * @return mixed
      */
-    public function actionIndex($hash, $url)
+    public function actionIndex($hash, $url, $title)
     {      
         if (Yii::$app->request->isAjax) {
             return $this->renderAjax('index', [        
                 'hash' => $hash,
                 'url' => $url,
+                'title' => $title,
             ]);
         }        
     }
@@ -120,6 +121,7 @@ class CommentController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {            
             $resultSave = true;
+            $model = new Comment();
         }
 
         if ($resultSave) {
