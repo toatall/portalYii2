@@ -13,6 +13,7 @@ use app\assets\ModalViewerAsset;
 use app\assets\AppAsset;
 use app\modules\test\assets\TestAsset;
 use app\widgets\AlertConferenceApprove;
+use yii\helpers\Url;
 use yii\widgets\Menu;
 
 AppAsset::register($this);
@@ -129,10 +130,22 @@ TestAsset::register($this);
 
                 </div>
                 <div class="col-10">
-                    <?php if (Yii::$app->user->can('permConferenceApprove')) : ?>
+
+                    <?php /* if (Yii::$app->user->can('permConferenceApprove')) : ?>
                         <?= AlertConferenceApprove::widget() ?>
+                    <?php endif;*/ ?>  
+
+                    <?php if (!preg_match('/http:\/\/86000-/', Url::base($schema = true))): ?>
+                        <div class="alert alert-warning">
+                            <h4 class="border-bottom">Внимание!</h4>
+                            По поручению ФНС России будет произведено переименование сервера Портала Управления!
+                            <br />C <b>04.05.2022</b> по данному адресу Портал будет недоступен!
+                            <br />Действующее новое имя → <b><a href="http://86000-portal">http://86000-portal</a></b>
+                        </div>
                     <?php endif; ?>
+
                     <?= $content ?>
+                    
                 </div>
             </div>
         </div>
