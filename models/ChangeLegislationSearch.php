@@ -91,16 +91,17 @@ class ChangeLegislationSearch extends ChangeLegislation
         $query->andWhere(['is_anti_crisis' => $isAntiCrisis]);
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'date_doc' => $this->date_doc,
-            'date_doc_1' => $this->date_doc_1,
-            'date_doc_2' => $this->date_doc_2,
-            'date_doc_3' => $this->date_doc_3,
-            'date_create' => $this->date_create,
-            'date_update' => $this->date_update,
-        ]);
+        // $query->andFilterWhere([
+        //     'id' => $this->id,
+        //     'date_doc' => $this->date_doc,
+        //     'date_doc_1' => $this->date_doc_1,
+        //     'date_doc_2' => $this->date_doc_2,
+        //     'date_doc_3' => $this->date_doc_3,
+        //     'date_create' => $this->date_create,
+        //     'date_update' => $this->date_update,
+        // ]);
 
+        /*
         $query->andFilterWhere(['like', 'type_doc', $this->type_doc])
             ->andFilterWhere(['like', 'number_doc', $this->number_doc])
             ->andFilterWhere(['like', 'name', $this->name])
@@ -108,6 +109,7 @@ class ChangeLegislationSearch extends ChangeLegislation
             ->andFilterWhere(['like', 'text', $this->text])
             ->andFilterWhere(['like', 'author', $this->author])
             ->andFilterWhere(['like', 'log_change', $this->log_change]);
+            */
 
         return $dataProvider;
     }
