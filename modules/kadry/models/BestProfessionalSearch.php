@@ -44,6 +44,7 @@ class BestProfessionalSearch extends BestProfessional
         $query->orderBy([
             'period_year' => SORT_DESC,
             'period' => SORT_DESC,
+            'id' => SORT_DESC,
         ]);
 
         // add conditions that should always apply here
