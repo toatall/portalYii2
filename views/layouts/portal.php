@@ -181,13 +181,13 @@ TestAsset::register($this);
                 <div class="col-4">
                     <h5><strong>Внутренние сервисы Управления</strong></h5>
                     <ul class="list-unstyled">
-                        <li><a href="http://u8600-app045:81" target="_blank">Реестр невзысканных сумм по налоговым проверкам (ВНП, КНП)</a></li>
-                        <li><a href="http://u8600-app045:82" target="_blank">Реестр прав доступа внешних ресурсов</a></li>
-                        <li><a href="http://u8600-app045:83" target="_blank">Электронный архив</a></li>
-                        <li><a href="http://u8600-app045:85" target="_blank">Реестр проверок органами государственного контроля и надзора</a></li>
-                        <li><a href="http://u8600-app045:86" target="_blank">Реестр МРГ</a></li>
-                        <li><a href="http://u8600-app036" target="_blank">Бывшие сотрудники</a></li>
-                        <li><a href="http://u8600-app012:88" target="_blank">Проект "Обращения"</a></li>
+                        <!-- <li><a href="http://u8600-app045:81" target="_blank">Реестр невзысканных сумм по налоговым проверкам (ВНП, КНП)</a></li> -->
+                        <li><a href="http://86000-portal:82" target="_blank">Реестр прав доступа внешних ресурсов</a></li>
+                        <li><a href="http://86000-portal:83" target="_blank">Электронный архив</a></li>
+                        <li><a href="http://86000-portal:85" target="_blank">Реестр проверок органами государственного контроля и надзора</a></li>
+                        <li><a href="http://86000-portal:86" target="_blank">Реестр МРГ</a></li>
+                        <li><a href="http://86000-app036" target="_blank">Бывшие сотрудники</a></li>
+                        <li><a href="http://86000-app012:88" target="_blank">Проект "Обращения"</a></li>
                     </ul>
                 </div>
             </div>
