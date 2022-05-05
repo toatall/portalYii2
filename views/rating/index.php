@@ -40,3 +40,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ?>
 </div>
+<?php 
+$this->registerCss(<<<CSS
+    .tab-content {
+        width: 100%;
+    }
+    #years {
+        width: 25%;
+    }
+CSS); 
+?>
