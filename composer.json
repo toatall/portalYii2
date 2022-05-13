@@ -32,7 +32,11 @@
         "kosoukhov/ldap": "^1.0",
         "yiisoft/yii2-httpclient": "*",
         "yiisoft/yii2-bootstrap4": "^2.0",
-        "kartik-v/yii2-editors": "^1.0"
+        "kartik-v/yii2-editors": "^1.0",
+        "kartik-v/yii2-field-range": "*",
+        "kartik-v/yii2-bootstrap4-dropdown": "^1.0",
+        "bower-asset/animate.css": "^4.1",
+        "npm-asset/svg.select.js": "3.0.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -50,6 +54,9 @@
         "process-timeout": 1800,
         "fxp-asset": {
             "enabled": false
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
         }
     },
     "scripts": {

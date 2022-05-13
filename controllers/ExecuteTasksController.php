@@ -4,8 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\ExecuteTasks;
-use app\models\Organization;
-use app\modules\test\controllers\PublicController;
+use COM;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
@@ -13,7 +12,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\Response;
 
 /**
@@ -38,7 +37,7 @@ class ExecuteTasksController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'data-chart-radar'],
+                        'actions' => ['index', 'data', 'data-chart-radar', 'data-organization', 'data-department', 'j'],
                         'roles' => ['@'],
                     ],
                     [
@@ -59,12 +58,109 @@ class ExecuteTasksController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => ExecuteTasks::find(),
-        ]);
+        ]);    
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'periods' => $this->getUsePeriods(),
         ]);
     }
+
+    /**
+     * Информация для основных графиков на главной странице
+     * @param string $period
+     * @param string $periodYear
+     */
+    public function actionData($period, $periodYear)
+    {
+        $data = ExecuteTasks::getDataByPeriod($period, $periodYear);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'total' => [ExecuteTasks::getTotal($data)],
+            'totalWithIndex' => ExecuteTasks::getTotalWithIndex($data),
+            'departments' => ExecuteTasks::getDepartments($data, $period, $periodYear),
+            'organizations' => ExecuteTasks::getOrganizations($data, $period, $periodYear),
+            'leadersDepartment' => ExecuteTasks::getLeadersDepartment($data),
+            'leadersOganization' => ExecuteTasks::getLeadersOrganization($data),
+        ];
+    }
+
+    /**
+     * Информация для графика по отделу в разрезе организаций
+     * @param int $idDepartment
+     * @param string $period
+     * @param string $periodYear
+     * @return array json
+     */
+    public function actionDataOrganization($idDepartment, $period, $periodYear)
+    {
+        $data = ExecuteTasks::getDataByPeriod($period, $periodYear);
+        $oranizations = ExecuteTasks::getOrganizations($data, $period, $periodYear, $idDepartment);
+        $result = [
+            'labels' => [],
+            'data' => [],
+        ];
+        
+        foreach ($oranizations as $org => $item) {
+            $result['labels'][] = $org;
+            $result['data'][] = round($item['finish'] / $item['all'] * 100);
+        }
+       
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $result;
+    }
+
+    public function actionJ()
+    {
+        $com = new COM('WbemScripting.SWbemLocator');
+        $connection = $com->ConnectServer('86000-app012', '', '8600-90331@regions.tax.nalog.ru', '8Fx4Ly75H');
+        //$connection = $com->ConnectServer('86000-app045', '', '86000-app045\Administrator', 'bbmcJHMvEt40');
+        if ($connection) {
+            // Set the impersonation level
+            $connection->Security_->ImpersonationLevel = 3;
+
+            $res = [];
+
+            $query = $connection->ExecQuery("select * from Win32_PerfFormattedData_PerfOS_Processor where name='_Total'");
+            foreach ($query as $result)
+            {
+                $res[] = $result->percentProcessorTime;                          
+            }
+            $res = array_filter($res);
+            if (count($res)) {
+                return round(array_sum($res) / count($res));
+            }
+        }
+
+        return 0;               
+
+    }
+
+    /**
+     * Информация для графика по организации в разрезе отделов
+     * @param int $idOrganization
+     * @param string $period
+     * @param string $periodYear
+     * @return array json
+     */
+    public function actionDataDepartment($idOrganization, $period, $periodYear)
+    {
+        $data = ExecuteTasks::getDataByPeriod($period, $periodYear);
+        $oranizations = ExecuteTasks::getDepartments($data, $period, $periodYear, $idOrganization);
+        $result = [
+            'labels' => [],
+            'data' => [],
+        ];
+        
+        foreach ($oranizations as $org => $item) {
+            $result['labels'][] = $org;
+            $result['data'][] = round($item['finish'] / $item['all'] * 100);
+        }
+       
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $result;
+    }
+
 
     /**
      * Displays a single ExecuteTasks model.
@@ -78,6 +174,32 @@ class ExecuteTasksController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+    
+
+    /**
+     * Вернуть используемые периоды 
+     * @return array
+     */
+    protected function getUsePeriods()
+    {
+        $query = (new Query())
+            ->select('period, period_year')
+            ->from('{{%execute_tasks}}')
+            ->groupBy('period, period_year')
+            ->orderBy([
+                'period_year' => SORT_DESC,
+                'period' => SORT_DESC,
+            ])
+            ->limit(8)
+            ->all();
+        
+        $result = [];
+        foreach($query as $item) {
+            $url = Url::to(['/execute-tasks/data', 'period'=>$item['period'], 'periodYear'=>$item['period_year']]);
+            $result[$url] = $item['period'] . ' квартал ' . $item['period_year'];
+        }
+        return $result;
+    }
 
     /**
      * Управление данными по исполнению задач
@@ -87,6 +209,7 @@ class ExecuteTasksController extends Controller
     {
         return $this->render('manage');
     }
+
 
     public function actionManageForm($department, $period, $periodYear)
     {
@@ -119,22 +242,22 @@ class ExecuteTasksController extends Controller
         if ($data == null) {
             return null;
         }
-
+        
         return [
-            'general' => $this->getDataGeneral($data),
+            'general' => $this->getDataGeneral($data, $period, $periodYear),
             'departments' => $this->getDataDepartments($data),
         ];
                
     }
 
 
-    private function getDataGeneral($data)
+    private function getDataGeneral($data, $preiod, $periodYear)
     {
         // отбор отделов
         $departments = [];
         foreach ($data as $item) {
             if (!in_array($item['department_index'] . ' ' . $item['department_name'], $departments)) {
-                $departments[] = $item['department_index'] . ' ' . $item['department_name'];
+                $departments[$item['department_id']] = $item['department_index'] . ' ' . $item['department_name'];
             }
         }
         ksort($departments);
@@ -151,8 +274,8 @@ class ExecuteTasksController extends Controller
         ksort($dep);
 
         $result = [
-            'labels' => array_keys($dep),           
-        ];
+            'labels' => array_keys($dep),
+        ];        
 
         $vals = [];
         foreach($dep as $d){
@@ -166,7 +289,14 @@ class ExecuteTasksController extends Controller
             'data' => $vals,
             'label' => 'Задачи',
             'borderColor' => 'rgb(' . $this->getRandomColor() . ')',
-        ];
+            'backgroundColor' => 'rgb(' . $this->getRandomColor() . ')',        
+        ];        
+
+        // links
+        foreach($departments as $id=>$val) {
+            $result['links'][] = Url::to(['/execute-tasks/view-department', 'id'=>$id, 'period'=>$preiod, 'periodYear'=>$periodYear]);
+        }
+
         return $result; 
     }
 
@@ -267,7 +397,7 @@ class ExecuteTasksController extends Controller
     private function getDataByPeriod($period, $periodYear)
     {
         return (new Query())
-            ->select('t.*, org.name as org_name, dep.department_index, dep.department_name')
+            ->select('t.*, org.name as org_name, dep.id department_id, dep.department_index, dep.department_name')
             ->from('{{%execute_tasks}} t')
             ->leftJoin('{{%organization}} org', 'org.code = t.org_code')
             ->leftJoin('{{%department}} dep', 'dep.id = t.id_department')

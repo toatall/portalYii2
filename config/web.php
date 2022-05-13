@@ -16,6 +16,7 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+        '@npm2'  => '@app/node_modules',
     ],
     'modules' => [
         // админка
