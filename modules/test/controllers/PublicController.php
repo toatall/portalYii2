@@ -244,13 +244,13 @@ class PublicController extends Controller
      */
     public function actionPartialSetTimeout(int $id, int $seconds)    
     {        
-        $model = $this->findModelTestResult($id);
-        if ($model == null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        // добавление секунд
-        $model->seconds += $seconds;       
-        return $model->save();
+        // $model = $this->findModelTestResult($id);
+        // if ($model == null) {
+        //     throw new NotFoundHttpException('The requested page does not exist.');
+        // }
+        // // добавление секунд
+        // $model->seconds += $seconds;       
+        // return $model->save();
     }
 
     /**
