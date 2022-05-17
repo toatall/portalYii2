@@ -130,9 +130,20 @@ use yii\widgets\Pjax;
                     'update' => ChangeLegislation::isRoleModerator(),
                     'delete' => ChangeLegislation::isRoleModerator(),
                 ],
-            ],
-            
+            ],        
         ],
+        
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'exportConfig' => [        
+            GridView::EXCEL => [],      
+        ],    
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
+        ],
+
     ]); ?>
 
     <?php Pjax::end(); ?>
