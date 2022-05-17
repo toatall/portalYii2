@@ -5,16 +5,17 @@ use app\assets\FlipAsset;
 use app\assets\newyear\GerljandaAsset;
 use app\assets\fancybox\FancyboxAsset;
 use app\helpers\DateHelper;
+use yii\bootstrap4\Html;
 
 FancyboxAsset::register($this);
 
 $flagNewYear = false;//(date('m') == 12);
 
 if ($flagNewYear) {
-    FlipAsset::register($this);
+    //FlipAsset::register($this);
     GerljandaAsset::register($this);
 }
-
+FlipAsset::register($this);
 
 $logoTopPath = '/public/assets/portal/img/';
 $logoTopImg = 'top_default.png';
@@ -111,22 +112,49 @@ if (date('Y') < 2022) {
 <div class="container-fluid">
     <div class="row justify-content-between" id="logo-background">
         
-        <div class="col-7 text-left" id="logo-image" style="background-image: url('<?= $logoTopPath . $logoTopImg ?>');"></div>
+        <div class="col-7 col-md-6 col-sm-5 text-left" id="logo-image" style="background-image: url('<?= $logoTopPath . $logoTopImg ?>');"></div>
         
         <div class="col text-right">
             <?php if (date('Y') < 2022) { echo $this->render('top_pay_taxes'); } ?>
             <?= $this->render('top_calendar') ?>
+            
+            <!-- <div class="float-right d-none d-xl-block">                
+                <a href="/contest/map">
+                    <img src="/public/content/map/images/svgg.png" class="img-thumbnail" style="height: 185px; margin: 10px 10px 0 0;" />
+                </a>
+            </div> -->
+
+            <?php if (date('Ymd') < 20220529): ?>
+            <div class="float-right d-none d-xl-block p-1 mt-2  mr-2 text-center" style="height: 12rem;" 
+                data-toggle="tooltip" data-content="<span class='lead'>Спартакиада 2022</span>  " data-trigger="hover" data-html="true" data-placement="left">
+                <!-- <?php 
+                    $days = DateHelper::dateDiffDays('29.05.2022');
+                    $endNumber = $days % 10;
+                ?>
+                <span style="color: white; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; font-weight: bolder; font-size: medium;">
+                    До спартакиады<br /> <?= ($endNumber == 1) ? 'остался' : 'осталось' ?>
+                </span>                
+                <div class="tick mt-2" data-value="<?= $days ?>">
+                    <div data-layout="vertical">
+                        <span data-view="flip"></span>
+                    </div>
+                </div>                
+                <span style="color: white; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; font-weight: bolder; font-size: medium;">
+                    <?= (($endNumber == 1) ? 'день' : (($endNumber > 1 && $endNumber < 5) ? 'дня' : 'дней')) ?>
+                </span> -->
+                <?= Html::a(Html::img('/public/content/portal/images/sport_2022.png', ['style'=>'height: 100%;']), ['news/index', 'tag'=>'sport2022']) ?>
+            </div>
+            <?php endif; ?>
         </div>
 
-        <a href="/contest/map">
-            <img src="/public/content/map/images/svgg.png" class="img-thumbnail" style="height: 185px; margin: 10px 10px 0 0;" />
-        </a>
+        
+        
     </div>    
 </div>
 
 <?php
 $this->registerCss(<<<CSS
-/*
+
     .tick {
         padding-bottom: 1px;
         font-size:70px;
@@ -147,8 +175,7 @@ $this->registerCss(<<<CSS
     .tick-flip-panel {
         background-color: transparent;
     }
- *
- */
+
         
     .bounce-2 {
         animation-name: bounce-2;
