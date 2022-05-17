@@ -35,6 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'=>'Ежеквартальные отчеты',
                 'content'=>$this->render('_reports'),
             ],
+            [
+                'label'=>'Реестр разрешенного программного обеспечения',
+                'content'=>$this->render('_reestrPO'),
+            ],
         ],
     ])
     ?>
