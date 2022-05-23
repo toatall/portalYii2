@@ -174,8 +174,8 @@ class TestResult extends \yii\db\ActiveRecord
         $modelQuestions = TestQuestion::find()->where([
             'id_test' => $this->id_test,
         ])
-        ->limit($modelTest->count_questions > 0 ? $modelTest->count_questions : false)
-        ->orderBy('newid()');
+        ->limit($modelTest->count_questions > 0 ? $modelTest->count_questions : false);
+        //->orderBy('newid()');
 
         if (!empty($modelTest->use_formula_filter)) {
             $modelQuestions->andWhere($modelTest->use_formula_filter);
