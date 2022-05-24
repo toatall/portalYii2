@@ -124,27 +124,32 @@ if (date('Y') < 2022) {
                 </a>
             </div> -->
 
-            <?php if (date('Ymd') < 20220529): ?>
-            <div class="float-right d-none d-xl-block p-1 mt-2  mr-2 text-center" style="height: 12rem;" 
-                data-toggle="tooltip" data-content="<span class='lead'>Спартакиада 2022</span>  " data-trigger="hover" data-html="true" data-placement="left">
-                <!-- <?php 
-                    $days = DateHelper::dateDiffDays('29.05.2022');
-                    $endNumber = $days % 10;
-                ?>
-                <span style="color: white; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; font-weight: bolder; font-size: medium;">
-                    До спартакиады<br /> <?= ($endNumber == 1) ? 'остался' : 'осталось' ?>
-                </span>                
-                <div class="tick mt-2" data-value="<?= $days ?>">
-                    <div data-layout="vertical">
-                        <span data-view="flip"></span>
-                    </div>
-                </div>                
-                <span style="color: white; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; font-weight: bolder; font-size: medium;">
-                    <?= (($endNumber == 1) ? 'день' : (($endNumber > 1 && $endNumber < 5) ? 'дня' : 'дней')) ?>
-                </span> -->
-                <?= Html::a(Html::img('/public/content/portal/images/sport_2022.png', ['style'=>'height: 100%;']), ['news/index', 'tag'=>'sport2022']) ?>
+            
+            <div class="float-right d-none d-xl-block p-1 mt-2 mr-2 text-center" style="height: 12rem;" 
+                data-toggle="tooltip" data-content="<span class='lead'>Спартакиада 2022</span>" data-trigger="hover" data-html="true" data-placement="left">
+                <?php if (date('Ymd') < 20220530): ?>
+                <div class="d-inline-block">
+                    <?php 
+                        $days = DateHelper::dateDiffDays('30.05.2022');
+                        $endNumber = $days % 10;
+                    ?>
+                    <span style="color: white; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; font-weight: bolder; font-size: medium;">
+                        До спартакиады<br /> <?= ($endNumber == 1) ? 'остался' : 'осталось' ?>
+                    </span>                
+                    <div class="tick mt-2" data-value="<?= $days ?>">
+                        <div data-layout="vertical">
+                            <span data-view="flip"></span>
+                        </div>
+                    </div>                
+                    <span style="color: white; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; font-weight: bolder; font-size: medium;">
+                        <?= (($endNumber == 1) ? 'день' : (($endNumber > 1 && $endNumber < 5) ? 'дня' : 'дней')) ?>
+                    </span>
+                </div>
+                <?php endif; ?>
+                <?= Html::a(Html::img('/public/content/portal/images/sport_2022.png', ['style'=>'height: 100%; vertical-align: top;']), ['news/index', 'tag'=>'sport2022']) ?>
+                
             </div>
-            <?php endif; ?>
+            
         </div>
 
         
