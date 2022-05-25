@@ -37,7 +37,7 @@ class ExecuteTasksController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'data', 'data-chart-radar', 'data-organization', 'data-department', 'j'],
+                        'actions' => ['index', 'data', 'data-chart-radar', 'data-organization', 'data-department'],
                         'roles' => ['@'],
                     ],
                     [
@@ -103,38 +103,12 @@ class ExecuteTasksController extends Controller
         
         foreach ($oranizations as $org => $item) {
             $result['labels'][] = $org;
-            $result['data'][] = round($item['finish'] / $item['all'] * 100);
+            $result['data'][] = ($item['all'] > 0 ? round($item['finish'] / $item['all'] * 100) : 0);
         }
        
         Yii::$app->response->format = Response::FORMAT_JSON;
         return $result;
-    }
-
-    public function actionJ()
-    {
-        $com = new COM('WbemScripting.SWbemLocator');
-        $connection = $com->ConnectServer('86000-app012', '', '8600-90331@regions.tax.nalog.ru', '8Fx4Ly75H');
-        //$connection = $com->ConnectServer('86000-app045', '', '86000-app045\Administrator', 'bbmcJHMvEt40');
-        if ($connection) {
-            // Set the impersonation level
-            $connection->Security_->ImpersonationLevel = 3;
-
-            $res = [];
-
-            $query = $connection->ExecQuery("select * from Win32_PerfFormattedData_PerfOS_Processor where name='_Total'");
-            foreach ($query as $result)
-            {
-                $res[] = $result->percentProcessorTime;                          
-            }
-            $res = array_filter($res);
-            if (count($res)) {
-                return round(array_sum($res) / count($res));
-            }
-        }
-
-        return 0;               
-
-    }
+    }    
 
     /**
      * Информация для графика по организации в разрезе отделов

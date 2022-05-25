@@ -298,6 +298,9 @@ class ExecuteTasks extends \yii\db\ActiveRecord
         if (!$data) {
             return null;
         }
+        if ($idOrganization == null) {
+            $idOrganization = '8600';
+        }
         $result = [];
         foreach($data as $item) {
             if ($idOrganization != null && $idOrganization != $item['org_code']) {
