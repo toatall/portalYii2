@@ -16,6 +16,8 @@ class m220412_113556_create_table_comments extends Migration
             'id' => $this->primaryKey(),            
             'id_parent' => $this->integer(),
             'id_reply' => $this->integer(),
+            'model_name' => $this->string(50)->notNull(),
+            'model_id' => $this->integer()->notNull(),
             'bind_hash' => $this->string(50)->notNull(),
             'url' => $this->string(1000)->notNull(), 
             'username' => $this->string(250)->notNull(),

@@ -2,11 +2,11 @@
 
 /** @var yii\web\View $this */
 
-use yii\bootstrap4\Html;
-
 /** @var array $comments */
 /** @var string $hash */
 /** @var string $url */
+/** @var string $modelName */
+/** @var int $modelId */
 
 ?>
 
@@ -20,6 +20,8 @@ use yii\bootstrap4\Html;
                 'model'=>$comment['modelComment'],
                 'hash'=>$hash,
                 'url'=>$url,
+                'modelName' => $modelName,
+                'modelId' => $modelId,
             ]) ?>
             
             <?php if ($comment['subComment'] && count($comment['subComment']) > 0): ?>
@@ -29,6 +31,8 @@ use yii\bootstrap4\Html;
                             'model'=>$commentSub['modelComment'],
                             'hash'=>$hash,
                             'url'=>$url,
+                            'modelName' => $modelName,
+                            'modelId' => $modelId,
                         ]) ?>
                     <?php endforeach; ?>
                 </div>
@@ -42,10 +46,9 @@ use yii\bootstrap4\Html;
 
 </div>
 
-<?php 
-//$formData = Html::csrfMetaTags();
-//echo $formData;
+<?php
 $this->registerJs(<<<JS
+    
     // ссылка добавления комментария
     $('.link-create').on('click', function() {
         var container = $('#' + $(this).data('container'));

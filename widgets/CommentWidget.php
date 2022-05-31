@@ -1,6 +1,7 @@
 <?php
 namespace app\widgets;
 
+use yii\base\InvalidConfigException;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\Widget;
 use yii\helpers\Url;
@@ -13,11 +14,26 @@ class CommentWidget extends Widget
     /**
      * @var string текущая ссылка
      */
-    private $currentUrl;
+    public $url;
 
     public $borderBottomClass = 'border-top';
 
-    public $title = '';
+    /**
+     * @var string заголовок
+     */
+    public $title = 'Комментарии';
+
+    /**
+     * @var string
+     */
+    public $modelName;
+
+    /**
+     * @var integer
+     */
+    public $modelId;
+
+    public $hash;
 
     /**
      * {@inheritdoc}
@@ -25,26 +41,35 @@ class CommentWidget extends Widget
     public function init() 
     {        
         parent::init();
-        $this->currentUrl = Url::current();        
+        //$this->currentUrl = Url::current();
+        
+        if ($this->modelName === null) {
+            throw new InvalidConfigException("The 'modelName' property is required.");
+        }
+        if ($this->modelId === null) {
+            throw new InvalidConfigException("The 'modelId' property is required.");
+        }
     }    
 
     /**
      * @return string
      */
     private function renderDiv()
-    {
-        $hash = md5($this->currentUrl);
+    {       
+        $url = ($this->url == null) ? Url::current() : $this->url;
+        $hash = md5($url);
         $html = Html::beginTag('div', [
-            'data-url' =>  Url::to(['/comment/index', 'hash'=>$hash, 'url'=>$this->currentUrl, 'title'=>$this->title]),
-            'data-comment-url'=>$this->currentUrl, 
-            'data-comment-hash'=>$hash,
+            'data-url' =>  Url::to(['/comment/index', 'hash'=>$hash, 'url'=>$url, 'title'=>$this->title, 
+                'modelName'=>$this->modelName, 'modelId'=>$this->modelId]),
+            'data-comment-url'=>$url, 
+            'data-comment-hash'=>$hash,           
             'class' => 'comment-container',
             'id' => 'commnet-container-' . $this->id,
         ]);
         $html .= Html::endTag('div');
         $idContainer = 'commnet-container-' . $this->id;
         $this->getView()->registerJs(<<<JS
-            
+            (function() {
                 var container = $('#$idContainer');
                 var url = $('#$idContainer').data('url');
                 var commentUrl = $('#$idContainer').data('comment-url');
@@ -54,12 +79,12 @@ class CommentWidget extends Widget
 
                 $.get(url)
                 .done(function(data) {
-                    container.html(data);
+                    container.html(data);                   
                 })
                 .fail(function(jqXHR) {
                     container.html('<div class="alert alert-danger">Url: ' + url + '<br /><strong>' + jqXHR.status + ' ' + jqXHR.statusText + '</strong></div>');
                 });
-            
+            })();            
         JS);
         return $html;
     }

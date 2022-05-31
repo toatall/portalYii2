@@ -8,8 +8,10 @@ use yii\helpers\Url;
 /** @var string $hash */
 /** @var string $url */
 /** @var string $title */
+/** @var string $modelName */
+/** @var int $modelId */
 
-$title = isset($title) && $title != '' ? $title : 'Комментарии';
+$title = isset($title) && $title ? $title : 'Комментарии';
 
 EmojiAsset::register($this);
 
@@ -20,12 +22,16 @@ $idPjaxComments = 'pjax-comment-'.$hash;
 <div class="comment-index">
     
     <div class="card">
+        <?php if ($title != '-'): ?>
         <div class="card-header">
             <h4><?= $title ?></h4>
         </div>
+        <?php endif; ?>
         <div class="card-body">
-            <div class="ajax-load" id="container-create" data-url="<?= Url::to(['/comment/create', 'hash'=>$hash, 'url'=>$url, 'container'=>'container-create']) ?>"></div>            
-            <div class="ajax-load" id="container-comment-index-<?= $hash ?>" data-url="<?= Url::to(['/comment/comments', 'hash'=>$hash, 'url'=>$url]) ?>"></div>            
+            <div class="ajax-load" id="container-create-<?= $hash ?>" 
+                data-url="<?= Url::to(['/comment/create', 'hash'=>$hash, 'url'=>$url, 'container'=>'container-create-'.$hash, 'modelName'=>$modelName, 'modelId'=>$modelId]) ?>"></div>            
+            <div class="ajax-load" id="container-comment-index-<?= $hash ?>" 
+                data-url="<?= Url::to(['/comment/comments', 'hash'=>$hash, 'url'=>$url, 'modelName'=>$modelName, 'modelId'=>$modelId]) ?>"></div>            
         </div>
     </div>
 
@@ -46,7 +52,6 @@ $idPjaxComments = 'pjax-comment-'.$hash;
             container.html('<div class="alert alert-danger">Url: ' + url + '<br /><strong>' + jqXHR.status + ' ' + jqXHR.statusText + '</strong></div>');
         });
     }
-
 
     $('.ajax-load').each(function() {
         ajaxLoad($(this).attr('id'));

@@ -48,13 +48,15 @@ class CommentController extends Controller
      * @param string @url
      * @return mixed
      */
-    public function actionIndex($hash, $url, $title)
+    public function actionIndex($hash, $url, $title, $modelName, $modelId)
     {      
         if (Yii::$app->request->isAjax) {
             return $this->renderAjax('index', [        
                 'hash' => $hash,
                 'url' => $url,
-                'title' => $title,
+                'title' => $title,  
+                'modelName' => $modelName,
+                'modelId' => $modelId,             
             ]);
         }        
     }
@@ -64,14 +66,16 @@ class CommentController extends Controller
      * @param string $url
      * @return mixed
      */
-    public function actionComments($hash, $url)
+    public function actionComments($hash, $url, $modelName, $modelId)
     {        
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [            
             'content' => $this->renderAjax('comments', [                
                 'comments' => Comment::getComments($hash),
                 'hash' => $hash,
-                'url' => $url,               
+                'url' => $url,       
+                'modelName' => $modelName,
+                'modelId' => $modelId,        
             ]),
         ];
     }
@@ -94,9 +98,11 @@ class CommentController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($hash, $url, $container, $idParent=null)
+    public function actionCreate($hash, $url, $container, $modelName, $modelId, $idParent=null)
     {
         $model = new Comment();
+        $model->model_name = $modelName;
+        $model->model_id = $modelId;
 
         // если указан родительский документ
         if ($idParent !== null) {

@@ -13,6 +13,8 @@ use Yii;
  * @property int $id
  * @property int $id_parent
  * @property int $id_reply
+ * @property string $model_name
+ * @property int $model_id
  * @property string $bind_hash
  * @property string $url
  * @property string $username
@@ -32,7 +34,7 @@ class Comment extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'p_comment';
+        return '{{%comment}}';
     }
 
     /**

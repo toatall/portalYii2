@@ -6,6 +6,8 @@ use yii\bootstrap4\Html;
 /** @var app\models\Comment $model */
 /** @var string $hash */
 /** @var string $url */
+/** @var string $modelName */
+/** @var int $modelId */
 
 $userModel = $model->usernameModel;
 ?>
@@ -57,7 +59,8 @@ $userModel = $model->usernameModel;
                 <span class="text-secondary"><?= Yii::$app->formatter->asDatetime($model->date_create) ?></span>
                 &nbsp;&nbsp;
                 
-                <?= Html::a('<i class="fas fa-share"></i> Ответить', ['/comment/create', 'hash'=>$hash, 'url'=>$url, 'idParent'=>$model->id, 'container'=>'container-'.$model->id], 
+                <?= Html::a('<i class="fas fa-share"></i> Ответить', 
+                    ['/comment/create', 'hash'=>$hash, 'url'=>$url, 'idParent'=>$model->id, 'container'=>'container-'.$model->id, 'modelName'=>$modelName, 'modelId'=>$modelId], 
                     ['class'=>'link-create', 'data-container'=>'container-'.$model->id]) ?>&nbsp;&nbsp;
                 
                 <?php if ($model->isAuthor() || Yii::$app->user->can('admin')): ?>
