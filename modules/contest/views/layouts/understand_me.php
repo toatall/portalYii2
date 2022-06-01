@@ -29,7 +29,11 @@ ModalViewerAsset::register($this);
     </div>
 
     <div class="container">    
-        <?= $content ?>        
+        <?php if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false): ?>
+            <div class="alert alert-danger display-2 font-weight-bolder text-center" style="position: relative; z-index: 1000;">Браузер Internet Explorer не поддерживается!</div>
+        <?php else: ?>
+            <?= $content ?>        
+        <?php endif; ?>        
     </div>
 
 <?php 
