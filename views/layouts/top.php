@@ -110,7 +110,7 @@ if (date('Y') < 2022) {
 ?>
 
 <div class="container-fluid">
-    <div class="row justify-content-between" id="logo-background">
+    <div class="row justify-content-between" id="logo-background" style="overflow: hidden;">
         
         <div class="col-7 col-md-6 col-sm-5 text-left" id="logo-image" style="background-image: url('<?= $logoTopPath . $logoTopImg ?>');"></div>
         
@@ -124,7 +124,6 @@ if (date('Y') < 2022) {
                 </a>
             </div> -->
 
-            
             <div class="float-right d-none d-xl-block p-1 mt-2 mr-2 text-center" style="height: 12rem;" 
                 data-toggle="tooltip" data-content="<span class='lead'>Спартакиада 2022</span>" data-trigger="hover" data-html="true" data-placement="left">
                 <?php if (date('Ymd') < 20220530): ?>
@@ -149,8 +148,16 @@ if (date('Y') < 2022) {
                 <?= Html::a(Html::img('/public/content/portal/images/sport_2022.png', ['style'=>'height: 100%; vertical-align: top;']), ['news/index', 'tag'=>'sport2022']) ?>
                 
             </div>
+
+            <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isOrg('8600')): ?>
+            <div class="d-none d-xl-block">
+                <a href="/contest/photo-kids">
+                    <img src="/public/assets/contest/photo-kids/img/image832.png" style="height: 185px; margin: 10px 10px 0 0;" />
+                </a>
+            </div>
+            <?php endif; ?>
             
-        </div>
+        </div>        
 
         
         
