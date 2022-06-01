@@ -145,14 +145,14 @@ if (date('Y') < 2022) {
                     </span>
                 </div>
                 <?php endif; ?>
-                <?= Html::a(Html::img('/public/content/portal/images/sport_2022.png', ['style'=>'height: 100%; vertical-align: top;']), ['news/index', 'tag'=>'sport2022']) ?>
+                <?= Html::a(Html::img('/public/content/portal/images/sport_2022.png', ['style'=>'height: 80%; margin-top: 1rem;']), ['news/index', 'tag'=>'sport2022']) ?>
                 
             </div>
 
             <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isOrg('8600')): ?>
             <div class="d-none d-xl-block">
                 <a href="/contest/photo-kids">
-                    <img src="/public/assets/contest/photo-kids/img/image832.png" style="height: 185px; margin: 10px 10px 0 0;" />
+                    <img src="/public/assets/contest/photo-kids/img/image832.png" style="height: 7rem; margin: 3rem 10px 0 0;" />
                 </a>
             </div>
             <?php endif; ?>
