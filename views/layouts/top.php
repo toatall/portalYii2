@@ -160,7 +160,7 @@ if (date('Y') < 2022) {
         </div>        
 
         <a href="/contest/understand-me">
-            <img src="/public/assets/contest/understand_me/img/croco.png" style="height: 185px; position: absolute; left: 10px; top: 10px;" data-toggle="tooltip" data-content="Детский конкурс 'Пойми меня'" data-trigger="hover" data-placement="left" />
+            <img src="/public/assets/contest/understand_me/img/croco.png" style="height: 185px; position: absolute; left: 45vw; top: 10px;" data-toggle="tooltip" data-content="Детский конкурс 'Пойми меня'" data-trigger="hover" data-placement="left" />
         </a>
         
     </div>    
