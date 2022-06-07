@@ -35,7 +35,7 @@ class Crossword
             ],
             5 => [
                 'text' => 'НАЛОГОВЫЙ',
-                'startCol' => 17,
+                'startCol' => 18,
                 'startRow' => 3,
                 'question' => 'Кодекс, содержащий свод законодательных актов о налогообложении',             
             ],
@@ -45,19 +45,19 @@ class Crossword
                 'text' => 'ПРОФЕССИОНАЛЬНЫЙ',
                 'startCol' => 1,
                 'startRow' => 4,    
-                'question' => 'Сумма, на которую уменьшается налоговая база по подоходному налогу по доходам, полученным физическими лицами, от предпринимательской деятельности по гражданско-правовым договорам в виде авторского вознаграждения',                   
+                'question' => 'Налоговый вычет - сумма, на которую уменьшается налоговая база по подоходному налогу по доходам, полученным физическими лицами, от предпринимательской деятельности по гражданско-правовым договорам в виде авторского вознаграждения',                   
             ],
             2 => [
                 'text' => 'ТИБЕТ',
                 'startCol' => 2,
                 'startRow' => 6, 
-                'question' => 'Где взимался налог на уши',            
+                'question' => 'Страна, в которой взимался налог на уши',            
             ],
             3 => [
                 'text' => 'ОЛЬГА',
                 'startCol' => 2,
                 'startRow' => 8,     
-                'question' => 'Родоначальником налоговой системы на Руси',        
+                'question' => 'Родоначальник налоговой системы на Руси',        
             ],
             4 => [
                 'text' => 'НАЛОГ',
@@ -86,7 +86,7 @@ class Crossword
         self::generateWordVertical('КОСВЕННЫЙ', 9, 3, $res, 2);
         self::generateWordVertical('ШТРАФ', 11, 1, $res, 3);
         self::generateWordVertical('ПЕНЯ', 14, 2, $res, 4);
-        self::generateWordVertical('НАЛОГОВЫЙ', 17, 3, $res, 5);
+        self::generateWordVertical('НАЛОГОВЫЙ', 18, 3, $res, 5);
 
         self::generateWordHorizontal('ПРОФЕССИОНАЛЬНЫЙ', 1, 4, $res, 1);
         self::generateWordHorizontal('ТИБЕТ', 2, 6, $res, 2);
@@ -169,8 +169,10 @@ class Crossword
                 $char1 = $item['char'];
                 $char2 = isset($result[$row][$col]) ? $result[$row][$col] : null;
                 $comare = mb_strtoupper($char1, 'utf-8') === mb_strtoupper($char2, 'utf-8');
-                if (isset($words[$item['type']][$item['numberQuestion']]) && !$comare) {
-                    $words[$item['type']][$item['numberQuestion']] = $comare;
+                if (isset($words[$item['type']][$item['numberQuestion']])) {
+                    if ($words[$item['type']][$item['numberQuestion']]) { 
+                        $words[$item['type']][$item['numberQuestion']] = $comare;
+                    }
                 }
                 else {
                     $words[$item['type']][$item['numberQuestion']] = $comare;

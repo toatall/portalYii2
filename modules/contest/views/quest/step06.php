@@ -55,7 +55,7 @@ $questions = [
 
 
     <?php if ($result): ?>
-    <div class="row col-10 offset-2 card card-body mt-2 fa-3x bg-secondary">
+    <!--div class="row col-10 offset-2 card card-body mt-2 fa-3x bg-secondary">
         <div class="text-center text-white">
             Вы заработали <span class="badge badge-info"><?= $result['balls'] ?></span>
             <?php switch ($result['balls']) {
@@ -74,7 +74,7 @@ $questions = [
         <div class="text-center">
             <span style="font-size: 1rem;"">Вы проходили задание <?= Yii::$app->formatter->asDatetime($result['date_create']) ?></span>
         </div>
-    </div>
+    </div-->
     <?php else: ?>
     <div class="row col-10 offset-2 align-content-center justify-content-center bg-secondary p-3 text-white rounded">      
         <div class="display-4">ОСТАЛОСЬ ВРЕМЕНИ</div>
@@ -131,7 +131,6 @@ $questions = [
 if (!$result) {
     $this->registerJs(<<<JS
 
-
         function save() {        
             $.ajax({
                 method: 'post',
@@ -151,14 +150,12 @@ if (!$result) {
         });
 
 
-        var timer;
+        var timer = localStorage.getItem('timerStep6');
             
-        if (localStorage.getItem('timerStep6') == null || localStorage.getItem('timerStep6') <= 0) {
-            timer = 5 * 60;
-        }
-        else {
+        if (localStorage.getItem('timerStep6') != null && localStorage.getItem('timerStep6') > 0) {
             timer = localStorage.getItem('timerStep6');
-        }
+        }        
+
         function setTime() {
             const tick = $('#countdown');  
             var d = new Date(null);                
@@ -180,8 +177,7 @@ if (!$result) {
         function stopTime() {            
             clearInterval(interval);
             save();
-        } 
-
+        }
 
     JS);
 }

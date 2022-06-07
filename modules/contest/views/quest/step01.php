@@ -50,7 +50,7 @@ $jsListB = json_encode($listB);
     </div>
 
     <?php if ($result): ?>
-    <div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
+    <!--div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
         <div class="text-center text-white">
             Вы заработали <span class="badge badge-info"><?= $result['balls'] ?></span>
             <?php switch ($result['balls']) {
@@ -69,7 +69,7 @@ $jsListB = json_encode($listB);
         <div class="text-center">
             <span style="font-size: 1rem;"">Вы проходили задание <?= Yii::$app->formatter->asDatetime($result['date_create']) ?></span>
         </div>
-    </div>
+    </div-->
     <?php else: ?>
 
     <div class="row col-10 offset-1 align-content-center justify-content-center bg-secondary p-3 text-white rounded">      
@@ -108,7 +108,6 @@ $url = Url::to('');
 $disable = ($result != null) ? 'disable' : 'enable';
 $this->registerJS(<<<JS
             
-    
     const listA = $jsListA;   
     const listB = $jsListB;
         
@@ -124,71 +123,63 @@ $this->registerJS(<<<JS
         
     var fieldLinks;
     var inputOri;
-    //$(document).ready(function () {
-        inputOri = {
-            "localization": {},
-            "options": {
-                "associationMode": "oneToOne", 
-                "lineStyle": "square-ends",
-                "displayMode": "original",
-                "mobileClickIt": false,
-                "whiteSpace": "normal"
+    
+    inputOri = {
+        "localization": {},
+        "options": {
+            "associationMode": "oneToOne", 
+            "lineStyle": "square-ends",
+            "displayMode": "original",
+            "mobileClickIt": false,
+            "whiteSpace": "normal"
+        },
+        "Lists": [
+            {
+                "name": "Термины",
+                "list": dataA,
             },
-            "Lists": [
-                {
-                    "name": "Термины",
-                    "list": dataA,
-                },
-                {
-                    "name": "Определения",
-                    "list": dataB,
-                    //"mandatories": dataB,							
-                },                
-            ],        
-            'existingLinks': $existingLinks,
-        };
-		
+            {
+                "name": "Определения",
+                "list": dataB,
+                //"mandatories": dataB,							
+            },                
+        ],        
+        'existingLinks': $existingLinks,
+    };
+    
+    
+    function saveResult(validate) {
+        localStorage.removeItem('timer');
+        var results = fieldLinks.fieldsLinker("getLinks");       
         
-        function saveResult(validate) {
-            localStorage.removeItem('timer');
-            var results = fieldLinks.fieldsLinker("getLinks");
-            // if (results.error && validate) {
-            //     alert(results.errorMessage);
-            //     return false;
-            // }
-            
-            var res = [];
-            results.links.forEach(function(val) {
-                const from = val.from;
-                const to = val.to;
-                var idA = listA.find(c => c.name == from);
-                var idB = listB.find(c => c.name == to);
-                res.push({ 
-                    'idA': idA.id, 
-                    'from': from,
-                    'idB': idB.id,
-                    'to': to,
-                });
-            });  
-
-            $.ajax({
-                url: '$url',
-                data: {result: res},
-                method: 'post'
-            })
-            .done(function(data) {             
-                location.reload();
+        var res = [];
+        results.links.forEach(function(val) {
+            const from = val.from;
+            const to = val.to;
+            var idA = listA.find(c => c.name == from);
+            var idB = listB.find(c => c.name == to);
+            res.push({ 
+                'idA': idA.id, 
+                'from': from,
+                'idB': idB.id,
+                'to': to,
             });
-        }            
-        
-        
+        });  
 
-        fieldLinks=$("#original").fieldsLinker("init",inputOri);   
-        fieldLinks.fieldsLinker("$disable"); 
-        $('.FL-main div[draggable="true"]').each(function() { $(this).attr('draggable', 'false'); });
-        $('.FL-right li[data-original-title]').each(function() { $(this).attr('data-original-title', ''); });
-        
-    //});
+        $.ajax({
+            url: '$url',
+            data: {result: res},
+            method: 'post'
+        })
+        .done(function(data) {             
+            location.reload();
+        });
+    }            
+    
+    fieldLinks=$("#original").fieldsLinker("init",inputOri);   
+    fieldLinks.fieldsLinker("$disable"); 
+    $('.FL-main div[draggable="true"]').each(function() { $(this).attr('draggable', 'false'); });
+    $('.FL-right li[data-original-title]').each(function() { $(this).attr('data-original-title', ''); });     
 
 JS); 
 
@@ -205,22 +196,20 @@ if (!$result) {
             $('.FL-right li[data-original-title]').each(function() { $(this).attr('data-original-title', ''); });
         });
 
-        var timer;
+        var timer = 5 * 60;
         
-        if (localStorage.getItem('timer') == null) {
-            timer = 5 * 60;
+        if (localStorage.getItem('timerStep1') != null && localStorage.getItem('timerStep1') > 0) {
+            timer = localStorage.getItem('timerStep1');
         }
-        else {
-            timer = localStorage.getItem('timer');
-        }
+        
         function setTime() {
             const tick = $('#countdown');  
             var d = new Date(null);                
             d.setSeconds(timer);
             tick.attr('data-value', d.toISOString().substring(14, 19));        
-            localStorage.setItem('timer', timer);
+            localStorage.setItem('timerStep1', timer);
             
-            if (timer <= 0) {                
+            if (timer <= 0) {
                 stopTime();
                 console.log('stop');
             }
@@ -231,10 +220,10 @@ if (!$result) {
             setTime(); 
         }, 1000);
         
-        function stopTime() {            
+        function stopTime() {
             clearInterval(interval);
             saveResult(false);
-        }      
+        }
     JS);
 }
 
@@ -398,7 +387,7 @@ input[type=radio]:checked:before {
 } 
 .fieldsLinker div {
     font-weight: normal;
-    text-align: justify;
+    text-align: left;
     font-size: 14px;
 }
 .FL-left {

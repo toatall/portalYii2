@@ -51,32 +51,32 @@ class QuestController extends Controller
         $links = [
             [
                 'url' => Url::to(['/contest/quest/step01']),
-                'title' => "<div class='text-center'><strong>Станция «Поисковая»</strong><br />Установите соответствие между терминами и определениями</div>",
+                'title' => "<div class='text-center'><strong>Станция «Поисковая»</strong><br />Установите соответствие между терминами и определениями<br /><b class='text-warning'>10 заданий – 5 минут</b></div>",
                 'finish' => isset($results[1]),
             ],
             [
                 'url' => Url::to(['/contest/quest/step02']),
-                'title' => "<strong>Станция «Занимательная»</strong><br />Решите кроссворд",
+                'title' => "<strong>Станция «Занимательная»</strong><br />Решите кроссворд<br /><b class='text-warning'>10 заданий – 5 минут</b>",
                 'finish' => isset($results[2]),
             ],
             [
                 'url' => Url::to(['/contest/quest/step03']),
-                'title' => "<strong>Станция «Налоговая полиция»</strong><br />Найдите ошибки в тексте",
+                'title' => "<strong>Станция «Налоговая полиция»</strong><br />Найдите ошибки в тексте<br /><b class='text-warning'>10 заданий – 5 минут</b>",
                 'finish' => isset($results[3]),
             ],
             [
                 'url' => Url::to(['/contest/quest/step04']),
-                'title' => "<strong>Станция «Налоговое ориентирование»</strong><br />Распределите виды налогов по группам",
+                'title' => "<strong>Станция «Налоговое ориентирование»</strong><br />Распределите виды налогов по группам<br /><b class='text-warning'>10 заданий – 5 минут</b>",
                 'finish' => isset($results[4]),
             ],
             [
                 'url' => Url::to(['/contest/quest/step05']),
-                'title' => "<strong>Станция «Любознательная»</strong><br />Викторина",
+                'title' => "<strong>Станция «Любознательная»</strong><br />Викторина<br /><b class='text-warning'>10 заданий – 5 минут</b>",
                 'finish' => isset($results[5]),
             ],
             [
                 'url' => Url::to(['/contest/quest/step06']),
-                'title' => "<strong>Станция «Задачкино»</strong><br />Решите задачи на вычисление налогов",
+                'title' => "<strong>Станция «Задачкино»</strong><br />Решите задачи на вычисление налогов<br /><b class='text-warning'>10 заданий – 5 минут</b>",
                 'finish' => isset($results[6]),
             ],            
         ];
@@ -165,16 +165,18 @@ class QuestController extends Controller
      */
     public function actionStep03()
     {              
+        $post = [];
         if (Yii::$app->request->isPost) {            
-            $post = Yii::$app->request->post();
-            list($check, $wrongWrong) = MarkText::checkResult($post);
-            Quest::saveResult(3, $check, ['post' => $post, 'wrongWrong' => $wrongWrong]);
+            $post = Yii::$app->request->post('result');
+            $balls = MarkText::checkResult($post);
+            Quest::saveResult(3, $balls, $post);            
         }
 
         $result = Quest::findResult(3);
+        $data = isset($result['data']) ? unserialize($result['data']) : [];
 
         return $this->render('step03', [
-            'text' => MarkText::getText(),
+            'text' => MarkText::getText($data),
             'result' => $result,            
         ]);
     }
@@ -194,7 +196,6 @@ class QuestController extends Controller
         $result = Quest::findResult(4);
         $groups = TaxGroup::getData($result);
         
-
         return $this->render('step04', [
             'groups' => $groups,
             'result' => $result,

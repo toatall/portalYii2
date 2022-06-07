@@ -48,16 +48,24 @@ class TaxGroup
 
     public static function checkResult($post)
     {
-        $balls = 0;
-        foreach ($post as $idPost=>$p) {
-            foreach($p as $i) {
-                foreach(self::$data as $d) {
-                    if ($d['group'] == $idPost && $d['name'] == $i['name']) {
-                        $balls++;
-                    }
+        $data = self::$data;
+        foreach ($post as $idPost => $p) {
+            foreach($p as $i) {               
+                foreach($data as &$d) {
+                    if ($d['group'] === $idPost && $d['name'] === $i['name']) {
+                        $d['is_right'] = 'asdfsd';
+                    }                    
                 }
             }
         }
+        
+        $balls = 0;
+        foreach($data as $d) {
+            if (isset($d['is_right']) && $d['is_right']) {
+                $balls++;
+            }
+        }       
+
         return $balls;
     }
 

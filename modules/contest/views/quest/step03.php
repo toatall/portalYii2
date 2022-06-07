@@ -26,14 +26,13 @@ $this->title = 'Станция «Налоговая полиция»';
         </h3>  
         <hr class="w-100" />
         <h5>
-            Найдите ошибки в тексте<br />
-            <small>(нажимайте на слова для их выделения)</small>
+            Введите пропущенные слова
         </h5>
     </div>
 </div>
 
 <?php if ($result): ?>
-<div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
+<!--div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
     <div class="text-center text-white">
         Вы заработали <span class="badge badge-info"><?= $result['balls'] ?></span>
         <?php switch ($result['balls']) {
@@ -51,8 +50,8 @@ $this->title = 'Станция «Налоговая полиция»';
     </div>
     <div class="text-center">
         <span style="font-size: 1rem;"">Вы проходили задание <?= Yii::$app->formatter->asDatetime($result['date_create']) ?></span>
-    </div>
-</div>
+    </div>    
+</div-->    
 <?php else: ?>
 <div class="row col-10 offset-1 align-content-center justify-content-center bg-secondary p-3 text-white rounded">      
     <div class="display-4">ОСТАЛОСЬ ВРЕМЕНИ</div>
@@ -67,9 +66,11 @@ $this->title = 'Станция «Налоговая полиция»';
 
 <div class="mb-5" style="z-index: 10; position: relative; margin-bottom: 5rem; font-size: 1.5rem">      
     <hr />
+    <?= Html::beginForm('', 'post', ['id' => 'form-step3']) ?>
     <?php foreach($text as $id=>$t): ?>
     <p class="mark-text" data-id="<?= $id ?>"><?= $t['text'] ?></p>
     <?php endforeach; ?>
+    <?= Html::endForm() ?>
     
     <hr />
     <?php if (!$result): ?>
@@ -83,60 +84,14 @@ $this->title = 'Станция «Налоговая полиция»';
 
 <?php 
 $isResult = $result ? 'true' : 'false';
-$this->registerJs(<<<JS
-
-var res = {
-        'p1': [],
-        'p2': [],
-        'p3': [],
-        'p4': [],
-        'p5': [],
-    };
-var index = 0;
-
-$('.mark-text').each(function() {
-    let words = $(this).first().text().split( /\s+/ );
-    let text = words.join("</span> <span>");
-    let thisMarkText = $(this);
-    $(this).first().html("<span>" + text + "</span>");
-
-    $(this).find("span").each(function() {
-        $(this).attr('data-id', index);
-        index++;
-    });
-
-    if ($isResult == false) {
-
-        $(this).find("span").on( "click", function() {
-
-            const p = $(this).parent('p').data('id');
-
-            res[p] = [];
-
-            if ($(this).attr("is-selected") == undefined) {
-                $(this).addClass('badge badge-danger');
-                $(this).attr("is-selected", true);
-            }
-            else {
-                $(this).removeAttr("is-selected");               
-                $(this).removeClass('badge badge-danger');
-            }
-
-            //let res = [];
-            thisMarkText.find('span[is-selected]').each(function() {
-                res[p].push({ 'id': $(this).data('id'), 'text': $(this).text() });
-            });                     
-        });
-    }
-});
-
-JS);
-
 
 if (!$result) {
     $this->registerJs(<<<JS
 
-        function save() {            
+        function save() {   
+
+            var res = $('#form-step3').serialize();
+
             $.ajax({
                 method: 'post',
                 data: res,
@@ -154,14 +109,12 @@ if (!$result) {
             save();
         });
 
-        var timer;
+        var timer = 5 * 60;
             
-        if (localStorage.getItem('timerStep3') == null || localStorage.getItem('timerStep3') <= 0) {
-            timer = 5 * 60;
-        }
-        else {
+        if (localStorage.getItem('timerStep3') != null && localStorage.getItem('timerStep3') > 0) {
             timer = localStorage.getItem('timerStep3');
         }
+       
         function setTime() {
             const tick = $('#countdown');  
             var d = new Date(null);                
@@ -187,23 +140,16 @@ if (!$result) {
     JS);
 }
 else {
-    $marked = json_encode(unserialize($result['data']));
+   
     $this->registerJs(<<<JS
         
-        marked = $marked;
-
-        for (i=1; i<=5; i++) {
-            if (Array.isArray(marked.post[i])) {
-                marked.post[i].forEach(function(val) {
-                    $('span[data-id="' + val.id + '"]').addClass('badge badge-danger');
-                });
-            }
-        }
+        $('.input-text').each(function() {
+            $(this).prop('disabled', true);
+        });
            
     
     JS);
 }
-
 
 $this->registerCss(<<<CSS
     .mark-text span {
@@ -213,6 +159,11 @@ $this->registerCss(<<<CSS
     }
     .mark-text {
         text-align: justify;        
+    }
+    .input-text {
+        border-radius: 5px;
+        padding-left: 5px;
+        border: 1px solid #ccc;
     }
 CSS); 
 

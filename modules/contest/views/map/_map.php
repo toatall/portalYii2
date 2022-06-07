@@ -197,7 +197,9 @@ CSS) ?>
             <div class="card-header font-weight-bold card-header-bg">Обратная связь</div>
             <div class="card-body card-body-bg"> 
                 <?= app\widgets\CommentWidget::widget([
-                    'title' => ' ',
+                    'title' => '-',
+                    'modelName' => 'contest.map',
+                    'modelId' => 0,
                 ]) ?>
             </div>
         </div>

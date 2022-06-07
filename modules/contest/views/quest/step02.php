@@ -79,7 +79,7 @@ $this->registerCssFile("@web/vendor/crosswords/main.css", [
 </div>
 
 <?php if ($result): ?>
-<div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
+<!--div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
     <div class="text-center text-white">
         Вы заработали <span class="badge badge-info"><?= $result['balls'] ?></span>
         <?php switch ($result['balls']) {
@@ -98,7 +98,7 @@ $this->registerCssFile("@web/vendor/crosswords/main.css", [
     <div class="text-center">
         <span style="font-size: 1rem;"">Вы проходили задание <?= Yii::$app->formatter->asDatetime($result['date_create']) ?></span>
     </div>
-</div>
+</div-->
 <?php else: ?>
 
 <div class="row col-10 offset-1 align-content-center justify-content-center bg-secondary p-3 text-white rounded">      
@@ -129,7 +129,9 @@ $this->registerCssFile("@web/vendor/crosswords/main.css", [
                                 <?php else: ?>
                                     <input type="text" class="input_key bg-white" minlength="1" maxlength="1" 
                                         <?= isset($savedData[$row][$i]) ? ' value="' . $savedData[$row][$i] . '" ' : null ?>  
-                                        name="<?= $a[$i]['name'] ?>" autocomplete="off"<?= ($result) ? ' disabled' : '' ?> />
+                                        name="<?= $a[$i]['name'] ?>" 
+                                        data-id="<?= $a[$i]['numberQuestion'] ?>" data-dir="<?= $a[$i]['type'] ?>"
+                                        autocomplete="off"<?= ($result) ? ' disabled' : '' ?> />
                                 <?php endif; ?>
                             <?php else: ?>
                                 &nbsp;
@@ -200,15 +202,57 @@ CSS);
 
 if (!$result) {
     $this->registerJs(<<<JS
+               
+        var inputOptions = {
+            dir: null,
+            id: 0
+        };
+
+        $('input.input_key').on('click', function() {
+            inputOptions.dir = null;
+            inputOptions.id = 0;
+        });
+
+        $('input.input_key').keyup(function() {            
+            const keyNum = $(this).val();
+            if (keyNum) {
+                const names = $(this).attr('name').match(/\[(\d*)\]/g);
+                const dir = $(this).data('dir');
+                const id = $(this).data('id');
+                
+                var col = names[0].replace(/\[|\]/g, '');
+                var row = names[1].replace(/\[|\]/g, '');
+                let currentDir = dir;
+
+                if (inputOptions.dir) {
+                    currentDir = inputOptions.dir;
+                }
+                else {
+                    inputOptions.dir = dir;                    
+                }
+
+                if (currentDir == 'horizontal') {
+                    row++;
+                }
+                else {
+                    col++;
+                }
+          
+                const nextInput = $('input.input_key[name="answer[' + col + '][' + row + ']"]');                
+                if (nextInput.length > 0) {
+                    nextInput.focus().select();                    
+                }
+            }
+        });
+
+
+
+        var timer = 5 * 60;
         
-        var timer;
-        
-        if (localStorage.getItem('timerStep2') == null || localStorage.getItem('timerStep2') <= 0) {
-            timer = 5 * 60;
-        }
-        else {
+        if (localStorage.getItem('timerStep2') != null && localStorage.getItem('timerStep2') > 0) {
             timer = localStorage.getItem('timerStep2');
         }
+       
         function setTime() {
             const tick = $('#countdown');  
             var d = new Date(null);                
@@ -234,11 +278,7 @@ if (!$result) {
         $('#btn-submit').on('click', function() {
             return confirm('Вы хотите завершить?');
         });
-
-        // $('#form-save-crossword').on('submit', function() {
-        //     localStorage.removeItem('timerStep3');
-        // });
-
+      
     JS);
 }
 

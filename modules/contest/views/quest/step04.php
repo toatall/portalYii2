@@ -46,7 +46,7 @@ $taxesJs = "'" . implode("', '", array_map(function($val) { return $val['name'];
     </div>    
 
     <?php if ($result): ?>
-    <div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
+    <!--div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
         <div class="text-center text-white">
             Вы заработали <span class="badge badge-info"><?= $result['balls'] ?></span>
             <?php switch ($result['balls']) {
@@ -65,7 +65,7 @@ $taxesJs = "'" . implode("', '", array_map(function($val) { return $val['name'];
         <div class="text-center">
             <span style="font-size: 1rem;"">Вы проходили задание <?= Yii::$app->formatter->asDatetime($result['date_create']) ?></span>
         </div>
-    </div>
+    </div-->
     <?php else: ?>
     <div class="row col-10 offset-1 align-content-center justify-content-center bg-secondary p-3 text-white rounded">      
         <div class="display-4">ОСТАЛОСЬ ВРЕМЕНИ</div>
@@ -200,15 +200,12 @@ if (!$result) {
             });
         }
 
-
-        var timer;
+        var timer = 5 * 60;
             
-        if (localStorage.getItem('timerStep4') == null || localStorage.getItem('timerStep4') <= 0) {
-            timer = 5 * 60;
-        }
-        else {
+        if (localStorage.getItem('timerStep4') != null && localStorage.getItem('timerStep4') > 0) {
             timer = localStorage.getItem('timerStep4');
         }
+
         function setTime() {
             const tick = $('#countdown');  
             var d = new Date(null);                

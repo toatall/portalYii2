@@ -9,7 +9,7 @@ $this->title = 'Главная страница конкурса';
 
 <div class="h-100">
     <div class="d-flex justify-content-center mt-5">                                    
-        <div class="row">
+        <div class="row" style="width: 60vw;">
             <?php foreach($links as $link): ?>
                 <div class="col-4">
                     <a href="<?= $link['url'] ?>">
@@ -25,7 +25,7 @@ $this->title = 'Главная страница конкурса';
             <?php endforeach; ?> 
         </div>               
     </div>
-    <div class="mt-5 text-center">
+    <!--div class="mt-5 text-center">
         <?php if ($results): 
             $balls = 0;
             foreach($results as $result) {
@@ -48,7 +48,7 @@ $this->title = 'Главная страница конкурса';
             } ?>
         </h1>
         <?php endif; ?>
-    </div>
+    </div-->
 </div>
                 
 <div style="position: absolute; bottom: 3px; left: 25%; z-index: 2;">
@@ -67,3 +67,6 @@ $this->title = 'Главная страница конкурса';
 <div style="z-index: 10; position: absolute; bottom: 0px; right: -6rem; left: -6rem; z-index: 1; width: 110%; border-bottom: 5px solid #525252; height: 5px;"></div>
 
     
+<div class="borderы border-secondary rounded p-2 text-center " style="position: absolute; top: 12rem; left: 8rem; width: 10vw; filter: opacity(.5); font-size: .9rem; font-weight: bold; text-shadow: 1px -1px #eee;">
+    На каждое задание дается 1 попытка!
+</div>
