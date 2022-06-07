@@ -149,8 +149,7 @@ if (!$result) {
             return false;
         });
 
-
-        var timer = localStorage.getItem('timerStep6');
+        var timer = 5 * 60;
             
         if (localStorage.getItem('timerStep6') != null && localStorage.getItem('timerStep6') > 0) {
             timer = localStorage.getItem('timerStep6');
