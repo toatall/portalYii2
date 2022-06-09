@@ -16,8 +16,14 @@ use app\widgets\CommentWidget;
                 <div class="embed-responsive embed-responsive-21by9">
                     <video class="embed-responsive-item" controls="">
                         <source src="<?= $video ?>">
-                    </video>
+                    </video>                    
                 </div>
+                <?php if (isset($model->answer) && $model->answer): ?>
+                <hr />
+                <div class="mt-4 lead">                    
+                    <strong>Правильный ответ: </strong> <?= $model->answer ?>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
         <?php endforeach; ?>
