@@ -87,6 +87,7 @@ class ManualNeighbor extends \yii\db\ActiveRecord
      */
     public static function isCanVoted()
     {
+        return false;// 10.06.2022 закрыто голосование
         if (Yii::$app->user->isGuest) {
             return false;            
         }
