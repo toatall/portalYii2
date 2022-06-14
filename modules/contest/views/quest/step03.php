@@ -9,6 +9,8 @@ use yii\bootstrap4\Html;
 
 FlipAsset::register($this);
 
+$stopQuest = true;
+
 $this->title = 'Станция «Налоговая полиция»';
 ?>
 
@@ -31,11 +33,11 @@ $this->title = 'Станция «Налоговая полиция»';
     </div>
 </div>
 
-<?php if ($result): ?>
+<?php if ($result || $stopQuest): ?>
 <!--div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
     <div class="text-center text-white">
-        Вы заработали <span class="badge badge-info"><?= $result['balls'] ?></span>
-        <?php switch ($result['balls']) {
+        Вы заработали <span class="badge badge-info"><?= $result['balls'] ?? 0 ?></span>
+        <?php switch ($result['balls'] ?? 0) {
             case 1: 
                 echo 'балл';
                 break;
@@ -49,7 +51,7 @@ $this->title = 'Станция «Налоговая полиция»';
             } ?>        
     </div>
     <div class="text-center">
-        <span style="font-size: 1rem;"">Вы проходили задание <?= Yii::$app->formatter->asDatetime($result['date_create']) ?></span>
+        <span style="font-size: 1rem;"">Вы проходили задание <?= isset($result['date_create']) ? Yii::$app->formatter->asDatetime($result['date_create']) : null ?></span>
     </div>    
 </div-->    
 <?php else: ?>
@@ -73,7 +75,7 @@ $this->title = 'Станция «Налоговая полиция»';
     <?= Html::endForm() ?>
     
     <hr />
-    <?php if (!$result): ?>
+    <?php if (!$result && !$stopQuest): ?>
     <div class="mt-2 btn-group">
         <button id="btn-save" class="btn btn-primary">Сохранить</button>
         <?= Html::a('Очистить', '', ['class' => 'btn btn-warning']) ?>
@@ -83,9 +85,9 @@ $this->title = 'Станция «Налоговая полиция»';
 
 
 <?php 
-$isResult = $result ? 'true' : 'false';
+$isResult = ($result) ? 'true' : 'false';
 
-if (!$result) {
+if (!$result && !$stopQuest) {
     $this->registerJs(<<<JS
 
         function save() {   

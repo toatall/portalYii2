@@ -12,6 +12,8 @@ FlipAsset::register($this);
 
 $this->title = 'Станция «Налоговое ориентирование»';
 
+$stopQuest = true;
+
 $this->registerCssFile("@web/public/vendor/jquery-ui/jquery-ui.min.css", [
     'depends' => [app\assets\AppAsset::class]
 ]);
@@ -45,11 +47,11 @@ $taxesJs = "'" . implode("', '", array_map(function($val) { return $val['name'];
         </div>
     </div>    
 
-    <?php if ($result): ?>
+    <?php if ($result || $stopQuest): ?>
     <!--div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
         <div class="text-center text-white">
-            Вы заработали <span class="badge badge-info"><?= $result['balls'] ?></span>
-            <?php switch ($result['balls']) {
+            Вы заработали <span class="badge badge-info"><?= $result['balls'] ?? 0 ?></span>
+            <?php switch ($result['balls'] ?? 0) {
                 case 1: 
                     echo 'балл';
                     break;
@@ -63,7 +65,7 @@ $taxesJs = "'" . implode("', '", array_map(function($val) { return $val['name'];
                 } ?>        
         </div>
         <div class="text-center">
-            <span style="font-size: 1rem;"">Вы проходили задание <?= Yii::$app->formatter->asDatetime($result['date_create']) ?></span>
+            <span style="font-size: 1rem;"">Вы проходили задание <?= isset($result['date_create']) ? Yii::$app->formatter->asDatetime($result['date_create']) : null ?></span>
         </div>
     </div-->
     <?php else: ?>
@@ -108,7 +110,7 @@ $taxesJs = "'" . implode("', '", array_map(function($val) { return $val['name'];
 
     </div>
 
-    <?php if (!$result): ?>
+    <?php if (!$result && !$stopQuest): ?>
     <div class="row col">
         <hr class="w-100" />
         <div class="btn-group">
@@ -122,7 +124,7 @@ $taxesJs = "'" . implode("', '", array_map(function($val) { return $val['name'];
 
 <?php 
 
-if (!$result) {
+if (!$result && !$stopQuest) {
     $this->registerJs(<<<JS
         
         var taxes = [$taxesJs];    

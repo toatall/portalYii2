@@ -7,6 +7,7 @@
 /** @var array|null $savedData */
 /** @var array $words */
 
+
 use yii\bootstrap4\Html;
 use app\assets\FlipAsset;
 
@@ -14,6 +15,7 @@ FlipAsset::register($this);
 
 $this->title = 'Станция «Занимательная»';
 
+$stopQuest = true;
 $this->registerCssFile("@web/vendor/crosswords/main.css", [
     'depends' => [app\assets\AppAsset::class]
 ]);
@@ -78,11 +80,11 @@ $this->registerCssFile("@web/vendor/crosswords/main.css", [
     </div>
 </div>
 
-<?php if ($result): ?>
+<?php if ($result || $stopQuest): ?>
 <!--div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
     <div class="text-center text-white">
-        Вы заработали <span class="badge badge-info"><?= $result['balls'] ?></span>
-        <?php switch ($result['balls']) {
+        Вы заработали <span class="badge badge-info"><?= $result['balls'] ?? 0 ?></span>
+        <?php switch ($result['balls'] ?? 0) {
             case 1: 
                 echo 'балл';
                 break;
@@ -96,7 +98,7 @@ $this->registerCssFile("@web/vendor/crosswords/main.css", [
             } ?>        
     </div>
     <div class="text-center">
-        <span style="font-size: 1rem;"">Вы проходили задание <?= Yii::$app->formatter->asDatetime($result['date_create']) ?></span>
+        <span style="font-size: 1rem;"">Вы проходили задание <?= isset($result['date_create']) ? Yii::$app->formatter->asDatetime($result['date_create']) : null ?></span>
     </div>
 </div-->
 <?php else: ?>
@@ -131,7 +133,7 @@ $this->registerCssFile("@web/vendor/crosswords/main.css", [
                                         <?= isset($savedData[$row][$i]) ? ' value="' . $savedData[$row][$i] . '" ' : null ?>  
                                         name="<?= $a[$i]['name'] ?>" 
                                         data-id="<?= $a[$i]['numberQuestion'] ?>" data-dir="<?= $a[$i]['type'] ?>"
-                                        autocomplete="off"<?= ($result) ? ' disabled' : '' ?> />
+                                        autocomplete="off"<?= ($result || $stopQuest) ? ' disabled' : '' ?> />
                                 <?php endif; ?>
                             <?php else: ?>
                                 &nbsp;
@@ -142,7 +144,7 @@ $this->registerCssFile("@web/vendor/crosswords/main.css", [
                 <?php endforeach; ?>        
             </table>
         </div>
-        <?php if (!$result): ?>
+        <?php if (!$result && !$stopQuest): ?>
         <div class="btn-group mt-5">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'disabled0' => 'disabled', 'id' => 'btn-submit']) ?>
             <?= Html::a('Очистить', '', ['class' => 'btn btn-warning']) ?>

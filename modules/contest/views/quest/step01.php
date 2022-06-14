@@ -15,6 +15,8 @@ FlipAsset::register($this);
 
 $this->title = 'Станция «Поисковая»';
 
+$stopQuest = true;
+
 $this->registerCssFile("@web/public/assets/contest/quest/vendor/fieldsLinker/fieldsLinker.css", [
     'depends' => [QuestAsset::class]
 ]);
@@ -49,11 +51,11 @@ $jsListB = json_encode($listB);
         </div>
     </div>
 
-    <?php if ($result): ?>
+    <?php if ($result || $stopQuest): ?>
     <!--div class="row col-10 offset-1 card card-body mt-2 fa-3x bg-secondary">
         <div class="text-center text-white">
-            Вы заработали <span class="badge badge-info"><?= $result['balls'] ?></span>
-            <?php switch ($result['balls']) {
+            Вы заработали <span class="badge badge-info"><?= $result['balls'] ?? 0 ?></span>
+            <?php switch ($result['balls'] ?? 0) {
                 case 1: 
                     echo 'балл';
                     break;
@@ -67,7 +69,7 @@ $jsListB = json_encode($listB);
                 } ?>        
         </div>
         <div class="text-center">
-            <span style="font-size: 1rem;"">Вы проходили задание <?= Yii::$app->formatter->asDatetime($result['date_create']) ?></span>
+            <span style="font-size: 1rem;"">Вы проходили задание <?= isset($result['date_create']) ? Yii::$app->formatter->asDatetime($result['date_create']) : null ?></span>
         </div>
     </div-->
     <?php else: ?>
@@ -86,7 +88,7 @@ $jsListB = json_encode($listB);
     <div>
         <div class="bonds w-75 mt-3" id="original" style="display:block; margin-left: auto; margin-right: auto;"></div>
         <div class="text-center mb-5">
-            <?php if (!$result): ?>
+            <?php if (!$result && !$stopQuest): ?>
             <hr />
             <div class="btn-group">
                 <button class="btn btn-primary fieldLinkerSave">Сохранить</button>
@@ -105,7 +107,7 @@ $jsListB = json_encode($listB);
 
 <?php 
 $url = Url::to('');
-$disable = ($result != null) ? 'disable' : 'enable';
+$disable = ($result != null || $stopQuest) ? 'disable' : 'enable';
 $this->registerJS(<<<JS
             
     const listA = $jsListA;   

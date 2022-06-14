@@ -12,6 +12,8 @@ use yii\bootstrap4\Html;
 FlipAsset::register($this);
 $this->title = 'Станция «Задачкино»';
 
+$stopQuest = true;
+
 $questions = [
     [
         'id' => 1, 
@@ -54,11 +56,11 @@ $questions = [
     </div>
 
 
-    <?php if ($result): ?>
+    <?php if ($result || $stopQuest): ?>
     <!--div class="row col-10 offset-2 card card-body mt-2 fa-3x bg-secondary">
         <div class="text-center text-white">
-            Вы заработали <span class="badge badge-info"><?= $result['balls'] ?></span>
-            <?php switch ($result['balls']) {
+            Вы заработали <span class="badge badge-info"><?= $result['balls'] ?? 0 ?></span>
+            <?php switch ($result['balls'] ?? 0) {
                 case 1: 
                     echo 'балл';
                     break;
@@ -72,7 +74,7 @@ $questions = [
                 } ?>        
         </div>
         <div class="text-center">
-            <span style="font-size: 1rem;"">Вы проходили задание <?= Yii::$app->formatter->asDatetime($result['date_create']) ?></span>
+            <span style="font-size: 1rem;"">Вы проходили задание <?= isset($result['date_create']) ? Yii::$app->formatter->asDatetime($result['date_create']) : null ?></span>
         </div>
     </div-->
     <?php else: ?>
@@ -107,14 +109,14 @@ $questions = [
                                 <?= Html::textInput('answer[' . $question['id'] . ']', 
                                 isset($data['answer'][$question['id']]) ? $data['answer'][$question['id']] : '', 
                                 ['class' => 'form-control', 'autocomplete' => 'off']
-                                + ($result ? ['disabled' => 'disabled'] : [])) ?>
+                                + (($result || $stopQuest) ? ['disabled' => 'disabled'] : [])) ?>
                             </div>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>    
             
-            <?if (!$result): ?>
+            <?if (!$result && !$stopQuest): ?>
             <div class="btn-group mt-3">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'id'=>'btn-save']) ?>
                 <?= Html::a('Очистить', '', ['class' => 'btn btn-warning']) ?>
@@ -128,7 +130,7 @@ $questions = [
 
 <?php 
 
-if (!$result) {
+if (!$result && !$stopQuest) {
     $this->registerJs(<<<JS
 
         function save() {        
