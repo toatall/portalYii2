@@ -114,6 +114,8 @@ class Telephone extends \yii\db\ActiveRecord
 
         $query = static::find()
             ->alias('t')
+            ->distinct(true)
+            ->select('t.*')
             ->leftJoin('{{%organization}} organization', 't.id_organization=organization.code')
             ->where(['t.id_tree'=>$idTree])
             ->orderBy('t.id_organization asc');
@@ -130,7 +132,7 @@ class Telephone extends \yii\db\ActiveRecord
             $query->leftJoin('{{%access_user}} access_user', 'access_user.id_tree=t.id_tree');
 
             // подключение привязанных к группам и пользователям организаций
-            $query->leftJoin('{{%access_organization_group}} access_organization_group', 'access_organization_group.id_access_group=access_group.id')
+            $query->leftJoin('{{%access_organization_group}} access_organization_group', 'access_organization_group.id_access_group=access_group.id_group')
                   ->leftJoin('{{%access_organization_user}} access_organization_user', 'access_organization_user.id_access_user=access_user.id_user');
 
             $query->andWhere('(group_user.id_user=:user1 and access_organization_group.id_organization=t.id_organization) or 
@@ -169,7 +171,7 @@ class Telephone extends \yii\db\ActiveRecord
             $query->leftJoin('{{%access_user}} access_user', 'access_user.id_tree=:id_tree2', ['id_tree2'=>$this->id_tree]);
 
             // подключение привязанных к группам и пользователям организаций
-            $query->leftJoin('{{%access_organization_group}} access_organization_group', 'access_organization_group.id_access_group=access_group.id')
+            $query->leftJoin('{{%access_organization_group}} access_organization_group', 'access_organization_group.id_access_group=access_group.id_group')
                   ->leftJoin('{{%access_organization_user}} access_organization_user', 'access_organization_user.id_access_user=access_user.id_user');
 
             $query->andWhere('(group_user.id_user=:user1 and access_organization_group.id_organization=t.code) or 
