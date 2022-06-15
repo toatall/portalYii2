@@ -118,7 +118,7 @@ class Telephone extends \yii\db\ActiveRecord
             ->where(['t.id_tree'=>$idTree])
             ->orderBy('t.id_organization asc');
 
-        if (Yii::$app->user->can('admin')) {
+        if (!Yii::$app->user->can('admin')) {
 
             $idUser = Yii::$app->user->id;
 
