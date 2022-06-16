@@ -215,14 +215,20 @@ return [
             ],
         ],
 
-    ],
-
-    // исполнение задач
-    'executeTasks' => [
-        'roles' => [
-            'moderator' => 'execute-tasks.moderator',
+        // исполнение задач
+        'executeTasks' => [
+            'roles' => [
+                'moderator' => 'execute-tasks.moderator',
+            ],
+            'department' => [
+                'path' => '/public/upload/execute-tasks/department/{id}/',
+            ],
+            'organization' => [
+                'path' => '/public/upload/execute-tasks/organization/{id}/',
+            ],
         ],
-    ],
+
+    ],    
 
     'lefehack' => [
         'path' => [

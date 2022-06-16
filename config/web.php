@@ -64,6 +64,10 @@ $config = [
         'quiz' => [
             'class' => 'app\modules\quiz\Module',
         ],
+        // исполнение задач
+        'executetasks' => [
+            'class' => 'app\modules\executetasks\Module',
+        ],
     ],    
     'components' => [
         'request' => [

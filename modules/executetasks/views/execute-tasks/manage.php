@@ -2,14 +2,14 @@
 
 /** @var yii\web\View $this */
 
-use app\models\ExecuteTasks;
+use app\modules\executetasks\models\ExecuteTasks;
 use kartik\select2\Select2;
 use yii\bootstrap4\Html;
 use yii\helpers\Url;
 
 $this->title = 'Управление данными по исполнению задач';
 
-$this->params['breadcrumbs'][] = ['label' => 'Исполнение задач', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Исполнение задач', 'url' => ['/executetasks/default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="execute-tasks-manage">
@@ -56,6 +56,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ]) ?>
                 </div>
+                <div class="col">
+                    <?= Select2::widget([
+                        'name' => 'organization',
+                        'data' => ExecuteTasks::dropDownOrganizations(),
+                        'options' => [
+                            'placeholder' => 'Выберите налоговый орган',
+                        ],
+                    ]) ?>
+                </div>
             </div>
             
         </div>
@@ -71,9 +80,10 @@ $this->registerJs(<<<JS
     var fPeriod = $('[name="period"]');
     var fPeriodYear = $('[name="periodYear"]');
     var fDepartment = $('[name="department"]');
+    var fOrg = $('[name="organization"]');
 
     function isValidateForm() {    
-        if (fPeriod.val() != "" && fPeriodYear.val() != "" && fDepartment.val() != "") {
+        if (fPeriod.val() != "" && fPeriodYear.val() != "" && fDepartment.val() != "" && fOrg.val() != "") {
             return true;
         }
         else {
@@ -107,6 +117,10 @@ $this->registerJs(<<<JS
     });
 
     fDepartment.on('change', function() {
+        sendForm();
+    });
+
+    fOrg.on('change', function() {
         sendForm();
     });
 
