@@ -129,7 +129,7 @@
         series: [],  
         chart: {
             type: 'bar',
-            height: 300,            
+            // height: 300,            
             events: {
                 click: function(event, context, config) {
                                                         
@@ -241,7 +241,7 @@
         series: [],  
         chart: {
             type: 'bar',
-            height: 300,
+            // height: 300,
             events: {                
                 click: function(event, context, config) {
                                                         
