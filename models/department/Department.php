@@ -376,4 +376,14 @@ class Department extends \yii\db\ActiveRecord
 
         return $resultArr;
     }
+
+    /**
+     * Список отделов для select
+     * @return array
+     */
+    public static function dropDownList()
+    {
+        $query = self::find()->all();
+        return ArrayHelper::map($query, 'id', 'concatened');
+    }
 }

@@ -276,7 +276,7 @@ var modalViewer = {
     autoCloseModal: function(data) {
         "use strict";
         var textData = '';
-        if (data.hasOwnProperty('content')) {
+        if (typeof data === 'object' && data !== null && data.hasOwnProperty('content')) {
             textData = data.content;
         } 
         else {
