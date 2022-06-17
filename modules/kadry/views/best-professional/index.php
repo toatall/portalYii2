@@ -66,8 +66,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-6 flip-card mb-4">
             <div class="flip-card-inner">
                 <div class="flip-card-front shadow-text rounded shadow bg-light-<?= $bgLight ?>">
-                    <div class="h-100">
-                        <div class="p-3 d-flex align-self-center">
+                    <div class="h-100 d-flex align-items-center justify-content-center">
+                        <div class="p-3">
                             <p class="font-weight-bolder" style="font-size: 2.5rem;">
                                 <?= $model->nomination ?>                   
                             </p>
