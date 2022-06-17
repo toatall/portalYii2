@@ -79,6 +79,8 @@ use yii\widgets\Pjax;
 
             <?= $form->field($model, 'fio')->textInput(['maxlength' => true]) ?>
 
+            <?= $form->field($model, 'nomination')->textInput(['maxlength' => true]) ?>
+
             <div class="font-20px">
                 <?= $form->field($model, 'description')->widget(CKEditor::class, [
                     'editorOptions' => ElFinder::ckeditorOptions('elfinder', [

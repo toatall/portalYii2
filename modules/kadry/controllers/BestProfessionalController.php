@@ -37,7 +37,7 @@ class BestProfessionalController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [                   
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -65,6 +65,18 @@ class BestProfessionalController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }    
+
+    /**
+     * Просмотрs
+     * @param int $id
+     */
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
 
     /**
      * Creates a new BestProfessional model.

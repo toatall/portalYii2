@@ -68,7 +68,7 @@ JS);
         </div>
         <hr />        
         
-        <div class="container-fluid pl-5 pr-5">
+        <div class="container-fluid" style="padding-left: 20rem; padding-right: 20rem;">
             <?= Breadcrumbs::widget([
                 'homeLink' => ['label' => 'Главная', 'url' => '/kadry/best-professional/'],
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

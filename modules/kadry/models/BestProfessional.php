@@ -24,6 +24,7 @@ use yii\helpers\FileHelper;
  * @property string $date_update
  * @property string $author
  * @property string|null $log_change
+ * @property string $nomination
  *
  * @property Organization $orgCode
  * @property User $authorModel
@@ -125,13 +126,13 @@ class BestProfessional extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['org_code', 'period', 'period_year', 'department', 'fio', 'description'], 'required'],
+            [['org_code', 'period', 'period_year', 'department', 'fio', 'description', 'nomination'], 'required'],
             [['period_year'], 'integer'],
             [['description', 'log_change'], 'string'],
             [['date_create', 'date_update'], 'safe'],
             [['org_code'], 'string', 'max' => 5],
             [['period'], 'string', 'max' => 30],
-            [['department', 'fio'], 'string', 'max' => 500],
+            [['department', 'fio', 'nomination'], 'string', 'max' => 500],
             [['author'], 'string', 'max' => 250],
             [['org_code'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::class, 'targetAttribute' => ['org_code' => 'code']],
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username']],
@@ -158,6 +159,7 @@ class BestProfessional extends \yii\db\ActiveRecord
             'author' => 'Author',
             'log_change' => 'Log Change',
             'deleteImage' => 'Удалить изображение',
+            'nomination' => 'Номинация',
         ];
     }
 
@@ -186,6 +188,9 @@ class BestProfessional extends \yii\db\ActiveRecord
      */
     public function upload()
     {
+        if ($this->uploadImage) {
+            $this->deleteImageFile($this->getImage());
+        }
         (new UploadHelper($this->getPathUploadFile()))
             ->uploadFiles($this->uploadImage);
     }

@@ -33,7 +33,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">        
     <?php 
     $currentPeriod = null;
-    foreach ($dataProvider->getModels() as $model) : ?>
+    $bgLight = 1; $bgDark = 1;
+    foreach ($dataProvider->getModels() as $model) : 
+        /** @var app\modules\kadry\models\BestProfessional $model */
+        if ($bgLight > 3) {
+            $bgLight = 1;
+        }
+        if ($bgDark > 3) {
+            $bgDark = 1;
+        }
+
+    ?>
         
         <?php if ($currentPeriod != $model->period_year . $model->period): 
             $currentPeriod = $model->period_year . $model->period;
@@ -53,34 +63,44 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
 
 
-        <div class="col-3 flip-card mb-4">
+        <div class="col-6 flip-card mb-4">
             <div class="flip-card-inner">
-                <div class="flip-card-front bg-light border border-light rounded shadow">
-                    <?php if (($img = $model->getImage()) != null): ?>
+                <div class="flip-card-front shadow-text rounded shadow bg-light-<?= $bgLight ?>">
+                    <div class="h-100">
+                        <div class="p-3 d-flex align-self-center">
+                            <p class="font-weight-bolder" style="font-size: 2.5rem;">
+                                <?= $model->nomination ?>                   
+                            </p>
+                        </div>                                           
+                    </div>                     
+                </div>
+                <div class="flip-card-back rounded shadow bg-dark-<?= $bgDark ?> pl-2 pr-2">
+                    <!-- <?php if (($img = $model->getImage()) != null): ?>
                         <?= Html::img($img, [
                             'class' => 'mt-2',
                             'style' => 'width: auto; height:230px;',
                         ]) ?>                        
-                    <?php endif; ?>
+                    <?php endif; ?> -->
                     <p class="p-3">
-                        <span class="lead"><?= $model->fio ?></span>                          
-                        <br />
-                        (<?= $model->department ?>)
-                        <br />
-                        <?= $model->orgCode->name ?>
-                    </p>
-                </div>
-                <div class="flip-card-back rounded shadow">
-                    <div class="h-100">
-                        <div class="p-3">
-                            <?= $model->description ?>                   
-                        </div>  
-                        <?php if (BestProfessional::isEditor()): ?>
+                        <span class="lead fa-2x" style="border-bottom: 1px solid darkred;">
+                            <?= $model->fio ?>
+                        </span>
+                        <div class="mt-3 font-weight-bolder">                                                    
+                            <?= $model->orgCode->name ?>
+                        </div>
+                        <div class="mt-3 font-weight-bolder">                                                    
+                            <?= $model->department ?>
+                        </div>                        
+                    </p> 
+                    <div class="text-center">
+                        <?= Html::a('Подробнее', ['view', 'id'=>$model->id], ['class' => 'btn btn-outline-light btn-lg', 'data-pjax' => 0]) ?>
+                    </div>
+                    <?php if (BestProfessional::isEditor()): ?>
                         <div class="position-absolute w-100 text-center" style="bottom: 2rem;">
                             <div class="btn-group">
-                                <?= Html::a('Изменить', ['update', 'id'=>$model->id], ['class' => 'btn btn-primary btn-sm mv-link']) ?>
+                                <?= Html::a('Изменить', ['update', 'id'=>$model->id], ['class' => 'btn btn-outline-primary btn-sm mv-link']) ?>
                                 <?= Html::a('Удалить', ['delete', 'id'=>$model->id], [
-                                    'class' => 'btn btn-danger btn-sm',
+                                    'class' => 'btn btn-outline-danger btn-sm',
                                     'data' => [
                                         'confirm' => 'Вы уверены, что хотите удалить?',
                                         'method' => 'post',
@@ -88,12 +108,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ]) ?>
                             </div>
                         </div>     
-                        <?php endif; ?>                 
-                    </div>                                       
+                    <?php endif; ?>                                         
                 </div>
             </div>
         </div>
-    <?php endforeach; ?>
+    <?php 
+        $bgDark++;
+        $bgLight++;
+    endforeach; ?>
     </div>
 
     <?= LinkPager::widget([
@@ -145,15 +167,50 @@ $this->params['breadcrumbs'][] = $this->title;
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-    /* background-color: white;/*#6c757d;*/     */
+    /* background-color: white;/*#6c757d;*/    
     /* color: white; */
+    /* background-image: url('/public/assets/kadry/best-professional/img/light/3.jpg');
+    background-size: cover; */
+}
+
+.bg-light-1 {
+    background-image: url('/public/assets/kadry/best-professional/img/light/1.jpg');
+    background-size: cover;
+}
+.bg-light-2 {
+    background-image: url('/public/assets/kadry/best-professional/img/light/2.jpg');
+    background-size: cover;
+}
+.bg-light-3 {
+    background-image: url('/public/assets/kadry/best-professional/img/light/3.jpg');
+    background-size: cover;
+}
+
+.bg-dark-1 {
+    background-image: url('/public/assets/kadry/best-professional/img/dark/1.jpg');
+    background-size: cover;
+}
+.bg-dark-2 {
+    background-image: url('/public/assets/kadry/best-professional/img/dark/2.jpg');
+    background-size: cover;
+}
+.bg-dark-3 {
+    background-image: url('/public/assets/kadry/best-professional/img/dark/3.jpg');
+    background-size: cover;
 }
 
 /* Style the back side */
 .flip-card-back {
-    background-color: dodgerblue;
+    /* background-color: dodgerblue; */
+    /* background-image: url('/public/assets/kadry/best-professional/img/dark/3.jpg');
+    background-size: cover; */
     color: white;
     transform: rotateY(180deg);
+}
+
+.shadow-text {
+    color: white;
+    text-shadow: 2px 2px #444;
 }
 
 CSS);

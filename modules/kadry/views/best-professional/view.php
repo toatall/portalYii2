@@ -1,46 +1,62 @@
 <?php
 
+use app\modules\kadry\models\BestProfessional;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\kadry\models\BestProfessional */
+/** @var yii\web\View $this */
+/** @var app\modules\kadry\models\BestProfessional $model */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Best Professionals', 'url' => ['index']];
+$this->title = $model->fio;
+$this->params['breadcrumbs'][] = ['label' => 'Лучший профессионал', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
+
+<?= Html::a('<i class="fas fa-arrow-circle-left"></i>', ['index'], [
+    'style' => 'position: fixed; left:2rem; top: 45%; font-size: 4rem;',   
+    'class' => 'text-secondary',
+    'title' => 'Назад',
+]) ?>
+
 <div class="best-professional-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php if (BestProfessional::isEditor()): ?>
+        <div class="" style="bottom: 2rem;">
+            <div class="btn-group">
+                <?= Html::a('Изменить', ['update', 'id'=>$model->id], ['class' => 'btn btn-outline-primary mv-link']) ?>
+                <?= Html::a('Удалить', ['delete', 'id'=>$model->id], [
+                    'class' => 'btn btn-outline-danger',
+                    'data' => [
+                        'confirm' => 'Вы уверены, что хотите удалить?',
+                        'method' => 'post',
+                    ],
+                ]) ?>
+            </div>
+        </div>     
+    <?php endif; ?>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'org_code',
-            'period',
-            'period_year',
-            'department',
-            'fio',
-            'description',
-            'date_create',
-            'date_update',
-            'author',
-            'log_change',
-        ],
-    ]) ?>
+    <div class="row">
+        <div class="col-7">
+            <?php if (($img = $model->getImage()) != null): ?>
+                <?= Html::img($img, [
+                    'class' => 'mt-2 img-thumbnail',                 
+                ]) ?>                        
+            <?php endif; ?>
+        </div>
+        <div class="col-5">
+            <h1 class="text-center" style="text-shadow: 2px 2px #aaa;"><?= $model->nomination ?></h1>
+            <hr />
+            <h3 class="text-justify">
+                <?= $model->description ?>
+            </h3>
+            <hr />
+            <div class="mt-3 font-weight-bolder">                                                    
+                <?= $model->orgCode->name ?>
+            </div>
+            <div class="mt-3 font-weight-bolder">                                                    
+                <?= $model->department ?>
+            </div>
+        </div>
+    </div>    
 
 </div>
