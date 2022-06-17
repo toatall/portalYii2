@@ -222,7 +222,7 @@
             labels: {
                 maxWidth: '30%',  
                 style: {
-                    colors: ['#ccc']
+                    colors: '#ccc'
                 }              
             }
         },
@@ -328,7 +328,7 @@
             labels: {
                 maxWidth: '30%',
                 style: {
-                    colors: ['#ccc']
+                    colors: '#ccc'
                 },
             },            
         },
