@@ -16,6 +16,7 @@ use Yii;
  *
  * @property TestQuestion $testQuestion
  * @property TestResultAnswer[] $testResultAnswers
+ * 
  */
 class TestAnswer extends \yii\db\ActiveRecord
 {
