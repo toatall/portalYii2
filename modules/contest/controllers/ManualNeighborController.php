@@ -46,7 +46,7 @@ class ManualNeighborController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => ManualNeighbor::find(),//->orderBy(new Expression('count_votes_1 + count_votes_2 + count_votes_3 desc, id asc')),
+            'query' => ManualNeighbor::find()->orderBy(new Expression('count_votes_1 + count_votes_2 + count_votes_3 desc, id asc')),
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,

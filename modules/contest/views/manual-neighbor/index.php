@@ -28,20 +28,20 @@ $this->title = 'Методички для соседа';
                 },
                 'format' => 'raw',
             ],
-            // [
-            //     'label' => 'Голосов',
-            //     'value' => function($model) {
-            //         /** @var app\modules\contest\models\ManualNeighbor $model */
-            //         $html = '<ul class="list-unstyled">';
-            //         $html .= '<li>Разберётся и ребенок - ' . $model->count_votes_1 . ' (голосов)</li>';
-            //         $html .= '<li>Охват аудитории - ' . $model->count_votes_2 . ' (голосов)</li>';
-            //         $html .= '<li>Глаза разбегаются - ' . $model->count_votes_3 . ' (голосов)</li>';
-            //         $html .= '</ul>';
-            //         return $html;
-            //     },
-            //     'format' => 'raw',
-            //     'headerOptions' => ['style' => 'min-width: 20rem;'],
-            // ],            
+            [
+                'label' => 'Голосов',
+                'value' => function($model) {
+                    /** @var app\modules\contest\models\ManualNeighbor $model */
+                    $html = '<ul class="list-unstyled">';
+                    $html .= '<li>Разберётся и ребенок - ' . $model->count_votes_1 . ' (голосов)</li>';
+                    $html .= '<li>Охват аудитории - ' . $model->count_votes_2 . ' (голосов)</li>';
+                    $html .= '<li>Глаза разбегаются - ' . $model->count_votes_3 . ' (голосов)</li>';
+                    $html .= '</ul>';
+                    return $html;
+                },
+                'format' => 'raw',
+                'headerOptions' => ['style' => 'min-width: 20rem;'],
+            ],            
         ],
     ]) ?>
 </div>
