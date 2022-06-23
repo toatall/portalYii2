@@ -15,7 +15,7 @@ use yii\helpers\ArrayHelper;
     
     <div class="row mb-4">
         <div class="col">
-            <div class="card">
+            <div class="card bg-secondary text-white">
                 <div class="card-header">
                     <i class="fas fa-search"></i> Поиск
                 </div>
@@ -42,8 +42,7 @@ use yii\helpers\ArrayHelper;
                         'custom' => true, 'switch' => true,
                     ]) ?>
                     <div class="btn-group form-group mb-3">
-                        <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>
-                        <?= Html::resetButton('Сброс', ['class' => 'btn btn-outline-secondary']) ?>
+                        <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>                       
                     </div>
                     <?php ActiveForm::end(); ?>
                 </div>                

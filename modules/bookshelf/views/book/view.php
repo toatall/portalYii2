@@ -1,5 +1,6 @@
 <?php
 
+use app\widgets\CommentWidget;
 use kartik\rating\StarRating;
 use yii\bootstrap4\Html;
 use yii\widgets\Pjax;
@@ -18,8 +19,10 @@ use yii\bootstrap4\ActiveForm;
                     <div class="col-3 border-right">
                         <?= Html::img($model->getPhoto(), ['class' => 'w-100']) ?>
                     </div>
-                    <div class="col">
-                        <strong>Описание:</strong> <?= $model->description ?>
+                    <div class="col">                        
+                        <div style="font-size: large;">
+                            <strong>Описание:</strong> <?= $model->description ?>
+                        </div>
                         <hr />
                         <?php Pjax::begin(['id' => 'pjax-bookshelf-rating', 'enablePushState' => false]) ?>
                         <?php $form = ActiveForm::begin([
@@ -50,10 +53,15 @@ use yii\bootstrap4\ActiveForm;
                         <?php Pjax::end() ?>
                         <hr />
                         <strong>Дата получения:</strong> <?= Yii::$app->formatter->asDate($model->date_received) ?>
-
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="mt-3">
+            <?= CommentWidget::widget([
+                'modelName' => 'bookshelf',
+                'modelId' => $model->id,
+            ]) ?>
         </div>
     </div>
 </div>

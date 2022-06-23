@@ -5,8 +5,10 @@ namespace app\modules\bookshelf\controllers;
 use app\modules\bookshelf\models\BookShelf;
 use app\modules\bookshelf\models\BookShelfCalendar;
 use app\modules\bookshelf\models\BookShelfDiscussion;
+use app\modules\bookshelf\models\RecommendRead;
 use app\modules\bookshelf\models\WhatReading;
-use yii\db\Expression;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
@@ -61,61 +63,47 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
+        $dataProviderBooks = new ActiveDataProvider([
+            'query' => $this->lastBooks(),
+            'pagination' => [
+                'pageSize' => 1,
+            ],
+        ]);
+
         return $this->render('index', [
-            'modelLastBooks' => $this->lastBooks(),
+            'dataProviderBooks' => $dataProviderBooks,
             'modelCalendarToday' => $this->calendarToday(),
             'modelLastWhatReading' => $this->lastWhatReading(),
             'modelLastDiscussion' => $this->lastDiscussion(),
+            'discussions' => $this->discussions(),
+            'recommend' => $this->recommend(),
         ]);
     }
 
     /**
      * Последние добавленные книги
-     * @param int $limit
-     * @return BookShelf[]|null
+     * @return \yii\db\Query
      */
-    private function lastBooks($limit=5)
+    private function lastBooks()
     {
         return BookShelf::find()
             ->orderBy([
                 'date_received' => SORT_DESC,
                 'date_create' => SORT_DESC,
-            ])
-            ->limit($limit)
-            ->where(['book_status' => BookShelf::STATUS_IN_STOCK])
-            ->all();
+            ])                        
+            ->where(['book_status' => BookShelf::STATUS_IN_STOCK]);
     }
 
     /**
-     * Кто родился или умер в этот день
+     * Кто родился в этот месяц
      * @param int $limit
      * @return BookShelfCalendar[]|null
      */
-    private function calendarToday($limit=3)
+    private function calendarToday()
     {
-        return BookShelfCalendar::find()
-            // выбирать писателей у которых +-3 дня от даты рождения или от даты смерти
-            ->where("
-                (
-                    CAST(
-                        CAST(DATEPART(DAY, date_birthday) AS NVARCHAR) + '.' +
-                        CAST(DATEPART(MONTH, date_birthday) AS NVARCHAR) + '.' +
-                        CAST(DATEPART(YEAR, GETDATE()) AS NVARCHAR)
-                        AS DATE
-                    ) BETWEEN CAST(DATEADD(DAY,-7,GETDATE()) AS DATE)
-                        AND CAST(DATEADD(DAY,7,GETDATE()) AS DATE)
-                ) OR
-                (
-                    CAST(
-                        CAST(DATEPART(DAY, date_die) AS NVARCHAR) + '.' +
-                        CAST(DATEPART(MONTH, date_die) AS NVARCHAR) + '.' +
-                        CAST(DATEPART(YEAR, GETDATE()) AS NVARCHAR)
-                        AS DATE
-                    ) BETWEEN CAST(DATEADD(DAY,-7,GETDATE()) AS DATE)
-                        AND CAST(DATEADD(DAY,7,GETDATE()) AS DATE)
-                )
-            ")
-            ->limit($limit)
+        return BookShelfCalendar::find()        
+            ->where('month(date_birthday) = month(getdate())')
+            ->orderBy('day(date_birthday) asc')
             ->all();
     }
 
@@ -143,6 +131,30 @@ class DefaultController extends Controller
             ->orderBy(['id' => SORT_DESC])
             ->limit($limit)
             ->all();
+    }
+
+    /**
+     * Количество дискуссий
+     * @return array
+     */
+    private function discussions()
+    {
+        $query = (new Query())
+            ->from('{{%comment}}')
+            ->where(['model_name' => 'bookshelf'])
+            ->select('model_id, count(id) count')
+            ->groupBy('model_id')
+            ->all();
+        return $query;
+    }
+
+    /**
+     * Рекомендации за последние 7 дней
+     * @return RecommendRead[]|null
+     */
+    public function recommend()
+    {
+        return RecommendRead::findPublic()->all();
     }
 
 

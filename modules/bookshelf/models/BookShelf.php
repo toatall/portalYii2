@@ -6,8 +6,10 @@ use app\behaviors\AuthorBehavior;
 use app\behaviors\ChangeLogBehavior;
 use app\behaviors\DatetimeBehavior;
 use app\helpers\DateHelper;
+use app\models\Comment;
 use app\models\User;
 use Yii;
+use yii\db\Query;
 use yii\helpers\FileHelper;
 use yii\web\ServerErrorHttpException;
 use yii\web\UploadedFile;
@@ -33,6 +35,7 @@ use yii\web\UploadedFile;
  * @property User $author0
  * @property BookShelfPlace[] $bookShelfPlaces
  * @property BookShelfRating[] $bookShelfRatings
+ * @property Comment[] $comments
  */
 class BookShelf extends \yii\db\ActiveRecord
 {
@@ -322,6 +325,38 @@ class BookShelf extends \yii\db\ActiveRecord
             return true;
         }
         return false;
+    }
+
+
+    /**
+     * 
+     */
+    public function getComments()
+    {
+        $m = Comment::find()->where([
+            'model_name' => 'bookshelf',
+            'model_id' => $this->id,
+        ]);
+        $m->multiple = true;
+        return $m;
+    }
+
+    /**
+     * @return array
+     */
+    public static function discussionsAll()
+    {
+        $query = (new Query())
+            ->from('{{%comment}}')
+            ->where(['model_name' => 'bookshelf'])
+            ->select('model_id')
+            ->groupBy('model_id')
+            ->all();
+        $res = [];
+        foreach ($query as $item) {
+            $res[$item['model_id']] = self::findOne($item['model_id']);
+        }
+        return $res;
     }
 
 

@@ -36,7 +36,7 @@ class BookController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'save-rating'],
+                        'actions' => ['index', 'view', 'save-rating', 'discussions'],
                         'roles' => ['@'],
                     ],
                     [
@@ -149,6 +149,20 @@ class BookController extends Controller
     {
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionDiscussions()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'title' => 'Активные дискуссии',
+            'content' => $this->renderAjax('discussions', [
+                'discussions' => BookShelf::discussionsAll(),
+            ]),
+        ];
     }
   
 

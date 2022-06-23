@@ -3,8 +3,8 @@
 namespace app\modules\bookshelf\controllers;
 
 use app\modules\bookshelf\models\BookShelf;
+use app\modules\bookshelf\models\RecommendRead;
 use Yii;
-use app\modules\bookshelf\models\WhatReading;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -14,9 +14,9 @@ use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
- * WhatReadingController implements the CRUD actions for WhatReading model.
+ * RecommendReadController implements the CRUD actions for RecommendRead model.
  */
-class WhatReadingController extends Controller
+class RecommendReadController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -32,15 +32,9 @@ class WhatReadingController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::class,
-                'rules' => [
+                'rules' => [                    
                     [
-                        'allow' => true,
-                        'actions' => ['index'],
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['create', 'update', 'delete'],
+                        'allow' => true,                      
                         'roles' => ['admin', BookShelf::roleAdmin()],
                     ],
                 ],
@@ -49,13 +43,13 @@ class WhatReadingController extends Controller
     }
 
     /**
-     * Lists all WhatReading models.
+     * Lists all RecommendRead models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => WhatReading::find(),
+            'query' => RecommendRead::find(),
         ]);
 
         return $this->render('index', [
@@ -64,18 +58,16 @@ class WhatReadingController extends Controller
     }    
 
     /**
-     * Creates a new WhatReading model.
+     * Creates a new RecommendRead model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $model = new WhatReading();
+        $model = new RecommendRead();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->uploadImage = UploadedFile::getInstances($model, 'uploadImage'); 
-            $model->upload();    
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {          
             return 'OK';
         }
 
@@ -88,7 +80,7 @@ class WhatReadingController extends Controller
     }
 
     /**
-     * Updates an existing WhatReading model.
+     * Updates an existing RecommendRead model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -99,9 +91,7 @@ class WhatReadingController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {  
-            $model->uploadImage = UploadedFile::getInstances($model, 'uploadImage'); 
-            $model->upload();          
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {                 
             return 'OK';            
         }
 
@@ -114,7 +104,7 @@ class WhatReadingController extends Controller
     }
 
     /**
-     * Deletes an existing WhatReading model.
+     * Deletes an existing RecommendRead model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -127,15 +117,15 @@ class WhatReadingController extends Controller
     }
 
     /**
-     * Finds the WhatReading model based on its primary key value.
+     * Finds the RecommendRead model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return WhatReading the loaded model
+     * @return RecommendRead the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = WhatReading::findOne($id)) !== null) {
+        if (($model = RecommendRead::findOne($id)) !== null) {
             return $model;
         }
 

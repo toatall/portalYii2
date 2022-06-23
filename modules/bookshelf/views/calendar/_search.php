@@ -12,7 +12,7 @@ use kartik\widgets\ActiveForm;
 
     <div class="row mb-4">
         <div class="col">
-            <div class="card">
+            <div class="card bg-secondary text-white">
                 <div class="card-header">
                     <i class="fas fa-search"></i> Поиск
                 </div>
@@ -32,8 +32,7 @@ use kartik\widgets\ActiveForm;
                     ]); ?>                    
                     <?= $form->field($model, 'writer')->textInput(['class' => 'w-100']) ?>                                           
                     <div class="btn-group form-group mb-3">
-                        <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>
-                        <?= Html::resetButton('Сброс', ['class' => 'btn btn-outline-secondary']) ?>
+                        <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?> 
                     </div>
                     <?php ActiveForm::end(); ?>
                 </div>                

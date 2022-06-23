@@ -207,6 +207,7 @@ return [
             'uploadPathBook' => '/public/upload/bookshelf/images/book/',
             'defaultImageBook' => '/public/content/bookshelf/images/book.png',
             'uploadPathWriter' => '/public/upload/bookshelf/images/writer/',
+            'uploadWhatReadingPhoto' => '/public/upload/bookshelf/images/what-reading/{id}/',
             'defaultImageWriter' => '/public/content/bookshelf/images/writer-1600x800.png',
             // роли
             'roles' => [

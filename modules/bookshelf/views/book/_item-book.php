@@ -9,8 +9,10 @@ use yii\bootstrap4\Html;
 ?>
 
 <div class="col-3 mb-4">
-    <div class="card mb-4 shadow-sm h-100">
-        <img src="<?= $model->getPhoto() ?>" class="img-thumbnail" />
+    <div class="card mb-4 shadow-sm h-100 rounded border-secondary">
+        <div class="text-center bg-secondary">
+            <img src="<?= $model->getPhoto() ?>" class="p-4" style="width: 15rem;" />
+        </div>
         <hr class="m-0" />           
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -48,11 +50,11 @@ use yii\bootstrap4\Html;
         
         <div class="card-footer d-flex justify-content-center">
             <div class="btn-group">
-                <?= Html::a('Подробнее', ['view', 'id'=>$model->id], ['class' => 'btn btn-outline-primary btn-sm mv-link']) ?>
+                <?= Html::a('Подробнее', ['view', 'id'=>$model->id], ['class' => 'btn btn-primary btn-sm mv-link']) ?>
                 <?php if (BookShelf::isEditor()): ?>
-                <?= Html::a('Изменить', ['update', 'id'=>$model->id], ['class' => 'btn btn-outline-secondary btn-sm mv-link']) ?>
+                <?= Html::a('Изменить', ['update', 'id'=>$model->id], ['class' => 'btn btn-secondary btn-sm mv-link']) ?>
                 <?= Html::a('Удалить', ['delete', 'id'=>$model->id], [
-                    'class' => 'btn btn-outline-danger btn-sm mv-link',
+                    'class' => 'btn btn-danger btn-sm mv-link',
                     'data' => [
                         'confirm' => 'Вы уверены, что хотите удалить?',
                         'method' => 'post',

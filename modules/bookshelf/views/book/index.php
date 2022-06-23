@@ -9,21 +9,27 @@ use yii\widgets\Pjax;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 /** @var app\modules\bookshelf\models\BookShelfSearch $searchModel */
 
-$this->title = 'Что взять на книжной полке';
+$this->title = 'Книги';
 $this->params['breadcrumbs'][] = ['label' => 'Книжная полка', 'url' => ['/bookshelf/default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="book-shelf-index">
+<div class="book-shelf-index card card-body bg-dark animate__animated animate__fadeInUp">
 
-    <p class="display-4 border-bottom">
-        <?= Html::encode($this->title) ?>
+    <p class="display-4 text-white font-weight-bolder">
+        <?= Html::a('Книжная полка', ['/bookshelf'], ['class' => 'text-white']) ?>
+        &rsaquo;
+        <span class="font-weight-normal text-secondary"><?= Html::encode($this->title) ?></span>
     </p>
+    <hr class="border-white" />
 
     <?php if (BookShelf::isEditor()): ?>
-    <div class="btn-group mt-2 mb-2">
-        <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-outline-success btn-sm mv-link']) ?>
-        <?= Html::a('Места размещения книг', ['/bookshelf/place/index'], ['class' => 'btn btn-outline-secondary btn-sm mv-link']) ?>        
-    </div>
+        <div class="row col">
+            <div class="btn-group mt-2 mb-4">
+                <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success mv-link']) ?>
+                <?= Html::a('Места размещения книг', ['/bookshelf/place/index'], ['class' => 'btn btn-secondary mv-link']) ?>        
+            </div>
+        </div>
+    
     <?php endif; ?>
 
     <?php Pjax::begin(['id' => 'pjax-bookshelf']) ?>
@@ -41,13 +47,15 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endforeach; ?>
     </div>
 
-    <?= LinkPager::widget([
-        'pagination' => $dataProvider->pagination,
-        'firstPageLabel' => '<span title="Первая страница"><i class="fas fa-chevron-left"></i><i class="fas fa-chevron-left"></i></span>',
-        'prevPageLabel' => '<i class="fas fa-chevron-left" title="Предыдущая страница"></i>',
-        'lastPageLabel' => '<span title="Последняя страница"><i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i></span>',
-        'nextPageLabel' => '<i class="fas fa-chevron-right" title="Следующая страница"></i>',        
-    ]) ?>
+    <div class="align-content-center">
+        <?= LinkPager::widget([
+            'pagination' => $dataProvider->pagination,
+            'firstPageLabel' => '<span title="Первая страница"><i class="fas fa-chevron-left"></i><i class="fas fa-chevron-left"></i></span>',
+            'prevPageLabel' => '<i class="fas fa-chevron-left" title="Предыдущая страница"></i>',
+            'lastPageLabel' => '<span title="Последняя страница"><i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i></span>',
+            'nextPageLabel' => '<i class="fas fa-chevron-right" title="Следующая страница"></i>',       
+        ]) ?>
+    </div>
 
     <?php Pjax::end() ?>
 

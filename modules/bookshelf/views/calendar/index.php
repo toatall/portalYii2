@@ -13,16 +13,21 @@ $this->title = 'Календарь литературных дат';
 $this->params['breadcrumbs'][] = ['label' => 'Книжная полка', 'url' => ['/bookshelf/default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="book-shelf-calendar-index">
+<div class="book-shelf-calendar-index card card-body bg-dark animate__animated animate__fadeInUp">
 
-    <p class="display-4 border-bottom">
-        <?= Html::encode($this->title) ?>
+    <p class="display-4 text-white font-weight-bolder">
+        <?= Html::a('Книжная полка', ['/bookshelf'], ['class' => 'text-white']) ?>
+        &rsaquo;
+        <span class="font-weight-normal text-secondary"><?= Html::encode($this->title) ?></span>
     </p>
+    <hr class="border-white" />
 
     <?php if (BookShelf::isEditor()): ?>
-    <div class="btn-group mt-2 mb-2">
-        <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-outline-success btn-sm mv-link']) ?>       
-    </div>
+        <div class="row col">
+            <div class="btn-group mt-2 mb-4">
+                <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success mv-link']) ?>       
+            </div>
+        </div>
     <?php endif; ?>
 
     <?php Pjax::begin(['id' => 'pjax-calendar']) ?>
@@ -32,6 +37,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'showHeader' => false,
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'tableOptions' => [
+            'class' => 'table-secondary',
+        ],
+        'summaryOptions' => [
+            'class' => 'text-white',
+        ],
         'columns' => [            
             [
                 'attribute' => 'photo',
@@ -63,9 +74,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model) {
                     /** @var app\modules\bookshelf\models\BookShelfCalendar $model */
                     $html = Html::beginTag('div', ['class' => 'btn-group']);
-                    $html .= Html::a('Изменить', ['update', 'id'=>$model->id], ['class' => 'mv-link btn btn-outline-primary btn-sm', 'pjax' => false]);
+                    $html .= Html::a('Изменить', ['update', 'id'=>$model->id], ['class' => 'mv-link btn btn-primary btn-sm', 'pjax' => false]);
                     $html .= Html::a('Удалить', ['delete', 'id'=>$model->id], [
-                        'class' => 'btn btn-outline-danger btn-sm mv-link',
+                        'class' => 'btn btn-danger btn-sm mv-link',
                         'data' => [
                             'confirm' => 'Вы уверены, что хотите удалить?',
                             'method' => 'post',

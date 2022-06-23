@@ -40,25 +40,15 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'columns' => [
             ['class' => SerialColumn::class],
-            [
-                'attribute' => 'fio',
-                'format' => 'raw',
-                'value' => function($model) {
-                    /** @var app\modules\bookshelf\models\WhatReading $model */
-                    $img = $model->getImage();
-                    $imgHtml = $img ? Html::img($img, ['style' => 'width: 7rem', 'class' => 'img-thumbnail']) . '<br />' : null;
-                    return $imgHtml . $model->fio;
-                },
-                'contentOptions' => ['class' => 'text-center'],
-            ],
-            // 'fio',
+            'fio',
             'writer',
-            'title',
-            // 'authorModel.fio',
+            'book_name',
+            'description',
+            'authorModel.fio:text:Автор',
             'date_create:datetime',
             [
                 'value' => function($model) {
-                    /** @var app\modules\bookshelf\models\WhatReading $model */
+                    /** @var app\modules\bookshelf\models\RecommendRead $model */
                     $html = '';
                     if (BookShelf::isEditor()) {
                         $html = Html::beginTag('div', ['class' => 'btn-group']);
