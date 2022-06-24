@@ -10,6 +10,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
@@ -83,13 +84,29 @@ class DepartmentCardController extends Controller
     {
         $modelDepartment = $this->findModelDepartment($idDepartment);
         $model = new DepartmentCard();
+        $model->user_level = 0;
         $model->id_department = $idDepartment;
 
         if ($model->load(Yii::$app->request->post())) {
             $model->photoFile = UploadedFile::getInstance($model, 'photoFile');
             if ($model->save()) {
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ['content'=>'OK', 'updateId'=>'#collapse_' . $modelDepartment->id . ' > div.card-body'];                    
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
+        }
+
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'title' => 'Добавление сотрудника',
+                'content' => $this->renderAjax('_form', [
+                    'model' => $model,
+                    'modelDepartment' => $modelDepartment,
+                ]),
+            ];
         }
 
         return $this->render('create', [
@@ -112,8 +129,22 @@ class DepartmentCardController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->photoFile = UploadedFile::getInstance($model, 'photoFile');
             if ($model->save()) {
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ['content'=>'OK', 'updateId'=>'#collapse_' . $model->id_department . ' > div.card-body'];                    
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
+        }
+        
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'title' => 'Добавление сотрудника',
+                'content' => $this->renderAjax('_form', [
+                    'model' => $model,                    
+                ]),
+            ];
         }
 
         return $this->render('update', [
@@ -135,6 +166,9 @@ class DepartmentCardController extends Controller
         $model = $this->findModel($id);
         $model->delete();
 
+        if (Yii::$app->request->isAjax) { 
+            return 'OK';
+        }
         return $this->redirect(['index', 'idDepartment'=>$model->id_department]);
     }
 

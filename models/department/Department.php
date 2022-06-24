@@ -2,12 +2,13 @@
 
 namespace app\models\department;
 
+use app\behaviors\AuthorBehavior;
+use app\behaviors\DatetimeBehavior;
 use app\models\Access;
 use Yii;
 use app\models\Tree;
 use app\models\Organization;
 use app\models\User;
-use yii\bootstrap\Html;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
@@ -96,16 +97,15 @@ class Department extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_tree', 'id_organization', 'department_index', 'department_name'], 'required'],
+            [['id_organization', 'department_index', 'department_name'], 'required'],
             [['id_tree', 'use_card', 'general_page_type', 'general_page_id_tree'], 'integer'],
             [['log_change'], 'string'],
             [['date_create', 'date_edit'], 'safe'],
             [['id_organization'], 'string', 'max' => 5],
             [['department_index'], 'string', 'max' => 2],
-            [['department_name', 'author'], 'string', 'max' => 250],
-            [['id_tree'], 'exist', 'skipOnError' => true, 'targetClass' => Tree::className(), 'targetAttribute' => ['id_tree' => 'id']],
-            [['id_organization'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['id_organization' => 'code']],
-            [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['author' => 'username_windows']],
+            [['department_name', 'author'], 'string', 'max' => 250],        
+            [['id_organization'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::class, 'targetAttribute' => ['id_organization' => 'code']],
+            [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username_windows']],
             [['permissionGroup', 'permissionUser'], 'safe'],
         ];
     }
@@ -131,6 +131,21 @@ class Department extends \yii\db\ActiveRecord
             'permissionUser' => 'Пользователи',
             'permissionGroup' => 'Группы',
             'concatened' => 'Отдел',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [            
+            [
+                'class' => DatetimeBehavior::class,
+                'createdAtAttribute' => 'date_create',
+                'updatedAtAttribute' => 'date_edit',
+            ],
+            ['class' => AuthorBehavior::class],     
         ];
     }
 
@@ -191,9 +206,12 @@ class Department extends \yii\db\ActiveRecord
                 $query->leftJoin('{{%access_department_group}} access_department_group', 'access_department_group.id_department=t.id');
                 $query->leftJoin('{{%access_department_user}} access_department_user', 'access_department_user.id_department=t.id');
                 $query->leftJoin('{{%group_user}} group_user', 'group_user.id_group=access_department_group.id_group');
+                $query->leftJoin('{{%group}} group_x', "group_x.name = 'ModeratorOrganizationDepartment-' + t.id_organization");
+                $query->leftJoin('{{%group_user}} group_user_x', "group_user_x.id_group = group_x.id");
                 $query->filterWhere(['or',
                     ['access_department_user.id_user' => Yii::$app->user->id],
                     ['group_user.id_user' => Yii::$app->user->id],
+                    ['group_user_x.id_user' => Yii::$app->user->id],
                 ]);
             }
         }
@@ -386,4 +404,25 @@ class Department extends \yii\db\ActiveRecord
         $query = self::find()->all();
         return ArrayHelper::map($query, 'id', 'concatened');
     }
+
+    /**
+     * Роль модератора (для инспекций)
+     * @param string $org код организации
+     * @return bool
+     */
+    public static function isRoleModerator($org)
+    {
+        return Organization::isRoleModerator($org);
+        // if (Yii::$app->user->isGuest) {
+        //     return false;
+        // }
+
+        // if (Yii::$app->user->can('admin')) {
+        //     return true;
+        // }
+
+        // return false;
+    }
+
+
 }

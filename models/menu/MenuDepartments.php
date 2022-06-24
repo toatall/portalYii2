@@ -19,6 +19,7 @@ class MenuDepartments implements ISubMenu
     {
         $query = new Query();
         $query->from('{{%department}}')
+            ->where(['id_organization' => '8600'])
             ->orderBy('department_index asc');
         $resultQuery = $query->all();
 

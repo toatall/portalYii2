@@ -4,9 +4,10 @@ use yii\bootstrap4\Html;
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var app\models\Organization $modelOrganization */
 
-$this->title = 'Отделы';
-$this->params['breadcrumbs'][] = ['label' => 'Отделы', 'url' => ['/department/index']];
+$this->title = 'Отделы (' . ($modelOrganization->name ?? null) . ')';
+$this->params['breadcrumbs'][] = ['label' => 'Отделы', 'url' => ['/department/index', 'org'=>$modelOrganization->code]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="department-index">

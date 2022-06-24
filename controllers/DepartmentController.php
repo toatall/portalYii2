@@ -10,6 +10,7 @@ use app\models\page\PageSearch;
 use app\models\Tree;
 use Yii;
 use app\models\department\Department;
+use app\models\Organization;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\db\Query;
@@ -20,6 +21,7 @@ use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
@@ -60,20 +62,78 @@ class DepartmentController extends Controller
      * Lists all Department models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($org=null)
     {
+        if ($org==null) {
+            $org='8600';
+        }
+
+        $modelOrganization = Organization::findOne($org);
         $dataProvider = new ActiveDataProvider([
-            'query' => Department::find(),
+            'query' => Department::find()->where(['id_organization'=>$org])->orderBy(['department_index' => SORT_ASC, 'department_name' => SORT_ASC]),
             'pagination' => [
                 'pageSize' => false,
             ],
-
         ]);
+
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('crud/index', [
+                'dataProvider' => $dataProvider,
+                'modelOrganization' => $modelOrganization,
+            ]);
+        }
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'modelOrganization' => $modelOrganization,
         ]);
     }
+
+
+    /**
+     * Создание отдела
+     * @param string $org код организации
+     * @return string
+     */
+    public function actionCrudCreate($org)
+    {
+        $model = new Department();
+        $model->id_organization = $org;
+        $model->id_tree = 0;
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {            
+            return ['content' => 'OK', 'updateId' => '#org_container_2'];
+        }
+    
+        return [
+            'title' => 'Создание отдела',
+            'content' => $this->renderAjax('crud/form', [
+                'model' => $model,
+            ]),
+        ];
+    }
+
+    /**
+     * Карточки сотрудников
+     * @param int $id ид отдела
+     * @return string
+     */
+    public function actionCrudCards($id)
+    {
+        $modelDepartment = $this->findModelDepartment($id);
+        $this->structCards($modelDepartment->id);
+
+        return $this->renderAjax('struct', [
+            'model' => $modelDepartment,
+            'arrayCard' => $this->structCards($id),
+            //'heightCardHead' => '12em',
+        ]);
+    }
+
+
+
 
     /**
      * Отображение материала отдела
@@ -110,7 +170,7 @@ class DepartmentController extends Controller
         $model = $this->findModel($id);
 
         if ($idTree == null) {
-            return $this->showDepartment();
+            return $this->showDepartment($model);
         } else {
             $this->findModelTree($idTree);
             return $this->showTreeNode($idTree);
@@ -128,7 +188,7 @@ class DepartmentController extends Controller
         $model = $this->findModel($id);
         return $this->render('struct', [
             'model' => $model,
-            'arrayCard' => $this->structCards(),
+            'arrayCard' => $this->structCards($id),
         ]);
     }
 
@@ -136,9 +196,9 @@ class DepartmentController extends Controller
      * Главная страница отдела
      * @return string
      */
-    protected function showDepartment()
+    protected function showDepartment($modelDep)
     {
-        $modelDepartment = $this->modelDepartment;
+        $modelDepartment = $modelDep;
         $this->view->title = $modelDepartment->department_name;
 
         // отображение новости
@@ -176,7 +236,7 @@ class DepartmentController extends Controller
         if ($modelDepartment->general_page_type == Department::GP_SHOW_STRUCT && $modelDepartment->use_card) {
             return $this->render('struct', [
                 'model' => $modelDepartment,
-                'arrayCard' => $this->structCards(),
+                'arrayCard' => $this->structCards($modelDepartment->id),
             ]);
         }
 
@@ -278,16 +338,17 @@ class DepartmentController extends Controller
      * Карточки сотрудников отдела
      * @return array
      */
-    protected function structCards()
+    protected function structCards($idDepartment)
     {
-        /* @var $query DepartmentCard[] */
+        /** @var  DepartmentCard[]  $query */
         $query = DepartmentCard::find()
-            ->where(['id_department' => $this->modelDepartment->id])
+            ->where(['id_department' => $idDepartment])
             ->all();
 
         $arrayCard = [];
         foreach ($query as $card) {
             $arrayCard[$card->user_level][] = [
+                'id' => $card->id,
                 'user_photo' => $card->getUserPhotoFile(),
                 'user_fio' => $card->user_fio,
                 'user_rank' => $card->user_rank,
@@ -308,7 +369,7 @@ class DepartmentController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      * @throws HttpException
      */
-    protected function findModel($id)
+    protected function findModelDepartment($id)
     {
         if (($this->modelDepartment = Department::findOne($id)) !== null) {
             $this->loadMenu();
@@ -340,6 +401,22 @@ class DepartmentController extends Controller
     protected function findModelOP($id)
     {
         if (($model = OP::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * Finds the Department model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Department the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Department::backendFindByPk($id)) !== null) {
             return $model;
         }
 

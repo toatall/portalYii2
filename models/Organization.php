@@ -2,8 +2,10 @@
 
 namespace app\models;
 
+use app\helpers\UploadHelper;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
 
 /**
  * This is the model class for table "{{%organization}}".
@@ -15,6 +17,7 @@ use yii\helpers\ArrayHelper;
  * @property string $date_edit
  * @property string $name_short
  * @property string $date_end
+ * @property string $description
  *
  * @property Department[] $departments
  * @property File[] $files
@@ -27,6 +30,21 @@ use yii\helpers\ArrayHelper;
  */
 class Organization extends \yii\db\ActiveRecord
 {
+
+    /**
+     * Изображения для исторической справки
+     * @var UploadedFile[]
+     */
+    public $uploadImages;
+
+
+    /**
+     * Изображения отмеченные для удаления
+     * @var string[]
+     */
+    public $deleteImages;
+
+
     /**
      * {@inheritdoc}
      */
@@ -43,11 +61,14 @@ class Organization extends \yii\db\ActiveRecord
         return [
             [['code', 'name', 'sort'], 'required'],
             [['sort'], 'integer'],
-            [['date_create', 'date_edit', 'date_end'], 'safe'],
+            [['date_create', 'date_edit', 'date_end', 'description'], 'safe'],
             [['code'], 'string', 'max' => 5],
             [['name'], 'string', 'max' => 250],
             [['name_short'], 'string', 'max' => 200],
             [['code'], 'unique'],
+            [['description'], 'required', 'on'=>'update-history-reference'],
+            [['uploadImages'], 'file', 'skipOnEmpty' => true, 'maxFiles' => 30],
+            [['deleteImages'], 'safe'],
         ];
     }
 
@@ -64,6 +85,9 @@ class Organization extends \yii\db\ActiveRecord
             'date_create' => 'Дата создания',
             'date_edit' => 'Дата изменения',
             'date_end' => 'Дата окончания',
+            'description' => 'Описание',
+            'uploadImages' => 'Изображения',
+            'deleteImages' => 'Отментьте изображения для удаления',
         ];
     }   
 
@@ -178,4 +202,130 @@ class Organization extends \yii\db\ActiveRecord
             }
         }
     }
+
+    /**
+     * Права для внесения информации по организации
+     * @return bool
+     */
+    public static function isRoleModerator($code)
+    {
+        if (Yii::$app->user->isGuest) {
+            return false;
+        }
+        if (Yii::$app->user->can('admin')) {
+            return true;
+        }
+        if (Yii::$app->user->can('ModeratorOrganizationDepartment-' . $code)) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function afterDelete()
+    {
+        $this->deleteImages($this->getImages());       
+        $pathMain = Yii::getAlias('@webroot') . $this->getPathUploadImages();     
+        if (is_dir($pathMain)) {
+            FileHelper::removeDirectory($pathMain);
+        }
+        parent::afterDelete();      
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        if (!$insert) {
+            if ($this->deleteImages) {
+                $this->deleteImages($this->deleteImages);
+            }
+        }
+    }    
+
+
+    /** BEGIN UPLOAD */
+    
+    /**
+     * Загрузка изображения
+     */
+    public function upload()
+    {
+        if ($this->uploadImages) {
+            $this->deleteImages($this->getImages());
+        }
+        (new UploadHelper($this->getPathUploadImages()))
+            ->uploadFiles($this->uploadImages);
+    }
+
+    /**
+     * @return string
+     */
+    private function getPathUploadImages()
+    {
+        return str_replace('{code}', $this->code, Yii::$app->params['organization']['path']['uploadImages']);
+    }
+
+    /**
+     * Изображения
+     * @return string[]
+     */
+    public function getImages()
+    {
+        return $this->prepareFiles($this->getPathUploadImages());
+    }
+
+    /**
+     * Подготовка файлов
+     * @param string
+     * @return array
+     */
+    private function prepareFiles($path)
+    {        
+        $files = $this->searchFiles(Yii::getAlias('@webroot') . $path);
+        $result = [];
+        if ($files && is_array($files) && count($files)) {
+            foreach($files as $file) {
+                $result[$path . basename($file)] = $path . basename($file);
+            }         
+        }
+        return $result;
+    }
+
+    /**
+     * Поиск файлов
+     * @return string[]
+     */
+    private function searchFiles($path)
+    {
+        if (is_dir($path)) {
+            return FileHelper::findFiles($path);
+        }
+        return null;
+    }
+
+
+    /**
+     * имена файлов исполнения протоколов для удаления
+     * если параметр $files не передается, то удаляются все файлы
+     * @param string[] $files
+     */
+    public function deleteImages($files = [])
+    {        
+        if ($files && count($files)) {
+            foreach($files as $file) {
+                FileHelper::unlink(Yii::getAlias('@webroot') . $file);
+            }
+        }
+    }
+
+
+
+    /** END UPLOAD */
+
 }

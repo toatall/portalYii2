@@ -112,6 +112,12 @@ return [
         'defaultModule' => 'page',
     ],
 
+    'organization' => [
+        'path' => [
+            'uploadImages' => '/public/upload/portal/organization/images/{code}/',
+        ],
+    ],
+ 
     // телефоны
     'telephone' => [
         'path' => '/files/telephones/',

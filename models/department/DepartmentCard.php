@@ -172,7 +172,7 @@ class DepartmentCard extends \yii\db\ActiveRecord
     private function unloadPhotoFile()
     {
         $path = $this->getParamUploadPath();
-        /* @var $storage Storage */
+        /** @var app\components\Storage $storage  */
         $storage = \Yii::$app->storage;
         $file = $storage->saveUploadedFile($this->photoFile, $path, true);
         if ($file) {
@@ -190,7 +190,7 @@ class DepartmentCard extends \yii\db\ActiveRecord
     private function resizeImage($image)
     {
         $height = $this->getParamMaxHeight();
-        /* @var $storage Storage */
+        /** @var app\components\Storage $storage  */
         $storage = \Yii::$app->storage;
         return $storage->resizeImage($image, 0, $height);
     }
@@ -201,10 +201,12 @@ class DepartmentCard extends \yii\db\ActiveRecord
     private function deletePhotoFileFromDisk()
     {
         // аккуратное удаление файла
-        /* @var $storage \common\components\Storage */
+        /** @var app\components\Storage $storage  */
         $storage = \Yii::$app->storage;
-        if ($storage->deleteFile($this->user_photo)) {
-            $this->user_photo = null;
+        if ($this->user_photo) {
+            if ($storage->deleteFile($this->user_photo)) {
+                $this->user_photo = null;
+            }
         }
     }
 
