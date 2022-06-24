@@ -34,6 +34,7 @@ class MenuNewsOrganizations implements ISubMenu
         $query = new Query();
         $query->from('{{%organization}}')
             ->where(['code_parent' => $codeParent])
+            ->where(['not', ['code' => '8600']])
             ->orderBy('code asc');        
 
         $resultQuery = $query->all();
@@ -46,7 +47,7 @@ class MenuNewsOrganizations implements ISubMenu
             
             $li = $this->templateItem;
             
-            $url = Url::to(['/news/index', 'organization'=>$item['code']]);
+            $url = Url::to(['/organization/view', 'id'=>$item['code']]);
                        
             $classA = ''; $classLi = '';
             if ($subMenu != '')  { 
