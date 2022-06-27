@@ -416,7 +416,8 @@ class DepartmentController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Department::backendFindByPk($id)) !== null) {
+        //if (($model = Department::backendFindByPk($id)) !== null) {
+        if (($model = Department::findOne($id)) !== null) {
             return $model;
         }
 
