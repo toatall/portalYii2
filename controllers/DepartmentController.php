@@ -173,7 +173,7 @@ class DepartmentController extends Controller
             return $this->showDepartment($model);
         } else {
             $this->findModelTree($idTree);
-            return $this->showTreeNode($idTree);
+            return $this->showTreeNode($idTree, $model);
         }
     }
 
@@ -288,9 +288,9 @@ class DepartmentController extends Controller
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    protected function showTreeNode($id)
+    protected function showTreeNode($id, $modelDepartment)
     {
-        $breadcrubms = $this->breadcrumbsTreePath($id);
+        $breadcrubms = $this->breadcrumbsTreePath($id, $modelDepartment);
         $this->view->title = $this->modelTree->name;
 
         // 1. подгрузка по модулю (например, рейтинги)
@@ -416,8 +416,7 @@ class DepartmentController extends Controller
      */
     protected function findModel($id)
     {
-        //if (($model = Department::backendFindByPk($id)) !== null) {
-        if (($model = Department::findOne($id)) !== null) {
+        if (($model = Department::backendFindByPk($id)) !== null) {
             return $model;
         }
 
@@ -429,9 +428,9 @@ class DepartmentController extends Controller
      * @param $idTree
      * @return array
      */
-    private function breadcrumbsTreePath($idTree)
+    private function breadcrumbsTreePath($idTree, $modelDepartment)
     {
-        if ($this->modelDepartment->id_tree == $idTree)
+        if ($modelDepartment->id_tree == $idTree)
             return [];
 
         $query = new Query();
@@ -446,9 +445,9 @@ class DepartmentController extends Controller
         if ($resultQuery==null)
             return [];
 
-        return ArrayHelper::merge($this->breadcrumbsTreePath($resultQuery['id_parent']), [[
+        return ArrayHelper::merge($this->breadcrumbsTreePath($resultQuery['id_parent'], $modelDepartment), [[
             'label' => $resultQuery['name'],
-            'url' => ['department/view', 'id'=>$this->modelDepartment->id, 'idTree'=>$idTree],
+            'url' => ['department/view', 'id'=>$modelDepartment->id, 'idTree'=>$idTree],
         ]]);
     }
 
