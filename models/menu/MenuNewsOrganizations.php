@@ -34,7 +34,7 @@ class MenuNewsOrganizations implements ISubMenu
         $query = new Query();
         $query->from('{{%organization}}')
             ->where(['code_parent' => $codeParent])
-            ->where(['not', ['code' => '8600']])
+            ->andWhere(['<>', 'code', '8600'])
             ->orderBy('code asc');        
 
         $resultQuery = $query->all();
