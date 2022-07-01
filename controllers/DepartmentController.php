@@ -167,7 +167,7 @@ class DepartmentController extends Controller
      */
     public function actionView($id, $idTree = null)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModelDepartment($id);
 
         if ($idTree == null) {
             return $this->showDepartment($model);
