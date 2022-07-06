@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <span aria-hidden="true" class="text-light">&times;</span>
                     </button>
                 </div>
-                <div class="row">
+                <div class="row col">
                     <p class="display-4" id="organizations-detail-title"></p>
                 </div>
                 <div class="row">
@@ -137,7 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <span aria-hidden="true" class="text-light">&times;</span>
                     </button>
                 </div>
-                <div class="row">
+                <div class="row col">
                     <p class="display-4" id="departments-detail-title"></p>
                 </div>
                 <div class="row">
@@ -363,34 +363,12 @@ $this->registerJs(<<<JS
                         val
                     ],
                     chart: {
-                        type: 'radialBar',
-                        // offsetY: -20,
-                        // sparkline: {
-                        //     enabled: true
-                        // }
+                        type: 'radialBar',                      
                         height: 300
                     },
                     colors: ['#1c78d5'],
                     plotOptions: {
-                        radialBar: {
-                            // startAngle: -90,
-                            // endAngle: 90,
-                            // track: {
-                            //     background: "#e7e7e7",
-                            //     strokeWidth: '100%',
-                            //     margin: 5,                                
-                            // },
-                            // dataLabels: {
-                            //     name: {
-                            //         show: false
-                            //     },
-                            //     value: {
-                            //         offsetY: -2,
-                            //         fontSize: '18px',
-                            //         fontFamily: 'Consolas',
-                            //         fontWeight: 'bold'
-                            //     }
-                            // }
+                        radialBar: {                          
                             dataLabels: {
                                 name: {
                                     show: false
@@ -398,7 +376,6 @@ $this->registerJs(<<<JS
                                 value: {
                                     offsetY: 10,
                                     fontSize: '2rem',
-                                    //fontFamily: 'Consolas',
                                     color: 'white'
                                 }
                             }
@@ -433,6 +410,8 @@ $this->registerJs(<<<JS
                 name: "Выполнено задач",
                 data: dataDep
             }]);
+            document.chartDepartment.updateOptions({ chart: { height: ((50 - dataDep.length) * dataDep.length) } });
+            console.log('deps:' + dataDep.length);
 
             // organizations
             const dataOrg = [];
@@ -457,6 +436,8 @@ $this->registerJs(<<<JS
                 name: "Выполнено задач",
                 data: dataOrg
             }]);
+            document.chartOrganization.updateOptions({ chart: { height: ((50 - dataOrg.length) * dataOrg.length) } });
+            console.log('orgs:' + dataOrg.length);
             
 
             // leader department

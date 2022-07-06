@@ -217,7 +217,7 @@ a.dropdown-item:focus,
 .dropdown-menu-main {
     display: block; 
     position: relative; 
-    z-index: 500; 
+    z-index: 5; 
     top:0; 
     margin-bottom: 5px; 
     width: 100%;

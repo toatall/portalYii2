@@ -43,9 +43,7 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'post')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'rank')->textInput(['rank' => true]) ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 8]) ?>
+    <?= $form->field($model, 'rank')->textInput(['rank' => true]) ?>    
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

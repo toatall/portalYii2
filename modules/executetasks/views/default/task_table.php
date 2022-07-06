@@ -9,17 +9,30 @@
 use app\modules\executetasks\models\ExecuteTasksChart;
 use yii\bootstrap4\Html;
 use yii\grid\GridView;
-?>
 
+?>
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
+    'layout' => "{items}\n{pager}",
+    'rowOptions' => function ($model, $key, $index, $grid) {        
+        return [
+            'data-row' => 'true',            
+        ];
+    },
     'columns' => [
         [
             'label' => 'Наименование',
-            'format' => 'text',
-            'value' => function($model) {
-                return $model['department_index'] . ' ' . $model['department_name'];
+            'format' => 'raw',
+            'value' => function($model) use ($idOrganization, $period, $periodYear) {
+                return Html::a($model['department_index'] . ' ' . $model['department_name'], 
+                    ['/executetasks/default/data-organization', 'idOrganization'=>$idOrganization, 
+                    'idDepartment'=>$model['id_department'], 'period'=>$period, 'periodYear'=>$periodYear], [
+                        'class' => 'link-dashed-white',
+                    ]);
             },
+            'contentOptions' => [
+                'class' => 'text-white',
+            ]
         ],
         'count_tasks:integer:Количество задач',
         'finish_tasks:integer:Исполнено задач',
@@ -32,18 +45,52 @@ use yii\grid\GridView;
                 return 0;
             },
             'footer' => ExecuteTasksChart::getTotalDataProvider($dataProvider->allModels, 'count_tasks'),
-        ],
-        [
-            'format' => 'raw',
-            'value' => function($model) use ($idOrganization, $period, $periodYear) {
-                return Html::a('<i class="fas fa-angle-double-right"></i> Подробнее', 
-                    ['/executetasks/default/data-organization', 'idOrganization'=>$idOrganization, 
-                        'idDepartment'=>$model['id_department'], 'period'=>$period, 'periodYear'=>$periodYear], 
-                    ['class' => 'btn btn-secondary link-detail', 'data-pjax'=>false]);
-            },
-        ],
+        ],        
     ],
     'tableOptions' => [
         'class' => 'table table-bordered table-dark table-striped',
     ],
 ]) ?>
+
+<?php $this->registerJs(<<<JS
+    $('tr[data-row="true"] a').click(function() {
+        const countRows = $(this).parent('td').parent('tr').children('td').length;
+        const tr = $(this).parent('td').parent('tr');
+        const nextTr = tr.next('tr[data-detail="true"]');
+        const key = tr.data('key');
+        const url = $(this).attr('href');
+
+        // скрыть дополнительную панель
+        if (nextTr.length > 0) {
+            nextTr.remove();
+        }
+        // показать дополнительную панель
+        else {
+            tr.after('<tr data-detail="true"><td colspan="' + countRows + '" id="detail_' + key + '"></td></tr>');
+            $('#detail_' + key).html('<div class="spinner-border" role="status"><span class="sr-only>Loading...</span></div>');
+            $.get(url)
+            .done(function(data) {
+                $('#detail_' + key).html(data.table);
+            })
+            .fail(function(err) {
+                $('#detail_' + key).html('<div class="text-danger">' + err.responseText + '</div>');
+            });
+        }
+
+        return false;
+    });
+JS); 
+
+$this->registerCss(<<<CSS
+    .link-dashed-white, .link-dashed-white:hover {
+        color: white; 
+        border-bottom: 1px white dashed;
+        transition: all .5s ease-in-out;
+    }
+
+    .link-dashed-white:hover {
+        opacity: .3;
+        text-decoration: none;
+    }
+CSS);
+?>

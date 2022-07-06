@@ -10,6 +10,7 @@ use yii\grid\GridView;
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
+    'layout' => "{items}\n{pager}",
     'columns' => [
         'name:text:Наименование',
         'count_tasks:integer:Количество задач',

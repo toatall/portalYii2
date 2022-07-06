@@ -33,12 +33,7 @@
                 <p>
                     <span class="text-primary">Телефон</span><br />
                     <?= $model->telephone ?>
-                </p>
-
-                <p>
-                    <span class="text-primary">Описание</span><br />
-                    <?= $model->description ?>
-                </p>
+                </p>                
                 
             </div>
                 

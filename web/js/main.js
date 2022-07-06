@@ -13,8 +13,10 @@ $(document).on('pjax:complete', function() {
 });
 
 $(document).on('pjax:error', function(xhr, textStatus, error, options) {
-    bs4Toast.error('Ошибка', textStatus.responseText, { delay: 15000 });   
-    console.log(xhr);
+    if (textStatus.responseText != "" && error != 'abort') {
+        bs4Toast.error('Ошибка', textStatus.responseText, { delay: 15000 });       
+    }
+    console.log(error);
     return false;
 });
 

@@ -111,9 +111,7 @@ class DefaultController extends Controller
             'total' => [ExecuteTasksChart::getTotal($baseData)],
             'totalWithIndex' => ExecuteTasksChart::getTotalWithIndex($baseData),
             'departments' => ExecuteTasksChart::getDepartments($baseData, $period, $periodYear),
-            'organizations' => ExecuteTasksChart::getOrganizations($baseData, $period, $periodYear),
-            // 'leadersDepartment' => ExecuteTasksChart::getLeadersDepartment($baseData),
-            // 'leadersOganization' => ExecuteTasksChart::getLeadersOrganization($baseData),
+            'organizations' => ExecuteTasksChart::getOrganizations($baseData, $period, $periodYear),            
         ];
     }
 
@@ -168,18 +166,6 @@ class DefaultController extends Controller
      */
     public function actionDataDepartment($idOrganization, $period, $periodYear)
     {
-        // $data = ExecuteTasks::getDataByPeriod($period, $periodYear);
-        // $oranizations = ExecuteTasks::getDepartments($data, $period, $periodYear, $idOrganization);
-        // $result = [
-        //     'labels' => [],
-        //     'data' => [],
-        // ];
-        
-        // foreach ($oranizations as $org => $item) {
-        //     $result['labels'][] = $org;
-        //     $result['data'][] = round($item['finish'] / $item['all'] * 100);
-        // }
-
         $query = (new Query())
             ->select('t.*, dep.department_index, dep.department_name, dep.short_name')
             ->from('{{%execute_tasks}} t')
@@ -197,7 +183,7 @@ class DefaultController extends Controller
             'pagination' => false,
         ]);
         $modelOrganizationEmployee = ExecuteTasksDescriptionOrganization::findOne(['code_org' => $idOrganization]);
-        $organizationName = (isset($modelOrganizationEmployee->codeOrg)) ? $modelOrganizationEmployee->codeOrg->fullName : null;
+        $organizationName = (isset($modelOrganizationEmployee->codeOrg)) ? $modelOrganizationEmployee->codeOrg->fullName : $idOrganization;
        
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [
@@ -205,7 +191,7 @@ class DefaultController extends Controller
                 'dataProvider' => $dataProvider,
                 'idOrganization' => $idOrganization, 
                 'period' => $period, 
-                'periodYear' => $periodYear,
+                'periodYear' => $periodYear,               
             ]),
             'employee' => $this->renderAjax('detail_photo', [
                 'model' => $modelOrganizationEmployee,
