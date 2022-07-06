@@ -124,7 +124,7 @@ if (date('Y') < 2022) {
                 </a>
             </div> -->
 
-            <div class="float-right d-none d-xl-block p-1 mt-2 mr-2 text-center" style="height: 12rem;" 
+            <!-- <div class="float-right d-none d-xl-block p-1 mt-2 mr-2 text-center" style="height: 12rem;" 
                 data-toggle="tooltip" data-content="<span class='lead'>Спартакиада 2022</span>" data-trigger="hover" data-html="true" data-placement="left">
                 <?php if (date('Ymd') < 20220530): ?>
                 <div class="d-inline-block">
@@ -147,7 +147,7 @@ if (date('Y') < 2022) {
                 <?php endif; ?>
                 <?= Html::a(Html::img('/public/content/portal/images/sport_2022.png', ['style'=>'height: 80%; margin-top: 1rem;']), ['news/index', 'tag'=>'sport2022']) ?>
                 
-            </div>
+            </div> -->
 
             <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isOrg('8600')): ?>
             <div class="d-none d-xl-block">
@@ -159,9 +159,9 @@ if (date('Y') < 2022) {
             
         </div>        
 
-        <a href="/contest/understand-me">
+        <!-- <a href="/contest/understand-me">
             <img src="/public/assets/contest/understand_me/img/croco.png" style="height: 185px; position: absolute; left: 45vw; top: 10px;" data-toggle="tooltip" data-content="Детский конкурс 'Пойми меня'" data-trigger="hover" data-placement="left" />
-        </a>
+        </a> -->
         
     </div>    
 </div>
