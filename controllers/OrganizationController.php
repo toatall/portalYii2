@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
@@ -33,14 +34,14 @@ class OrganizationController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'about'],
+                        'actions' => ['index', 'view', 'about', 'update'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['create', 'delete'],
                         'allow' => true,
-                        'roles' => ['admin', ],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],
@@ -100,6 +101,9 @@ class OrganizationController extends Controller
      */
     public function actionUpdate($code)
     {
+        if (!Organization::isRoleModerator($code)) {
+            throw new ForbiddenHttpException();
+        }
         $model = $this->findModel($code);
         $model->scenario = 'update-history-reference';
 
