@@ -6,6 +6,7 @@
 /** @var string|null $findType */
 /** @var string|null $searchName */
 
+use app\modules\restricteddocs\models\RestrictedDocs;
 use app\modules\restricteddocs\models\RestrictedDocsOrgs;
 use app\modules\restricteddocs\models\RestrictedDocsTypes;
 use kartik\select2\Select2;
@@ -15,14 +16,14 @@ use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 $this->title = 'Информационный ресурс по предоставлению информации ограниченного доступа';
-$roleEditor = Yii::$app->user->can('admin');
+$roleEditor = Yii::$app->user->can('admin') || Yii::$app->user->can(RestrictedDocs::roleModerator());
 ?>
 
 <p class="display-4 border-bottom">
     <?= $this->title ?>
 </p>
 
-<?php if (Yii::$app->user->can('admin')): ?>
+<?php if ($roleEditor): ?>
 <div>
     <?= Html::a('<i class="fas fa-tasks"></i> Управление организациями', ['/restricteddocs/docs-orgs'], ['class' => 'btn btn-secondary btn-sm mv-link']) ?>
     <?= Html::a('<i class="fas fa-tasks"></i> Управление видами сведений', ['/restricteddocs/docs-types'], ['class' => 'btn btn-secondary btn-sm mv-link']) ?>
@@ -174,32 +175,7 @@ $roleEditor = Yii::$app->user->can('admin');
 
 <?php $this->registerJs(<<<JS
    
-    // $('#form-restricted-docs-index').on('submit', function() {
-        
-    //     var flagInvalid = false;
-
-    //     $(this).find('select').each(function() {
-    //         if ($(this).val() == '') {
-    //             flagInvalid = true;
-    //             $(this).addClass('is-invalid');
-    //         }           
-    //     });
-
-    //     if (flagInvalid) {
-    //         return false;
-    //     }
-        
-    //     return true;
-       
-    // });
-    
     $('#form-restricted-docs-index select').on('change', function() {      
-        // if ($(this).val() == '') {
-        //     $(this).addClass('is-invalid');
-        // }
-        // else {
-        //     $(this).removeClass('is-invalid');
-        // }    
         $('#form-restricted-docs-index').submit();
     });
 
@@ -222,7 +198,6 @@ $roleEditor = Yii::$app->user->can('admin');
     
 
 JS); ?>
-
 
 <?php Pjax::end(); ?>
 

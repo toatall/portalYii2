@@ -235,6 +235,14 @@ return [
             ],
         ],
 
+        // информационный ресурс по предоставлению информации ограниченного доступа
+        'restricteddocs' => [
+            'uploadPath' => '/public/upload/restricteddocs/{id}/',
+            'roles' => [
+                'moderator' => 'restricteddocs.moderator',
+            ],
+        ],
+        
     ],    
 
     'lefehack' => [
