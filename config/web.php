@@ -68,6 +68,10 @@ $config = [
         'executetasks' => [
             'class' => 'app\modules\executetasks\Module',
         ],
+        // информационный ресурс по предоставлению информации ограниченного доступа
+        'restricteddocs' => [
+            'class' => 'app\modules\restricteddocs\Module',
+        ],
     ],    
     'components' => [
         'request' => [
