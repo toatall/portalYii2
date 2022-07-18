@@ -11,6 +11,13 @@ use yii\bootstrap4\Html;
 $this->title = 'Все мы родом из детства';
 ?>
 
+
+<?= Html::a('<i class="fas fa-arrow-circle-left"></i>', ['/'], [
+    'style' => 'position: fixed; left:2rem; top: 45%; font-size: 4rem;',   
+    'class' => 'text-secondary',
+    'title' => 'На портал',
+]) ?>
+
 <?php 
 $index = 1;
 if ($tasksToday) {
@@ -49,7 +56,7 @@ if ($tasksToday) {
                             ]) ?>
                         </div>
                         <div style="width: 10rem;" class="text-center">
-                            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-secondary']) ?>
+                            <?= Html::submitButton('Сохранить <span class="badge badge-light" id="span-counter"></span>', ['class' => 'btn btn-secondary btn-save']) ?>
                         </div>                    
                     </div>    
                     <?= Html::hiddenInput('id', $task['id']) ?>
@@ -121,8 +128,36 @@ $this->registerCss(<<<CSS
         background: rgba(240, 240, 240, .4);
     }
 
+    img.img-thumbnail {
+        transition: all 2s;
+    }
+   
 CSS);
 
+
+$superBag = !Yii::$app->user->isGuest && Yii::$app->user->identity->username == '8600-90-017';
+if ($superBag):
+    $this->registerJs(<<<JS
+        const counts = Math.floor(Math.random() * (10 - 5) + 5);
+        var flag = 0;
+        $('.btn-save').on('click', function() { 
+            if (flag % 2 == 1) {       
+                $('img.img-thumbnail').css('transform', 'rotate(0deg)');  
+            }
+            else {      
+                $('img.img-thumbnail').css('transform', 'rotate(3600deg)');                 
+            }
+            flag++;
+
+            $('#span-counter').html(counts - flag);
+
+            if (flag < counts) {    
+                return false;     
+            }
+        });
+        
+    JS);
+endif;
 
 
 $this->registerJs(<<<JS
