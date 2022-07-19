@@ -127,37 +127,7 @@ $this->registerCss(<<<CSS
     .new-background {
         background: rgba(240, 240, 240, .4);
     }
-
-    img.img-thumbnail {
-        transition: all 2s;
-    }
-   
 CSS);
-
-
-$superBag = !Yii::$app->user->isGuest && Yii::$app->user->identity->username == '8600-90-017';
-if ($superBag):
-    $this->registerJs(<<<JS
-        const counts = Math.floor(Math.random() * (10 - 5) + 5);
-        var flag = 0;
-        $('.btn-save').on('click', function() { 
-            if (flag % 2 == 1) {       
-                $('img.img-thumbnail').css('transform', 'rotate(0deg)');  
-            }
-            else {      
-                $('img.img-thumbnail').css('transform', 'rotate(3600deg)');                 
-            }
-            flag++;
-
-            $('#span-counter').html(counts - flag);
-
-            if (flag < counts) {    
-                return false;     
-            }
-        });
-        
-    JS);
-endif;
 
 
 $this->registerJs(<<<JS
