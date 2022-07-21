@@ -188,20 +188,26 @@ $('#btn-back').on('click', function() {
     }, 5000);
 
     window.scrollTo(0, 0);
-    $('html, body').animate({ scrollTop: document.body.scrollHeight - window.screen.height + 500 }, 5000);
+    $('html, body').animate({ scrollTop: document.body.scrollHeight - window.screen.height + 400 }, 5000);
 
 
-    $('p,h1,h2,h3,h4,h5,img,.card,.col').each(function() {
-        $(this).css('transition', 'all 3s');        
+    $('p,h1,h2,h3,h4,h5,.card,.col').each(function() {
+        $(this).css('transition', 'all 1s');        
     });
 
-    $('p,h1,h2,h3,h4,h5,img,.card,.col').each(function() {
+    $('p,h1,h2,h3,h4,h5,.card,.col').each(function() {
         $(this).css('transform', 'rotate(' + getRandom(2, 750, true) + 'deg) '
             + 'scale(' + (getRandom(8,12)/10) + ', ' + (getRandom(8,12)/10) + ') '            
             + 'translateY(' + getRandom(-300, 5, true) + 'px)');
         
         $(this).css('background-color', 'rgba(' + getRandom(0, 255) + ', ' + getRandom(0, 255) + ', ' + getRandom(0, 255) + ', ' + (getRandom(1,4)/10) + ')');
-    });    
+    });
+
+    $('img').each(function() {
+        $(this).css('transition', 'all .55s'); 
+        $(this).css('transform', 'rotate(' + getRandom(2, 342, true) + 'deg)');        
+    });
+
     
     $('.stroke,.display-2,.display-4').each(function() {        
         $(this).css('transition', 'all 1s'); 
