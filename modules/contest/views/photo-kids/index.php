@@ -167,6 +167,16 @@ $('.form-answer').on('submit', function() {
     return false;
 });
 
+function getRandom(min, max, z) {
+    var r = Math.floor(Math.random() * (max - min)) + min;
+    if (z) {
+        if (Math.floor(Math.random() * 2) > 0) {
+            r *= -1; 
+        }
+    }
+    return r;
+}
+
 $('#btn-back').on('click', function() {
         
     const url = $(this).data('url');
@@ -175,16 +185,34 @@ $('#btn-back').on('click', function() {
 
     setTimeout(() => {
         window.location = url;
-    }, 3000);
+    }, 5000);
 
-    $('p,h1,h2,h3,h4,h5,img,.card ').each(function() {
+    window.scrollTo(0, 0);
+    $('html, body').animate({ scrollTop: document.body.scrollHeight - window.screen.height + 500 }, 5000);
+
+
+    $('p,h1,h2,h3,h4,h5,img,.card,.col').each(function() {
         $(this).css('transition', 'all 3s');        
     });
 
-    $('p,h1,h2,h3,h4,h5,img,.card').each(function() {
-        $(this).css('transform', 'rotate(751deg)');
+    $('p,h1,h2,h3,h4,h5,img,.card,.col').each(function() {
+        $(this).css('transform', 'rotate(' + getRandom(2, 750, true) + 'deg) '
+            + 'scale(' + (getRandom(8,12)/10) + ', ' + (getRandom(8,12)/10) + ') '            
+            + 'translateY(' + getRandom(-300, 5, true) + 'px)');
+        
+        $(this).css('background-color', 'rgba(' + getRandom(0, 255) + ', ' + getRandom(0, 255) + ', ' + getRandom(0, 255) + ', ' + (getRandom(1,4)/10) + ')');
     });    
     
+    $('.stroke,.display-2,.display-4').each(function() {        
+        $(this).css('transition', 'all 1s'); 
+    });
+
+    $('.stroke,.display-2,.display-4').each(function() {        
+        $(this).css('font-size', getRandom(30, 150) + 'px');
+        $(this).css('color', 'rgba(' + getRandom(0, 255) + ', ' + getRandom(0, 255) + ', ' + getRandom(0, 255) + ', ' + (getRandom(1,10)/10) + ')');
+    });
+
+       
     return false;
     
 });
