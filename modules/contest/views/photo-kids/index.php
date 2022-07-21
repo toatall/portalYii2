@@ -7,15 +7,18 @@
 use app\modules\contest\models\photokids\PhotoKids;
 use app\widgets\CommentWidget;
 use yii\bootstrap4\Html;
+use yii\helpers\Url;
 
 $this->title = 'Все мы родом из детства';
 ?>
 
 
-<?= Html::a('<i class="fas fa-arrow-circle-left"></i>', ['/'], [
-    'style' => 'position: fixed; left:2rem; top: 45%; font-size: 4rem;',   
-    'class' => 'text-secondary',
+<?= Html::button('<i class="fas fa-arrow-circle-left"></i> На портал', [
+    'style' => 'position: fixed; left:2rem; top: 5%; font-size: 1rem;',   
+    'class' => 'btn btn-outline-secondary',
     'title' => 'На портал',
+    'id' => 'btn-back',
+    'data-url' => Url::to(['/']),
 ]) ?>
 
 <?php 
@@ -162,6 +165,28 @@ $('.form-answer').on('submit', function() {
     });
     
     return false;
+});
+
+$('#btn-back').on('click', function() {
+        
+    const url = $(this).data('url');
+    
+    $(this).prop('disabled', true);
+
+    setTimeout(() => {
+        window.location = url;
+    }, 3000);
+
+    $('p,h1,h2,h3,h4,h5,img,div,body').each(function() {
+        $(this).css('transition', 'all 3s');        
+    });
+
+    $('p,h1,h2,h3,h4,h5,img,div,body').each(function() {
+        $(this).css('transform', 'rotate(751deg)');
+    });    
+    
+    return false;
+    
 });
 
 JS);
