@@ -177,11 +177,11 @@ $('#btn-back').on('click', function() {
         window.location = url;
     }, 3000);
 
-    $('p,h1,h2,h3,h4,h5,img,div,body').each(function() {
+    $('p,h1,h2,h3,h4,h5,img,.card ').each(function() {
         $(this).css('transition', 'all 3s');        
     });
 
-    $('p,h1,h2,h3,h4,h5,img,div,body').each(function() {
+    $('p,h1,h2,h3,h4,h5,img,.card').each(function() {
         $(this).css('transform', 'rotate(751deg)');
     });    
     
