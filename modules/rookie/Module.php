@@ -36,6 +36,9 @@ class Module extends \yii\base\Module
             'fortboyard' => [
                 'class' => 'app\modules\rookie\modules\fortboyard\Module',
             ],
+            'tiktok' => [
+                'class' => 'app\modules\rookie\modules\tiktok\Module',
+            ],
         ]);        
     }
 

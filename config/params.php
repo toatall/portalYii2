@@ -242,6 +242,14 @@ return [
                 'moderator' => 'restricteddocs.moderator',
             ],
         ],
+
+        // конкурс новобранцев
+        'rookie' => [
+            // конкурс tiktok
+            'tiktok' => [
+                'videos' => '/public/upload/rookie/tiktok/videos/',
+            ],
+        ],
         
     ],    
 

@@ -401,7 +401,7 @@ class Department extends \yii\db\ActiveRecord
      */
     public static function dropDownList()
     {
-        $query = self::find()->all();
+        $query = self::find()->where(['id_organization' => '8600'])->all();
         return ArrayHelper::map($query, 'id', 'concatened');
     }
 
