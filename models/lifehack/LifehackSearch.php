@@ -63,6 +63,17 @@ class LifehackSearch extends Lifehack
             return $dataProvider;
         }
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'searchOrgName' => [
+                    'asc' => ['org.name' => SORT_ASC],
+                    'desc' => ['org.name' => SORT_DESC],
+                    'default' => SORT_ASC,
+                ],
+                'title',
+            ],
+        ]);
+
         // grid filtering conditions
         $query->andFilterWhere([
             't.id' => $this->id,            

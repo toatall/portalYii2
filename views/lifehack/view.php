@@ -1,11 +1,14 @@
 <?php
 
 use app\models\lifehack\Lifehack;
+use app\widgets\CommentWidget;
 use yii\bootstrap4\Html;
 use yii\widgets\DetailView;
+use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
 /** @var app\models\lifehack\Lifehack $model */
+/** @var app\models\lifehack\LifehackLike $modelLike */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Лайфхаки', 'url' => ['index']];
@@ -51,9 +54,21 @@ $this->params['breadcrumbs'][] = $this->title;
             <i class="far fa-file fa-1x"></i>&nbsp;&nbsp;<a href="<?= $file->filename ?>" target="_blank"><?= basename($file->filename) ?></a><br />
             <?php endforeach; ?>
         </div>
-    </div>
-    
+    </div>    
     <?php endif; ?>
+
+    <div class="mt-3">
+        <?php Pjax::begin(['timeout'=>false, 'enablePushState'=>false]) ?>
+            <?= $this->render('_formLike', ['model' => $modelLike]) ?>
+        <?php Pjax::end() ?>
+    </div>
+
+    <div class="mt-3">
+        <?= CommentWidget::widget([
+            'modelName' => 'lifehack',
+            'modelId' => $model->id,
+        ]) ?>
+    </div>    
 
 </div>
 

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\lifehack\Lifehack;
+use app\models\lifehack\LifehackLike;
 use app\models\lifehack\LifehackSearch;
 use app\models\lifehack\LifehackTags;
 use Yii;
@@ -141,10 +142,21 @@ class LifehackController extends \yii\web\Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $model = $this->findModel($id);
+
+        $modelLike = $model->lifehackLike;
+        if ($modelLike == null) {
+            $modelLike = new LifehackLike();
+            $modelLike->id_lifehack = $id;
+        }
+        if ($modelLike->load(Yii::$app->request->post()) && $modelLike->save()) {  
+            $model = $this->findModel($id);
+        }
+
         return [
             'title' => $model->title,
             'content' => $this->renderAjax('view', [
                 'model' => $model,
+                'modelLike' => $modelLike,
             ]),
         ];
     }

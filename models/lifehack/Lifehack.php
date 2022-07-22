@@ -7,6 +7,7 @@ use app\behaviors\DatetimeBehavior;
 use app\helpers\UploadHelper;
 use app\models\Organization;
 use Yii;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
@@ -24,8 +25,11 @@ use yii\web\UploadedFile;
  * @property string|null $username
  * @property string|null $log_change
  * @property array $tagsArray
+ * 
+ * @property float $avg
  *
  * @property LifehackFile[] $lifehackFiles
+ * @property LifehackLike $lifehackLike
  * @property Organization $organizationModel
  */
 class Lifehack extends \yii\db\ActiveRecord
@@ -141,6 +145,18 @@ class Lifehack extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLifehackLike()
+    {
+        return $this->hasOne(LifehackLike::class, ['id_lifehack' => 'id'])
+            ->where([
+                'username' => Yii::$app->user->identity->username ?? null,
+            ]);
+    }
+
+
+    /**
      * Файлы, прикрепленные к новости
      * @param $idFiles int[]
      * @return \yii\db\ActiveQuery
@@ -192,6 +208,17 @@ class Lifehack extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return float
+     */
+    public function getAvg()
+    {
+        return (new Query())
+            ->from('{{%lifehack_like}}')
+            ->where(['id_lifehack' => $this->id])
+            ->average('rate');        
+    }
+
+    /**
      * Каталог для загрузки файлов
      * @return string
      */
@@ -229,6 +256,18 @@ class Lifehack extends \yii\db\ActiveRecord
 
         // Загрузка файлов
         $this->uploadFiles();
+    }
+
+    /**
+     * Есть лайк от этого пользователя
+     * @return bool
+     */
+    public function liked()
+    {
+        return (new Query())
+            ->from('{{%lifehack_like}}')
+            ->where(['id_lifehack' => $this->id])
+            ->exists();
     }
     
 }

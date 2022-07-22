@@ -2,8 +2,10 @@
 
 use app\models\lifehack\Lifehack;
 use app\models\lifehack\LifehackFile;
+use app\models\Organization;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
+use kartik\select2\Select2;
 use yii\bootstrap4\Dropdown;
 use yii\bootstrap4\Html;
 use yii\helpers\Url;
@@ -31,7 +33,7 @@ $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
             'label' => 'Наименование',
             'value' => function(Lifehack $model) {
                 return $model->organizationModel->name . (!empty($model->author_name) ? ' (' . $model->author_name . ')' : '');
-            },
+            },            
             'format' => 'raw',
             'attribute' => 'searchOrgName',
         ],       
@@ -45,8 +47,23 @@ $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
                 return $res;
             },
             'format' => 'raw',
-        ],
+        ],        
         'title',
+        [
+            'label' => 'Оценка',
+            'format' => 'raw',
+            'value' => function($model) {
+                /** @var \app\models\lifehack\Lifehack $model */
+                $rate = $model->avg;
+                if ($rate) {
+                    return '<span class="badge badge-dark fa-1x"><i class="fas fa-star text-warning"></i> ' 
+                        . Yii::$app->formatter->asDecimal($rate, 2) . '</span>';
+                }
+                else {
+                    return '';
+                }                
+            },
+        ],
         [
             'label' => 'Файлы',
             'value' => function($model) {
