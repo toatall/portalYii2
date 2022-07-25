@@ -8,8 +8,9 @@ use yii\filters\AccessControl;
 use app\models\news\NewsSearch;
 use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
+use app\components\Controller;
 
-class NewsController extends \yii\web\Controller
+class NewsController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -157,6 +158,26 @@ class NewsController extends \yii\web\Controller
         }
         else {
             return $this->render('indexGeneral', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+    }
+
+    public function actionGeneralNew()
+    {
+        $this->getView()->title = 'Новости';
+        $searchModel = new NewsSearch();
+        $dataProvider = $searchModel->searchPublic(\Yii::$app->request->queryParams, true, 5);
+              
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('indexGeneralNew', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        else {
+            return $this->render('indexGeneralNew', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);

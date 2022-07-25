@@ -7,7 +7,7 @@ use Yii;
 use app\modules\test\models\TestQuestion;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

@@ -5,12 +5,13 @@ namespace app\controllers;
 use app\models\zg\EmailGovermentSearch;
 use Yii;
 use yii\filters\AccessControl;
+use app\components\Controller;
 
 /**
  * Class EmailGovermentController
  * @package app\controllers
  */
-class EmailGovermentController extends \yii\web\Controller
+class EmailGovermentController extends Controller
 {
     /**
      * {@inheritdoc}

@@ -7,7 +7,7 @@ use app\models\vote\VoteMain;
 use app\models\vote\VoteQuestion;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

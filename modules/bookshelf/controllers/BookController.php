@@ -7,7 +7,7 @@ use app\modules\bookshelf\models\BookShelf;
 use app\modules\bookshelf\models\BookShelfRating;
 use app\modules\bookshelf\models\BookShelfSearch;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;

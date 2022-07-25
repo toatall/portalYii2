@@ -5,8 +5,9 @@ namespace app\controllers;
 use yii\web\NotFoundHttpException;
 use app\models\Tree;
 use app\models\rating\RatingMain;
+use app\components\Controller;
 
-class RatingController extends \yii\web\Controller
+class RatingController extends Controller
 {
 
     /**

@@ -4,7 +4,7 @@ namespace app\modules\spa\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 
 /**
  * Education controller for the `kadry` module

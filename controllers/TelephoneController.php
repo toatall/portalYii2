@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\models\telephone\TelephoneSearch;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\db\Query;
 
 class TelephoneController extends Controller

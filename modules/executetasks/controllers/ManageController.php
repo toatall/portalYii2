@@ -7,7 +7,7 @@ use app\modules\executetasks\models\ExecuteTasks;
 use app\modules\executetasks\models\ExecuteTasksDetail;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;

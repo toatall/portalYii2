@@ -12,7 +12,7 @@ use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

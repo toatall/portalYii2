@@ -5,7 +5,7 @@ namespace app\modules\test\controllers;
 use app\modules\test\models\Test;
 use yii\db\Query;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;

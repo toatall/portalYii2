@@ -4,7 +4,7 @@ namespace app\modules\restricteddocs\controllers;
 
 use app\modules\restricteddocs\models\RestrictedDocs;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\filters\AccessControl;
 
 /**

@@ -9,7 +9,7 @@ use app\models\conference\VksExternalSearch;
 use Yii;
 use app\models\conference\Conference;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\db\Query;

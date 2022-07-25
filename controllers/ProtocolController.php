@@ -6,11 +6,11 @@ use Yii;
 use app\models\Protocol;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\web\UploadedFile;
+use app\components\Controller;
 
 /**
  * ProtocolController implements the CRUD actions for Protocol model.

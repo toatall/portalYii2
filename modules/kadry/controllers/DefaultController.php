@@ -2,7 +2,7 @@
 
 namespace app\modules\kadry\controllers;
 
-use yii\web\Controller;
+use app\components\Controller;
 
 /**
  * Default controller for the `kadry` module

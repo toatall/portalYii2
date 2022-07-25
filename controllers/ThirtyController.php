@@ -17,12 +17,13 @@ use yii\helpers\Json;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
+use app\components\Controller;
 
 /**
  * ThirtyController
  * @package app\controllers
  */
-class ThirtyController extends \yii\web\Controller
+class ThirtyController extends Controller
 {
 
     /**

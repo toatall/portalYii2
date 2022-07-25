@@ -13,12 +13,13 @@ use yii\helpers\FileHelper;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use app\components\Controller;
 
 /**
  * Class CrismasCalendarController
  * @package app\controllers
  */
-class ChristmasCalendarController extends \yii\web\Controller
+class ChristmasCalendarController extends Controller
 {
 
     /**

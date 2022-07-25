@@ -5,7 +5,7 @@ namespace app\modules\restricteddocs\controllers;
 use Yii;
 use app\modules\restricteddocs\models\RestrictedDocs;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;

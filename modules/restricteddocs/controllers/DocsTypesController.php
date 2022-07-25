@@ -7,7 +7,7 @@ use app\modules\restricteddocs\models\RestrictedDocsTypes;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 

@@ -14,11 +14,12 @@ use yii\helpers\FileHelper;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use app\components\Controller;
 
 /**
  * @package app\controllers
  */
-class ComplimentsController extends \yii\web\Controller
+class ComplimentsController extends Controller
 {
 
     /**

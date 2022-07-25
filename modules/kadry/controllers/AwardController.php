@@ -5,7 +5,7 @@ namespace app\modules\kadry\controllers;
 use app\modules\kadry\models\Award;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 
 class AwardController extends Controller
 {

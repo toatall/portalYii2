@@ -14,8 +14,9 @@ use yii\helpers\FileHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
+use app\components\Controller;
 
-class UserController extends \yii\web\Controller
+class UserController extends Controller
 {
     /**
      * {@inheritdoc}

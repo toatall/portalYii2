@@ -4,7 +4,7 @@ namespace app\modules\test\controllers;
 
 use app\modules\test\models\Test;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use app\modules\test\models\TestResult;
 use app\modules\test\models\TestResultAnswer;

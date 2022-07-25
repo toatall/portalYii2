@@ -5,7 +5,7 @@ namespace app\modules\contest\controllers;
 use app\modules\contest\models\Crossword;
 use app\modules\contest\models\quest\Linked;
 use Yii;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Response;

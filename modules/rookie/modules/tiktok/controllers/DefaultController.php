@@ -7,7 +7,7 @@ use app\modules\rookie\modules\tiktok\models\Tiktok;
 use app\modules\rookie\modules\tiktok\models\TiktokVote;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;

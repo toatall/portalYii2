@@ -9,11 +9,11 @@ use app\models\regecr\RegEcrSearch;
 use Yii;
 use yii\db\Query;
 use yii\filters\AccessControl;
-use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use app\components\Controller;
 
-class RegecrController extends \yii\web\Controller
+class RegecrController extends Controller
 {
     /**
      * {@inheritdoc}

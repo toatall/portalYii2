@@ -6,12 +6,12 @@ use app\models\Organization;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
+use app\components\Controller;
 
 /**
  * OrganizationController implements the CRUD actions for Organization model.

@@ -4,7 +4,7 @@ namespace app\modules\contest\controllers;
 
 use app\modules\contest\models\VoteMain;
 use Yii;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\filters\AccessControl;
 use yii\db\Expression;
 use yii\db\Query;

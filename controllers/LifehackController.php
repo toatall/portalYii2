@@ -14,12 +14,13 @@ use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
+use app\components\Controller;
 
 /**
  * Лайфкаки (проект от Гуляевой С.В.)
  * @author toatall
  */
-class LifehackController extends \yii\web\Controller
+class LifehackController extends Controller
 {
 
     /**

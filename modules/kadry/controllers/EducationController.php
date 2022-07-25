@@ -7,7 +7,7 @@ use app\modules\kadry\models\education\EducationDataFiles;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\FileHelper;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 
 /**

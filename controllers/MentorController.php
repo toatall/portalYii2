@@ -11,8 +11,9 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use Yii;
 use yii\web\UploadedFile;
+use app\components\Controller;
 
-class MentorController extends \yii\web\Controller
+class MentorController extends Controller
 {
     /**
      * {@inheritdoc}

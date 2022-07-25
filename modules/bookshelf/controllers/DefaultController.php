@@ -9,7 +9,7 @@ use app\modules\bookshelf\models\RecommendRead;
 use app\modules\bookshelf\models\WhatReading;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\filters\AccessControl;
 
 /**

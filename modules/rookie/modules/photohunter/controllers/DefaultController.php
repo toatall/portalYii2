@@ -6,7 +6,7 @@ use app\modules\rookie\modules\photohunter\models\Photos;
 use app\modules\rookie\modules\photohunter\models\PhotosVotes;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 

@@ -7,7 +7,7 @@ use app\modules\calendar\models\Calendar;
 use app\modules\calendar\models\CalendarColor;
 use yii\bootstrap4\Html;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;

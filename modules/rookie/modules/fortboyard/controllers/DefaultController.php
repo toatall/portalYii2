@@ -9,7 +9,7 @@ use yii\db\Exception;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;

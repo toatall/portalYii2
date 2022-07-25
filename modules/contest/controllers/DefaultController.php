@@ -8,7 +8,7 @@ use app\modules\contest\models\HrResultData;
 use Yii;
 use yii\db\Expression;
 use yii\db\Query;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\filters\AccessControl;
 use yii\web\Response;
 

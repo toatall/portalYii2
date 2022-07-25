@@ -8,7 +8,7 @@ use Yii;
 use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\Response;
 
 class TestResultController extends Controller

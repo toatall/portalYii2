@@ -6,7 +6,7 @@ use Yii;
 use app\modules\events\models\ContestArts;
 use app\modules\events\models\ContestArtsResults;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;

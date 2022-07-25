@@ -5,7 +5,7 @@ namespace app\modules\bookshelf\controllers;
 use Yii;
 use app\modules\bookshelf\models\BookShelfDiscussionComment;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;

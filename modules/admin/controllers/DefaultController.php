@@ -2,7 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
-use yii\web\Controller;
+use app\components\Controller;
 use yii\filters\AccessControl;
 
 /**

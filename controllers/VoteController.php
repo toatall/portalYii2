@@ -11,12 +11,13 @@ use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
+use app\components\Controller;
 
 /**
  * Class VoteController
  * @package app\controllers
  */
-class VoteController extends \yii\web\Controller
+class VoteController extends Controller
 {
 
     /**

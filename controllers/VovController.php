@@ -7,12 +7,13 @@ use app\models\page\PageSearch;
 use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\helpers\FileHelper;
+use app\components\Controller;
 
 /**
  * Class VovController
  * @package app\controllers
  */
-class VovController extends \yii\web\Controller
+class VovController extends Controller
 {
 
     /**

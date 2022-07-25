@@ -8,7 +8,7 @@ use app\modules\quiz\models\QuizResultQuestion;
 use Intervention\Image\Exception\NotFoundException;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\ServerErrorHttpException;
 
 /**

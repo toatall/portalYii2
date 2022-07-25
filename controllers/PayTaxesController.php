@@ -11,8 +11,9 @@ use yii\filters\AccessControl;
 use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use app\components\Controller;
 
-class PayTaxesController extends \yii\web\Controller
+class PayTaxesController extends Controller
 {
     /**
      * {@inheritdoc}

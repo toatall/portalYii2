@@ -3,7 +3,7 @@
 namespace app\modules\test\controllers;
 
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use Yii;
 use yii\helpers\Url;
 use yii\web\Response;

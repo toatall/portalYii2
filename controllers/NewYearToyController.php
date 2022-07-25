@@ -9,12 +9,13 @@ use yii\helpers\Json;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
+use app\components\Controller;
 
 /**
  * Class NewYearToyController
  * @package app\controllers
  */
-class NewYearToyController extends \yii\web\Controller
+class NewYearToyController extends Controller
 {
 
     /**

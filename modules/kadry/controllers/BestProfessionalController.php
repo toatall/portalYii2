@@ -7,7 +7,7 @@ use app\modules\kadry\models\BestProfessional;
 use app\modules\kadry\models\BestProfessionalSearch;
 use yii\debug\models\timeline\DataProvider;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;

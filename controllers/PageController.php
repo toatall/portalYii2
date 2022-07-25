@@ -7,8 +7,9 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
+use app\components\Controller;
 
-class PageController extends \yii\web\Controller
+class PageController extends Controller
 {
     /**
      * {@inheritdoc}

@@ -2,7 +2,7 @@
 
 namespace app\modules\events\controllers;
 
-use yii\web\Controller;
+use app\components\Controller;
 use yii\filters\AccessControl;
 
 /**
