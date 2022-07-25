@@ -3,7 +3,7 @@
 
 return [
     'class' => 'yii\db\Connection',    
-    'dsn' => 'pgsql:host=host;dbname=log',   
+    'dsn' => 'pgsql:host=host;dbname=portal_log',   
     'username' => '',
     'password' => '',
     'charset' => 'utf8',    

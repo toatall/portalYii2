@@ -14,7 +14,7 @@ class m220725_062113_create_log extends Migration
     {
         $this->createTable('{{%history}}', [
             'id' => $this->primaryKey(),
-            'url' => $this->string(100)->notNull(),
+            'url' => $this->string(400)->notNull(),
             'title' => $this->string(2000),
             'count_visits' => $this->integer()->notNull(),
             'date' => $this->date()->notNull(),
