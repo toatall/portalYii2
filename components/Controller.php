@@ -3,8 +3,9 @@ namespace app\components;
 
 class Controller extends \yii\web\Controller
 {
-    
-    
+    /**
+     * {@inheritdoc}
+     */
     public function afterAction($action, $result) 
     {
         $this->saveLog();
@@ -12,15 +13,20 @@ class Controller extends \yii\web\Controller
     }
     
     /**
-     * Сохранение в БД
+     * Сохранение в БД адреса и количества просмотров
      */
     private function saveLog()
     {                
+        if (!\Yii::$app->response->isOk) {
+            return;
+        }
+        $date = date('Y-m-d');
         $url = \yii\helpers\Url::to([$this->route] + $this->actionParams);
         $query = (new \yii\db\Query())
             ->from('{{%history}}')
             ->where([
-                'url' => $url,
+                'url' => $url, 
+                'date' => $date,
             ])
             ->one();
         if ($query != null) {
@@ -40,7 +46,8 @@ class Controller extends \yii\web\Controller
                 ->insert('{{%history}}', [
                     'url' => $url,
                     'count_visits' => 1,
-                    'date_create' => time(),
+                    'date' => $date,
+                    'title' => $this->view->title,
                 ])
                 ->execute();
                 
@@ -49,16 +56,21 @@ class Controller extends \yii\web\Controller
         }
     }
     
-    
+    /**
+     * @param int $idParent
+     */
     private function saveVisit($idParent)
     {        
         $request = $this->request;
+           
         \Yii::$app->db->createCommand()
             ->insert('{{%history_detail}}', [
                 'id_history' => $idParent,
                 'is_ajax' => $request->isAjax,
                 'is_pjax' => $request->isPjax,
-                'method' => $request->method,                
+                'method' => $request->method, 
+                'host' => $request->userHost,
+                'ip' => $request->userIP,
                 'date_create' => time(),                
                 'author' => \Yii::$app->user->identity->username ?? 'guest',
             ])->execute();

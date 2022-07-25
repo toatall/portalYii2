@@ -14,18 +14,22 @@ class m220725_062113_create_log extends Migration
     {
         $this->createTable('{{%history}}', [
             'id' => $this->primaryKey(),
-            'url' => $this->string(100)->notNull()->unique(),
+            'url' => $this->string(100)->notNull(),
+            'title' => $this->string(2000),
             'count_visits' => $this->integer()->notNull(),
-            'date_create' => $this->integer()->notNull(),
+            'date' => $this->date()->notNull(),
         ]);
-        $this->createIndex('index__history__url', '{{%history}}', 'url');
+        $this->createIndex('index__history__url', '{{%history}}', ['url', 'date'], true);
+        
         
         $this->createTable('{{%history_detail}}', [
             'id' => $this->primaryKey(),
             'id_history' => $this->integer()->notNull(),
             'is_ajax' => $this->boolean(),
-            'is_pjax' => $this->boolean(),
-            'method' => $this->string(30),            
+            'is_pjax' => $this->boolean(),            
+            'method' => $this->string(30),
+            'host' => $this->string(40),
+            'ip' => $this->string(15),
             'date_create' => $this->integer()->notNull(),
             'author' => $this->string(250)->notNull(),
         ]);
