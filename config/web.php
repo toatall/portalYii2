@@ -4,6 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 $dbPortalOld = require __DIR__ . '/dbPortalOld.php';
 $dbDKS = require __DIR__ . '/dbDKS.php';
+$dbPgSqlLog = require __DIR__ . '/dbPgsqlLog.php';
 $ldapParams = require __DIR__ . '/ldap.php';
 
 $config = [
@@ -74,7 +75,7 @@ $config = [
         ],
     ],    
     'components' => [
-        'request' => [
+        'request' => [            
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'DJAFCKD5hS1paD3QjX1IdZdRp4nlOOfo',
         ],
@@ -112,6 +113,10 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class' => 'app\components\DbTarget',
+                    'levels' => ['error', 'warning'],
+                ],
             ],
         ],
         
@@ -119,6 +124,7 @@ $config = [
         'db' => $db,
         'dbPortalOld' => $dbPortalOld,
         'dbDKS' => $dbDKS,
+        'dbPgsqlLog' => $dbPgSqlLog,
 
         // настройка форматирования
         'formatter' => [
