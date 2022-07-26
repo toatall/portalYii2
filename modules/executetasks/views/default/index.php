@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-4">
             <div class="card mt-3 bg-dark shadow" style="height:350px;">
-                <div class="card-header lead text-uppercase text-center">
+                <div class="card-header lead text-uppercase fa-1x text-center">
                     Выполнено задач (всего)
                 </div>
                 <div class="card-body">
@@ -155,129 +155,12 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <!-- <div id="data-div" class="row">
-
-        <div class="col-3">
-            
-
-            <div class="card mt-3 bg-dark shadow">
-                <div class="card-header lead text-uppercase text-center">
-                    Лидеры (отделы Управления)
-                </div>
-                <div class="card-body">
-                    <div id="leader-department"></div>
-                </div>
-            </div> 
-
-            <div class="card mt-3 bg-dark shadow">
-                <div class="card-header lead text-uppercase text-center">
-                    Лидеры (Инспекции)
-                </div>
-                <div class="card-body">
-                    <div id="leader-organization"></div>
-                </div>
-            </div> 
-
-        </div>
-
-        <div class="col">
-            
-            
-            
-            <div class="card mt-3 bg-dark shadow">
-                <div class="card-header lead text-uppercase text-center">Исполнение задач в разрезе инспекций</div>            
-                <div class="card-body">
-                    
-                    <div id="chart-organization-detail" style="display: none;"></div>
-                    <div id="chart-organization-detail-alert" style="display: none;"></div>
-                </div>
-            </div>
-
-            <!-- <div id="test-j"></div> -->
-
-        </div>
-
-    </div> 
-
 </div>
 
 
 <?php
 $this->registerJs(<<<JS
-    /* */
-    // var chartJ = new ApexCharts(document.getElementById('test-j'), {
-    //     series: [], 
-    //     chart: {
-    //         type: 'area',
-    //         height: 300,
-    //         animations: {
-    //             enabled: true,
-    //             easing: 'linear'               
-    //         },
-    //         toolbar: {
-    //             show: false
-    //         },
-    //         zoom: {
-    //             enabled: false
-    //         },            
-    //     },
-    //     dataLabels: {
-    //         enabled: false,
-    //     },
-    //     stroke: {
-    //         curve: 'smooth'
-    //     },
-    //     xaxis: {
-    //         range: 10,
-    //         labels: {
-    //             show: false,
-    //         }
-    //     },        
-    //     yaxis: {
-    //         min: 0,
-    //         max: 100,
-    //     },       
-    //     brush: {
-    //         enabled: true,
-    //     },
-    //     annotations: {
-    //         yaxis: [
-    //             {
-    //                 y: 85,
-    //                 y2: 100,
-    //                 fillColor: 'red',
-    //                 opacity: 0.1,
-    //             },
-    //             {
-    //                 y: 70,
-    //                 y2: 85,
-    //                 fillColor: 'yellow',
-    //                 opacity: 0.1,
-    //             },
-    //         ],
-    //     },
-    // });
-    // chartJ.render();
-
-    // var d = [];
-    // const url = '/execute-tasks/j';
-
-    // function loadJ() {                       
-    //     $.get(url)
-    //     .done(function(data) {            
-    //         setTimeout(() => { loadJ() }, 1);
-    //         d.push(data);                    
-    //         chartJ.updateSeries([{data: d}]);
-    //     });
-    // }
-    // loadJ();  
-        
-    // window.Apex = {
-    //     chart: {
-    //         foreColor: 'red'
-    //     }
-    // };
-
+   
     $('#select-period').on('change', function() {
         loadData();
     });
@@ -295,18 +178,8 @@ $this->registerJs(<<<JS
         divMain.show();
 
         $.get(url)
-        .done(function(data) {
-            // chartSubDep.updateSeries([{
-            //     name: "Выполнено задач",
-            //     data: data.data
-            // }]);
-            // chartSubDep.updateOptions({
-            //     xaxis: {
-            //         categories: data.labels
-            //     }
-            // });
-            divTable.html(data.table);
-            // divEmployee.html(data.employee);
+        .done(function(data) {           
+            divTable.html(data.table);           
             divTitle.html(data.deaprtmentName);
         })
         .fail(function(err) {                 
@@ -338,17 +211,15 @@ $this->registerJs(<<<JS
             document.chartTotal.updateSeries(data.total);
 
             // total with indexes
-
             const divTotalWithIndexes = $('#chart-total-with-indexes');
             var index = 0;
-
-            console.log(data.totalWithIndex);
+            
             divTotalWithIndexes.html('');
             for (i in data.totalWithIndex) {
 
                 divTotalWithIndexes.append('<div class="col-6">' +
                                            '  <div class="card mt-3 bg-dark shadow" style="height:350px;">' +
-                                           '    <div class="card-header lead text-uppercase text-center">Выполнено задач (' + i + ')</div>' +
+                                           '    <div class="card-header lead text-uppercase text-center fa-1x">Выполнено задач (' + i + ')</div>' +
                                            '    <div class="card-body"><div id="chart-total-with-index-' + index + '"></div></div>' +
                                            '  </div>' +
                                            '</div>');    
@@ -411,8 +282,7 @@ $this->registerJs(<<<JS
                 data: dataDep
             }]);
             document.chartDepartment.updateOptions({ chart: { height: ((50 - dataDep.length) * dataDep.length) } });
-            console.log('deps:' + dataDep.length);
-
+           
             // organizations
             const dataOrg = [];
             for (i in data.organizations) {
@@ -437,8 +307,7 @@ $this->registerJs(<<<JS
                 data: dataOrg
             }]);
             document.chartOrganization.updateOptions({ chart: { height: ((50 - dataOrg.length) * dataOrg.length) } });
-            console.log('orgs:' + dataOrg.length);
-            
+           
 
             // leader department
 
@@ -481,10 +350,7 @@ $this->registerJs(<<<JS
                 index++;
             }
 
-            leaderOrg.html(text);
-
-
-            
+            leaderOrg.html(text);            
 
         })
         .fail(function(err) {

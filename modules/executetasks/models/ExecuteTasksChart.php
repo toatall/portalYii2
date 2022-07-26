@@ -167,6 +167,25 @@ class ExecuteTasksChart
             ]);
             $result[$org]['full_name'] = $item['org_code'] . ' ' . $item['org_name_full'];
         }
+        uasort($result, function($a, $b) {
+            // $valA = 0;
+            // if ($a['all'] > 0) {
+            //     $valA = $a['finish'] / $a['all'];
+            // }
+            // $valB = 0;
+            // if ($b['all'] > 0) {
+            //     $valB = $b['finish'] / $b['all'];
+            // }
+            // if ($valA == $valB) {
+            //     return 0;
+            // }
+            // return ($valA > $valB) ? -1 : 1;
+            if ($a['finish'] == $b['finish']) {
+                return 0;
+            }
+            return ($a['finish'] > $b['finish']) ? -1 : 1;
+
+        });
         return $result;
     }
 

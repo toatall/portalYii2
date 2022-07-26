@@ -40,16 +40,9 @@ class DefaultController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'allow' => true,
-                        //'actions' => ['index', 'data', 'data-chart-radar', 'data-organization', 'data-department'],
+                        'allow' => true,                        
                         'roles' => ['@'],
-                    ],
-                    // [
-                    //     'allow' => true,
-                    //     'actions' => ['manage', 'manage-form', 'create', 'update', 'delete', 
-                    //         'task-detail-create'],
-                    //     'roles' => ['admin', ExecuteTasks::roleModerator()],
-                    // ],
+                    ],                    
                 ],
             ],
         ];
