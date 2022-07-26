@@ -15,6 +15,10 @@ class DbTarget extends \yii\log\DbTarget
         try {
             $currentUser = \Yii::$app->user->identity->username ?? 'guest ("' . \Yii::$app->request->userHost .  '")';
             
+            $stausCode = \Yii::$app->response->statusCode ?? null;
+            $statusText = \Yii::$app->response->statusText ?? null;
+            $url = \Yii::$app->request->url ?? null;
+
             if ($this->db->getTransaction()) {
                 // create new database connection, if there is an open transaction
                 // to ensure insert statement is not affected by a rollback
@@ -22,8 +26,8 @@ class DbTarget extends \yii\log\DbTarget
             }
 
             $tableName = $this->db->quoteTableName($this->logTable);
-            $sql = "INSERT INTO $tableName ([[level]], [[user]], [[category]], [[log_time]], [[prefix]], [[message]])
-                    VALUES (:level, :user, :category, :log_time, :prefix, :message)";
+            $sql = "INSERT INTO $tableName ([[level]], [[user]], [[category]], [[url]], [[statusCode]], [[statusText]], [[log_time]], [[prefix]], [[message]])
+                    VALUES (:level, :user, :category, :url, :statusCode, :statusText, :log_time, :prefix, :message)";
             $command = $this->db->createCommand($sql);
             foreach ($this->messages as $message) {
                 list($text, $level, $category, $timestamp) = $message;
@@ -39,6 +43,9 @@ class DbTarget extends \yii\log\DbTarget
                         ':level' => $level,
                         ':user' => $currentUser,
                         ':category' => $category,
+                        ':url' => $url,
+                        ':statusCode' => $stausCode,
+                        ':statusText' => $statusText,
                         ':log_time' => $timestamp,
                         ':prefix' => $this->getMessagePrefix($message),
                         ':message' => $text,

@@ -116,6 +116,7 @@ $config = [
                 [
                     'class' => 'app\components\DbTarget',
                     'levels' => ['error', 'warning'],
+                    'except' => ['yii\web\HttpException:403'],
                 ],
             ],
         ],
