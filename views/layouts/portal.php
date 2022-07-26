@@ -180,6 +180,7 @@ TestAsset::register($this);
                         <li><a href="http://86000-portal:86" target="_blank">Реестр МРГ</a></li>
                         <li><a href="http://86000-app036" target="_blank">Бывшие сотрудники</a></li>
                         <li><a href="http://86000-app012:88" target="_blank">Проект "Обращения"</a></li>
+                        <li><a href="/kadry/award" target="_blank">Награды и поощрения сотрудников налоговых органов округа</a></li>
                     </ul>
                 </div>
             </div>
