@@ -32,6 +32,7 @@ class m220725_062113_create_log extends Migration
             'ip' => $this->string(15),
             'date_create' => $this->integer()->notNull(),
             'author' => $this->string(250)->notNull(),
+            'author_org_code' => $this->string(5),
         ]);
     }
 

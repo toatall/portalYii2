@@ -13,6 +13,30 @@ class UserAuthentication extends \yii\web\User
     /**
      * {@inheritdoc}
      */
+    public function init()
+    {
+        parent::init();
+        $this->updateLastLogin();              
+    }
+
+    /**
+     * Запись последнего времени действия пользователя
+     */
+    private function updateLastLogin()
+    {
+        /** @var \app\models\User $identity  */
+        $identity = $this->identity;
+        if ($identity) {                                
+            $identity->last_action = \Yii::$app->request->url ?? null;
+            $identity->last_action_time = time();
+            $identity->save(['last_login', 'last_login_time']);
+        }
+    }
+    
+
+    /**
+     * {@inheritdoc}
+     */
     public function can($permissionName, $params = [], $allowCaching = true)
     {
         if ($this->checkRight($permissionName)) {
@@ -48,6 +72,5 @@ class UserAuthentication extends \yii\web\User
         }, 600);
         
     }
-
 
 }
