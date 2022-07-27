@@ -233,7 +233,8 @@ class Tiktok extends \yii\db\ActiveRecord
             throw new NotFoundHttpException('Page not found');
         }
         if (!self::isAllowVote($modelTikTok)) {
-            throw new ServerErrorHttpException('Вы не можете голосовать!');
+            // throw new ServerErrorHttpException('Вы не можете голосовать!');
+            return false;
         }
         return ($modelTikTok->tiktokVotes == null);
     }
