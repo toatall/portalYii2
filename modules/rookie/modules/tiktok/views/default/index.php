@@ -80,6 +80,10 @@ $this->registerJs(<<<JS
     $(modalViewer).on('onRequestJsonAfterAutoCloseModal', function(event, data) {    
         document.location.reload();
     });
+    $(modalViewer.modalId).on('hide.bs.modal', function() {
+        $(modalViewer.modalBody).html('');
+    });
+    
     $('[data-toggle="tooltip"]').tooltip();
 JS); 
 $this->registerCss(<<<CSS
