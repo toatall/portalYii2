@@ -105,7 +105,8 @@ class Tiktok extends \yii\db\ActiveRecord
      */
     public function getTiktokVotes()
     {
-        return $this->hasMany(TiktokVote::class, ['id_tiktok' => 'id']);
+        return $this->hasMany(TiktokVote::class, ['id_tiktok' => 'id'])
+            ->andWhere(['author' => \Yii::$app->user->identity->username ?? null]);
     }
 
     /**
