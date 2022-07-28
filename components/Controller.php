@@ -73,6 +73,7 @@ class Controller extends \yii\web\Controller
                 'ip' => $request->userIP,
                 'date_create' => time(),                
                 'author' => \Yii::$app->user->identity->username ?? 'guest',
+                'author_org_code' => \Yii::$app->user->identity->default_organization ?? null,
             ])->execute();
     }
     

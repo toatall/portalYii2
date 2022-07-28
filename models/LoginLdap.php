@@ -5,7 +5,6 @@ namespace app\models;
 
 use Yii;
 use yii\base\Exception;
-use yii\db\Expression;
 
 
 class LoginLdap
@@ -79,14 +78,13 @@ class LoginLdap
     private function getUser(string $username)
     {
         $modelUser = User::findByUsername($username);
-        if ($modelUser === null/* && User::find()->count() == 0*/) {
+        if ($modelUser === null) {
             $modelUser = new User();
             $modelUser->username = $username;
             $modelUser->username_windows = $modelUser->username;
             $modelUser->current_organization = $this->getOrgCodeByLogin($username);
             $modelUser->authKey = md5($modelUser->username);
-            $modelUser->password = $modelUser->authKey;
-            //$modelUser->save(false);
+            $modelUser->password = $modelUser->authKey;            
 
             // Если пользователь этот первый и у него нет прав, то назначаю права админа
             if (User::find()->count() == 1) {
@@ -94,8 +92,7 @@ class LoginLdap
             }
         }
         if ($modelUser !== null) {
-            $modelUser->last_login = new Expression('getdate()');
-            //$modelUser->save(false, ['last_login']);            
+            $modelUser->last_login = Yii::$app->formatter->asDatetime('now');              
         }
         $this->getLdapUserData($modelUser);
         $modelUser->save(false);
@@ -178,7 +175,9 @@ class LoginLdap
     {
         $auth = Yii::$app->authManager;
         $roleAdmin = $auth->getRole('admin');
-        $auth->assign($roleAdmin, $id);
+        if ($roleAdmin) {
+            $auth->assign($roleAdmin, $id);
+        }
     }
 
     /**

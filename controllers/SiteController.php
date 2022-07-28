@@ -26,7 +26,7 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['logout', 'index', 'telephone', 'hall-fame'],
+                        'actions' => ['logout', 'index', 'telephone', 'hall-fame', 'screen-resolution'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -98,13 +98,15 @@ class SiteController extends Controller
             if (!$model->login()) {
                 return $this->render('loginLdapError');
             }
-            return $this->goBack();
+            // return $this->goBack();
+            return $this->render('save-user-info');
         }
 
         // обычная аутентификация
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            // return $this->goBack();
+            return $this->render('save-user-info');
         }
 
         $model->password = '';
@@ -151,6 +153,19 @@ class SiteController extends Controller
         return $this->render('telephone', [
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    /**
+     * @param int $width
+     * @param int $height
+     * @return string
+     */
+    public function actionScreenResolution($width, $height)
+    {
+        if (!\Yii::$app->user->isGuest) {
+            \Yii::$app->user->identity->saveInformation($width, $height);
+        }
+        return $this->goBack();
     }
 
 

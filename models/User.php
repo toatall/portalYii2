@@ -39,6 +39,10 @@ use yii\db\Query;
  * @property string $date_update_ad
  * @property string $description_ad
  * @property string $photo_file
+ * @property string $last_action
+ * @property int $last_action_time
+ * 
+ * @property string $concat
  *
  * @property Department[] $departments
  * @property File[] $files
@@ -88,6 +92,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function rules()
     {
@@ -110,6 +115,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function attributeLabels()
     {
@@ -243,7 +249,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             $relation->multiple = true;
             return $relation;
         }
-        return $this->hasMany(Organization::class, ['code' => 'id_organization'])->viaTable('{{%user_organization}}', ['id_user' => 'id']);
+        return $this->hasMany(Organization::class, ['code' => 'id_organization'])
+            ->viaTable('{{%user_organization}}', ['id_user' => 'id']);
     }
     
     
@@ -265,6 +272,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function validateAuthKey($authKey)
     {
@@ -272,8 +280,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
     
     /**
-     * @param type $password
-     * @return type
+     * @param string $password
+     * @return boolean
+     * @codeCoverageIgnore
      */
     public function validatePassword($password)
     {
@@ -412,7 +421,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
     
     /**
-     * Сохранение ролей в БД
+     * Отзыв всех ролей пользователя
      */
     private function removeRolesByUser()
     {
@@ -456,10 +465,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return Yii::$app->params['user']['profile']['defaultPhoto'];
     }
 
-
-
-    /** migrate from Yii1 */
-
+   
     /**
      * Проверка имеет ли доступ пользователь к требуемой орагнизации
      * @param string $organization код организации
@@ -469,7 +475,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function checkRightOrganization($organization)
     {
-        if ($organization===null) return false;
+        if (empty($organization)) {
+            return false;
+        }
 
         if (Yii::$app->user->can('admin')) {
             return true;
@@ -494,24 +502,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
 
     /**
-     * @return bool
-     */
-    public function isNewSession()
-    {
-        /* @var $session \yii\web\Session */
-        $session = Yii::$app->session;
-        if (!$session->isActive) {
-            $session->open();
-        }
-
-        if (!$session->has('show')) {
-            $session->set('show', true);
-            return true;
-        }
-        return false;
-    }
-    
-    /**
      * Является ли пользователь указаной организации
      * @return boolean
      */
@@ -520,7 +510,75 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         if (Yii::$app->user->isGuest) {
             return false;
         }
-        return strpos(Yii::$app->user->identity->username, $code) !== false;
+        return \Yii::$app->user->identity->default_organization == $code;
+    }
+
+    /**
+     * @param int $width
+     * @param int $height
+     */
+    public function saveInformation($width, $height)
+    {
+        if (($session = session_id()) === false) {
+            return;
+        }
+        $browser = [];
+        if (ini_get('browscap')) {
+            $browser = get_browser(null, true);
+        }       
+
+        $sql = "
+            if not exists(select 1 from {{%user_log_auth}} where session=:session and username=:username)
+            begin
+                insert into {{%user_log_auth}} (
+                     [[session]]           
+                    ,[[browser_name]]
+                    ,[[browser_ver]]
+                    ,[[browser_maker]]
+                    ,[[platform]]
+                    ,[[platform_description]]
+                    ,[[platform_maker]]
+                    ,[[platform_bits]]
+                    ,[[screen_width]]
+                    ,[[screen_height]]
+                    ,[[agent_string]]
+                    ,[[username]]
+                    ,[[date_create]]
+                )
+                values (
+                     :session2
+                    ,:browser_name
+                    ,:browser_ver
+                    ,:browser_maker
+                    ,:platform
+                    ,:platform_description
+                    ,:platform_maker
+                    ,:platform_bits
+                    ,:screen_width
+                    ,:screen_height
+                    ,:agent_string
+                    ,:username2
+                    ,:date_create
+                )
+            end        
+        ";
+        \Yii::$app->db->createCommand($sql, [
+            ':session' => $session,
+            ':session2' => $session,
+            ':browser_name' => $browser['browser'] ?? null,
+            ':browser_ver' => $browser['version'] ?? null,
+            ':browser_maker' => $browser['browser_maker'] ?? null,
+            ':platform' => $browser['platform'] ?? null,
+            ':platform_description' => $browser['platform_description'] ?? null,
+            ':platform_maker' => $browser['platform_maker'] ?? null,
+            ':platform_bits' => $browser['platform_bits'] ?? null,
+            ':screen_width' => $width,
+            ':screen_height' => $height,
+            ':agent_string' => \Yii::$app->request->userAgent ?? null,
+            ':username' => $this->username,
+            ':username2' => $this->username,
+            ':date_create' => time(),
+        ])->execute();
     }
 
 }
