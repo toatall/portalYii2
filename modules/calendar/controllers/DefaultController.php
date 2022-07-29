@@ -246,7 +246,7 @@ class DefaultController extends Controller
                 and (t.org_code = :org_code_t or t.is_global = 1)
             
             union select 
-                t_b.date
+                DATEADD(YEAR,YEAR(GETDATE())-YEAR(t_b.date),t_b.date) [date]
                ,t_b.fio + case when t_b.department is not null then ' (' + t_b.department + ')' else '' end description
                ,:color_text color
                ,:type_text type_text
@@ -256,7 +256,8 @@ class DefaultController extends Controller
                ,0 sort
                ,t_b.date_create
             from {{%calendar_bithdays}} t_b
-            where t_b.date >= :date2_1 and t_b.date <= :date2_2
+            where DATEADD(YEAR,YEAR(GETDATE())-YEAR(t_b.date),t_b.date) >= :date2_1 
+                and DATEADD(YEAR,YEAR(GETDATE())-YEAR(t_b.date),t_b.date) <= :date2_2
                 and t_b.org_code = :org_code_t_b
 
         ) as t
