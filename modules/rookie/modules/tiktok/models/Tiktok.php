@@ -228,6 +228,7 @@ class Tiktok extends \yii\db\ActiveRecord
      */
     public function canVote()
     {
+        return false;// голосование закончено
         // проверка возможности голосования
         $modelTikTok = Tiktok::findOne($this->id);
         if ($modelTikTok === null) {
@@ -246,6 +247,7 @@ class Tiktok extends \yii\db\ActiveRecord
      */
     public static function isAllowVote($modelTikTok)
     {
+        return false;// голосование закончено
         if (Yii::$app->user->isGuest) {
             return false;
         }
