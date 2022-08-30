@@ -22,8 +22,7 @@ use yii\bootstrap4\ActiveForm;
     <?= $form->field($model, 'type_question')->dropDownList([
         TestQuestion::TYPE_QUESTION_RADIO => 'выбор одного варианта',
         TestQuestion::TYPE_QUESTION_CHECK => 'выбор нескольких вариантов',
-        TestQuestion::TYPE_QUSTION_INPUT => 'ввод ответов пользователем',    
-        TestQuestion::TYPE_QUESTION_STARS => 'оценка (выбор звезд)',
+        TestQuestion::TYPE_QUSTION_INPUT => 'ввод ответов пользователем',           
     ]) ?>
     <?php endif; ?>
 
