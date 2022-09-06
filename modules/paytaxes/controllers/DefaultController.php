@@ -1,19 +1,17 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\paytaxes\controllers;
 
-use app\models\page\Page;
-use Exception;
 use Yii;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\filters\AccessControl;
-use yii\helpers\Json;
-use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use app\components\Controller;
+use app\modules\paytaxes\models\PayTaxesChartDay;
+use app\modules\paytaxes\models\PayTaxesChartMonth;
 
-class PayTaxesController extends Controller
+class DefaultController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -25,9 +23,10 @@ class PayTaxesController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
+                        'actions' => ['map', 'chart-data'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ],
+                    ],                    
                 ],
             ],
         ];
@@ -46,6 +45,7 @@ class PayTaxesController extends Controller
             from {{%organization}} t
                 outer apply (select top 1 * from {{%pay_taxes_general}} where t.code=code_org order by date desc) g
             where t.code in ('8600','8601','8602','8603','8606','8617','8619') 
+                and YEAR(g.date) = YEAR(GETDATE())
             order by t.sort asc
         ";
         $result = Yii::$app->db->createCommand($query)->queryAll();
@@ -96,8 +96,7 @@ class PayTaxesController extends Controller
             '8622' => 'sovetskyi',        
             '8624' => 'nignevartovskyi',
         ];
-        return $raions;
-        //return isset($raions[$code]) ? $raions[$code] : null;
+        return $raions;        
     }
 
     /**
@@ -119,28 +118,38 @@ class PayTaxesController extends Controller
      */
     private function chartDataByMonth($org)
     {
-        // по месяцам
-        $queryResult = (new Query())
-            ->from('{{%pay_taxes_chart_month}}')
-            ->where([
-                'code_org' => $org,
-            ])
-            ->all();
+        $currentY = date('Y');
+        $previousY = $currentY-1;
 
-        $result = ['labels' => [], 'datasets' => [
-            [
-                'label' => 'Всего поступлений (тыс. рублей)',
-                'backgroundColor' => '#aed6f1',
-                'data' => [],
+        $records = PayTaxesChartMonth::find()->where([
+            'year' => $currentY,
+            'code_org' => $org,
+        ])->all();
+
+        $dataCurrentY = [];
+        $dataPreviousY = [];
+        $labels = [];
+
+        /** @var \app\modules\paytaxes\models\PayTaxesChartMonth[] $records */
+        foreach ($records as $item) {
+            $labels[] = $item->month;
+            $dataCurrentY[] = round($item->sum1, 2);
+            $dataPreviousY[] = round($item->getValByYear($previousY), 2);            
+        }       
+
+        return [
+            'labels' => $labels,
+            'series' => [
+                [
+                    'name' => 'Всего поступлений (тыс. рублей) за ' . $currentY,
+                    'data' => $dataCurrentY,
+                ],
+                [
+                    'name' => 'Всего поступлений (тыс. рублей) за ' . $previousY,
+                    'data' => $dataPreviousY,
+                ],
             ],
-        ]];
-
-        foreach ($queryResult as $item) {
-            $result['labels'][] = $item['month'];
-            $result['datasets'][0]['data'][] = round($item['sum1'], 2);
-        }
-
-        return $result;
+        ];
     }
 
     /**
@@ -149,30 +158,42 @@ class PayTaxesController extends Controller
      */
     private function chartDataByDay($org)
     {
-         // по месяцам
-         $queryResult = (new Query())
-         ->from('{{%pay_taxes_chart_day}}')
-         ->where([
-             'code_org' => $org,
-         ])
-         ->all();
 
-     $result = ['labels' => [], 'datasets' => [
-         [
-             'label' => 'Динамика поступлений (тыс. рублей)',
-             'backgroundColor' => '#4760d2',
-             'data' => [],
-         ],
-     ]];
+        $currentY = date('Y');
+        $previousY = $currentY-1;
 
-     foreach ($queryResult as $item) {
-         $result['labels'][] = Yii::$app->formatter->asDate($item['date']);
-         $result['datasets'][0]['data'][] = round($item['sum1'], 2);
-     }
+        $records = PayTaxesChartDay::find()->where([
+            'code_org' => $org,
+            'YEAR([[date]])' => $currentY,
+        ])->all();
 
-     return $result;
+        $dataCurrentY = [];
+        $dataPreviousY = [];
+        $labels = [];
 
-    }
+        /** @var \app\modules\paytaxes\models\PayTaxesChartDay[] $records */
+        foreach ($records as $item) {
+            $label = date('d.m', strtotime($item->date));
+            $labels[] = $label;
+            $dataCurrentY[] = round($item->sum1, 2);
+            $dataPreviousY[] = round($item->getValByYear($label . '.' . $previousY), 2);
+        }
+        
+        return [
+            'labels' => $labels,
+            'series' => [
+                [
+                    'name' => 'Динамика поступлений (тыс. рублей) за ' . $currentY,
+                    'data' => $dataCurrentY,
+                ],
+                [
+                    'name' => 'Динамика поступлений (тыс. рублей) за ' . $previousY,
+                    'data' => $dataPreviousY,
+                ],
+            ],
+        ];        
+
+    }    
 
 
 }

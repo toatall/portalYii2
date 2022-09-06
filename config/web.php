@@ -73,6 +73,11 @@ $config = [
         'restricteddocs' => [
             'class' => 'app\modules\restricteddocs\Module',
         ],
+
+        // кампания по уплате имущественных налогов
+        'paytaxes' => [
+            'class' => 'app\modules\paytaxes\Module',
+        ],
     ],    
     'components' => [
         'request' => [            
@@ -124,7 +129,7 @@ $config = [
         // настройка подключений к базам данных
         'db' => $db,
         'dbPortalOld' => $dbPortalOld,
-        'dbDKS' => $dbDKS,
+        'dbDKS' => $dbDKS,        
         'dbPgsqlLog' => $dbPgSqlLog,
 
         // настройка форматирования

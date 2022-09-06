@@ -30,6 +30,7 @@ class m211015_064809_table_pay_taxes extends Migration
             'id' => $this->primaryKey(),
             'code_org' => $this->string(5)->notNull(),
             'month' => $this->string(50)->notNull(),
+            'year' => $this->string(4),
             'sum1' => $this->float(),
             'date_create' => $this->dateTime(),
         ]);

@@ -4,13 +4,16 @@
 /** @var array $result */
 /** @var array $raions */
 
-use app\assets\ChartJs;
+use app\assets\ApexchartsAsset;
+use app\assets\ChartJsAsset;
+use yii\bootstrap4\Html;
 use yii\helpers\Url;
 
-ChartJs::register($this);
+// ChartJsAsset::register($this);
+ApexchartsAsset::register($this);
 $this->registerCssFile('/public/assets/portal/css/pay-taxes.css');
 
-$this->title = 'Кампания по уплате имущественных налогов 2021';
+$this->title = 'Кампания по уплате имущественных налогов ' . date('Y');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -18,8 +21,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <p class="display-4">
     <?= $this->title ?>
     </p>    
+    
 </div>    
 
+<?php if (Yii::$app->user->can('admin')): ?>
+    <?= Html::a('Внести данные', ['/paytaxes/manage/index'], ['class' => 'btn btn-primary mv-link']) ?>
+    <hr />
+<?php endif; ?>
 
 <div class="row mt-2">
     <div class="col" style="width: 650px;">        
@@ -64,7 +72,11 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="col">
-        <span class="lead float-right mb-2" style="font-size: small;">По состоянию на <?= Yii::$app->formatter->asDate($result[0]['date']) ?></span>
+        <span class="lead float-right mb-2" style="font-size: small;">
+            <?php if (isset($result[0]['date'])): ?>
+            По состоянию на <?= Yii::$app->formatter->asDate($result[0]['date']) ?>
+            <?php endif; ?>
+        </span>
         <table class="table table-hover" id="table-statistic" style="font-size: 0.9rem;">
             <thead class="thead-light">
                 <tr>
@@ -73,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         Начисления (прогнозируемые), тыс. рублей
                     </th>
                     <th>
-                        Поступления с 01.09.2021, тыс. рублей
+                        Поступления, тыс. рублей
                     </th>                   
                     <th>
                         СМС показатель (предварительный)
@@ -127,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </kbd>
                     </td>
                     <td>
-                        <button class="btn btn-outline-secondary btn-chart-ifns" data-org="<?= $item['code'] ?>" data-url="<?= Url::to(['/pay-taxes/chart-data', 'org'=>$item['code']]) ?>">
+                        <button class="btn btn-outline-secondary btn-chart-ifns" data-org="<?= $item['code'] ?>" data-url="<?= Url::to(['/paytaxes/default/chart-data', 'org'=>$item['code']]) ?>">
                             <i class="fas fa-chart-pie"></i>
                         </button>
                     </td>
@@ -153,14 +165,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 <tr style="display: none;" id="chart_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
                     <td colspan="7">
                         <div style="max-width:100%;">
-                            <canvas></canvas>
+                            
                         </div>
                     </td>
                 </tr>
                 <tr style="display: none;" id="chart2_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
                     <td colspan="7">
                         <div style="max-width:100%">
-                            <canvas></canvas>
+                            
                         </div>
                     </td>
                 </tr>    
@@ -284,25 +296,21 @@ $this->registerJs(<<<JS
     );
 
     // построение 
-    function setChartData(chart_id, getData, orgName, t)
-    {
-        var config = {
-            type: t,
-            data: getData,
-            options: {
-                responsive: true,    
-                scales: {
-                    
-                    yAxes: [{                                               
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }     
+    function setChartData(chartId, data, orgName, chartType)
+    {   
+        var options = {
+            chart: {
+                type: chartType
+            },
+            series: data.series,
+            
+            xaxis: {
+                categories: data.labels
             }
-        };
-        var ctx = $(chart_id).get(0).getContext('2d');
-        window.myLine = new Chart(ctx, config);
+        };      
+
+        var chart = new ApexCharts(document.querySelector(chartId), options);
+        chart.render();
     }
     
 
@@ -316,8 +324,8 @@ $this->registerJs(<<<JS
             $.get(url)
             .done(function(data) {
                 console.log(data);            
-                setChartData('#chart_' + org + ' td div canvas', data.months, org, 'bar');
-                setChartData('#chart2_' + org + ' td div canvas', data.days, org, 'line');
+                setChartData('#chart_' + org + ' td div', data.months, org, 'bar');
+                setChartData('#chart2_' + org + ' td div', data.days, org, 'line');
             });
         }
     });
