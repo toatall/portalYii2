@@ -1,8 +1,8 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $files array */
+/** @var yii\web\View $this */
+/** @var array $files */
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use app\assets\fancybox\FancyboxAsset;
 FancyboxAsset::register($this);

@@ -5,7 +5,7 @@
 /** @var string $date1 */
 /** @var string $date2 */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\widgets\DatePicker;
 
 $this->title = 'Анкетирование по ГР';
@@ -16,17 +16,15 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <div class="row">
         <div class="col border-bottom mb-2">
-            <p class="display-4">
+            <p class="display-5">
             <?= $this->title ?>
             </p>    
         </div>    
     </div>
-    
-    <div class="row col">
-        <div class="btn-group border-bottom">
-            <?= Html::a('Детализация', ['detail'], ['class' => 'btn btn-secondary']) ?>
-            <?= Html::a('В виде графика', ['chart'], ['class' => 'btn btn-secondary']) ?>
-        </div>
+        
+    <div class="btn-group">
+        <?= Html::a('Детализация', ['detail'], ['class' => 'btn btn-secondary']) ?>
+        <?= Html::a('В виде графика', ['chart'], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <div class="row mt-2">

@@ -33,10 +33,19 @@ use yii\bootstrap4\Html;
             ],
 
         ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
+        ],
     ]); ?>
 
 <?php
-// ЛЕВОЕ МЕНЮ
 $this->registerJs(<<<JS
 $('.btn-select-user').on('click', function() {
     $(modalViewer).trigger('onPortalSelectUser', { id: $(this).attr('user_id'), name: $(this).attr('user_name') });

@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use app\modules\admin\assets\JsTreeAsset;
 
 JsTreeAsset::register($this);
@@ -13,19 +13,23 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tree-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
-    <div class="card">
-        <div class="card-header">
-            <div class="btn-group">
-                <?= Html::a('Добавить раздел', ['create'], ['class' => 'btn btn-success']) ?>
-                <?= Html::button('Изменить', ['class' => 'btn btn-primary btn-selected-tree-node', 'id' => 'btn-update-node']) ?>
-                <?= Html::button('Удалить', ['class' => 'btn btn-danger btn-selected-tree-node', 'id' => 'btn-delete-node']) ?>
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <div class="btn-group">
+                    <?= Html::a('Добавить раздел', ['create'], ['class' => 'btn btn-success']) ?>
+                    <?= Html::button('Изменить', ['class' => 'btn btn-primary btn-selected-tree-node', 'id' => 'btn-update-node']) ?>
+                    <?= Html::button('Удалить', ['class' => 'btn btn-danger btn-selected-tree-node', 'id' => 'btn-delete-node']) ?>
+                </div>
             </div>
-        </div>
-        <div class="card-body">
-            <div id="tree-view">
-                <?= $tree ?>
+            <div class="card-body">
+                <div id="tree-view">
+                    <?= $tree ?>
+                </div>
             </div>
         </div>
     </div>
@@ -39,13 +43,30 @@ $this->registerJs(<<<JS
     $('.btn-selected-tree-node').hide();
 
     // инициализация дерева
-    $('#tree-view').jstree({'core': { 'multiple': false }})
-        .bind('select_node.jstree', function(e, data) {
-            $('.btn-selected-tree-node').show();
-        })
-        .bind('deselect_all.jstree', function(e, data) {
-            $('.btn-selected-tree-node').hide();
-        }); 
+    $('#tree-view').jstree({
+        core: { 'multiple': false },        
+        // types: {
+        //     'f-open': {
+        //         'icon': 'far fa-folder-open'
+        //     },
+        //     'f-closed': {
+        //         'icon': 'far fa-folder'
+        //     },
+        //     'default': {
+        //         'icon': 'far fa-folder'
+        //     }
+        // },
+        // plugins: ['types', 'themes']
+    })
+    .bind('select_node.jstree', function(e, data) {
+        $('.btn-selected-tree-node').show();        
+    })
+    .bind('deselect_all.jstree', function(e, data) {
+        $('.btn-selected-tree-node').hide();
+    });
+    // $('#tree-view').on('open_node.jstree', function(e, data) { data.instance.set_type(data.node, 'f-open') });
+    // $('#tree-view').on('close_node.jstree', function(e, data) { data.instance.set_type(data.node, 'f-closed') }); 
+    
     
     // изменение узла
     $('#btn-update-node').on('click', function() {
@@ -68,4 +89,23 @@ $this->registerJs(<<<JS
 JS
 );
 
+$this->registerCss(<<<CSS
+    .jstree-default a {
+        white-space: normal !important;
+        height: auto;
+    }
+    .jstree-anchor {
+        height: auto !important;
+    }
+    .jstree-default li > ins {
+        vertical-align: top;
+    }
+    .jstree-leaf {
+        height: auto;
+    }
+    .jstree-leaf a {
+        height: auto !important;
+    }
+
+CSS); 
 ?>

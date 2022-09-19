@@ -35,7 +35,7 @@ class AppAsset extends AssetBundle
         //'public/vendor/fontawesome/js/all.min.js',
 
         // bootstrap-4-advanced-toast
-        'public/vendor/bootstrap-4-advanced-toast/js/bs4-toast.js',
+        // 'public/vendor/bootstrap-4-advanced-toast/js/bs4-toast.js',
 
 
         'js/voteHelper.js',
@@ -44,7 +44,7 @@ class AppAsset extends AssetBundle
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap4\BootstrapAsset',
-        'yii\bootstrap4\BootstrapPluginAsset',
+        'yii\bootstrap5\BootstrapAsset',
+        'yii\bootstrap5\BootstrapPluginAsset',
     ];
 }

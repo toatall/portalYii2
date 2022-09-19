@@ -1,8 +1,8 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $model \app\models\vote\VoteNewyearToy[] */
+/** @var yii\web\View $this */
+/** @var app\models\vote\VoteNewyearToy[] $model */
 
-use yii\bootstrap\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use app\models\vote\VoteNewyearToy;
 use app\assets\fancybox\FancyboxAsset;

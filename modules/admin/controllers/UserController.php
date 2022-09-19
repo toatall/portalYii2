@@ -54,11 +54,14 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => User::find(),
-        ]);
+        // $dataProvider = new ActiveDataProvider([
+        //     'query' => User::find(),
+        // ]);
+        $searchModel = new User();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -189,10 +192,10 @@ class UserController extends Controller
      * @uses \app\modules\admin\controllers\TreeController::actionCreate()
      * @uses \app\modules\admin\controllers\TreeController::actionUpdate()
      */
-    public function actionList($users=null, $idGroup=null)
+    public function actionList($users=null, $idGroup=null, $role=null)
     {
         $searchModel = new User();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $users, $idGroup);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $users, $idGroup, $role);
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [

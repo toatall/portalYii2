@@ -1,8 +1,8 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
-use yii\bootstrap4\Tabs;
+use yii\bootstrap5\Tabs;
 
 /** @var yii\web\View $this */
 /** @var app\modules\bookshelf\models\BookShelfDiscussion $model */
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="book-shelf-discussion-view">
 
     <?= Html::a('<i class="fas fa-chevron-circle-left"></i> Назад', ['index'], ['class' => 'btn btn-secondary btn-sm']) ?>
-    <p class="display-4 border-bottom">        
+    <p class="display-5 border-bottom">        
         <?= Html::encode($this->title) ?>
     </p>
 

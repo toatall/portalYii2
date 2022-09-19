@@ -1,12 +1,12 @@
 <?php
 
 use kartik\grid\ActionColumn;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $modelQuestion \app\modules\test\models\TestQuestion */
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var \app\modules\test\models\TestQuestion $modelQuestion */
 
 $this->title = 'Ответы';
 $this->params['breadcrumbs'][] = ['label' => 'Тесты', 'url' => ['/test/test/index']];
@@ -27,9 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </p>                
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    'columns' => [
-                        //['class' => 'yii\grid\SerialColumn'],
-
+                    'columns' => [                     
                         'id',
                         'id_test_question',
                         'name',
@@ -37,6 +35,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         'weight',                       
 
                         ['class' => ActionColumn::class],
+                    ],
+                    'toolbar' => [
+                        '{export}',
+                        '{toggleData}',
+                    ],
+                    'export' => [
+                        'showConfirmAlert' => false,
+                    ],
+                    'panel' => [
+                        'type' => GridView::TYPE_DEFAULT,       
                     ],
                 ]); ?>
             </div>

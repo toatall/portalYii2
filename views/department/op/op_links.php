@@ -8,7 +8,7 @@
 use app\models\OP;
 use yii\helpers\Url;
 use app\helpers\DateHelper;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 $linksDocuments = array_filter($links, function ($val) {
     return $val['type_section'] == OP::SECTION_DOCUMENTS;

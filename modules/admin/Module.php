@@ -20,7 +20,8 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        \Yii::$app->errorHandler->errorAction = '/admin/default/error';    
-        // custom initialization code goes here
+        \Yii::$app->errorHandler->errorAction = '/admin/default/error';          
+        \Yii::$app->params['bsVersion'] = '5.x'; 
+        \Yii::$app->params['bsDependencyEnabled'] = false; 
     }
 }

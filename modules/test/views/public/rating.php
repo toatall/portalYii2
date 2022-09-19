@@ -3,7 +3,7 @@
 /** @var app\modules\test\models\TestResultOpinion $modelOpinion */
 
 use kartik\widgets\StarRating;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 $this->title = "Оценка теста \"{$model->name}\"";
 $this->params['breadcrumbs'][] = $this->title;

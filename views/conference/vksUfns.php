@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 use app\helpers\DateHelper;
 
@@ -16,7 +16,7 @@ $this->registerCssFile('/public/assets/portal/css/dayPost.css');
 <div class="conference-index">
 
     <div class="col border-bottom mb-2">
-        <p class="display-4">
+        <p class="display-5">
             <?= Html::encode($this->title) ?>
         </p>    
     </div>    
@@ -60,6 +60,16 @@ $this->registerCssFile('/public/assets/portal/css/dayPost.css');
                 },
                 'format' => 'raw',
             ],
+        ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
         ],
     ]); ?>
 

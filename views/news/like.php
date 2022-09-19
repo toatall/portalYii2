@@ -1,9 +1,9 @@
 <?php
 use yii\helpers\Url;
 
-/* @var $this yii\web\View */
-/* @var $liked boolean */
-/* @var $model \app\models\news\News */
+/** @var yii\web\View $this */
+/** @var boolean $liked */
+/** @var app\models\news\News $model */
 ?>
 
 <button class="btn btn-<?= $liked ? 'primary' : 'light' ?>" id="btn-like">

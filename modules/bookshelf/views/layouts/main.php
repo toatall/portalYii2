@@ -4,15 +4,15 @@
 /** @var string $content */
 
 use app\assets\AnimateCssAsset;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use app\assets\AppAsset;
 use app\assets\fancybox\FancyboxAsset;
-use app\assets\ModalViewerAsset;
+use app\assets\ModalViewerAssetBs5;
 
 AnimateCssAsset::register($this);
 FancyboxAsset::register($this);
 AppAsset::register($this);
-ModalViewerAsset::register($this);
+ModalViewerAssetBs5::register($this);
 $this->registerCssFile('/public/assets/kadry/css/album.css', [
     'depends' => AppAsset::class,
 ]);
@@ -94,7 +94,7 @@ CSS);
 
     <footer class="text-muted border-top border-secondary mt-4">
         <div class="container">
-            <p class="float-right">
+            <p class="float-end">
                 <a href="#" class="btn btn-secondary"><i class="fas fa-arrow-up"></i></a>
             </p>
             <p class="text-white lead font-weight-bolder" style="text-shadow: 2px 2px #222;">&copy; УФНС России по Ханты-Мансийскому автономному округу - Югре</p>            

@@ -5,7 +5,7 @@ use app\assets\FlipAsset;
 use app\assets\newyear\GerljandaAsset;
 use app\assets\fancybox\FancyboxAsset;
 use app\helpers\DateHelper;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 FancyboxAsset::register($this);
 
@@ -110,52 +110,59 @@ if (date('Y') < 2022) {
 ?>
 
 <div class="container-fluid">
-    <div class="row justify-content-between" id="logo-background" style="overflow: hidden;">
+    <div class="row d-flex" id="logo-background" style="overflow: hidden;">
         
-        <div class="col-7 col-md-6 col-sm-5 text-left" id="logo-image" style="background-image: url('<?= $logoTopPath . $logoTopImg ?>');"></div>
+        <div class="col-7 col-md-6 col-sm-5 text-left me-auto" id="logo-image" style="background-image: url('<?= $logoTopPath . $logoTopImg ?>');"></div>
         
-        <div class="col text-right">
-            <?php if (date('Y') < 2022) { echo $this->render('top_pay_taxes'); } ?>
-            <?= $this->render('top_calendar') ?>
-            
-            <!-- <div class="float-right d-none d-xl-block">                
-                <a href="/contest/map">
-                    <img src="/public/content/map/images/svgg.png" class="img-thumbnail" style="height: 185px; margin: 10px 10px 0 0;" />
-                </a>
-            </div> -->
+        <div class="col">
+            <div class="row justify-content-end">
+               
+                <?php //if (date('Y') < 2023) { echo $this->render('top_pay_taxes'); } ?>
 
-            <!-- <div class="float-right d-none d-xl-block p-1 mt-2 mr-2 text-center" style="height: 12rem;" 
-                data-toggle="tooltip" data-content="<span class='lead'>Спартакиада 2022</span>" data-trigger="hover" data-html="true" data-placement="left">
-                <?php if (date('Ymd') < 20220530): ?>
-                <div class="d-inline-block">
-                    <?php 
-                        $days = DateHelper::dateDiffDays('30.05.2022');
-                        $endNumber = $days % 10;
-                    ?>
-                    <span style="color: white; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; font-weight: bolder; font-size: medium;">
-                        До спартакиады<br /> <?= ($endNumber == 1) ? 'остался' : 'осталось' ?>
-                    </span>                
-                    <div class="tick mt-2" data-value="<?= $days ?>">
-                        <div data-layout="vertical">
-                            <span data-view="flip"></span>
-                        </div>
-                    </div>                
-                    <span style="color: white; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; font-weight: bolder; font-size: medium;">
-                        <?= (($endNumber == 1) ? 'день' : (($endNumber > 1 && $endNumber < 5) ? 'дня' : 'дней')) ?>
-                    </span>
+                <?= $this->render('top_calendar') ?>
+
+
+                
+                <!-- <div class="float-right d-none d-xl-block">                
+                    <a href="/contest/map">
+                        <img src="/public/content/map/images/svgg.png" class="img-thumbnail" style="height: 185px; margin: 10px 10px 0 0;" />
+                    </a>
+                </div> -->
+
+                <!-- <div class="float-right d-none d-xl-block p-1 mt-2 mr-2 text-center" style="height: 12rem;" 
+                    data-toggle="tooltip" data-content="<span class='lead'>Спартакиада 2022</span>" data-trigger="hover" data-html="true" data-placement="left">
+                    <?php if (date('Ymd') < 20220530): ?>
+                    <div class="d-inline-block">
+                        <?php 
+                            $days = DateHelper::dateDiffDays('30.05.2022');
+                            $endNumber = $days % 10;
+                        ?>
+                        <span style="color: white; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; font-weight: bolder; font-size: medium;">
+                            До спартакиады<br /> <?= ($endNumber == 1) ? 'остался' : 'осталось' ?>
+                        </span>                
+                        <div class="tick mt-2" data-value="<?= $days ?>">
+                            <div data-layout="vertical">
+                                <span data-view="flip"></span>
+                            </div>
+                        </div>                
+                        <span style="color: white; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; font-weight: bolder; font-size: medium;">
+                            <?= (($endNumber == 1) ? 'день' : (($endNumber > 1 && $endNumber < 5) ? 'дня' : 'дней')) ?>
+                        </span>
+                    </div>
+                    <?php endif; ?>
+                    <?= Html::a(Html::img('/public/content/portal/images/sport_2022.png', ['style'=>'height: 80%; margin-top: 1rem;']), ['news/index', 'tag'=>'sport2022']) ?>
+                    
+                </div> -->
+
+                <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isOrg('8600')): ?>
+                <div class="d-none d-xl-block">
+                    <a href="/contest/photo-kids">
+                        <img src="/public/assets/contest/photo-kids/img/image832.png" style="height: 7rem; margin: 3rem 10px 0 0;" />
+                    </a>
                 </div>
                 <?php endif; ?>
-                <?= Html::a(Html::img('/public/content/portal/images/sport_2022.png', ['style'=>'height: 80%; margin-top: 1rem;']), ['news/index', 'tag'=>'sport2022']) ?>
-                
-            </div> -->
 
-            <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isOrg('8600')): ?>
-            <div class="d-none d-xl-block">
-                <a href="/contest/photo-kids">
-                    <img src="/public/assets/contest/photo-kids/img/image832.png" style="height: 7rem; margin: 3rem 10px 0 0;" />
-                </a>
             </div>
-            <?php endif; ?>
             
         </div>        
 

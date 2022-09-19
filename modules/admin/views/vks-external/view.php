@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
 
@@ -13,9 +13,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="conference-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
-    <div class="btn-group" style="margin-bottom: 20px;">
+    <div class="btn-group mb-3">
         <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -24,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Назад', ['index'], ['class' => 'btn btn-secondary']) ?>
     </div>
     
     <?php if (($modelCrossed = $model->isCrossedI())): ?>
@@ -70,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'note:text',
             'date_create:datetime',
             'date_edit:datetime',
-            'log_change',
+            // 'log_change',
         ],
     ]) ?>
 

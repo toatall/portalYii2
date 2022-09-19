@@ -1,9 +1,8 @@
 <?php
 
-use app\modules\test\models\Test;
 use app\modules\test\models\TestResultOpinion;
 use kartik\rating\StarRating;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var \app\modules\test\models\TestResult $model */

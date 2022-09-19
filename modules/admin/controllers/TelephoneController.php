@@ -9,7 +9,6 @@ use app\models\Telephone;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use app\components\Controller;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;

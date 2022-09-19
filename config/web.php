@@ -97,6 +97,13 @@ $config = [
             'class' => 'app\components\DbManager',
             //'class' => 'yii\rbac\PhpManager',
         ],
+        'assetManager' => [
+            'bundles' => [
+                'kartik\form\ActiveFormAsset' => [
+                    'bsDependencyEnabled' => false,
+                ],
+            ],
+        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

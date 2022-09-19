@@ -204,9 +204,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      * @param array $params
      * @param string|null $excludeId идентификаторы пользователей (1,2,3) для исключения их
      * @param int|null $excludeIdGroup идентификатор группы, для исключения пользователей состоящих в этой группе
+     * @param string|null $excludeRole наименование роли для исключения пользователей входящих в эту группу
      * @return ActiveDataProvider
      */
-    public function search($params, $excludeId = null, $excludeIdGroup=null)
+    public function search($params, $excludeId = null, $excludeIdGroup=null, $excludeRole=null)
     {
         $query = self::find()->alias('t');
         if ($excludeId) {
@@ -217,6 +218,13 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         // если указан идентификатор группы, то исключить этих пользователей из результата
         if (is_numeric($excludeIdGroup)) {
             $query->andWhere('t.id not in (select id_user from {{%group_user}} where id_group=:id_group)', [':id_group'=>$excludeIdGroup]);           
+        }
+
+        if ($excludeRole) {
+            $ids = Yii::$app->authManager->getUserIdsByRole($excludeRole);
+            if ($ids) {
+                $query->andWhere(['not in', 't.id', $ids]);
+            }
         }
 
         $dataProvider = new ActiveDataProvider([

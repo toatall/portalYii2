@@ -25,7 +25,7 @@
             ]) ?>
             
             <?php if ($comment['subComment'] && count($comment['subComment']) > 0): ?>
-                <div class="ml-5">
+                <div class="ms-5">
                     <?php foreach($comment['subComment'] as $commentSub): ?>
                         <?= $this->render('_comment', [
                             'model'=>$commentSub['modelComment'],

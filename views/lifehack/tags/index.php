@@ -1,8 +1,8 @@
 <?php
 
 use kartik\grid\GridView;
-use yii\bootstrap4\Html;
-use yii\grid\ActionColumn;
+use yii\bootstrap5\Html;
+use kartik\grid\ActionColumn;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -36,7 +36,17 @@ use yii\widgets\Pjax;
                     ]);
                 },
             ],   
-        ],
+        ],        
+    ],
+    'toolbar' => [
+        '{export}',
+        '{toggleData}',
+    ],
+    'export' => [
+        'showConfirmAlert' => false,
+    ],
+    'panel' => [
+        'type' => GridView::TYPE_DEFAULT,       
     ],
 ]) ?>
 

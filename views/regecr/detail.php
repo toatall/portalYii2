@@ -4,7 +4,7 @@
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 use kartik\grid\GridView;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
 
 $this->title = 'Анкетирование по ГР (Детализация)';
@@ -13,17 +13,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
     <div class="col border-bottom mb-2">
-        <p class="display-4">
+        <p class="display-5">
         <?= $this->title ?>
         </p>    
     </div>    
 </div>
 
-<div class="row col">
-    <div class="btn-group">
-        <?= Html::a('Статистика', ['index'], ['class' => 'btn btn-secondary']) ?>
-        <?= Html::a('В виде графика', ['chart'], ['class' => 'btn btn-secondary']) ?>
-    </div>
+<div class="btn-group">
+    <?= Html::a('Статистика', ['index'], ['class' => 'btn btn-secondary']) ?>
+    <?= Html::a('В виде графика', ['chart'], ['class' => 'btn btn-secondary']) ?>
 </div>
 
 

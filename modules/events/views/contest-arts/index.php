@@ -1,18 +1,19 @@
 <?php
 
+use app\assets\AppAsset;
+use app\assets\ModalViewerAssetBs5;
 use yii\helpers\Html;
 use app\modules\events\assets\FancyboxAsset;
-use app\modules\events\assets\ModalViewerAsset;
-use app\modules\events\models\ContestArts;
 
-ModalViewerAsset::register($this);
+ModalViewerAssetBs5::register($this);
 FancyboxAsset::register($this);
+AppAsset::register($this);
 
-/* @var $this yii\web\View */
-/* @var $modelsToday \app\modules\events\models\ContestArts[] */
-/* @var $modelLastArts \app\modules\events\models\ContestArts[] */
-/* @var $winners app\modules\events\models\ContestArtsResults[] */
-/* @var $modelVotes \app\modules\events\models\ContestArtsVote[] */
+/** @var yii\web\View $this */
+/** @var app\modules\events\models\ContestArts[] $modelsToday */
+/** @var app\modules\events\models\ContestArts[] $modelLastArts */
+/** @var app\modules\events\models\ContestArtsResults[] $winners */
+/** @var app\modules\events\models\ContestArtsVote[] $modelVotes */
 
 $this->title = 'Конкурс "Навстречу искусству"';
 $this->params['breadcrumbs'][] = $this->title;
@@ -340,18 +341,18 @@ JS
 
 
 <!-- Portfolio Modals-->
-<div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+<div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="portfolioModal1Label" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title" id="new-modal-title"></h1>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fas fa-times"></i></span>
                 </button>
             </div>            
             <div class="modal-body" id="new-modal-body" style="border-top: 1px solid rgba(0,0,0,.125);">BODY</div>           
             <div class="modal-footer" style="border-top: 1px solid rgba(0,0,0,.125);">                 
-                <button class="btn btn-primary" data-dismiss="modal">
+                <button class="btn btn-primary" data-bs-dismiss="modal">
                     <i class="fas fa-times fa-fw"></i>
                     Закрыть
                 </button>

@@ -2,8 +2,8 @@
 
 use app\modules\test\models\TestQuestion;
 use kartik\range\RangeInput;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\modules\test\models\TestQuestion $model */

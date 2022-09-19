@@ -5,14 +5,14 @@
 /** @var string $organizationUnid */
 /** @var array $dateUpdate */
 
-use yii\bootstrap4\Tabs;
+use yii\bootstrap5\Tabs;
 
 $this->title = 'Телефонный справочник';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="col border-bottom mb-2">
-    <p class="display-4">
+    <p class="display-5">
         <?= $this->title ?>        
     </p>
     <kbd>Актуальность справочника: <?= Yii::$app->formatter->asDate($dateUpdate['date']) ?></kbd>   

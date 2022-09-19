@@ -7,19 +7,19 @@
 
 <div class="row">
     <div class="col text-center">
-        <span class="badge badge-success fa-1x">
+        <span class="badge bg-success fa-1x">
             <?= $model->getAttributeLabel('rate_1') ?>:
             <span class="fas fa-star text-warning"></span> <?= $model->avgRate1 ?>
         </span>
     </div>  
     <div class="col text-center">
-        <span class="badge badge-success fa-1x">
+        <span class="badge bg-success fa-1x">
             <?= $model->getAttributeLabel('rate_2') ?>:
             <span class="fas fa-star text-warning"></span> <?= $model->avgRate2 ?>
         </span>
     </div>   
     <div class="col text-center">
-        <span class="badge badge-success fa-1x">
+        <span class="badge bg-success fa-1x">
             <?= $model->getAttributeLabel('rate_3') ?>:
             <span class="fas fa-star text-warning"></span> <?= $model->avgRate3 ?>
         </span>

@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 use kartik\grid\ActionColumn;
 
@@ -12,7 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="telephone-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <p>
         <?= Html::a('Добавить справочник', ['create'], ['class' => 'btn btn-success']) ?>
@@ -20,11 +22,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <?= GridView::widget([
+        'id' => 'grid-telephone-index',
+        'pjax' => true,
+        'responsive' => false,       
+        'pager' => [
+            'firstPageLabel' => 'Первая',
+            'lastPageLabel' => 'Последняя',
+        ],
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             //'id_tree',
             'id_organization',
             'dop_text',
@@ -32,10 +41,23 @@ $this->params['breadcrumbs'][] = $this->title;
             //'sort',
             //'date_edit',
             'author',
-            'date_create',
+            'date_create:datetime',
             //'log_change',
             //'count_download',
-            ['class' => ActionColumn::class],
+            [
+                'class' => ActionColumn::class,
+                'dropdown' => true,
+            ],
+        ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
         ],
     ]); ?>
 

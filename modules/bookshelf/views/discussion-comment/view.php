@@ -1,15 +1,14 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\bookshelf\models\BookShelfDiscussionComment */
+/** @var yii\web\View $this */
+/** @var app\modules\bookshelf\models\BookShelfDiscussionComment $model */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Book Shelf Discussion Comments', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="book-shelf-discussion-comment-view">
 

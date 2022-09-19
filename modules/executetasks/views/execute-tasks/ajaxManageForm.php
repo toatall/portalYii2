@@ -3,8 +3,8 @@
 /** @var yii\web\View $this */
 /** @var app\models\ExecuteTasks[] $models */
 
-use yii\bootstrap4\ActiveForm;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
 
 ?>

@@ -2,9 +2,9 @@
 
 use app\widgets\CommentWidget;
 use kartik\rating\StarRating;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\modules\bookshelf\models\BookShelf $model */
@@ -15,11 +15,11 @@ use yii\bootstrap4\ActiveForm;
     <div class="col">
         <div class="card">
             <div class="card-body">
-                <div class="d-flex">
+                <div class="row">
                     <div class="col-3 border-right">
                         <?= Html::img($model->getPhoto(), ['class' => 'w-100']) ?>
                     </div>
-                    <div class="col">                        
+                    <div class="col pl-3">                        
                         <div style="font-size: large;">
                             <strong>Описание:</strong> <?= $model->description ?>
                         </div>

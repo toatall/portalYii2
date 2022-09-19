@@ -446,7 +446,7 @@
   };
 
   EmojiArea_WYSIWYG.prototype.onChange = function(e) {
-    var event = new CustomEvent('input', { bubbles: true });    
+    var event = new CustomEvent('input', { bubbles: true });
     this.$textarea.val(this.val())[0].dispatchEvent(event);
   };
 
@@ -466,8 +466,9 @@
           e.returnValue = false;
         }, false);
       }
-      insertionContent = $img[0];      
-    }    
+      insertionContent = $img[0];
+    }
+
     this.$editor.trigger('focus');
     if (this.selection) {
       util.restoreSelection(this.selection);

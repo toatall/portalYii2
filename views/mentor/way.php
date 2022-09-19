@@ -4,8 +4,8 @@
 /** @var \app\models\mentor\MentorWays $modelWay */
 
 use app\models\mentor\MentorPost;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\LinkPager;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\LinkPager;
 use yii\widgets\ListView;
 
 $this->title = $modelWay->name;
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
     <div class="col border-bottom mb-2">
-        <p class="display-4">
+        <p class="display-5">
         <?= $this->title ?>
         </p>    
     </div>    

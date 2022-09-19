@@ -1,11 +1,11 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 use kartik\date\DatePicker;
-use yii\bootstrap4\LinkPager;
+use yii\bootstrap5\LinkPager;
 
 /** @var yii\web\View $this */
 /** @var app\models\news\NewsSearch $searchModel */

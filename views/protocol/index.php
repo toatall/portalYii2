@@ -2,7 +2,7 @@
 
 use app\models\Protocol;
 use kartik\grid\ActionColumn;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 
 /** @var yii\web\View $this */
@@ -13,7 +13,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="protocol-index">
 
-    <h1 class="display-4 border-bottom"><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <?php if (Protocol::isRoleModerator()): ?>
     <p>

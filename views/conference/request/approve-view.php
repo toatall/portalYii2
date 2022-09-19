@@ -1,12 +1,12 @@
 <?php
 
-use yii\bootstrap4\ActiveForm;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\conference\AbstractConference $model */
 /** @var mixed $formData */
-/** @var yii\bootstrap4\ActiveForm $form */
+/** @var ActiveForm $form */
 
 ?>
 

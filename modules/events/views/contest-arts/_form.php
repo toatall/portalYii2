@@ -1,7 +1,7 @@
 <?php
 
-use yii\bootstrap\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 use kartik\widgets\DatePicker;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
@@ -12,9 +12,9 @@ use app\assets\fancybox\FancyboxAsset;
 FancyboxAsset::register($this);
 
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\events\models\ContestArts */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\modules\events\models\ContestArts $model */
+/** @var yii\widgets\ActiveForm $form */
 ?>
 
 <div class="contest-arts-form">

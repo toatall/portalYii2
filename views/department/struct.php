@@ -7,7 +7,7 @@
 
 use app\assets\LightGalleryAsset;
 use app\models\department\Department;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 $heightCardHead = $heightCardHead ?? '17em';
 $heightPhoto = $heightPhoto ?? '20em';

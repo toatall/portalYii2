@@ -1,7 +1,7 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap4\LinkPager;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\LinkPager;
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="book-shelf-discussion-index">
 
-    <p class="display-4 border-bottom">
+    <p class="display-5 border-bottom">
         <?= Html::encode($this->title) ?>
     </p>
 

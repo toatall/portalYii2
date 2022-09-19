@@ -9,7 +9,7 @@
 /** @var array $leadersWeeks */
 
 use kartik\select2\Select2;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 

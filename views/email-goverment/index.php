@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="email-goverment-index row">
     <div class="col border-bottom mb-2">
-        <p class="display-4">
+        <p class="display-5">
         <?= $this->title ?>
         </p>    
     </div>    
@@ -40,6 +40,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
             ],
             'post_address',
+        ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
         ],
     ]); ?>
     <?php Pjax::end(); ?>

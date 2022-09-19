@@ -2,23 +2,14 @@
 
 use kartik\grid\GridView;
 use app\modules\admin\models\Role;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
 /** @var Role $model */
 
 ?>
-<div style="padding-top: 5px;">
-
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="btn-group" role="group">
-                <?= Html::a('<i class="fas fa-plus-circle"></i> Добавить роль', ['/admin/role/add-sub-role', 'id'=>$model->name], ['class'=>'btn btn-secondary mv-link']) ?>
-                <button id="btn-refresh-role-container" class="btn btn-secondary"><i class="fas fa-sync-alt"></i> Обновить</button>
-            </div>
-        </div>
-    </div>
+<div class="mt-2">    
 
     <?php Pjax::begin(['enablePushState'=>false, 'id'=>'pjax-role-container']) ?>
     <?= GridView::widget([
@@ -45,6 +36,24 @@ use yii\widgets\Pjax;
                 },
                 'format'=>'raw',
             ],
+        ],
+        'toolbar' => [
+            [
+                'content' => '<div class="btn-group me-3">'
+                    . Html::a('<i class="fas fa-plus-circle"></i> Добавить роль', 
+                        ['/admin/role/add-sub-role', 'id'=>$model->name], ['class'=>'btn btn-outline-secondary mv-link'])
+                    . Html::button('<i class="fas fa-sync-alt"></i> Обновить', 
+                        ['id' => 'btn-refresh-role-container', 'class' => 'btn btn-outline-secondary'])
+                .'</div>',
+            ],
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
         ],
     ]); ?>
     <?php Pjax::end(); ?>

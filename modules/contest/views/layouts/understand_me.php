@@ -4,11 +4,11 @@
 /** @var string $content */
 
 use app\assets\LightGalleryAsset;
-use yii\bootstrap4\Html;
-use app\assets\ModalViewerAsset;
+use yii\bootstrap5\Html;
+use app\assets\ModalViewerAssetBs5;
 
 LightGalleryAsset::register($this);
-ModalViewerAsset::register($this);
+ModalViewerAssetBs5::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

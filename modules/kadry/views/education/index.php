@@ -3,12 +3,12 @@
 /** @var \yii\web\View $this */
 /** @var app\modules\kadry\models\education\Education[] $models */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 $this->title = 'Комплекс программ профессионального развития в рамках цифровой трансформации';
 ?>
 
 <?php if (Yii::$app->user->can('admin')): ?>
-    <div class="row col mb-4">
+    <div class="mb-4">
         <?= Html::a('<i class="fas fa-"></i> Добавить образовательную программу', ['/kadry/education-admin/create'], ['class' => 'btn btn-sm btn-outline-success']) ?>
     </div>    
 <?php endif; ?>

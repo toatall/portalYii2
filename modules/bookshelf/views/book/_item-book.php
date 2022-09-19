@@ -1,7 +1,7 @@
 <?php
 
 use app\modules\bookshelf\models\BookShelf;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 /** @var \yii\web\View $this */
 /** @var app\modules\bookShelf\models\BookShelf $model */

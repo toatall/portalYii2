@@ -1,7 +1,7 @@
 <?php
 
 use app\models\Protocol;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */

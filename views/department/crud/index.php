@@ -1,7 +1,7 @@
 <?php
 
 use app\models\department\Department;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */

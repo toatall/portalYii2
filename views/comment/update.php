@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Comment */
+/** @var yii\web\View $this */
+/** @var app\models\Comment $model */
 
 $this->title = 'Update Comment: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Comments', 'url' => ['index']];

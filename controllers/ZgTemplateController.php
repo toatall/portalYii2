@@ -99,6 +99,7 @@ class ZgTemplateController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'isEditor' => $this->isEditor(),
         ]);
     }
 

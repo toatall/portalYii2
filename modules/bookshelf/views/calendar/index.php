@@ -1,7 +1,7 @@
 <?php
 
 use app\modules\bookshelf\models\BookShelf;
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 
@@ -15,15 +15,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="book-shelf-calendar-index card card-body bg-dark animate__animated animate__fadeInUp">
 
-    <p class="display-4 text-white font-weight-bolder">
+    <p class="display-5 text-white font-weight-bolder">
         <?= Html::a('Книжная полка', ['/bookshelf'], ['class' => 'text-white']) ?>
         &rsaquo;
         <span class="font-weight-normal text-secondary"><?= Html::encode($this->title) ?></span>
     </p>
     <hr class="border-white" />
 
-    <?php if (BookShelf::isEditor()): ?>
-        <div class="row col">
+    <?php if (BookShelf::isEditor()): ?>       
+        <div>
             <div class="btn-group mt-2 mb-4">
                 <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success mv-link']) ?>       
             </div>

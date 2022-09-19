@@ -112,4 +112,11 @@ class RegEcr extends \yii\db\ActiveRecord
         }
         return parent::beforeSave($insert);
     }
+
+    public function afterFind()
+    {
+        if ($this->date_reg) {
+            $this->date_reg = Yii::$app->formatter->asDate($this->date_reg);
+        }
+    }
 }

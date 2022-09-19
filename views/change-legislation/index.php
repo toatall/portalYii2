@@ -1,7 +1,7 @@
 <?php
 
-use yii\bootstrap4\Html;
-use yii\bootstrap4\Tabs;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\Tabs;
 
 
 /** @var yii\web\View $this */
@@ -16,9 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="change-legislation-index">
-    
-    <!-- <h1 class="display-4 border-bottom"><?= Html::encode($this->title) ?></h1> -->
-
+       
     <?= Tabs::widget([
         'items' => [
             [

@@ -1,47 +1,48 @@
 <?php
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\news\NewsComment[] $query */
 ?>
 
-<ul class="media-list mt-4">            
+<div class="row mt-4">            
     <?php foreach ($query as $model): ?>
-    <li class="media mt-2">
+    <div class="col-2 mt-2" style="max-width: 10em;">
         <a href="/@<?= $model->username ?>" target="_blank">
-            <img src="<?= $model->modelUser->getPhotoProfile() ?>" class="img-thumbnail rounded mr-2" style="max-width: 10em;" />
+            <img src="<?= $model->modelUser->getPhotoProfile() ?>" class="img-thumbnail rounded mr-2" />
         </a>
-        <div class="media-body">        
-            <div class="card">
-                <div class="card-header">
-                    <div class="text-center">
-                        <?= Html::a('<i class="fas fa-trash"></i>', ['/news-comment/delete', 'id' => $model->id], [
-                            'title' => 'Удалить',
-                            'class' => 'close btn-comment-delete',
-                            'style' => 'margin-left:7px;',
-                            'data' => [
-                                'confirm' => 'Вы уверены, что хотите удалить?',
-                                'method' => 'post',
-                            ],
-                        ]) ?>
-                    </div>
-                    <h5>
-                        <?= Html::a($model->modelUser->fio . ' (@' . $model->username . ')', '/@' . $model->username, ['class' => 'author', 'target' => '_blank']) ?>
-                    </h5>
-                    <small>
-                        <?= $model->modelUser->organization_name ?>
-                        <?php if ($model->modelUser->department): ?> (<?= $model->modelUser->department ?>) <br /><?php endif; ?>
-                        <?= \Yii::$app->formatter->asDateTime($model->date_create) ?>
-                    </small>
+    </div>
+    <div class="col">        
+        <div class="card">
+            <div class="card-header">
+                <div class="text-center">
+                    <?= Html::a('<i class="fas fa-trash"></i>', ['/news-comment/delete', 'id' => $model->id], [
+                        'title' => 'Удалить',
+                        'class' => 'float-end btn-comment-delete',
+                        'style' => 'margin-left:7px;',
+                        'data' => [
+                            'confirm' => 'Вы уверены, что хотите удалить?',
+                            'method' => 'post',
+                        ],
+                    ]) ?>
                 </div>
-                <div class="card-body border-top">
-                    <div class="text-justiffy"><?= $model->comment ?></div>
-                </div>
+                <h5>
+                    <?= Html::a($model->modelUser->fio . ' (@' . $model->username . ')', '/@' . $model->username, 
+                        ['class' => 'author', 'target' => '_blank']) ?>
+                </h5>
+                <small>
+                    <?= $model->modelUser->organization_name ?>
+                    <?php if ($model->modelUser->department): ?> (<?= $model->modelUser->department ?>) <br /><?php endif; ?>
+                    <?= \Yii::$app->formatter->asDateTime($model->date_create) ?>
+                </small>
+            </div>
+            <div class="card-body border-top">
+                <div class="text-justiffy"><?= $model->comment ?></div>
             </div>
         </div>
-    </li>
+    </div>
     <?php endforeach; ?>
-</ul>
+</div>
 <?php
 $this->registerJs(<<<JS
 

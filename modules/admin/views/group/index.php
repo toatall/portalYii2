@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 use kartik\grid\ActionColumn;
 use kartik\select2\Select2;
@@ -15,7 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="group-index">
 
-    <h1 class="display-4 border-bottom"><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <p>
         <?= Html::a('<i class="fas fa-plus-circle"></i> Добавить группу', ['create'], ['class' => 'btn btn-success']) ?>
@@ -23,6 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php Pjax::begin(['id' => 'pjax-group-index', 'timeout' => false, 'enablePushState' => false]) ?>
     <?= GridView::widget([
+        'id' => 'grid-admin-group-index',
+        'pjax' => true,
+        'responsive' => false,
+        'striped' => false,        
+        'pager' => [
+            'firstPageLabel' => 'Первая',
+            'lastPageLabel' => 'Последняя',
+        ],
         'filterModel' => $searchModel,
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -79,8 +89,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
             ],
             [
-                'class' => ActionColumn::class,              
+                'class' => ActionColumn::class,      
+                'dropdown' => true,        
             ],
+        ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
         ],
     ]); ?>
     <?php Pjax::end() ?>

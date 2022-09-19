@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
@@ -9,11 +9,12 @@ use yii\widgets\DetailView;
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Собрания', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="conference-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <div class="btn-group" style="margin-bottom: 20px;">
         <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -24,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Назад', ['index'], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <?= DetailView::widget([
@@ -39,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'note',
             'date_create:datetime',
             'date_edit:datetime',
-            'log_change',
+            // 'log_change',
         ],
     ]) ?>
 

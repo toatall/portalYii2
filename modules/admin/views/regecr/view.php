@@ -1,20 +1,22 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var app\models\RegEcr $model */
+/** @var app\models\regecr\RegEcr $model */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Анкетирование по ГР', 'url' => ['index', '']];
+$this->title = 'Запись ИФНС ' . $model->code_org .' от ' . $model->date_reg;
+$this->params['breadcrumbs'][] = ['label' => 'Анкетирование по ГР', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="reg-ecr-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
-    <div class="btn-group mb-2">
+    <div class="btn-group mb-3">
         <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -23,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Отмена', ['index'], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <?= DetailView::widget([

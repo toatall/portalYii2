@@ -2,7 +2,7 @@
 
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -34,10 +34,19 @@ use yii\bootstrap4\Html;
             ],
 
         ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
+        ],
     ]); ?>
 
 <?php
-// ЛЕВОЕ МЕНЮ
 $this->registerJs(<<<JS
 $('.btn-select-group').on('click', function() {
     $(modalViewer).trigger('onPortalSelectGroup', { id: $(this).attr('group_id'), name: $(this).attr('group_name') });

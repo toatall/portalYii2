@@ -4,7 +4,7 @@
 
 use yii\helpers\Url;
 use app\helpers\DateHelper;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 $url = Url::to(['news/view', 'id'=>$model->id]);
 

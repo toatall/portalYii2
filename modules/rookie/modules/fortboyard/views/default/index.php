@@ -4,11 +4,10 @@
 /** @var app\modules\rookie\modules\fortboyard\models\FortBoyard $questionToday */
 /** @var array $resultQuestions */
 
-use app\helpers\DateHelper;
 use app\modules\rookie\modules\fortboyard\models\FortBoyard;
 use yii\helpers\Url;
 use app\modules\rookie\modules\photohunter\assets\ViewerjsAsset;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
 
 ViewerjsAsset::register($this);
@@ -127,13 +126,12 @@ if ($resultQuestions) : ?>
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title"></h1>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body" style="border-top: 1px solid rgba(0,0,0,.125);">BODY</div>
             <div class="modal-footer" style="border-top: 1px solid rgba(0,0,0,.125);">
-                <button class="btn btn-primary" data-dismiss="modal">
+                <button class="btn btn-primary" data-bs-dismiss="modal">
                     <i class="fas fa-times fa-fw"></i>
                     Закрыть
                 </button>

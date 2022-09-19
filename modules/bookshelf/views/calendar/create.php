@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\bookshelf\models\BookShelfCalendar */
+/** @var yii\web\View $this */
+/** @var app\modules\bookshelf\models\BookShelfCalendar $model */
 
 $this->title = 'Create Book Shelf Calendar';
 $this->params['breadcrumbs'][] = ['label' => 'Book Shelf Calendars', 'url' => ['index']];

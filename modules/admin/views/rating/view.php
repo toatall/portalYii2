@@ -1,19 +1,21 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
 /** @var app\models\rating\RatingMain $model */
+/** @var app\models\Tree $modelTree */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Виды рейтингов', 'url' => ['index', 'idTree'=>$model->id_tree]];
+$this->params['breadcrumbs'][] = ['label' => 'Виды рейтингов для раздела "' . $modelTree->name . '"', 'url' => ['index', 'idTree'=>$model->id_tree]];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="rating-main-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <div class="btn-group" style="margin-bottom: 10px;">
         <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -24,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Назад', ['index', 'idTree' => $modelTree->id], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <?= DetailView::widget([
@@ -34,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'order_asc',
             'note',
-            'log_change',
+            // 'log_change',
             'date_create:datetime',
             'author',
         ],

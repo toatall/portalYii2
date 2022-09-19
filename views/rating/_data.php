@@ -1,8 +1,8 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $model \app\models\rating\RatingData[] */
+/** @var yii\web\View $this */
+/** @var app\models\rating\RatingData[] $model */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 ?>
 
 <ul class="row">

@@ -26,11 +26,11 @@ class ContestArtsController extends Controller
      * @param type $action
      * @return type
      */
-    public function beforeAction($action)
-    {
-        Yii::$app->params['bsVersion'] = '4.x';
-        return parent::beforeAction($action);
-    }
+    // public function beforeAction($action)
+    // {
+    //     // Yii::$app->params['bsVersion'] = '4.x';
+    //     return parent::beforeAction($action);
+    // }
     
     /**
      * {@inheritdoc}

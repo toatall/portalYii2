@@ -1,14 +1,14 @@
 <?php
 
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\modules\kadry\models\education\Education $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="education-form">
+<div class="education-form card card-body">
 
     <?php $form = ActiveForm::begin(); ?>
 

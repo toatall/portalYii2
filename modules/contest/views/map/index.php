@@ -8,14 +8,14 @@
 /** @var array $isAnswered */
 /** @var array $leadersWeeks */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use app\assets\AppAsset;
 use app\assets\fancybox\FancyboxAsset;
-use app\assets\ModalViewerAsset;
+use app\assets\ModalViewerAssetBs5;
 
 FancyboxAsset::register($this);
 AppAsset::register($this);
-ModalViewerAsset::register($this);
+ModalViewerAssetBs5::register($this);
 $this->title = 'УДИВИТЕЛЬНАЯ РОССИЯ';
 $this->registerCssFile('public/assets/kadry/css/album.css', [
     'depends' => AppAsset::class,
@@ -115,7 +115,7 @@ CSS);
     <hr />
     <footer class="text-muted mt-4">
         <div class="container">
-            <p class="float-right">
+            <p class="float-end">
                 <a href="#" class="btn btn-secondary"><i class="fas fa-arrow-up"></i></a>
             </p>
             <p class="text-white font-weight-bolder">&copy; УФНС России по Ханты-Мансийскому автономному округу - Югре</p>            

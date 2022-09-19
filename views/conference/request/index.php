@@ -3,7 +3,7 @@
 /** @var \yii\web\View $this */
 /** @var \yii\data\ActiveDataProvider $dataProvider */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use app\helpers\DateHelper;
 use kartik\grid\GridView;
 use app\models\conference\AbstractConference;
@@ -128,6 +128,16 @@ $this->registerCssFile('/public/assets/portal/css/dayPost.css');
                     },
                 ],
             ],
+        ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
         ],
     ]); ?>
 

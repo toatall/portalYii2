@@ -73,6 +73,7 @@
   /*line-height: 20px;*/
   color: #333333;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .dropdown-menu > li > a:hover,
@@ -215,12 +216,12 @@ a.dropdown-item:focus,
 }
 
 .dropdown-menu-main {
-    display: block; 
-    position: relative; 
-    z-index: 5; 
-    top:0; 
-    margin-bottom: 5px; 
-    width: 100%;
+    display: block !important; 
+    position: relative !important; 
+    z-index: 5 !important; 
+    top: 0 !important; 
+    margin-bottom: 5px !important; 
+    width: 100% !important;
 }
 
 .dropdown-menu-wrap > li > a

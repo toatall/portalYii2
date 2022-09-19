@@ -1,9 +1,8 @@
 <?php 
 
-/** @var yii\web\View $this */
-
 use app\widgets\CommentWidget;
 
+/** @var yii\web\View $this */
 /** @var stdClass $model */
 
 ?>

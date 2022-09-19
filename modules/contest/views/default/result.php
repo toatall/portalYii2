@@ -2,7 +2,7 @@
 
 /** @var yii\web\View $this */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 /** @var app\modules\contest\models\HrResult $modelResult */
 /** @var app\modules\contest\models\HrResultData[] $resultData */

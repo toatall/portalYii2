@@ -3,7 +3,7 @@
 /** @var yii\web\View $this */
 /** @var app\modules\bookshelf\models\BookShelfDiscussion $model */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 ?>
 <div class="card mb-4">

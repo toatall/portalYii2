@@ -2,10 +2,9 @@
 
 /** @var yii\web\View $this */
 
-use app\widgets\Alert;
 use kartik\file\FileInput;
 use kartik\growl\Growl;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 
@@ -20,14 +19,14 @@ if (Yii::$app->request->isAjax) {
 ?>
 
 <div class="col mb-2">
-    <p class="display-4"><?= $this->title ?></p>
+    <p class="display-5"><?= $this->title ?></p>
 </div>
 
 <?php Pjax::begin(['id'=>'ajax-profile-photo', 'timeout'=>false, 'enablePushState'=>false]); ?>
 
 <?php
     foreach (Yii::$app->session->getAllFlashes() as $type => $flash) {
-        echo Growl::widget([
+        echo Growl::widget([            
             'type' => $type,
             'body' => $flash,            
         ]);
@@ -54,6 +53,9 @@ if (Yii::$app->request->isAjax) {
                             ],
                             'options' => [
                                 'accept' => 'images/*',
+                            ],
+                            'pluginOptions' => [
+                                'theme' => 'fa5',
                             ],
                         ]) ?>
                         <?= Html::endForm() ?>

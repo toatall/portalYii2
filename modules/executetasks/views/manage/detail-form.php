@@ -1,7 +1,7 @@
 <?php
 
 use kartik\widgets\ActiveForm;
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var app\modules\executetasks\models\ExecuteTasksDetail $model */

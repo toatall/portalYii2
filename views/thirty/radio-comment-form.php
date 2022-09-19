@@ -2,8 +2,8 @@
 /** @var \yii\web\View $this */
 /** @var \app\models\thirty\ThirtyRadioComment $model */
 
-use yii\bootstrap4\ActiveForm;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
 use app\assets\EmojiAsset;
 
 EmojiAsset::register($this);

@@ -1,12 +1,13 @@
 <?php
 namespace app\widgets;
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\Widget;
 
 /** 
  * @author toatall
  */
-class TelephoneWidget extends \yii\bootstrap\Widget
+class TelephoneWidget extends Widget
 {
     /**
      * 

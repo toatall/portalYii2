@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\LinkPager;
+use yii\bootstrap5\LinkPager;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 use yii\helpers\ArrayHelper;
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'] = ArrayHelper::merge($this->params['breadcrumbs'], 
 <div class="news-index">
 
     <div class="col border-bottom mb-2">
-        <p class="display-4">
+        <p class="display-5">
             <?= $this->title ?>
         </p>    
     </div>

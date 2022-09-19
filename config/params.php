@@ -7,7 +7,7 @@ return [
     
     'pageSize' => 10,
 
-    'bsVersion' => '4.x',
+    'bsVersion' => '5.x',
         
     // user
     'user' => [

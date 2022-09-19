@@ -2,9 +2,8 @@
 use kartik\datetime\DateTimePicker;
 use kartik\range\RangeInput;
 use kartik\time\TimePicker;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
-use kartik\widgets\DatePicker;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\modules\test\models\Test $model */

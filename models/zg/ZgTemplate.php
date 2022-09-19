@@ -39,7 +39,8 @@ class ZgTemplate extends \yii\db\ActiveRecord
             [['date_create', 'date_update'], 'safe'],
             [['kind'], 'string', 'max' => 1000],
             [['author'], 'string', 'max' => 250],
-            [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['author' => 'username_windows']],
+            [['author'], 'exist', 'skipOnError' => true, 
+                'targetClass' => User::class, 'targetAttribute' => ['author' => 'username_windows']],
         ];
     }
 
@@ -66,7 +67,7 @@ class ZgTemplate extends \yii\db\ActiveRecord
      */
     public function getAuthor0()
     {
-        return $this->hasOne(User::className(), ['username_windows' => 'author']);
+        return $this->hasOne(User::class, ['username_windows' => 'author']);
     }
 
     /**

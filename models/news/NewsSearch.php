@@ -183,7 +183,7 @@ class NewsSearch extends News
      * @param $params
      * @return ActiveDataProvider
      */
-    public function searchPublic($params, $toggleOrganizations=false)
+    public function searchPublic($params, $toggleOrganizations=false, $limit=null)
     {                
         $this->load($params);
 
@@ -217,6 +217,10 @@ class NewsSearch extends News
         }
 
         $query = $this->basePublicSearch();
+
+        if ($limit) {
+            $query->limit($limit);
+        }
 
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([

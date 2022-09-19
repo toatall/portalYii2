@@ -162,6 +162,13 @@ Tests can be executed by running
 vendor/bin/codecept run
 ```
 
+
+for coverage
+```
+./vendor/bin/codecept run --coverage --coverage-html --coverage-xml
+```
+
+
 The command above will execute unit and functional tests. Unit tests are testing the system components, while functional
 tests are for testing user interaction. Acceptance tests are disabled by default as they require additional setup since
 they perform testing in real browser. 

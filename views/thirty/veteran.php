@@ -3,7 +3,7 @@
 /** @var array $result */
 /** @var \app\models\thirty\ThirtyVeteran $model */
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 use app\assets\fancybox\FancyboxAsset;
 FancyboxAsset::register($this);
 

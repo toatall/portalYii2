@@ -3,8 +3,8 @@
 /** @var \app\modules\test\models\Test $model */
 /** @var \app\modules\test\models\TestResult $modelResult */
 
-use yii\bootstrap4\Html;
-use yii\bootstrap4\Progress;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\Progress;
 use yii\helpers\Url;
 
 $this->params['breadcrumbs'][] = ['label' => $model->name]; 

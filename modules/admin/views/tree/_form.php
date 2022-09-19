@@ -1,14 +1,15 @@
 <?php
 
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\assets\ModalViewerAsset;
+use app\assets\ModalViewerAssetBs5;
 use app\models\Module;
 use app\models\Tree;
 use kartik\select2\Select2;
 
-ModalViewerAsset::register($this);
+ModalViewerAssetBs5::register($this);
 
 /** @var yii\web\View $this */
 /** @var app\models\Tree $model */
@@ -19,93 +20,97 @@ $arrayParent = Yii::$app->user->can('admin') ? ['0' => 'Родитель'] : [];
 
 <div class="tree-form">
 
-    <?php $form = ActiveForm::begin(['id' => 'form-tree']); ?>
+    <div class="card card-body">
 
-    <?= $form->field($model, 'id_parent')->widget(Select2::class, [
-        'data' => $arrayParent + Tree::getTreeDropDownList(),
-    ]) ?>
+        <?php $form = ActiveForm::begin(['id' => 'form-tree']); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'id_parent')->widget(Select2::class, [
+            'data' => $arrayParent + Tree::getTreeDropDownList(),
+        ]) ?>
 
-    <?= $form->field($model, 'sort')->textInput() ?>
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'is_url')->checkbox() ?>
+        <?= $form->field($model, 'sort')->textInput() ?>
 
-    <div id="div-url">
-        <?= $form->field($model, 'url') ?>
-    </div>
+        <?= $form->field($model, 'is_url')->checkbox() ?>
 
-    <div id="div-general">
+        <div id="div-url">
+            <?= $form->field($model, 'url') ?>
+        </div>
+
+        <div id="div-general">
+            <?php if (Yii::$app->user->can('admin')): ?>
+                <?= $form->field($model,'allOrganization')->checkbox() ?>
+            <?php endif; ?>
+
+            <?= $form->field($model, 'use_material')->checkbox() ?>
+
+            <div id="content-material" class="card">
+                <div class="card-body">
+                    <?php if (Yii::$app->user->can('admin')): ?>
+                    <?= $form->field($model, 'module')->dropDownList(['' => ''] + ArrayHelper::map(Module::find()->all(), 'name', 'description')) ?>
+                    <?php endif; ?>            
+                </div>
+            </div>
+        </div>
+
         <?php if (Yii::$app->user->can('admin')): ?>
-            <?= $form->field($model,'allOrganization')->checkbox() ?>
-        <?php endif; ?>
+        <div class="card mt-2">
+            <div class="card-header">
+                Доступ
+            </div>
 
-        <?= $form->field($model, 'use_material')->checkbox() ?>
-
-        <div id="content-material" class="card">
             <div class="card-body">
-                <?php if (Yii::$app->user->can('admin')): ?>
-                <?= $form->field($model, 'module')->dropDownList(['' => ''] + ArrayHelper::map(Module::find()->all(), 'name', 'description')) ?>
-                <?php endif; ?>            
-            </div>
-        </div>
-    </div>
-
-    <?php if (Yii::$app->user->can('admin')): ?>
-    <div class="card mt-2">
-        <div class="card-header">
-            Доступ
-        </div>
-
-        <div class="card-body">
-            <div class="row col">
-                <?= $form->field($model, 'useParentRight')->checkbox() ?>
-            </div>
-            <div id="content-permission">
-                <div class="row">
-                    <div class="col">
-                        <?= $form->field($model, 'permissionGroup')->dropDownList($model->getPermissionGroups(), ['multiple'=>true, 'size'=>10]) ?>
-                        <div class="btn-group">
-                            <?= Html::a('Добавить', ['/admin/group/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-group']) ?>
-                            <?= Html::button('Удалить', ['class' => 'btn btn-danger', 'id'=>'btn-remove-group']) ?>
+                <div class="row col">
+                    <?= $form->field($model, 'useParentRight')->checkbox() ?>
+                </div>
+                <div id="content-permission">
+                    <div class="row">
+                        <div class="col">
+                            <?= $form->field($model, 'permissionGroup')->dropDownList($model->getPermissionGroups(), ['multiple'=>true, 'size'=>10]) ?>
+                            <div class="btn-group">
+                                <?= Html::a('Добавить', ['/admin/group/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-group']) ?>
+                                <?= Html::button('Удалить', ['class' => 'btn btn-danger', 'id'=>'btn-remove-group']) ?>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <?= $form->field($model, 'permissionUser')->dropDownList($model->getPermissionUsers(), ['multiple'=>true, 'size'=>10]) ?>
-                        <div class="btn-group">
-                            <?= Html::a('Добавить', ['/admin/user/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-user']) ?>
-                            <?= Html::button('Удалить', ['class' => 'btn btn-danger', 'id'=>'btn-remove-user']) ?>
+                        <div class="col">
+                            <?= $form->field($model, 'permissionUser')->dropDownList($model->getPermissionUsers(), ['multiple'=>true, 'size'=>10]) ?>
+                            <div class="btn-group">
+                                <?= Html::a('Добавить', ['/admin/user/list'], ['class'=>'btn btn-success', 'id'=>'btn-add-user']) ?>
+                                <?= Html::button('Удалить', ['class' => 'btn btn-danger', 'id'=>'btn-remove-user']) ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <?php endif; ?>
+        <?php endif; ?>
 
-    <!-- <div class="card mt-2 mb-2">
-        <div class="card-header">
-            <button id="btn-add-parameters" class="btn btn-primary">Дополнительные параметры</button>
-        </div>
-        <div id="content-add-parameters" class="panel-body" style="display: none;">
-            <div class="card-body">
-                <?= $form->field($model, 'param1')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($model, 'view_static')->textInput(['maxlength' => true]) ?>
+        <!-- <div class="card mt-2 mb-2">
+            <div class="card-header">
+                <button id="btn-add-parameters" class="btn btn-primary">Дополнительные параметры</button>
             </div>
+            <div id="content-add-parameters" class="panel-body" style="display: none;">
+                <div class="card-body">
+                    <?= $form->field($model, 'param1')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'view_static')->textInput(['maxlength' => true]) ?>
+                </div>
+            </div>
+        </div> -->
+
+        <?= $form->field($model, 'disable_child')->checkbox() ?>
+
+        <hr />
+
+        <div class="btn-group">
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+            <?= Html::a('Отмена', ['/admin/tree/index'], ['class' => 'btn btn-secondary']) ?>
         </div>
-    </div> -->
 
-    <?= $form->field($model, 'disable_child')->checkbox() ?>
+        <?php ActiveForm::end(); ?>
 
-    <hr />
-
-    <div class="btn-group">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Отмена', ['/admin/tree/index'], ['class' => 'btn btn-secondary']) ?>
     </div>
-
-    <?php ActiveForm::end(); ?>
 
 </div>
 <?php

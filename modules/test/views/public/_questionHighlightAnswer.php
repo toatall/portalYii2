@@ -2,7 +2,7 @@
 /** @var yii\web\View $this */
 /** @var app\modules\test\models\TestResultQuestion $model */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 

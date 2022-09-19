@@ -1,21 +1,26 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\page\Page $model */
 /** @var app\models\Tree $modelTree */
 
+$labelPages = 'Страницы';
+if (!empty($modelTree)) {
+    $labelPages .= ' раздела "' . $modelTree->name . '"';
+}
 $this->title = 'Добавление страницы';
-$this->params['breadcrumbs'][] = ['label' => 'Страницы', 'url' => ['index', 'idTree' => $modelTree->id]];
+$this->params['breadcrumbs'][] = ['label' => $labelPages, 'url' => ['index', 'idTree' => $modelTree->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom"><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('/news/_form', [
         'model' => $model,
+        'urlBack' => ['index', 'idTree' => $modelTree->id]
     ]) ?>
 
 </div>

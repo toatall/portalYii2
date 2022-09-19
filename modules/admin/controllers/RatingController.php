@@ -75,8 +75,10 @@ class RatingController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'modelTree' => $model->tree,
         ]);
     }
 
@@ -129,6 +131,7 @@ class RatingController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'modelTree' => $model->tree,
         ]);
     }
 

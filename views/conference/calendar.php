@@ -3,7 +3,7 @@
 
 use yii\helpers\Url;
 use app\assets\fullcalendar\FullCalendarAsset;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use app\models\conference\EventsAll;
 
 FullCalendarAsset::register($this);

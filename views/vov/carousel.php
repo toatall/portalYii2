@@ -3,7 +3,7 @@
 /* @var $files array */
 ?>
 
-<?= \yii\bootstrap\Carousel::widget([
+<?= \yii\bootstrap5\Carousel::widget([
     'options' => [
         'id' => 'carosel-vov',
     ],

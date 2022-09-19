@@ -2,7 +2,7 @@
 /** @var \yii\web\View $this */
 /** @var \app\models\thirty\ThirtyRadio $model */
 
-use yii\bootstrap4\Tabs;
+use yii\bootstrap5\Tabs;
 use yii\helpers\Url;
 ?>
 <?= Tabs::widget([

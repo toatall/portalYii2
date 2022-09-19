@@ -2,7 +2,7 @@
 /* @var $this \yii\web\View */
 /* @var $model \app\models\vote\VoteMain */
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use app\assets\fancybox\FancyboxAsset;
 FancyboxAsset::register($this);

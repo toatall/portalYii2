@@ -4,7 +4,7 @@
 
 use app\assets\ApexchartsAsset;
 use kartik\date\DatePicker;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 ApexchartsAsset::register($this);
 

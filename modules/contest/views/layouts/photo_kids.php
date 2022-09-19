@@ -4,7 +4,7 @@
 /** @var string $content */
 
 use app\assets\LightGalleryAsset;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 LightGalleryAsset::register($this);
 ?>

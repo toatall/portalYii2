@@ -1,6 +1,6 @@
 <?php
 
-/** @var \yii\web\View $this */
+/** @var yii\web\View $this */
 /** @var arrray $listA */
 /** @var arrray $listB */
 /** @var array $result */
@@ -8,7 +8,7 @@
 
 use app\assets\FlipAsset;
 use app\modules\contest\assets\QuestAsset;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
 FlipAsset::register($this);

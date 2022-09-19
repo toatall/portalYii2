@@ -3,7 +3,7 @@
 /** @var yii\web\View $this */
 
 use app\modules\test\models\TestQuestion;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 

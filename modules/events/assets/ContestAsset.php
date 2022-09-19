@@ -7,6 +7,7 @@
 
 namespace app\modules\events\assets;
 
+use app\assets\AppAsset;
 use yii\web\AssetBundle;
 
 /**
@@ -20,34 +21,38 @@ class ContestAsset extends AssetBundle
     public $sourcePath = __DIR__ . '/libs';
      
     public $css = [
-        'vendor/bootstrap/css/bootstrap.min.css',
+        // 'vendor/bootstrap/css/bootstrap.min.css',
         'css/styles.css',
         '/css/all.min.css',
     ];
     
     public $js = [
-        'vendor/jquery/jquery.min.js',
-        'vendor/bootstrap/js/bootstrap.bundle.min.js',    
+        // 'vendor/jquery/jquery.min.js',
+        // 'vendor/bootstrap/js/bootstrap.bundle.min.js',    
         'js/jquery.easing.min.js',
         'js/scripts.js',
     ];
     
     public $depends = [
-        'yii\bootstrap4\BootstrapAsset',
+        // 'yii\bootstrap5\BootstrapAsset',
+        // 'yii\web\YiiAsset',
+        // 'yii\bootstrap5\BootstrapAsset',
+        // 'yii\bootstrap5\BootstrapPluginAsset',
+        AppAsset::class,
     ];
     
     public function init() 
     {
                 
-        \Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
-            'js' => [],
-        ];        
-        \Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapAsset'] = [
-            'js' => [],
-        ];
-        \Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapPluginAsset'] = [
-            'js' => [],
-        ];
+        // \Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
+        //     'js' => [],
+        // ];        
+        // \Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapAsset'] = [
+        //     'js' => [],
+        // ];
+        // \Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapPluginAsset'] = [
+        //     'js' => [],
+        // ];
         
         parent::init();
     }

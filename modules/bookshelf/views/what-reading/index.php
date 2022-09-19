@@ -1,7 +1,7 @@
 <?php
 
 use app\modules\bookshelf\models\BookShelf;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 use kartik\grid\SerialColumn;
 
@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="what-reading-index card card-body bg-dark animate__animated animate__fadeInUp">
 
-    <p class="display-4 text-white font-weight-bolder">
+    <p class="display-5 text-white font-weight-bolder">
         <?= Html::a('Книжная полка', ['/bookshelf'], ['class' => 'text-white']) ?>
         &rsaquo;
         <span class="font-weight-normal text-secondary"><?= Html::encode($this->title) ?></span>
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr class="border-white" />
 
     <?php if (BookShelf::isEditor()): ?>
-        <div class="row col">
+        <div>
             <div class="btn-group mt-2 mb-4">
                 <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success mv-link']) ?>       
             </div>

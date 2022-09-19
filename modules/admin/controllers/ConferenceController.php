@@ -9,6 +9,7 @@ use app\models\conference\Conference;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use app\components\Controller;
+use app\models\conference\ConferenceSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -56,11 +57,11 @@ class ConferenceController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Conference::find(),
-        ]);
+        $searchModel = new ConferenceSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

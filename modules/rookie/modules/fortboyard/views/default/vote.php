@@ -5,7 +5,7 @@
 
 use kartik\form\ActiveForm;
 use kartik\widgets\StarRating;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 ?>
 <div id="container-form-vote">

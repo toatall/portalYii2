@@ -1,18 +1,23 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\page\Page $model */
+/** @var app\models\Tree $modelTree */
+
+$labelPages = 'Страницы';
+if (!empty($modelTree)) {
+    $labelPages .= ' раздела "' . $modelTree->name . '"';
+}
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Страницы', 'url' => ['index', 'idTree' => $model->id_tree]];
+$this->params['breadcrumbs'][] = ['label' => $labelPages, 'url' => ['index', 'idTree' => $model->id_tree]];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="page-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom"><?= Html::encode($this->title) ?></h1>
 
     <div class="btn-group" style="margin-bottom: 10px;">
         <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -23,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Назад', ['index', 'idTree' => $model->id_tree], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <?= $this->render('/news/_view', [

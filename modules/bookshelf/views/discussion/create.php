@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var app\modules\bookshelf\models\BookShelfDiscussion $model */
@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="book-shelf-discussion-create">
 
-    <p class="display-4 border-bottom">
+    <p class="display-5 border-bottom">
         <?= Html::encode($this->title) ?>
     </p>
 

@@ -142,7 +142,8 @@ class DepartmentCardController extends Controller
             return [
                 'title' => 'Добавление сотрудника',
                 'content' => $this->renderAjax('_form', [
-                    'model' => $model,                    
+                    'model' => $model,
+                    'modelDepartment' => $model->department,                  
                 ]),
             ];
         }

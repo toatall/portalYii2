@@ -3,15 +3,15 @@
 use kartik\date\DatePicker;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
-/** @var $this yii\web\View */
-/** @var $model app\models\ChangeLegislation */
-/** @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\ChangeLegislation $model */
+/** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="change-legislation-form">
+<div class="change-legislation-form card card-body">
 
     <?php $form = ActiveForm::begin(); ?>
 

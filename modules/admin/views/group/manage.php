@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
@@ -14,7 +14,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Группы', 'url' => ['index']]
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1 class="display-4 border-bottom"><?= $this->title ?></h1>
+<h1 class="display-5 border-bottom">
+    <?= $this->title ?>
+</h1>
 
 <div class="btn-group mb-2">
     <?= Html::a('Добавить пользователя', 
@@ -25,6 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Pjax::begin(['id' => 'pjax-group-manage', 'timeout' => false, 'enablePushState' => false]) ?>
     
     <?= GridView::widget([
+        'id' => 'grid-admin-group-manage',
+        'responsive' => false,
         'dataProvider' => $dataProvider,
         'columns' => [
             'id',
@@ -36,6 +40,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::a('Удалить', ['/admin/group-manage/delete', 'idGroup'=>$model->id, 'idUser'=>$modelUser->id], ['class'=>'btn btn-danger btn-delete']);
                 },
             ],
+        ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
         ],
     ]) ?>
  

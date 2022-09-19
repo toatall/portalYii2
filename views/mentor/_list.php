@@ -3,7 +3,7 @@
 /** @var \app\models\mentor\MentorPost $model */
 
 use yii\helpers\Url;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 $url = Url::to(['mentor/view', 'id'=>$model->id]);
 
@@ -12,7 +12,7 @@ $url = Url::to(['mentor/view', 'id'=>$model->id]);
     <div class="card mt-2">
         <div class="card bg-light vertical-align">
             <div class="card-header">
-                <a href="<?= $url ?>" class="mv-link" data-pjax="false">
+                <a href="<?= $url ?>" class="mv-link text-decoration-none" data-pjax="false">
                     <h4><?= $model->title ?></h4>
                 </a>
             </div>

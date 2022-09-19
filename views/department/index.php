@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="department-index">
 
     <div class="col border-bottom mb-2">
-        <p class="display-4">
+        <p class="display-5">
             <?= $this->title ?>
         </p>    
     </div>

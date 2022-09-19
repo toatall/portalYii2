@@ -1,9 +1,9 @@
 <?php
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
-/* @var $this yii\web\View */
-/* @var $modelToday app\modules\events\models\ContestArts */
+/** @var yii\web\View $this */
+/** @var app\modules\events\models\ContestArts $modelToday */
 
 ?>
 

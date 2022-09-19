@@ -1,7 +1,7 @@
 <?php
 
 use app\models\zg\ZgTemplate;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\ArrayHelper;
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="zg-template-index">
 
     <div class="col border-bottom mb-2">
-        <p class="display-4">
+        <p class="display-5">
             <?= $this->title ?>
         </p>    
     </div>
@@ -65,6 +65,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             'delete' => $isEditor,
                         ],
                     ],
+                ],
+                'toolbar' => [
+                    '{export}',
+                    '{toggleData}',
+                ],
+                'export' => [
+                    'showConfirmAlert' => false,
+                ],
+                'panel' => [
+                    'type' => GridView::TYPE_DEFAULT,       
                 ],
             ]); ?>
 <?php

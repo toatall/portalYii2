@@ -1,7 +1,7 @@
 <?php
 
 use kartik\grid\ActionColumn;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 
 /** @var yii\web\View $this */
@@ -49,6 +49,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             },
                         ],
                     ],
+                ],
+                'toolbar' => [
+                    '{export}',
+                    '{toggleData}',
+                ],
+                'export' => [
+                    'showConfirmAlert' => false,
+                ],
+                'panel' => [
+                    'type' => GridView::TYPE_DEFAULT,       
                 ],
             ]); ?>
         </div>

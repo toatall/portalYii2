@@ -4,14 +4,14 @@
 
 use app\modules\contest\models\ManualNeighbor;
 use kartik\grid\GridView;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Методички для соседа';
 ?>
 
-<p class="display-4 border-bottom"><?= $this->title ?></p>
+<p class="display-5 border-bottom"><?= $this->title ?></p>
 
 <div class="mt-3">
     <?= GridView::widget([

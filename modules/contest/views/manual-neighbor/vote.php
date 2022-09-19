@@ -4,7 +4,7 @@
 /** @var yii\base\DynamicModel $model */
 
 use app\modules\contest\models\ManualNeighbor;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
 use yii\bootstrap4\ActiveForm;
 

@@ -1,5 +1,5 @@
 <?php
-/* @var $this \yii\web\View */
+/** @var yii\web\View $this */
 
 use yii\helpers\Url;
 
@@ -17,7 +17,7 @@ $tests = [
 ];
 ?>
 
-<div class="well">
+<div class="card card-body">
     <?php foreach ($tests as $id=>$link): ?>
     <div class="test-container" data-url="<?= Url::to(['/test/public/view', 'id'=>$id]) ?>" data-material-url="<?= $link ?>"></div>
     <?php endforeach; ?>    

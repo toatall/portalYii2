@@ -3,17 +3,15 @@
 /** @var yii\web\View $this */
 /** @var app\models\news\News $model */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use dosamigos\gallery\Gallery;
-use yii\bootstrap4\Tabs;
+use yii\bootstrap5\Tabs;
 
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Новости', 'url' => ['/news/index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
-
 ?>
 <div class="news-view">
     <div class="card">
@@ -59,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if ($model->getCheckListBoxUploadFilesGallery()): ?>
     <div class="card mt-2">
         <div class="card-header">
-            <button data-toggle="collapse" data-target="#collapse-file" class="btn btn-light btn-sm">
+            <button data-bs-toggle="collapse" data-bs-target="#collapse-file" class="btn btn-light btn-sm">
                 <i class="fa fa-minus" id="collapse-file-i"></i>
             </button> Файлы
         </div>
@@ -75,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if ($model->getCheckListBoxUploadImagesGallery()): ?>
     <div class="card mt-2">
         <div class="card-header">
-            <button data-toggle="collapse" data-target="#collapse-image" class="btn btn-light btn-sm">
+            <button data-bs-toggle="collapse" data-bs-target="#collapse-image" class="btn btn-light btn-sm">
                 <i class="fa fa-minus" id="collapse-image-i"></i>
             </button> Изображения
         </div>

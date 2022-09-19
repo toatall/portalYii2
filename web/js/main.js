@@ -21,10 +21,8 @@ $(document).on('pjax:error', function(xhr, textStatus, error, options) {
 });
 
 $(document).ready(function () {
-    $('[data-toggle="popover"]')
-        .popover({trigger: 'hover'})
-        .popover();
-    $('[data-toggle="tooltip"]').popover();
+    $('[data-bs-toggle="popover"]')
+        .popover({trigger: 'hover'});
 });
 
 

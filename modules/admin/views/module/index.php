@@ -1,7 +1,7 @@
 <?php
 
 use app\models\Module;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 use kartik\grid\ActionColumn;
 use kartik\grid\SerialColumn;
@@ -14,7 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="module-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <p>
         <?= Html::a('Создать модуль', ['create'], ['class' => 'btn btn-success']) ?>
@@ -37,7 +39,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_create:datetime',
             'author',
 
-            ['class' => ActionColumn::class],
+            [
+                'class' => ActionColumn::class,
+                'dropdown' => true,
+            ],
+        ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
         ],
     ]); ?>
 

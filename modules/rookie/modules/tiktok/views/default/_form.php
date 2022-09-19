@@ -3,8 +3,8 @@
 use app\models\department\Department;
 use app\modules\rookie\modules\tiktok\models\Tiktok;
 use kartik\select2\Select2;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\modules\rookie\modules\tiktok\models\Tiktok $model */

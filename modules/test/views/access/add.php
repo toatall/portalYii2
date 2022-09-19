@@ -5,8 +5,7 @@
 /** @var integer $idTest */
 
 use kartik\grid\GridView;
-use kartik\select2\Select2;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 $this->title = 'Управление доступом';
 $this->params['breadcrumbs'][] = $this->title;
@@ -40,6 +39,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'format' => 'raw',
                     ],
+                ],
+                'toolbar' => [
+                    '{export}',
+                    '{toggleData}',
+                ],
+                'export' => [
+                    'showConfirmAlert' => false,
+                ],
+                'panel' => [
+                    'type' => GridView::TYPE_DEFAULT,       
                 ],
             ]) ?>
         </div>

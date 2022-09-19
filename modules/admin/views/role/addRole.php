@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use app\modules\admin\models\Role;
 use kartik\grid\GridView;
 
@@ -8,29 +8,33 @@ use kartik\grid\GridView;
 /** @var Role $model */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Выберите роль';
-$this->params['breadcrumbs'][] = ['label' => 'Роли', 'url' => ['/admin/role/index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['/admin/role/admin', 'id'=>$model->name]];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-
-<h1 class="mv-hide"><?= Html::encode($this->title) ?></h1>
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
-
+        ['class' => 'kartik\grid\SerialColumn'],
         'name',
         'description',
         'rule_name',
-        'created_at',
+        'created_at:datetime',
         [
             'format'=>'raw',
             'value'=>function(Role $m) use ($model) {
-                return Html::a('Добавить', ['/admin/role/add-sub-role', 'id' => $model->name, 'roleId' => $m->name], ['class' => 'btn btn-primary btn-select-role']);
+                return Html::a('Добавить', ['/admin/role/add-sub-role', 'id' => $model->name, 'roleId' => $m->name], 
+                ['class' => 'btn btn-primary btn-select-role']);
             },
-        ],
+        ],        
+    ],
+    'toolbar' => [           
+        '{export}',
+        '{toggleData}',
+    ],
+    'export' => [
+        'showConfirmAlert' => false,
+    ],
+    'panel' => [
+        'type' => GridView::TYPE_DEFAULT,       
     ],
 ]); ?>
 <?php if (\Yii::$app->request->isAjax): ?>

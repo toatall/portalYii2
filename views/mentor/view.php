@@ -4,14 +4,9 @@
 /** @var \app\models\mentor\MentorPost $model */
 
 
-use yii\bootstrap4\Html;
-use yii\helpers\Url;
-
-
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Наставничество', 'url' => ['/mentor/index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 
 ?>
 <div class="news-view">
@@ -21,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php if (!\Yii::$app->request->isAjax): ?>
                 <div class="row">
                     <div class="col border-bottom mb-2">
-                        <p class="display-4">
+                        <p class="display-5">
                         <?= $this->title ?>
                         </p>    
                     </div>    

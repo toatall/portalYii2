@@ -6,8 +6,8 @@ use app\models\lifehack\LifehackTags;
 use app\models\Organization;
 use kartik\file\FileInput;
 use kartik\select2\Select2;
-use yii\bootstrap4\ActiveForm;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
 
 ?>
@@ -56,6 +56,7 @@ use yii\widgets\Pjax;
             'pluginOptions' => [
                 'showUpload' => false,
                 'showPreview' => false,
+                'theme' => 'fa5',
             ],
         ]) ?>
         <?php if (!$model->isNewRecord && count($model->getUploadedFiles())): ?>
@@ -73,7 +74,9 @@ use yii\widgets\Pjax;
 
 <div class="btn-group pt-2">
     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-    <?= Html::a('Отмена', ['lifehack/index'], ['class' => 'btn btn-secondary', 'pjax' => 1]) ?>
+    <?php if (!Yii::$app->request->isAjax): ?>
+        <?= Html::a('Отмена', ['lifehack/index'], ['class' => 'btn btn-secondary', 'pjax' => 1]) ?>
+    <?php endif; ?>
 </div>
 
 <?php ActiveForm::end(); ?>

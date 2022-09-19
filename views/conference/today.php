@@ -3,23 +3,23 @@
 /** @var array $queryResult */
 
 use app\models\conference\AbstractConference;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 ?>
 <ul class="list-group">
     <?php foreach ($queryResult as $type => $item): ?>
-        <li class1="ml-3 font-weight-lighter" class="list-group-item">        
+        <li class="list-group-item">        
             <h6>
                 <?= ($label = AbstractConference::getLabelType($type)) ?>      
             </h6>
             <?php if ($item != null && count($item)): ?>
                 <?php foreach ($item as $row): ?>
                 <span style="font-size: large">
-                    <?= Html::a('<span class="badge badge-'.($row->isFinished() ? 'success' : 'secondary') . ' fa-sm">' . $row->time_start . '</span>', ['/conference/view', 'id'=>$row['id']], [
+                    <?= Html::a('<span class="badge bg-'.($row->isFinished() ? 'success' : 'secondary') . ' fs-6">' . $row->time_start . '</span>', ['/conference/view', 'id'=>$row['id']], [
                         'class' => 'mv-link',
-                        'data-toggle' => 'popover',
-                        'data-trigger' => 'hover',
-                        'data-original-title' => $row->getTitle(),
-                        'data-content' => $row->accessShowAllFields() ? $row->members_people : '',
+                        'data-bs-toggle' => 'popover',
+                        'data-bs-trigger' => 'hover',
+                        'data-bs-original-title' => $row->getTitle(),
+                        'data-bs-content' => $row->accessShowAllFields() ? $row->members_people : '',
                         'target' => '_blank',
                     ]) ?>
                 </span>

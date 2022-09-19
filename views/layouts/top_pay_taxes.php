@@ -3,7 +3,7 @@
 
 use app\assets\FlipAsset;
 use app\helpers\DateHelper;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\db\Query;
 
 FlipAsset::register($this);
@@ -12,22 +12,23 @@ $queryGeneral = (new Query())
     ->from('{{%pay_taxes_general}}')
     ->limit(1)
     ->where(['code_org' => '8600'])
+    ->andWhere('YEAR([[date]]) = YEAR(GETDATE())')
     ->orderBy(['date' => SORT_DESC])
     ->one();
 ?>
 
-<div class="rounded border-light border float-right container" style="width: 28rem; height: 12rem; margin-top: 0.5rem; background-color: #3B5998;" styles="position: absolute; top: 5px; right: 5px; width: 28em; height: 192px; background-color: #3B5998;">    
+<div class="rounded border-light border float-right d-none d-xxl-block me-2" style="width: 26rem; height: 12rem; margin-top: 0.5rem; background-color: #3B5998;">    
     <div class="row">
         <div class="col text-right">            
-            <span class="lead text-light" style="font-size: 0.7rem;">Кампания по уплате имущественных налогов 2021</span>
+            <span class="lead text-light" style="font-size: 0.7rem;">Кампания по уплате имущественных налогов <?= date('Y') ?></span>
             <hr class="my-1" style="margin: 0.10rem 0 !important;" />
         </div>        
     </div>
     <div class="row">
         <div class="col">
             <div class="text-center text-light">
-                <?php if (date('Ymd') > 20211201): ?>
-                    <?php $days = DateHelper::dateDiffDays('02.01.2022'); ?>
+                <?php if (date('Ymd') > 20221201): ?>
+                    <?php $days = DateHelper::dateDiffDays('02.01.2023'); ?>
                     <span class="lead" style="font-weight: bolder; font-size: 0.8em;">До срока исполнения СМС показателя 
                     <?php
                         $endNumber = $days % 10;
@@ -40,7 +41,7 @@ $queryGeneral = (new Query())
                     ?>     
                     </span>
                 <?php else: ?>
-                    <?php $days = DateHelper::dateDiffDays('03.12.2021'); ?>
+                    <?php $days = DateHelper::dateDiffDays('03.12.2022'); ?>
                     <span class="lead" style="font-weight: bolder; font-size: 0.9em;">До срока уплаты налогов 
                     <?php
                         $endNumber = $days % 10;
@@ -72,20 +73,20 @@ $queryGeneral = (new Query())
                         }
                     ?>        
                 </span>
-                <div class="mt-1"><?= Html::a('Подробнее', ['/pay-taxes/map'], ['class' => 'btn btn-outline-light btn-sm']) ?></div>
+                <div class="mt-1"><?= Html::a('Подробнее', ['/paytaxes/default/map'], ['class' => 'btn btn-outline-light btn-sm']) ?></div>
             </div>
         </div>
         <div class="col text-primary">
             <div class="text-center text-light">
                 <span style="font-weight: bolder; font-size: 0.9em;">Поступления</span>
-                <div class="tick" style="font-size: 1.1em;" data-value="<?= round($queryGeneral['sum2'],2) ?> тыс">        
+                <div class="tick" style="font-size: 1.1em;" data-value="<?= round($queryGeneral['sum2'] ?? 0,2) ?> тыс">        
                     <div data-layout="vertical">            
                         <span data-view="flip"></span> 
                     </div>
                 </div>  
                 <hr class="my-1" />      
                 <span style="font-weight: bolder; font-size: 0.9em;">СМС-показатель</span>
-                <div class="tick" style="font-size: 1.2em;" data-value="<?= round($queryGeneral['sms'],2) ?>">
+                <div class="tick" style="font-size: 1.2em;" data-value="<?= round($queryGeneral['sms'] ?? 0,2) ?>">
                     <div data-layout="vertical">
                         <span data-view="flip"></span>
                     </div>
@@ -93,7 +94,9 @@ $queryGeneral = (new Query())
             </div>
             <hr class="my-1" />            
             <div class="text-right">
-                <small class="lead text-light small">По состоянию на <?= Yii::$app->formatter->asDate($queryGeneral['date']) ?></small>
+                <?php if (isset($queryGeneral['date'])): ?>
+                    <small class="text-white">По состоянию на <?= Yii::$app->formatter->asDate($queryGeneral['date']) ?></small>
+                <?php endif; ?>
             </div>
         </div>                
     </div>        

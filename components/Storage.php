@@ -78,13 +78,11 @@ class Storage extends \yii\base\Component
     {
         $this->aliasPath = $alias;
         $path = $this->preparePath($file);
-        if ($autoGenerateName)
-        {
+        if ($autoGenerateName) {
             $path = $this->generateFileName($path);
         }
         
-        if ($path && $file->saveAs($path))
-        {
+        if ($path && $file->saveAs($path)) {
             return $path;
         }
     }
@@ -101,8 +99,7 @@ class Storage extends \yii\base\Component
         $path = $this->addEndSlash($this->getStoragePath()) . $this->fileName;
         $path = $this->mergePath($this->getBasePath(), $path);
         
-        if (FileHelper::createDirectory(dirname($path)))
-        {
+        if (FileHelper::createDirectory(dirname($path))) {
             return $this->convertCharset($path);            
         }
     }
@@ -114,8 +111,7 @@ class Storage extends \yii\base\Component
      */
     protected function convertCharset(string $path)
     {
-        if ($this->useCharset)
-        {
+        if ($this->useCharset) {
             return iconv($this->fromCharset, $this->toCharset, $path);
         }
         return $path;        
@@ -127,8 +123,7 @@ class Storage extends \yii\base\Component
      */
     public function getStoragePath()
     {        
-        if (empty($this->aliasPath))
-        {
+        if (empty($this->aliasPath)) {
             return \Yii::getAlias(\Yii::$app->params[$this->aliasPathDefault]);
         }
         return \Yii::getAlias($this->aliasPath);
@@ -159,8 +154,7 @@ class Storage extends \yii\base\Component
      */
     protected function prepareUrl(string $alias)
     {
-        if (empty($alias))
-        {
+        if (empty($alias)) {
             return $this->normalizeUrl(\Yii::$app->params[$this->aliasUrlDefault]);
         }
         return $this->normalizeUrl(\Yii::getAlias($alias));
@@ -182,7 +176,7 @@ class Storage extends \yii\base\Component
      */
     public function addEndSlash(string $url)
     {
-        return rtrim($url, '/') . '/';
+        return rtrim($url, '/') . DIRECTORY_SEPARATOR;
     }
     
     /**
@@ -224,7 +218,7 @@ class Storage extends \yii\base\Component
      */
     public function mergeUrl($url1, $url2)
     {
-        $ds = '/';
+        $ds = DIRECTORY_SEPARATOR;
         return rtrim($url1, $ds) . $ds . ltrim($url2, $ds);
     }
 
@@ -243,19 +237,16 @@ class Storage extends \yii\base\Component
             if (!$height) {
                 $height = $image->height();
             }
-            if ($image->height() > $height || $image->width() > $width)
-            {
+            if ($image->height() > $height || $image->width() > $width) {
                 $image->resize($width, $height, function($constraint) {
                     return $constraint->aspectRatio();
-                });
-                if (empty($prefix))
-                {
-                    $image->save();                    
-                }
-                else
-                {
-                    $image->save($this->addFileNamePrefix($imagePath, $prefix));
-                }                
+                });                                
+            }
+            if (empty($prefix)) {
+                $image->save();
+            }
+            else {
+                $image->save($this->addFileNamePrefix($imagePath, $prefix));
             }
             return true;
         }
@@ -271,10 +262,8 @@ class Storage extends \yii\base\Component
         $fullName = $this->mergePath($this->getBasePath(), $file);
         $fullName = $this->convertCharset($fullName);
         
-        if (file_exists($fullName))
-        {
-            if (!FileHelper::unlink($fullName))
-            {
+        if (file_exists($fullName)) {
+            if (!FileHelper::unlink($fullName)) {
                 return false;
             }
         }        
@@ -321,8 +310,7 @@ class Storage extends \yii\base\Component
     {   
         $fileName = $this->convertCharset($fileName);
         
-        if (file_exists($fileName))
-        {
+        if (file_exists($fileName)) {
             return filesize($fileName);
         }        
         return 0;

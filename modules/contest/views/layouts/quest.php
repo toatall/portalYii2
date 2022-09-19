@@ -4,7 +4,7 @@
 /** @var string $content */
 
 use app\modules\contest\assets\QuestAsset;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 QuestAsset::register($this);
 ?>

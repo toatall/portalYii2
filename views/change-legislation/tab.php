@@ -3,8 +3,8 @@
 use app\models\ChangeLegislation;
 use kartik\date\DatePicker;
 use kartik\grid\ActionColumn;
-use yii\bootstrap4\ActiveForm;
-use yii\helpers\Html;
+use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 

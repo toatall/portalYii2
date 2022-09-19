@@ -1,13 +1,13 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $model \app\models\christmascalendar\ChristmasCalendar */
-/* @var $data \app\models\christmascalendar\ChristmasCalendarQuestion[] */
-/* @var $today \app\models\christmascalendar\ChristmasCalendarQuestion */
-/* @var $listUsers array */
+/** @var yii\web\View $this */
+/** @var app\models\christmascalendar\ChristmasCalendar $model */
+/** @var app\models\christmascalendar\ChristmasCalendarQuestion[] $data */
+/** @var app\models\christmascalendar\ChristmasCalendarQuestion $today */
+/** @var array $listUsers */
 
 use app\models\christmascalendar\ChristmasCalendarQuestion;
 use kartik\select2\Select2;
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
 $this->title = 'Проект "SUPER STAЖ"';

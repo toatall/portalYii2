@@ -1,8 +1,8 @@
 <?php
 
 use app\modules\bookshelf\models\BookShelf;
-use yii\bootstrap4\LinkPager;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\LinkPager;
+use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -15,21 +15,20 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="book-shelf-index card card-body bg-dark animate__animated animate__fadeInUp">
 
-    <p class="display-4 text-white font-weight-bolder">
+    <p class="display-5 text-white font-weight-bolder">
         <?= Html::a('Книжная полка', ['/bookshelf'], ['class' => 'text-white']) ?>
         &rsaquo;
         <span class="font-weight-normal text-secondary"><?= Html::encode($this->title) ?></span>
     </p>
     <hr class="border-white" />
 
-    <?php if (BookShelf::isEditor()): ?>
-        <div class="row col">
+    <?php if (BookShelf::isEditor()): ?>     
+        <div>  
             <div class="btn-group mt-2 mb-4">
                 <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success mv-link']) ?>
                 <?= Html::a('Места размещения книг', ['/bookshelf/place/index'], ['class' => 'btn btn-secondary mv-link']) ?>        
             </div>
         </div>
-    
     <?php endif; ?>
 
     <?php Pjax::begin(['id' => 'pjax-bookshelf']) ?>

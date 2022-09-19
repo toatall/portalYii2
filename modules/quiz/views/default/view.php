@@ -3,7 +3,7 @@
 
 use app\modules\quiz\models\QuizQuestion;
 use kartik\rating\StarRating;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 /** @var app\modules\quiz\models\Quiz $model */
 

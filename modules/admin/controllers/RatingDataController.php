@@ -56,12 +56,15 @@ class RatingDataController extends Controller
         $modelRatingMain = $this->findModelRatingMain($idMain);
 
         $dataProvider = new ActiveDataProvider([
-            'query' => RatingData::find()->orderBy('rating_year desc, rating_period desc')->where(['id_rating_main' => $idMain]),
+            'query' => RatingData::find()
+                ->orderBy('rating_year desc, rating_period desc')
+                ->where(['id_rating_main' => $idMain]),
         ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'modelRatingMain' => $modelRatingMain,
+            'modelTree' => $modelRatingMain->tree,
         ]);
     }
 
@@ -73,8 +76,13 @@ class RatingDataController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $modelRatingMain = $model->ratingMain;
+        $modelTree = $modelRatingMain->tree;
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'modelRatingMain' => $modelRatingMain,
+            'modelTree' => $modelTree,
         ]);
     }
 
@@ -103,6 +111,7 @@ class RatingDataController extends Controller
         return $this->render('create', [
             'model' => $model,
             'modelRatingMain' => $modelRatingMain,
+            'modelTree' => $modelRatingMain->tree,
         ]);
     }
 
@@ -126,6 +135,7 @@ class RatingDataController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'modelTree' => $model->ratingMain->tree,
         ]);
     }
 

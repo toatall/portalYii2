@@ -5,13 +5,13 @@
 /** @var string $message */
 /** @var Exception $exception */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 $this->title = $name;
 ?>
 <div class="site-error">
 
     <div class="col border-bottom mb-2">
-        <p class="display-4">
+        <p class="display-5">
             <?= $this->title ?>
         </p>    
     </div>

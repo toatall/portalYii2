@@ -6,7 +6,7 @@
 
 use app\modules\contest\models\photokids\PhotoKids;
 use app\widgets\CommentWidget;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
 $this->title = 'Все мы родом из детства';

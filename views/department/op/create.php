@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="department-op-create">
 
     <div class="col border-bottom mb-2">
-        <p class="display-4">
+        <p class="display-5">
             <?= $this->title ?>
         </p>
     </div>

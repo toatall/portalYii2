@@ -1,15 +1,17 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+/** @var yii\web\View $this */
+/** @var string $content */
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
-use app\assets\ModalViewerAsset;
 use app\assets\AppAsset;
+use app\assets\ModalViewerAssetBs5;
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
 
 AppAsset::register($this);
-ModalViewerAsset::register($this);
+ModalViewerAssetBs5::register($this);
 
 ?>
 <?php $this->beginPage() ?>
@@ -55,23 +57,25 @@ CSS
 ); ?>
         
     <?php $this->beginBody() ?>
+
+    <?php
+    NavBar::begin([
+        'brandLabel' => 'Неделя добрых дел',
+        'brandUrl' => ['/events/dobro'],
+        'options' => [
+            'class' => 'navbar navbar-expand-md border-bottom',
+        ],
+    ]);
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav mx-auto'],
+        'items' => [
+            ['label' => '<i class="fa fa-share"></i> На Портал', 'url' => ['/site/index']],            
+        ],
+        'encodeLabels' => false,
+    ]);
+    NavBar::end();
+    ?>
     
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                
-                <a class="navbar-brand" href="<?= Url::to(['/events/dobro']) ?>">Неделя добрых дел</a>
-            </div>
-        <div id="navbar" class="navbar-collapse collapse"> 
-            <ul class="nav navbar-nav">
-                <li><a href="<?= Url::to(['/events/dobro']) ?>">Главная</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a target="_blank" rel="noopener" class="nav-link" href="<?= Url::to(['/site/index']) ?>"><i class="fa fa-share"></i> Вернуться на Портал</a></li>              
-            </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>  
     
 
     <div class="container">
@@ -93,7 +97,7 @@ CSS
         <?= $content ?>                     
     </div>
 
-    <div class="footer">
+    <div class="footer mt-3 pt-3 mb-3 border-top">
         <div class="container-fluid">            
             <div class="col-lg-12 text-center">
                 <i class="fa fa-copyright"></i> 

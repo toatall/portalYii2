@@ -1,7 +1,7 @@
 <?php
 use app\modules\test\models\Test;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\LinkPager;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\LinkPager;
 
 /** @var yii\web\View $this **/
 /** @var yii\data\ActiveDataProvider $dataProvider **/
@@ -11,7 +11,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="test-index">
 
-    <h1 class="display-4 border-bottom"><?= Html::encode($this->title) ?></h1>    
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>    
 
     <?php if (Test::canManager()): ?>
     <div class="border-bottom mt-2 pb-2 mb-2 mx-3">
@@ -46,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?php if ($model->canStatisticTest()): ?>
                                 <div class="dropdown-divider"></div>
                                 <div class="dropdown-header">Статистика</div>
-                                <?= Html::a('Общая', ['/test/statistic/general', 'id'=>$model->id], ['class'=>'dropdown-item link-modal']) ?>
+                                <?= Html::a('Общая', ['/test/statistic/general', 'id'=>$model->id], ['class'=>'dropdown-item mv-link']) ?>
                                 <?= Html::a('По сотрудникам', ['/test/statistic/users', 'id'=>$model->id], ['class'=>'dropdown-item link-modal']) ?>
                                 <?= Html::a('По вопросам', ['/test/statistic/questions', 'id'=>$model->id], ['class'=>'dropdown-item link-modal']) ?>
                                 <?= Html::a('Оценки', ['/test/statistic/opinion', 'id'=>$model->id], ['class'=>'dropdown-item link-modal']) ?>                                
@@ -117,33 +119,28 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php $this->registerJs(<<<JS
     $('.btn-start').on('click', function () {
         return confirm('Вы уверены, что хотите начать?');
-    });
-    /*
-    $(document).ready(function() {
-        $('.dropdown-toggle').dropdown();
-    });
-    */
-    $('.link-modal').on('click', function() {
-        const link = $(this);
-        const dialog = $('#modal-dialog');
-        const dialogTitle = dialog.find('.modal-title');
-        const dialogBody = dialog.find('.modal-body');
-        const loader = '<i class="fas fa-circle-notch fa-spin fa-2x"></i>';
+    });   
+    // $('.link-modal').on('click', function() {
+    //     const link = $(this);
+    //     const dialog = $('#modal-dialog');
+    //     const dialogTitle = dialog.find('.modal-title');
+    //     const dialogBody = dialog.find('.modal-body');
+    //     const loader = '<i class="fas fa-circle-notch fa-spin fa-2x"></i>';
 
-        dialogTitle.html(loader);
-        dialogBody.html(loader);
-        dialog.modal('show');
+    //     dialogTitle.html(loader);
+    //     dialogBody.html(loader);
+    //     dialog.modal('show');
 
-        $.get(link.attr('href'))
-        .done(function(resp) {
-            dialogTitle.html(resp.title);
-            dialogBody.html(resp.body);
-        })
-        .fail(function(err) {
-            dialogTitle.html('Ошибка');
-            dialogBody.html('<div class="alert alert-danger">' + err.responseText + '</div>');
-        });
+    //     $.get(link.attr('href'))
+    //     .done(function(resp) {
+    //         dialogTitle.html(resp.title);
+    //         dialogBody.html(resp.body);
+    //     })
+    //     .fail(function(err) {
+    //         dialogTitle.html('Ошибка');
+    //         dialogBody.html('<div class="alert alert-danger">' + err.responseText + '</div>');
+    //     });
 
-        return false;
-    });
+    //     return false;
+    // });
 JS);

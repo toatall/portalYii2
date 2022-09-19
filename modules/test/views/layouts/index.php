@@ -1,7 +1,11 @@
 <?php
-use yii\bootstrap4\Breadcrumbs;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\Nav;
+
+use app\assets\ModalViewerAssetBs5;
+use yii\bootstrap5\Breadcrumbs;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\Nav;
+
+ModalViewerAssetBs5::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -59,7 +63,10 @@ CSS); ?>
 
                     <?= Breadcrumbs::widget([
                         'homeLink' => ['label' => 'Главная', 'url' => ['/test']],
-                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],                        
+                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],     
+                        'options' => [
+                            'class' => 'mt-2 py-2 px-4 border rounded bg-light text-decoration-none',
+                        ],                         
                     ]) ?>
                     <?= $content ?>
 
@@ -91,7 +98,7 @@ CSS); ?>
     </a>
 
     <!-- Modal-->
-    <div class="modal fade" id="modal-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal fade" id="modal-dialog" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document" style="max-width: 95%;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -107,7 +114,7 @@ CSS); ?>
             </div>
         </div>
     </div>
-    
+     -->
     <!-- Bootstrap core JavaScript-->
     <script src="/ext/jquery/jquery.min.js"></script>
     <script src="/ext/bootstrap/js/bootstrap.bundle.min.js"></script>

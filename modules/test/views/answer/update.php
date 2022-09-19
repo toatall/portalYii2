@@ -2,8 +2,8 @@
 
 use yii\bootstrap4\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\test\models\TestAnswer */
+/** @var yii\web\View $this */
+/** @var app\modules\test\models\TestAnswer $model */
 
 $this->title = 'Изменение ответа: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Тесты', 'url' => ['/test/test/index']];

@@ -3,8 +3,8 @@
 use app\modules\bookshelf\models\BookShelfPlace;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 /** @var yii\web\View $this */

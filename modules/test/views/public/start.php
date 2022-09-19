@@ -3,9 +3,9 @@
 /** @var \app\modules\test\models\Test $model */
 /** @var \app\modules\test\models\TestResult $modelResult */
 
-use yii\bootstrap4\Html;
-use yii\bootstrap4\Progress;
-use yii\bootstrap4\Tabs;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\Progress;
+use yii\bootstrap5\Tabs;
 use yii\helpers\Url;
 
 $this->params['breadcrumbs'][] = ['label' => $model->name]; 
@@ -17,11 +17,9 @@ $secondsLeave = $secondsTest - $modelResult->seconds;
 <?php if ($secondsTest > 0): ?>
     <div class="card shadow mb-1 mt-1">
         <?= Progress::widget([
-            'options' => [
-                'id' => 'progress-bar-time-leave',
-                'style' => ['height' => '2px'],                
-            ],                
-            'percent' => 0,
+            'bars' => [
+                ['percent' => 0, 'options' => ['id' => 'progress-bar-time-leave', 'style' => ['height' => '2px']]],
+            ],
         ]) ?>
         <div class="card-header text-success">                   
             <div class="text-center">
@@ -45,11 +43,9 @@ $secondsLeave = $secondsTest - $modelResult->seconds;
 
         <div class="mb-2">
             <?= Progress::widget([
-                'options' => [
-                    'id' => 'progress-bar',
-                    'data-count' => count($questions)-1,
+                'bars' => [
+                    ['percent' => 0, 'options' => ['id' => 'progress-bar', 'data-count' => count($questions)-1]],
                 ],
-                'percent' => 0,
             ]) ?>
         </div>
         
@@ -100,33 +96,36 @@ $this->registerJs(<<<JS
     });
 
     // обновление прогресс бара
-    function updateProgressBar(index)
-    {
+    function updateProgressBar(index) {
         if (index == undefined) {
             index = $('#tabs-test .active').parent('li').data('progress-index');        
         }
         const progressBar = $('#progress-bar');        
         const width = (index/progressBar.data('count'))*100;        
-        progressBar.children('div').css('width', width + '%');
+        progressBar.css('width', width + '%');
     }
 
-    // кнопка вперед: переключение вкладки
+    // кнопка назад: переключение вкладки
     $('.btn-previous').on('click', function () {
-        $('#tabs-test .active').parent('li').prev('li').find('a').trigger('click');
+        let element = $('#tabs-test .active').parent('li').prev('li').find('a');
+        let tab = new bootstrap.Tab(element);
+        tab.show();
         updateProgressBar();
     });
 
-    // кнопка назад: переключение вкладки
+    // кнопка вперед: переключение вкладки
     $('.btn-next').on('click', function () {
-        $('#tabs-test .active').parent('li').next('li').find('a').trigger('click');
+        let element = $('#tabs-test .active').parent('li').next('li').find('a');
+        let tab = new bootstrap.Tab(element);
+        tab.show();
         updateProgressBar();
     });
 
 
 
     // щелчок при переключении вкладки
-    $('#tabs-test a[data-toggle="tab"]').on('click', function() {                
-        updateProgressBar($(this).parent('li').data('progress-index'));
+    $('#tabs-test a[data-bs-toggle="tab"]').on('click', function() {                
+        updateProgressBar($(this).parent('li').data('progress-index'));        
     });
 
     // сохранение промежуточного времени прохождения
@@ -173,10 +172,9 @@ $this->registerJs(<<<JS
             }            
         }
         // обновление прогресс бара показывающего шкалу ограничения по времени
-        function updateProgressBarLeave(seconds)
-        {
+        function updateProgressBarLeave(seconds) {
             const width = seconds / $secondsTest * 100;
-            $('#progress-bar-time-leave').children('div').css('width', width + '%');            
+            $('#progress-bar-time-leave').css('width', width + '%');            
         }
 
         timerLeave = setInterval(countDown, 1000);

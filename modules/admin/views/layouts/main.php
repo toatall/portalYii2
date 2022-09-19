@@ -3,17 +3,15 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
-use yii\bootstrap4\Alert;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\Nav;
-use yii\bootstrap4\NavBar;
-use yii\bootstrap4\Breadcrumbs;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
+use yii\bootstrap5\Breadcrumbs;
 use app\modules\admin\assets\AppAsset;
-use app\assets\ModalViewerAsset;
-use app\models\calendar\Calendar;
+use app\assets\ModalViewerAssetBs5;
 
 AppAsset::register($this);
-ModalViewerAsset::register($this);
+ModalViewerAssetBs5::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -36,38 +34,42 @@ ModalViewerAsset::register($this);
         NavBar::begin([
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
-                'class' => 'navbar navbar-expand-md navbar-light fixed-top bg-light border-bottom px-4',
+                'class' => 'navbar navbar-expand-md navbar-light fixed-top bg-light border-bottom',
+            ],            
+            'innerContainerOptions' => [
+                'class' => 'container-fluid px-5',
             ],
-            'renderInnerContainer' => false,
-            'collapseOptions' => false,
         ]);
         echo Nav::widget([
-            'options' => ['class' => 'navbar-nav text-dark mr-auto'],
+            'options' => ['class' => 'navbar-nav text-dark me-auto'],
+            'encodeLabels' => false,
             'items' => [
-                ['label' => 'Главная', 'url' => ['/admin/default/index'], 'visible' => (!Yii::$app->user->isGuest)],
-                ['label' => 'Портал', 'url' => ['/site/index']],
-                ['label' => 'Администрирование', 'items' => [
+                ['label' => '<i class="fas fa-home"></i> Главная', 'url' => ['/admin/default/index'], 'visible' => (!Yii::$app->user->isGuest)],
+                ['label' => '<i class="fas fa-external-link-alt"></i> Портал', 'url' => ['/site/index']],
+                ['label' => '<i class="fas fa-user-cog"></i> Администрирование', 'items' => [
                     ['label' => 'Пользователи', 'url' => ['/admin/user/index']],
                     ['label' => 'Группы', 'url' => ['/admin/group/index']],
                     ['label' => 'Роли', 'url' => ['/admin/role/index']],
                     ['label' => 'Модули', 'url' => ['/admin/module/index']],
                     ['label' => 'Голосование', 'url' => ['/admin/vote/index']],
                     //'<li class="divider"></li>',
+                    '<div class="divider"></div>',
                     ['label' => 'Организации', 'url' => ['/admin/organization/index']],
                     ['label' => 'Меню', 'url' => ['/admin/menu/index']],
                 ], 'visible' => (Yii::$app->user->can('admin'))],                                
-                ['label' => 'Контент', 'items' => [
+                ['label' => '<i class="fas fa-columns"></i> Контент', 'items' => [
                     ['label' => 'Структура', 'url' => ['/admin/tree/index']],
                     ['label' => 'Отделы', 'url' => ['/admin/department/index']],
                 ], 'visible' => (!Yii::$app->user->isGuest)],
-                ['label' => 'Справка', 'url' => ['/admin/default/help']],
-                Yii::$app->user->isGuest ? (['label' => 'Вход', 'url' => ['/site/login']]) : ('<li>'
-                    . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
-                    . Html::submitButton(
-                        'Выход (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'btn btn-link logout text-dark']
-                    )
-                    . Html::endForm()
+                // ['label' => 'Справка', 'url' => ['/admin/default/help']],
+                Yii::$app->user->isGuest ? ['label' => 'Вход', 'url' => ['/site/login']] : 
+                    ('<li class="nav-item">'
+                        . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+                        . Html::submitButton(
+                            '<i class="fas fa-sign-out-alt"></i> Выход (' . Yii::$app->user->identity->username . ')',
+                            ['class' => 'nav-link btn btn-link logout text-dark']
+                        )
+                        . Html::endForm()
                     . '</li>'),
 
             ],
@@ -76,18 +78,25 @@ ModalViewerAsset::register($this);
             'options' => ['class' => 'navbar-nav text-dark'],
             'items' => [
                 Yii::$app->user->isGuest ? ('') : 
-                    (['label' => '<i class="fas fa-building"></i> (' . \Yii::$app->userInfo->current_organization . ')', 'encode' => false, 'url' => ['/admin/organization/list', 'backUrl'=>Yii::$app->getRequest()->getUrl()], 'linkOptions' => ['class' => 'mv-link mv-no-change-url']])
-            ],
+                    ([
+                        'label' => '<i class="fas fa-building"></i> (' . \Yii::$app->userInfo->current_organization . ')', 
+                        'encode' => false, 
+                        'url' => ['/admin/organization/list', 'backUrl'=>Yii::$app->getRequest()->getUrl()], 
+                        'linkOptions' => ['class' => 'mv-link mv-no-change-url']]
+                    )],
         ]);
         NavBar::end();
         ?>
 
         <div class="container">
-            <?= Breadcrumbs::widget([
-                'homeLink' => ['label' => 'Главная', 'url' => ['/admin/default/index']],
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
-            <?= $content ?>
+            <div class="pt-4">
+                <?= Breadcrumbs::widget([
+                    'homeLink' => ['label' => 'Главная', 'url' => ['/admin/default/index']],
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    'options' => ['class' => 'p-3 lead border rounded bg-light'],
+                ]) ?>
+                <?= $content ?>
+            </div>
         </div>
     </div>
 

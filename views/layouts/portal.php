@@ -3,21 +3,19 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
-use yii\bootstrap4\Html;
-use yii\bootstrap4\Nav;
-use yii\bootstrap4\NavBar;
-use yii\bootstrap4\Breadcrumbs;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
+use yii\bootstrap5\Breadcrumbs;
 
 use app\models\menu\MenuBuilder;
-use app\assets\ModalViewerAsset;
+use app\assets\ModalViewerAssetBs5;
 use app\assets\AppAsset;
 use app\modules\test\assets\TestAsset;
-use app\widgets\AlertConferenceApprove;
-use yii\helpers\Url;
 use yii\widgets\Menu;
 
 AppAsset::register($this);
-ModalViewerAsset::register($this);
+ModalViewerAssetBs5::register($this);
 TestAsset::register($this);
 
 ?>
@@ -50,10 +48,11 @@ TestAsset::register($this);
             'brandLabel' => false,
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
-                'class' => 'navbar navbar-expand-md navbar-light bg-light border-bottom py-1 main-menu',
+                'class' => 'navbar navbar-expand border-bottom',
+            ],            
+            'innerContainerOptions' => [
+                'class' => 'container-fluid px-3',
             ],
-            'renderInnerContainer' => false,
-            'collapseOptions' => false,
         ]);
 
         $menuItems = MenuBuilder::buildMain();
@@ -75,10 +74,8 @@ TestAsset::register($this);
             ];
         }
 
-        echo Nav::widget([
-            'options' => [
-                'class' => 'mr-auto',
-            ],
+        echo Nav::widget([           
+            'options' => ['class' => 'navbar-nav text-dark me-auto'],
             'items' => $menuItems,
         ]);
 
@@ -96,13 +93,13 @@ TestAsset::register($this);
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 'options' => [
-                    'class' => 'mt-2',
-                ],
+                    'class' => 'mt-2 py-2 px-4 border rounded bg-light text-decoration-none',
+                ],               
             ]) ?>
 
             <div class="row mt-2">
                 <div class="col-2">
-
+                    
                     <?= Menu::widget([
                         'items' => MenuBuilder::buildLeft(['class' => 'dropdown-submenu']),
                         'encodeLabels' => false,
@@ -120,7 +117,7 @@ TestAsset::register($this);
                         ]);
                     }
                     ?>
-
+                    
                     <ul class="dropdown-menu dropdown-menu-main dropdown-menu-wrap" style="border: none; padding: 0;">
                         <?php foreach (MenuBuilder::buildLeftAddMenuContent() as $menuItem) {
                             echo $menuItem;
@@ -130,13 +127,7 @@ TestAsset::register($this);
 
                 </div>
                 <div class="col-10">
-
-                    <?php /* if (Yii::$app->user->can('permConferenceApprove')) : ?>
-                        <?= AlertConferenceApprove::widget() ?>
-                    <?php endif;*/ ?>                    
-
                     <?= $content ?>
-
                 </div>
             </div>
         </div>

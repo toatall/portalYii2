@@ -2,12 +2,12 @@
 
 use app\modules\test\assets\TestAsset;
 use app\modules\test\models\Test;
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 
 TestAsset::register($this);
 
 /** @var yii\web\View $this */
-/** @var \app\modules\test\models\Test $model  */
+/** @var app\modules\test\models\Test $model  */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endif; ?>
             <?php if ($model->canStatisticTest()): ?>
                 <div class="btn-group">
-                    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                    <button class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
                         <i class="fas fa-info"></i> Статистика
                     </button>
                     <ul class="dropdown-menu">                        

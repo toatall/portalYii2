@@ -1,9 +1,11 @@
 <?php
 
 use app\models\news\News;
+use kartik\editable\Editable;
 use kartik\grid\GridView;
 use kartik\grid\ActionColumn;
-use yii\bootstrap4\Html;
+use kartik\grid\EditableColumn;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\news\NewsSearch $searchModel */
@@ -12,7 +14,11 @@ use yii\bootstrap4\Html;
 
 ?>
 
-<?= GridView::widget([
+<?= GridView::widget([  
+    'id' => 'grid-news-index',
+    'pjax' => true,
+    'responsive' => false,
+    'striped' => false,
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'rowOptions' => function (News $model) {
@@ -66,6 +72,20 @@ use yii\bootstrap4\Html;
         //'general_page',
         'date_start_pub:date',
         'date_end_pub:date',
+        [
+            'class' => EditableColumn::class,
+            'attribute' => 'flag_enable',
+            'editableOptions' => [                                   
+                'inputType' => Editable::INPUT_CHECKBOX,
+                'formOptions' => ['action' => ['/admin/news/editnews']],
+                'options' => [
+                    'template' => '<div class="form-check form-switch" style="font-size: 1.2rem;">{input} {label}</div><div>{error}</div>',
+                    'class' => 'form-check-input',
+                ],
+            ],
+            'format' => 'boolean',
+            'refreshGrid' => true,
+        ],
         //'flag_enable',
         //'thumbail_title',
         //'thumbail_image',
@@ -79,7 +99,34 @@ use yii\bootstrap4\Html;
         //'count_visit',
         //'tags',
         //'date_sort',
-
-        ['class' => ActionColumn::class],
+        [
+            'class' => ActionColumn::class,
+            'dropdown' => true,
+            'template' => '{view} {update} {delete} <hr class="dropdown-divider" /> {history} {likes}',        
+            'buttons' => [
+                'history' => function($url, $model) {
+                    return Html::a('<i class="far fa-chart-bar"></i> Просмотры', ['/admin/news/history', 'id'=>$model->id], [
+                        'class' => 'dropdown-item mv-link', 
+                        'data-pjax' => '0',
+                    ]);
+                },
+                'likes' => function($url, $model) {
+                    return Html::a('<i class="fas fa-heart"></i> Лайки', ['/admin/news/likes', 'id'=>$model->id], [
+                        'class' => 'dropdown-item mv-link', 
+                        'data-pjax' => '0',
+                    ]);
+                },
+            ],
+        ],
+    ],
+    'toolbar' => [
+        '{export}',
+        '{toggleData}',
+    ],
+    'export' => [
+        'showConfirmAlert' => false,
+    ],
+    'panel' => [
+        'type' => GridView::TYPE_DEFAULT,       
     ],
 ]); ?>

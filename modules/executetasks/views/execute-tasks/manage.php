@@ -4,8 +4,7 @@
 
 use app\modules\executetasks\models\ExecuteTasks;
 use kartik\select2\Select2;
-use yii\bootstrap4\Html;
-use yii\helpers\Url;
+use yii\bootstrap5\Html;
 
 $this->title = 'Управление данными по исполнению задач';
 

@@ -11,7 +11,8 @@ class VksExternalSearch extends VksExternal
     public function rules()
     {
         return [
-            [['duration', 'date_start', 'theme', 'members_people', 'place'], 'safe'],
+            [['duration', 'date_start', 'theme', 'members_people', 
+                'place', 'responsible', 'format_holding'], 'safe'],
         ];
     }
 

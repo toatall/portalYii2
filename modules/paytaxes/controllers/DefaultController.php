@@ -124,7 +124,17 @@ class DefaultController extends Controller
         $records = PayTaxesChartMonth::find()->where([
             'year' => $currentY,
             'code_org' => $org,
-        ])->all();
+        ])
+        ->orderBy(new Expression("
+            case 
+                when [[month]] like 'С%' then 9 
+                when [[month]] like 'О%' then 10 
+                when [[month]] like 'Н%' then 11 
+                when [[month]] like 'Д%' then 12 
+                else 0 
+            end
+        "))
+        ->all();
 
         $dataCurrentY = [];
         $dataPreviousY = [];
@@ -165,7 +175,9 @@ class DefaultController extends Controller
         $records = PayTaxesChartDay::find()->where([
             'code_org' => $org,
             'YEAR([[date]])' => $currentY,
-        ])->all();
+        ])
+        ->orderBy('date asc')
+        ->all();
 
         $dataCurrentY = [];
         $dataPreviousY = [];

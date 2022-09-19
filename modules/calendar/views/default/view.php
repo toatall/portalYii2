@@ -5,7 +5,7 @@
 /** @var string $date */
 
 use app\modules\calendar\models\Calendar;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
 
 ?>
@@ -20,12 +20,6 @@ use yii\widgets\Pjax;
 
 <?php if ($model != null): ?>
     <?php 
-    // подсветка заголовка выбранным фоном для даты
-    /*
-    $this->registerJs(<<<JS
-        $(modalViewer.modalTitle).html('<span class="badge badge-{$model->color} fa-1x">{$model->date}</span>');
-    JS);
-    */
    
     // список событий
     foreach ($model as $group => $items): ?>
@@ -36,7 +30,7 @@ use yii\widgets\Pjax;
                 <?php foreach ($items as $item): ?>
                     <tr>
                         <td>
-                            <span class="badge badge-<?= $item->color ?> fa-1x">
+                            <span class="badge bg-<?= $item->color ?> fa-1x">
                                 <?= $item->description ?>
                             </span> 
                             

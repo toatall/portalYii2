@@ -1,7 +1,7 @@
 <?php
 
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\models\Comment $model */
@@ -27,44 +27,45 @@ $idComments = 'container-comment-index-' . $hash;
                 //'data-pjax' => true,
             ],
         ]); ?>
-
-        <div class="row">
-            <div>
+        
+        <div class="row align-items-start">
+            <div style="width: auto;">
                 <a href="/@<?= $userModel->username ?>" target="_blank">
-                    <img src="<?= $userModel->getPhotoProfile() ?>" class="img-thumbnail rounded-circle ml-3" style="max-height: 35px;"
-                    data-content="<?= $userModel->fio ?>" data-toggle="popover" data-trigger="hover" />
+                    <img src="<?= $userModel->getPhotoProfile() ?>" class="img-thumbnail ml-3" style="height: 2.3rem;"
+                    data-bs-content="<?= $userModel->fio ?>" data-bs-toggle="popover" data-bs-trigger="hover" />
                 </a>
             </div>
             <div class="col">
-                <?= $form->field($model, 'text')->textarea([
-                    'data-emojiable'=>'true',
-                    'data-emoji-input'=>'image',
-                    'placeholder'=>$textPlaceholder,
-                    'class' => 'rounded',
-                    'style'=>'height: auto;',
-                ])->label(false) ?>
-            </div>
-            <div>
-                <div class="align-self-center">
-                    <?= Html::submitButton('<i class="fas fa-paper-plane"></i>', [
-                        'class' => 'btn btn-primary btn-sm mr-3',
-                        'data-content' => 'Отправить', 
-                        'data-toggle' => 'popover',
-                        'data-trigger' => 'hover',
-                        'style' => 'height: 35px;',
-                        //'pjax' => false,
-                    ]) ?>
+                <div class="text-left">
+                    <p class="lead emoji-picker-container">
+                        <?= Html::activeTextarea($model, 'text', [
+                            'class' => 'form-control textarea-control rounded',
+                            'rows' => 1,
+                            'placeholder' => $textPlaceholder,
+                            'data-emojiable' => 'true',
+                        ]) ?>
+                    </p>
                 </div>
+            </div>            
+            <div style="width: 5rem;" class="">
+                <?= Html::submitButton('<i class="fas fa-paper-plane"></i>', [
+                    'class' => 'btn btn-primary btn-sm mr-3',
+                    'data-bs-content' => 'Отправить', 
+                    'data-bs-toggle' => 'popover',
+                    'data-bs-trigger' => 'hover',
+                    'style' => 'height: 35px;',
+                ]) ?>
             </div>
         </div>
 
-        <?php ActiveForm::end(); ?>
+        <?php ActiveForm::end(); ?>        
+
     </div>
-    <div class="mr-4 align-items-center">
+    <div class="col-auto pt-1">
         <?php if (!$model->isNewRecord || ($model->isNewRecord && $model->id_parent != null)): ?>
-            <?= Html::button('<span>&times;</span>', [
-                'class' =>  'close btn-close-comment-edit',
-                'data-container-id' => $idContainer,        
+            <?= Html::button('', [
+                'class' =>  'btn-close btn-close-comment-edit',
+                'data-container-id' => $idContainer,
             ]) ?>
         <?php endif; ?>
     </div>
@@ -72,8 +73,8 @@ $idComments = 'container-comment-index-' . $hash;
 </div>
 <?php $this->registerJS(<<<JS
     
-    $('*').popover('hide');
-    $('[data-toggle="popover"]').popover();
+    $('.comment-form *').popover('hide');
+    $('.comment-form [data-toggle="popover"]').popover();
     
     // Emoji
     $(function () {
@@ -100,7 +101,7 @@ $idComments = 'container-comment-index-' . $hash;
             method: 'post'
         })
         .done(function(data) {
-            $('*').popover('hide');
+            $('.comment-form *').popover('hide');
             if (data.resultSave) {              
                 ajaxLoad('$idComments');
             }
@@ -115,15 +116,8 @@ $idComments = 'container-comment-index-' . $hash;
 
 JS);
 $this->registerCss(<<<CSS
-    .emoji-picker-icon {        
-        right: 30px;
-        top: 8px;
-        font-size: 20px;
-    }
-    .emoji-wysiwyg-editor {
-        height: auto !important;
-        min-height: 35px !important;
-        max-height: 10rem !important;
+     .emoji-picker-icon {
+        font-size: 1.3rem;
     }
 CSS);
 ?>

@@ -2,7 +2,7 @@
 
 use app\models\lifehack\Lifehack;
 use app\widgets\CommentWidget;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 
@@ -13,11 +13,12 @@ use yii\widgets\Pjax;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Лайфхаки', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="lfehack-view">
 
-    <h1 class="mv-hide"><?= Html::encode($this->title) ?></h1>
+    <h1 class="mv-hide display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -45,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if ($files = $model->getLifehackFiles()->all()): ?>
     <div class="card mt-2">
         <div class="card-header">
-            <button data-toggle="collapse" data-target="#collapse-file" class="btn btn-light btn-sm">
+            <button data-bs-toggle="collapse" data-bs-target="#collapse-file" class="btn btn-light btn-sm">
                 <i class="fa fa-minus" id="collapse-file-i"></i>
             </button> Файлы
         </div>

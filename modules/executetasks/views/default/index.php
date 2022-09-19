@@ -3,8 +3,8 @@
 use app\assets\ApexchartsAsset;
 use app\modules\executetasks\models\ExecuteTasks;
 use kartik\select2\Select2;
-use yii\bootstrap4\ButtonDropdown;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\ButtonDropdown;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var array $periods */
@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="execute-tasks-index bg-dark text-white p-4 rounded">
 
     <div class="col mb-3">
-        <span class="display-4" style="border-bottom: 2px solid darkred;">
+        <span class="display-5" style="border-bottom: 2px solid darkred;">
             <?= $this->title ?>
         </span>    
     </div>
@@ -107,8 +107,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="mt-3 col" id="organizations-detail-main" style="display: none;">
             <div class="card card-body bg-dark shadow">
                 <div>
-                    <button type="button" class="close close-btn" aria-label="Close">
-                        <span aria-hidden="true" class="text-light">&times;</span>
+                    <button type="button" class="btn-close btn-close-white float-end close-btn" aria-label="Close">
+                        <!-- <span aria-hidden="true" class="text-light">&times;</span> -->
                     </button>
                 </div>
                 <div class="row col">
@@ -133,8 +133,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="mt-3 col" id="departments-detail-main" style="display: none;">            
             <div class="card card-body bg-dark shadow">
                 <div>
-                    <button type="button" class="close close-btn" aria-label="Close">
-                        <span aria-hidden="true" class="text-light">&times;</span>
+                    <button type="button" class="btn-close btn-close-white float-end close-btn" aria-label="Close">
+                        <!-- <span aria-hidden="true" class="text-light">&times;</span> -->
                     </button>
                 </div>
                 <div class="row col">
@@ -321,7 +321,7 @@ $this->registerJs(<<<JS
                     break;
                 }                
                 text += '<div style="font-size: 1rem;">'
-                    + '<span class="badge badge-warning">' + index + '</span> '
+                    + '<span class="badge bg-warning">' + index + '</span> '
                     + '<i class="fas fa-blender text-warning"></i> '
                     + data.leadersDepartment[i].name + ' - ' + data.leadersDepartment[i].per + '%'
                     + '</div>';
@@ -343,7 +343,7 @@ $this->registerJs(<<<JS
                     break;
                 }              
                 text += '<div style="font-size: 1rem;">'
-                    + '<span class="badge badge-warning">' + index + '</span> '
+                    + '<span class="badge bg-warning">' + index + '</span> '
                     + '<i class="fas fa-blender text-warning"></i> '
                     + data.leadersOganization[i].name + ' - ' + data.leadersOganization[i].per + '%'
                     + '</div>';

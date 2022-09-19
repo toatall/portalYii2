@@ -4,12 +4,12 @@
 /** @var string $date1 */
 /** @var string $date2 */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\widgets\DatePicker;
 use app\assets\ChartJs;
 use yii\helpers\Url;
 
-ChartJs::register($this);
+// ChartJs::register($this);
 
 $this->title = 'Анкетирование по ГР (график)';
 $this->params['breadcrumbs'][] = $this->title;
@@ -23,12 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>    
         </div>    
     </div>
-
-    <div class="row col mt-2">
-        <div class="btn-group">
-            <?= Html::a('Статистика', ['index'], ['class' => 'btn btn-secondary']) ?>
-            <?= Html::a('Детализация', ['detail'], ['class' => 'btn btn-secondary']) ?>
-        </div>
+   
+    <div class="btn-group">
+        <?= Html::a('Статистика', ['index'], ['class' => 'btn btn-secondary']) ?>
+        <?= Html::a('Детализация', ['detail'], ['class' => 'btn btn-secondary']) ?>
     </div>
 
     <div class="row mt-2">

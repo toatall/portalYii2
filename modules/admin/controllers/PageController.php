@@ -9,13 +9,13 @@ use app\models\Tree;
 use Yii;
 use app\models\page\Page;
 use yii\base\InvalidConfigException;
-use yii\data\ActiveDataProvider;
-use yii\db\Expression;
 use yii\filters\AccessControl;
 use app\components\Controller;
+use yii\data\ActiveDataProvider;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
@@ -45,7 +45,9 @@ class PageController extends Controller
                 ],
             ],
         ];
-    }
+    }   
+
+
 
     /**
      * Lists all Page models.
@@ -62,11 +64,16 @@ class PageController extends Controller
         $searchModel = new PageSearch();
         $dataProvider = $searchModel->searchBackend(Yii::$app->request->queryParams, $idTree);
 
-        return $this->render('index', [
+        $viewParams = [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'modelTree' => $modelTree,
-        ]);
+        ];
+
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('index', $viewParams);
+        }
+        return $this->render('index', $viewParams);
     }
 
     /**
@@ -79,8 +86,10 @@ class PageController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'modelTree' => $this->tree($model->id_tree),
         ]);
     }
 
@@ -132,6 +141,7 @@ class PageController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelTree = $this->tree($model->id_tree);
 
         if ($model->load(Yii::$app->request->post())) {
             $model->uploadThumbnailImage = UploadedFile::getInstance($model, 'uploadThumbnailImage');
@@ -145,6 +155,7 @@ class PageController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'modelTree' => $modelTree,
         ]);
     }
 
@@ -165,13 +176,16 @@ class PageController extends Controller
         if (Yii::$app->user->can('admin')) {
             $model->delete();
         }
-        else {
-            $model->date_delete = new Expression('getdate()');
+        else {            
+            $model->date_delete = Yii::$app->formatter->asDatetime('now');
             $model->save();
         }
 
         return $this->redirect(['index', 'idTree' => $model->id_tree]);
     }
+
+    
+
 
     /**
      * Finds the Page model based on its primary key value.

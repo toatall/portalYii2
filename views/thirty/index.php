@@ -8,7 +8,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 use app\assets\OwlCarouselAsset;
 use yii\helpers\Url;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 OwlCarouselAsset::register($this);
 $this->registerCssFile('/public/assets/portal/css/thirty.css');

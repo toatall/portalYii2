@@ -1,7 +1,7 @@
 <?php
 /** @var yii\web\View $this */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 $this->title = 'Наставничество';
 $this->params['breadcrumbs'][] = $this->title;
@@ -9,7 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row mv-hide">
     <div class="col border-bottom mb-2">
-        <p class="display-4">
+        <p class="display-5">
         <?= $this->title ?>
         </p>    
     </div>    

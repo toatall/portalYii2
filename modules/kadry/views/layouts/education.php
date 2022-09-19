@@ -3,11 +3,11 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use app\assets\AppAsset;
 use app\assets\fancybox\FancyboxAsset;
 use app\assets\ModalViewerAsset;
-use yii\bootstrap4\Breadcrumbs;
+use yii\bootstrap5\Breadcrumbs;
 
 FancyboxAsset::register($this);
 AppAsset::register($this);
@@ -73,6 +73,9 @@ JS);
             <?= Breadcrumbs::widget([
                 'homeLink' => ['label' => 'Главная', 'url' => '/kadry/education/'],
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                'options' => [
+                    'class' => 'mt-2 py-2 px-4 border rounded bg-light text-decoration-none',
+                ],  
             ]) ?>            
             <?= $content ?>
         </div>
@@ -80,7 +83,7 @@ JS);
 
     <footer class="text-muted border-top mt-4">
         <div class="container">
-            <p class="float-right">
+            <p class="float-end">
                 <a href="#" class="btn btn-secondary"><i class="fas fa-arrow-up"></i></a>
             </p>
             <p>&copy; УФНС России по Ханты-Мансийскому автономному округу - Югре</p>            

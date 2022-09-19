@@ -1,33 +1,40 @@
 <?php
 
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
-/** @var $this yii\web\View */
-/** @var $model app\models\Module */
-/** @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\Module $model */
+/** @var yii\bootstrap5\ActiveForm $form */
 ?>
 
 <div class="module-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <div class="card card-body">
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'only_one')->checkbox() ?>
+        <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'children_node')->checkbox() ?>
+        <?= $form->field($model, 'only_one')->checkbox() ?>
 
-    <?= $form->field($model, 'dop_action')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'children_node')->checkbox() ?>
 
-    <?= $form->field($model, 'dop_action_right_admin')->checkbox() ?>
+        <?= $form->field($model, 'dop_action')->textInput(['maxlength' => true]) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?= $form->field($model, 'dop_action_right_admin')->checkbox() ?>
+
+        <hr />
+
+        <div class="btn-group">
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+            <?= Html::a('Назад', ['index'], ['class' => 'btn btn-secondary']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
     </div>
-
-    <?php ActiveForm::end(); ?>
 
 </div>

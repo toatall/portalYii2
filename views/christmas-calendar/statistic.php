@@ -1,9 +1,10 @@
 <?php
-/* @var $this \yii\web\View */
-/* @var $data array */
-/* @var $wrong array */
+/** @var yii\web\View $this */
+/** @var array $data */
+/** @var array $wrong */
 
-use yii\bootstrap\Html;
+use yii\bootstrap5\Html;
+
 if ($data['count_all'] == 0) {
     $persent = 0;
 }

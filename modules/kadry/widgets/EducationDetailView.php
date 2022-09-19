@@ -4,12 +4,13 @@ namespace app\modules\kadry\widgets;
 use app\modules\kadry\models\education\Education;
 use app\modules\kadry\models\education\EducationData;
 use Yii;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\Widget;
 
 /**
  * Вывод данных по курсу
  */
-class EducationDetailView extends \yii\bootstrap\Widget
+class EducationDetailView extends Widget
 {
     /**
      * @var Education

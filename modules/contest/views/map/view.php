@@ -2,7 +2,7 @@
 
 /** @var yii\web\View $this */
 
-use yii\bootstrap4\Tabs;
+use yii\bootstrap5\Tabs;
 
 /** @var array $model */
 /** @var array $rightAnswers */

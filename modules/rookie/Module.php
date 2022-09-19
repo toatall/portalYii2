@@ -25,8 +25,7 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        // custom initialization code goes here
-        Yii::$app->params['bsVersion'] = '4.x';                        
+        // custom initialization code goes here              
         Yii::$app->errorHandler->errorAction = '/rookie/default/error';
         Yii::setAlias('@content/rookie', '@web/public/content/rookie');
         $this->setModules([

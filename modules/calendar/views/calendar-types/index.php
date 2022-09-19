@@ -1,5 +1,5 @@
 <?php
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 
@@ -47,6 +47,16 @@ use yii\widgets\Pjax;
                     },
                 ],                         
             ],
+        ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
         ],
     ]); ?>
 

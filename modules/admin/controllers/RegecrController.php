@@ -10,9 +10,11 @@ use app\models\regecr\RegEcr;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use app\components\Controller;
+use kartik\grid\EditableColumnAction;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * RegEcrController implements the CRUD actions for RegEcr model.
@@ -44,6 +46,23 @@ class RegecrController extends Controller
     }
 
     /**
+     * {@inheritdoc}
+     * @return array
+     */
+    public function actions()
+    {
+        return ArrayHelper::merge(parent::actions(), [
+            'editpage' => [
+                'class' => EditableColumnAction::class,
+                'modelClass' => RegEcr::class,             
+                'checkAccess' => function($action, $model) {
+                    $this->tree();                 
+                },
+            ],
+        ]);
+    }
+
+    /**
      * Lists all RegEcr models.
      * @return mixed
      * @throws ForbiddenHttpException
@@ -58,7 +77,7 @@ class RegecrController extends Controller
         ]);
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider,        
         ]);
     }
 

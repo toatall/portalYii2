@@ -9,7 +9,7 @@
 /** @var app\modules\bookshelf\models\RecommendRead[]|null $recommend */
 
 use app\modules\bookshelf\models\BookShelf;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
 
 $this->title = 'Книжная полка';

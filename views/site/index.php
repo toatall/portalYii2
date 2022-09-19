@@ -12,9 +12,8 @@ $this->title = Yii::$app->name;
 <?php
 $this->registerJs(<<<JS
 
-    function runAjaxGetRequest(container)
-    {
-        container.html('<img src="/img/loader_fb.gif" style="height: 100px;">');
+    function runAjaxGetRequest(container) {
+        container.html('<div class="spinner-border text-secondary m-4 fs-1" style="width:3rem;height:3rem;"><span class="visually-hidden">Loading...</span></div>');
         $.get(container.attr('data-ajax-url'))
         .done(function(data) {
             container.html(data);

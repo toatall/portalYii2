@@ -7,7 +7,7 @@
 /** @var int $periodYear */
 
 use app\modules\executetasks\models\ExecuteTasksChart;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\grid\GridView;
 
 $totalCountTasks = ExecuteTasksChart::getTotalDataProvider($dataProvider->allModels, 'count_tasks');

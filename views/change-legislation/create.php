@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\ChangeLegislation $model */
@@ -11,7 +11,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="change-legislation-create">
 
-    <h1 class="display-4 border-bottom mb-4"><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom mb-4">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <?= $this->render('_form', [
         'model' => $model,

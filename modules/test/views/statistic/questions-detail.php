@@ -26,5 +26,15 @@ $this->title = 'Статистика по ответам в разрезе ИФ�
             },
         ],              
     ],    
-    'pjax' => true,    
+    'pjax' => true,   
+    'toolbar' => [
+        '{export}',
+        '{toggleData}',
+    ],
+    'export' => [
+        'showConfirmAlert' => false,
+    ],
+    'panel' => [
+        'type' => GridView::TYPE_DEFAULT,       
+    ], 
 ]) ?>

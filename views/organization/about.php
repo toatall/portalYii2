@@ -5,7 +5,7 @@
 
 use app\models\Organization;
 use dosamigos\gallery\Gallery;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 ?>
 

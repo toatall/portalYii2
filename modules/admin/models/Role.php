@@ -155,7 +155,8 @@ class Role extends \yii\db\ActiveRecord
         $auth = \Yii::$app->authManager;
         $userIds = $auth->getUserIdsByRole($this->name);
         // выбрать всех пользователей, за исключением $userIds
-        $model = User::find()->where(['not in', 'id', $userIds])->andWhere(['blocked'=>'0', 'date_delete'=>null]);
+        $model = User::find()->where(['not in', 'id', $userIds])
+            ->andWhere(['blocked'=>'0', 'date_delete'=>null]);
 
         return new ActiveDataProvider([
             'query' => $model,

@@ -1,14 +1,13 @@
 <?php
 
-/** @var yii\web\View $this */
-
 use app\assets\LightGalleryAsset;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 /** @var app\modules\contest\models\VoteData[] $data */
 /** @var app\modules\contest\models\Votemain $modelVoteMain */
+/** @var yii\web\View $this */
 
 $this->title = $modelVoteMain->title;
 

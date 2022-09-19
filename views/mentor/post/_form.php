@@ -4,8 +4,8 @@
 /** @var \app\models\mentor\MentorPost $model */
 /** @var yii\widgets\ActiveForm $form */
 
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 use kartik\widgets\FileInput;
@@ -38,6 +38,7 @@ use kartik\widgets\FileInput;
                 'pluginOptions' => [
                     'showUpload' => false,
                     'showPreview' => false,
+                    'theme' => 'fa5',
                 ],
             ]) ?>
             <?php if (!$model->isNewRecord && count($model->getCheckListBoxUploadFilesGallery())): ?>

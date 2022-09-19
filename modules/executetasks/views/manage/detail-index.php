@@ -8,7 +8,7 @@
 /** @var int $periodYear */
 
 use kartik\grid\GridView;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 ?>

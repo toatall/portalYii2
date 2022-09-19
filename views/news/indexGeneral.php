@@ -1,13 +1,13 @@
 <?php
 
 use app\models\Organization;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
-use yii\bootstrap4\LinkPager;
+use yii\bootstrap5\LinkPager;
 
 /** @var yii\web\View $this */
 /** @var app\models\news\NewsSearch $searchModel */
@@ -73,12 +73,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <div class="col-auto">
                     <?= $form->field($searchModel, 'onlyUfns')->checkbox([
-                        'template' => '<div class="custom-control custom-switch">{input} {label}</div><div>{error}</div>',
+                        'template' => '<div class="form-check form-switch">{input} {label}</div><div>{error}</div>',
                     ])->label('Новости Управления') ?>                
                 </div>
                 <div class="col-auto">
                     <?= $form->field($searchModel, 'onlyIfns')->checkbox([
-                        'template' => '<div class="custom-control custom-switch">{input} {label}</div><div>{error}</div>',
+                        'template' => '<div class="form-check form-switch">{input} {label}</div><div>{error}</div>',
                     ])->label('Новости Инспекций') ?>
                 </div>
             </div>

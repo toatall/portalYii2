@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\test\models\TestQuestion */
-/* @var $modelTest \app\modules\test\models\Test */
+/** @var yii\web\View $this */
+/** @var app\modules\test\models\TestQuestion $model */
+/** @var app\modules\test\models\Test $modelTest */
 
 $this->title = 'Создание вопроса';
 $this->params['breadcrumbs'][] = ['label' => 'Тесты', 'url' => ['/test/test/index']];

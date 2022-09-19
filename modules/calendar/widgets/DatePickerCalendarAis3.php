@@ -3,8 +3,8 @@ namespace app\modules\calendar\widgets;
 
 use app\modules\calendar\models\Calendar;
 use app\modules\calendar\widgets\DatePickerOnlyCalendar;
-use yii\bootstrap4\Dropdown;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Dropdown;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\web\View;
@@ -13,7 +13,7 @@ use yii\widgets\Pjax;
 /**
  * Календарь в шапке сайта
  */
-class DatePickerCalendarAis3 extends \yii\bootstrap\Widget
+class DatePickerCalendarAis3 extends \yii\bootstrap5\Widget
 {
     /**
      * @var string
@@ -82,7 +82,7 @@ $this->view->registerJs(<<<JS
                     content: day.data('content'),
                     title: day.data('original-title'),                     
                     html: true,
-                    template: '<div class="popover max-width-50" role="tooltip"><div class="arrow"></div><h3 class="popover-header popover-header-blue"></h3><div class="popover-body"></div></div>'
+                    template: '<div class="popover popover-calendar max-width-50" role="tooltip"><div class="arrow"></div><h3 class="popover-header popover-header-blue"></h3><div class="popover-body"></div></div>'
                 }).popover('show');
             }
         },
@@ -244,7 +244,7 @@ $js = <<<JS
                     + dt + '" data-content="<span class=\'text-danger\'>Выходной день</span>">' + (date.getDate()) + '</div>'
             };
         }
-        $('.popover, .show').popover('hide');
+        $('.popover-calendar').popover('hide');
     }
 JS;
 
@@ -255,12 +255,12 @@ JS;
             //var dt = d.date.toLocaleDateString('ru-RU');
             var dt = getNumWithZero(d.date.getDate()) + '.' + getNumWithZero(d.date.getMonth() + 1) + '.' + getNumWithZero(d.date.getFullYear());
             var url = '$urlDate'.replace('-date-', dt);            
-            $('.popover, .show').popover('hide');
+            $('.popover-calendar').popover('hide');
             modalViewer.showModalManual(url, true, 'get');
         }");
 
         echo '<div id="' . $this->id . '" class="row">';
-        echo '<div class="col">';
+        echo '<div class="col p-0">';
         echo DatePickerOnlyCalendar::widget([            
             'type' => DatePickerOnlyCalendar::TYPE_INLINE,
             'name' => 'datepicker_ais3',
@@ -268,28 +268,25 @@ JS;
                 'changeDate' => $jsChangeDate,
                 'changeMonth' => new JsExpression("function(d) { 
                     currentMonthYear = '01.' + getNumWithZero(d.date.getMonth() + 1) + '.' + getNumWithZero(d.date.getFullYear()); 
-                    updateCaledarAis3();
-                    //console.log(d.date.getMonth()+1); 
-                }"),
-                //'show' => new JsExpression("function(d) { console.log(d); }"),
+                    updateCaledarAis3();                   
+                }"),                
             ],                 
             'pluginOptions' => [
                 'format' => 'yyyy-mm-dd',
-                'beforeShowDay' => new JsExpression($js),         
-                //'beforeShowMonth' => new JsExpression('function(d) {console.log(d);}'),                                                 
+                'beforeShowDay' => new JsExpression($js),
                 'todayHighlight' => true,
             ],
             'options' => ['id' => $this->idDatePicker],
         ]);      
         echo '</div>';
         if (Calendar::roleModerator()) {
-            echo '<div clas="dropdown">';           
-            echo Html::a('<i class="fas fa-ellipsis-v"></i>', null, ['data-toggle'=>'dropdown', 'class' => 'btn btn-sm  text-light']) 
-            . Dropdown::widget([
-                'items' => [
-                        ['label' => 'Типы событий', 'url' => ['/calendar/calendar-types/index'], 'linkOptions'=>['class'=>'mv-link']],                    
-                    ],
-            ]);
+            echo '<div class="dropdown" style="width: 2rem;">';
+                echo Html::a('<i class="fas fa-ellipsis-v"></i>', null, ['data-bs-toggle'=>'dropdown', 'class'=>'btn btn-sm  text-light']) 
+                    . Dropdown::widget([
+                        'items'=>[
+                            ['label' => 'Типы событий', 'url'=>['/calendar/calendar-types/index'], 'linkOptions'=>['class'=>'mv-link']],                    
+                        ],
+                    ]);
             echo '</div>';
         }
         echo '</div>';

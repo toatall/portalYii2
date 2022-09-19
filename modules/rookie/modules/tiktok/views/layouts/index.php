@@ -3,11 +3,11 @@
 /** @var yii\web\View $this */
 
 use app\assets\AppAsset;
-use yii\bootstrap4\Html;
-use app\assets\ModalViewerAsset;
+use yii\bootstrap5\Html;
+use app\assets\ModalViewerAssetBs5;
 
 AppAsset::register($this);
-ModalViewerAsset::register($this);
+ModalViewerAssetBs5::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

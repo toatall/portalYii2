@@ -2,9 +2,9 @@
 /** @var yii\web\View $this */
 /** @var app\models\OP $model */
 
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 use kartik\file\FileInput;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 ?>
 

@@ -1,15 +1,14 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\test\models\Test */
+/** @var yii\web\View $this */
+/** @var app\modules\test\models\Test $model */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Тесты', 'url' => ['/test/test/index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="test-view">
     <div class="card shadow mb-4">

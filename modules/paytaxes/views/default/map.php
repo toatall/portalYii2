@@ -5,11 +5,9 @@
 /** @var array $raions */
 
 use app\assets\ApexchartsAsset;
-use app\assets\ChartJsAsset;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
-// ChartJsAsset::register($this);
 ApexchartsAsset::register($this);
 $this->registerCssFile('/public/assets/portal/css/pay-taxes.css');
 
@@ -18,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="col border-bottom mb-2">
-    <p class="display-4">
+    <p class="display-5">
     <?= $this->title ?>
     </p>    
     
@@ -111,7 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $sumLeftTn = Yii::$app->formatter->asDecimal($item['sum_left_tn'] ?? 0);
                     $sumLeftZn = Yii::$app->formatter->asDecimal($item['sum_left_zn'] ?? 0);
                     $growthSms = Yii::$app->formatter->asDecimal($item['growth_sms'] ?? 0);
-                    $sizeNumValues = '0.83rem';
+                    $sizeNumValues = '0.79rem';
                 ?>
                     <tr data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
                     <td style="font-size: 0.8rem;">

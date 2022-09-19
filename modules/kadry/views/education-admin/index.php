@@ -1,7 +1,7 @@
 <?php
 
 use app\modules\kadry\models\education\Education;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 
 /** @var yii\web\View $this */
@@ -12,7 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="education-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <p>
         <?= Html::a('Создать', ['create'], ['class' => 'btn btn-success']) ?>
@@ -22,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'kartik\grid\SerialColumn'],
+            // ['class' => 'kartik\grid\SerialColumn'],
 
             'id',
             'title',

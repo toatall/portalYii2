@@ -1,7 +1,7 @@
 <?php
 
 use app\models\Organization;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */
@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="protocol-index">
 
-    <h1 class="display-4 border-bottom"><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom"><?= Html::encode($this->title) ?></h1>
 
     <?php 
     $models = $dataProvider->getModels();

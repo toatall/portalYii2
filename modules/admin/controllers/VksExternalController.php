@@ -9,6 +9,7 @@ use app\models\conference\VksExternal;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use app\components\Controller;
+use app\models\conference\VksExternalSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -56,11 +57,11 @@ class VksExternalController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => VksExternal::find()->orderBy(['date_start' => SORT_DESC]),
-        ]);
+        $searchModel = new VksExternalSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

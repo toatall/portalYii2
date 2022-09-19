@@ -2,7 +2,7 @@
 /** @var yii\web\View $this */
 /** @var array $model */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 ?>
 <div id="container-form-vote">

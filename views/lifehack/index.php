@@ -2,12 +2,10 @@
 
 use app\models\lifehack\Lifehack;
 use app\models\lifehack\LifehackFile;
-use app\models\Organization;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
-use kartik\select2\Select2;
-use yii\bootstrap4\Dropdown;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Dropdown;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 
@@ -19,7 +17,7 @@ use yii\widgets\Pjax;
 
 $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
 ?>
-<p class="display-4">
+<p class="display-5 border-bottom">
     <?= $this->title ?>
 </p>  
 
@@ -115,7 +113,7 @@ $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
         [
             'content' => Lifehack::isEditor() ?                
                 '<div clas="dropdown dropdown-menu-left">'     
-                . Html::a('<i class="fas fa-ellipsis-v"></i>', null, ['data-toggle'=>'dropdown', 'class' => 'btn btn-outline-secondary']) 
+                . Html::a('<i class="fas fa-ellipsis-v"></i>', null, ['data-bs-toggle'=>'dropdown', 'class' => 'btn btn-outline-secondary']) 
                 . Dropdown::widget([
                     'items' => [
                         ['label' => '<i class="fas fa-plus-circle"></i> Добавить', 'url' => ['/lifehack/create'], 'linkOptions'=>['class'=>'mv-link']],         

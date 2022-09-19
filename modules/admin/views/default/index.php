@@ -3,36 +3,77 @@
 
 use app\models\Tree;
 use app\modules\admin\assets\JsTreeAsset;
-use yii\bootstrap4\Html;
 
 JsTreeAsset::register($this);
 
 $this->title = 'Главная';
 ?>
 
-<div class="admin-default-index">
-    <h1>Добро пожаловать в систему управления</h1>
+<div class="admin-default-index">  
+
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Разделы
+                </div>
+                <div id="tree-view" class="card-body">
+                    <?= Tree::getTreeForMain() ?>
+                    <?php $this->registerJs(<<<JS
+                        $('#tree-view').jstree({
+                            core: { 'multiple': false },                         
+                            plugins: ['types', 'themes']
+                        })
+                        .bind('select_node.jstree', function(e, data) {                   
+                            let url = $('#' + data.selected).attr('data-url-view');                    
+                            let container = $('#container-tree');
+                            container.html('<div class="d-flex justify-content-center">'
+                                + '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>'
+                                + '</div>');
+                            if (url != '#') {
+                                // $.get(url)
+                                // .done(function(data) { container.html(data); })
+                                // .fail(function(err) { container.html('<div class="text-danger">' + err.responseText + '</div>') });
+                                window.location.href = url;
+                            }
+                            else {
+                                // container.html('');
+                            }
 
 
-    <h3>Выберите, пожалуйуста, раздел сайта</h3>
-
-    <div class="alert alert-info">
-        Если вы впервые, посетите раздел <b><?= Html::a('Справка', ['/admin/default/help']) ?></b>
-    </div>
-
-
-    <div class="well" id="containerSection" style="background-color:white; margin-top:3px;">
-        <div id="tree-view">
-            <?= Tree::getTreeForMain() ?>
-            <?php $this->registerJs("
-                $('#tree-view').jstree({'core': { 'multiple': false }}).bind('select_node.jstree', function(e, data) {                   
-                    let url = $('#' + data.selected).attr('data-url-view');                    
-                    if (url != '#') {
-                        document.location.href = url;
-                    }
-                    return false;
-                });                
-             ", \yii\web\View::POS_READY); ?>
+                            return false;
+                        });                         
+                    JS); 
+                    $this->registerCss(<<<CSS
+                        .jstree-default a {
+                            white-space: normal !important;
+                            height: auto;
+                            margin-right: 20px;
+                        }
+                        .jstree-anchor {
+                            height: auto !important;
+                        }
+                        .jstree-default li > ins {
+                            vertical-align: top;
+                        }
+                        .jstree-leaf {
+                            height: auto;
+                        }
+                        .jstree-leaf a {
+                            height: auto !important;
+                        }                    
+                    CSS);                    
+                    ?>
+                </div>
+            </div>
         </div>
+        <!-- <div class="col">
+            <div class="card">
+                <div class="card-header">Содержимое</div>                          
+                    <div class="card-body" id="container-tree"></div>
+            </div>
+        </div> -->
     </div>
+
+   
 </div>

@@ -4,7 +4,7 @@
 /** @var app\modules\kadry\models\education\Education $model */
 
 use app\modules\kadry\models\education\Education;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 use app\modules\admin\assets\JsTreeAsset;
 
@@ -13,11 +13,12 @@ JsTreeAsset::register($this);
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Образовательные программы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="education-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <div class="btn-group mb-2">
         <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>

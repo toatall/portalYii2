@@ -2,8 +2,8 @@
 
 use app\modules\calendar\models\Calendar;
 use kartik\select2\Select2;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 use yii\web\JsExpression;
 
 /** @var yii\web\View $this */

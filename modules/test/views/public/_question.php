@@ -4,7 +4,7 @@
 /** @var int $countQuestions */
 /** @var int $indexQuestion */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use app\modules\test\models\TestQuestion;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;

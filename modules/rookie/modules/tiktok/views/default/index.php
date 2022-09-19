@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */
@@ -29,9 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-4 mb-3">
             <a href="<?= Url::to(['/rookie/tiktok/default/view', 'id'=>$model->id]) ?>" class="mv-link link-no-hover">
                 <div class="card border-0" style="background-color: black;">
-                    <img src="/public/content/rookie/tiktok/img/card-img.png" class="card-img" />
-                    <!-- <video src="<?= $model->filename ?>#t=1.1" class="card-img" /> -->
-                    <!-- <img src="<?= $model->filename ?>#t=1.1" class="card-img" /> -->
+                    <img src="/public/content/rookie/tiktok/img/card-img.png" class="card-img" />                   
                     <div class="card-img-overlay" style="background-color: rgba(200, 200, 200, .7);">
                         <div class="card-body text-center h-100">
                             <p class="text-dark fa-2x font-weight-bolder" style="text-shadow: 1px 1px white;">
@@ -57,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <?php endif; ?>
 
-                        <div class="float-right">
+                        <div class="float-end">
                             <i class="fas fa-star text-warning pt-2" style="font-size: 1.1rem;"></i>                            
                             <div class="btn-group">
                                 <span class="btn btn-outline-secondary text-white" data-toggle="tooltip" title="креативность"><?= $model->avgRate1 ?></span>

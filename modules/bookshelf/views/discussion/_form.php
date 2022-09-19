@@ -1,7 +1,7 @@
 <?php
 
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 use app\assets\EmojiAsset;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;

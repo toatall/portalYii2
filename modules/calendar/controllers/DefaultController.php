@@ -5,7 +5,7 @@ namespace app\modules\calendar\controllers;
 use Yii;
 use app\modules\calendar\models\Calendar;
 use app\modules\calendar\models\CalendarColor;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\filters\AccessControl;
 use app\components\Controller;
 use yii\web\NotFoundHttpException;

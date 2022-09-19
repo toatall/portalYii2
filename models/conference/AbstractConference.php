@@ -411,7 +411,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
         $message .= '<br /><br /><a href="' . Url::toRoute(['/conference/request-approve'], true) . '" target="_blank">Перейти к согласованию</a>';
 
         Yii::$app->mailer->compose()
-            ->setFrom('u8600-app045@regions.tax.nalog.ru')
+            ->setFrom('86000-app045@regions.tax.nalog.ru')
             ->setTo($to)
             ->setSubject($subject)
             ->setHtmlBody($message)

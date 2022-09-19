@@ -15,6 +15,12 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Tree;
+use kartik\grid\EditableColumnAction;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
@@ -44,6 +50,34 @@ class NewsController extends Controller
                 ],
             ],
         ];
+    }
+
+        /**
+     * {@inheritdoc}
+     * @return array
+     */
+    public function actions()
+    {
+        return ArrayHelper::merge(parent::actions(), [
+            'editnews' => [
+                'class' => EditableColumnAction::class,
+                'modelClass' => News::class,
+                'outputValue' => function($model, $attribute, $key, $index) {
+                    if ($attribute == 'flag_enable') {
+                        return Yii::$app->formatter->asBoolean($model->flag_enable);
+                    }
+                },
+                'checkAccess' => function($action, $model) {
+                    /** @var News $model */
+                    if (isset($model->id_tree)) {
+                        $this->tree($model->id_tree);
+                    }
+                    else {
+                        throw new ForbiddenHttpException('Доступ запрещен');
+                    }                    
+                },
+            ],
+        ]);
     }
 
     /**
@@ -77,8 +111,11 @@ class NewsController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $modelTree = $model->tree;
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'modelTree' => $modelTree,
         ]);
     }
 
@@ -148,6 +185,7 @@ class NewsController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'modelTree' => $model->tree,
         ]);
     }
 
@@ -172,6 +210,78 @@ class NewsController extends Controller
         }
 
         return $this->redirect(['index', 'idTree' => $model->id_tree]);
+    }
+
+    /**
+     * Ajax-запрос списка отделов
+     * @param string|null $q
+     * @return mixed
+     * @uses \app\modules\admin\views\news\_form
+     */
+    public function actionAjaxDepartmentsAuthors($q=null)
+    {
+        $records = (new Query())
+            ->from('{{%news}}')
+            ->where([
+                'id_organization' => Yii::$app->userInfo->current_organization,             
+            ])
+            ->andFilterWhere(['like', 'from_department', $q])
+            ->andWhere(['not', ['from_department' => null]])
+            ->andWhere(['not', ['from_department' => '']])
+            ->select('from_department')
+            ->orderBy('from_department')
+            ->groupBy('from_department')
+            ->all();
+        
+        $out = [];
+        foreach ($records as $item) {          
+            $out[] = $item['from_department'];
+        }
+        return Json::encode($out);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionHistory($id)
+    {
+        $model = $this->findModel($id);
+        $this->tree($model->id_tree);
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model->getHistory(),
+        ]);
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'title' => 'Статистика просмотров страницы "' . $model->title . '"',
+            'content' => $this->renderAjax('/news/table_history', [
+                'dataProvider' => $dataProvider,
+            ]),
+        ];        
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionLikes($id)
+    {
+        $model = $this->findModel($id);
+        $this->tree($model->id_tree);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model->getLikes(),
+        ]);
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'title' => 'Статистика лайков страницы "' . $model->title . '"',
+            'content' => $this->renderAjax('/news/table_likes', [
+                'dataProvider' => $dataProvider,
+            ]),
+        ];
     }
 
     /**

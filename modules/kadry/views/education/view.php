@@ -12,7 +12,7 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<p class="display-4 border-bottom"><?= $this->title ?></p>
+<p class="display-5 border-bottom"><?= $this->title ?></p>
 
 <?php Pjax::begin(['id' => 'pjax-education-view', 'timeout'=>false, 'enablePushState'=>false]); ?>
 

@@ -5,7 +5,7 @@
 /** @var array $result */
 /** @var array $data */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use app\assets\FlipAsset;
 
 FlipAsset::register($this);

@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = "Профиль {$model->fio}";
 ?>
-<p class="display-4 border-bottom mv-hide"><?= $this->title ?></p>
+<p class="display-5 border-bottom mv-hide"><?= $this->title ?></p>
 
 <div class="card">
     <div class="card-body">

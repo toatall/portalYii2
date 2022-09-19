@@ -17,6 +17,8 @@ use yii\web\UploadedFile;
 use app\models\File;
 use yii\helpers\ArrayHelper;
 use app\helpers\UploadHelper;
+use yii\db\Query;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%news}}".
@@ -52,7 +54,7 @@ use app\helpers\UploadHelper;
  * @property Organization $organization
  * @property User $modelAuthor
  * @property NewsComment[] $newsComments
- * @property NewsLike[] $newsLikes
+ * @property array $newsLikes
  * @property File[] $files
  *
  * @property boolean $liked
@@ -263,18 +265,40 @@ class News extends \yii\db\ActiveRecord
      */
     public function getNewsComments()
     {
-        return $this->hasMany(NewsComment::className(), ['id_news' => 'id']);
+        return $this->hasMany(NewsComment::class, ['id_news' => 'id']);
     }
 
     /**
-     * Gets query for [[NewsLikes]].
-     *
-     * @return \yii\db\ActiveQuery|NewsLikeQuery
+     * @return \yii\db\Query
      */
-    public function getNewsLikes()
-    {
-        return $this->hasMany(NewsLike::className(), ['id_news' => 'id']);
+    public function getHistory()
+    {        
+        return (new Query())
+            ->select(['u.fio', 'detail.author', 'u.current_organization', 'u.organization_name', 'u.department', 
+                'u.user_disabled_ad', 'detail.host', 'detail.ip', 'detail.date_create'])
+            ->from('{{%history}} t')
+            ->leftJoin('{{%history_detail}} detail', 'detail.id_history = t.id')
+            ->leftJoin('{{%user}} u', 'u.username = detail.author')
+            ->where([
+                'url' => Url::to(['/news/view', 'id'=>$this->id]),
+            ]);
     }
+
+    /**
+     * @return \yii\db\Query
+     */
+    public function getLikes()
+    {
+        return (new Query())
+            ->select(['u.fio', 't.username', 'u.current_organization', 'u.organization_name', 'u.department', 
+                'u.user_disabled_ad', 't.ip_address', 't.date_create'])
+            ->from('{{%news_like}} t')
+            ->leftJoin('{{%user}} u', 'u.username = t.username')
+            ->where([
+                't.id_news' => $this->id,
+            ]);
+    }
+    
 
     /**
      * Файлы, прикрепленные к новости

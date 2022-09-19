@@ -1,8 +1,8 @@
 <?php
 
 use kartik\rating\StarRating;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\modules\rookie\modules\tiktok\models\TiktokVote $model */
@@ -11,8 +11,7 @@ use yii\bootstrap4\ActiveForm;
 
 <div class="tiktok-vote-form card card-header">
 
-    <?php $form = ActiveForm::begin([       
-        // 'layout' => ActiveForm::LAYOUT_INLINE,
+    <?php $form = ActiveForm::begin([
         'options' => [           
             'data-pjax' => true,
             'id' => 'form-lifehack-like',

@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
@@ -13,9 +13,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="telephone-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
-    <p>
+    <p class="btn-group">
         <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -24,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Назад', ['index'], ['class' => 'btn btn-secondary']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -43,8 +46,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_create:datetime',
             'date_edit:datetime',
             'author',
-            'log_change',
-            'count_download',
+            // 'log_change',
+            // 'count_download',
         ],
     ]) ?>
 

@@ -2,7 +2,7 @@
 
 use app\modules\test\models\TestResult;
 use kartik\grid\ExpandRowColumn;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 
@@ -62,6 +62,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => function() { return GridView::ROW_COLLAPSED; },
                         'detailUrl' => Url::to(['/test/result/view-ajax']),
                     ],
+                ],
+                'toolbar' => [
+                    '{export}',
+                    '{toggleData}',
+                ],
+                'export' => [
+                    'showConfirmAlert' => false,
+                ],
+                'panel' => [
+                    'type' => GridView::TYPE_DEFAULT,       
                 ],
             ]); ?>
         </div>

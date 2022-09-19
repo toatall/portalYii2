@@ -5,7 +5,7 @@
 /* @var $videos array */
 
 use yii\widgets\ListView;
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 ?>
 
 <?= ListView::widget([

@@ -2,8 +2,8 @@
 
 use app\models\department\Department;
 use kartik\select2\Select2;
-use yii\helpers\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\modules\executetasks\models\ExecuteTasksDepartment $model */

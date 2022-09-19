@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\test\models\Test */
+/** @var yii\web\View $this */
+/** @var app\modules\test\models\Test $model */
 
 $this->title = 'Редактирование теста: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Тесты', 'url' => ['/test/test/index']];

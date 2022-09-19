@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use kartik\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
@@ -8,36 +8,36 @@ use kartik\widgets\ActiveForm;
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="book-shelf-calendar-search">
-
-    <div class="row mb-4">
-        <div class="col">
-            <div class="card bg-secondary text-white">
-                <div class="card-header">
-                    <i class="fas fa-search"></i> Поиск
+<div class="book-shelf-calendar-search mt-3">
+       
+    <div class="card bg-secondary text-white">
+        <div class="card-header">
+            <i class="fas fa-search"></i> Поиск
+        </div>
+        <div class="card-body">
+            <?php $form = ActiveForm::begin([
+                'action' => ['index'],
+                'method' => 'get',
+                // 'type' => ActiveForm::TYPE_INLINE,
+                // 'fieldConfig' => [
+                //     'options' => [
+                //         'class' => 'form-group mb-3 mr-2 col-10',
+                //     ],
+                // ],
+                'options' => [
+                    'data-pjax' => true,
+                ],
+            ]); ?>         
+            <div class="row">
+                <div class="col">
+                    <?= $form->field($model, 'writer')->textInput(['class' => 'w-100', 'placeholder'=>$model->getAttributeLabel('writer')])->label(false) ?> 
                 </div>
-                <div class="card-body">
-                    <?php $form = ActiveForm::begin([
-                        'action' => ['index'],
-                        'method' => 'get',
-                        'type' => ActiveForm::TYPE_INLINE,
-                        'fieldConfig' => [
-                            'options' => [
-                                'class' => 'form-group mb-3 mr-2 col-10',
-                            ],
-                        ],
-                        'options' => [
-                            'data-pjax' => true,
-                        ],
-                    ]); ?>                    
-                    <?= $form->field($model, 'writer')->textInput(['class' => 'w-100']) ?>                                           
-                    <div class="btn-group form-group mb-3">
-                        <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?> 
-                    </div>
-                    <?php ActiveForm::end(); ?>
-                </div>                
-            </div>            
-        </div>        
-    </div>
+                <div class="col-auto">
+                    <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?> 
+                </div>
+            </div>                               
+            <?php ActiveForm::end(); ?>
+        </div>                
+    </div>                    
 
 </div>

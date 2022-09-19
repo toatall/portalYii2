@@ -12,8 +12,8 @@ $this->params['breadcrumbs'][] = 'Изменить';
 
     <div class="row">
         <div class="col border-bottom mb-2">
-            <p class="display-4">
-            <?= $this->title ?>
+            <p class="display-5">
+                <?= $this->title ?>
             </p>    
         </div>    
     </div>

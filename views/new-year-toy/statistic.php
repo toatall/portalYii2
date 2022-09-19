@@ -1,7 +1,7 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $dataProvider \yii\data\ActiveDataProvider */
-/* @var $model \app\models\vote\VoteNewyearToy */
+/** @var yii\web\View $this */
+/** @var \yii\data\ActiveDataProvider $dataProvider */
+/** @var \app\models\vote\VoteNewyearToy $model */
 
 use kartik\grid\GridView;
 use yii\widgets\Pjax;

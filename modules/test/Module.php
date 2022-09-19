@@ -30,12 +30,12 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        Yii::$app->params['bsVersion'] = '4.x';
-        // custom initialization code goes here        
-        Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = ['js' => []];
-        Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapPluginAsset'] = ['js' => []];
-        Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapAsset'] = ['css' => [], 'js' => []];
-        Yii::$app->assetManager->bundles['yii\bootstrap4\BootstrapPluginAsset'] = ['js' => []];
+        // // Yii::$app->params['bsVersion'] = '4.x';
+        // // custom initialization code goes here        
+        // Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = ['js' => []];
+        // Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapPluginAsset'] = ['js' => []];
+        // Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapAsset'] = ['css' => [], 'js' => []];
+        // Yii::$app->assetManager->bundles['yii\bootstrap4\BootstrapPluginAsset'] = ['js' => []];
         Yii::$app->errorHandler->errorAction = '/test/test/error';
         /*
         Yii::$app->setComponents([

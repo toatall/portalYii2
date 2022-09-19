@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\bookshelf\models\BookShelfDiscussionComment */
+/** @var yii\web\View $this */
+/** @var app\modules\bookshelf\models\BookShelfDiscussionComment $model */
 
 $this->title = 'Create Book Shelf Discussion Comment';
 $this->params['breadcrumbs'][] = ['label' => 'Book Shelf Discussion Comments', 'url' => ['index']];

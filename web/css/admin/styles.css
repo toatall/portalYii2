@@ -99,17 +99,12 @@ div.flash-success a
 }
 
 
-body.modal-open {
+/* body.modal-open {
     overflow: hidden;
     position:fixed;
     width: 100%;
-}
+} */
 
-.delete-row 
-{
-	color: #D50000;
-	text-decoration: line-through;
-}
 
 .modal-dialog-super-large {
     width: 90%;

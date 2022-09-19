@@ -175,21 +175,21 @@ class RoleController extends Controller
             }
         }
 
-        if (Yii::$app->request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                'title' => 'Добавление пользователя',
-                'content' => $this->renderAjax('addUser', [
-                    'dataProvider' => $model->getUsersForAddRole(),
-                    'model' => $model,
-                ]),
-            ];
-        }
+        // if (Yii::$app->request->isAjax) {
+        //     Yii::$app->response->format = Response::FORMAT_JSON;
+        //     return [
+        //         'title' => 'Добавление пользователя',
+        //         'content' => $this->renderAjax('addUser', [
+        //             'dataProvider' => $model->getUsersForAddRole(),
+        //             'model' => $model,
+        //         ]),
+        //     ];
+        // }
 
-        return $this->render('addUser', [
-            'dataProvider' => $model->getUsersForAddRole(),
-            'model' => $model,
-        ]);
+        // return $this->render('addUser', [
+        //     'dataProvider' => $model->getUsersForAddRole(),
+        //     'model' => $model,
+        // ]);
     }
 
     /**

@@ -3,8 +3,8 @@
 use kartik\date\DatePicker;
 use kartik\file\FileInput;
 use kartik\select2\Select2;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\models\Protocol $model */
@@ -65,6 +65,7 @@ use yii\bootstrap4\ActiveForm;
                         'pluginOptions' => [
                             'showUpload' => false,
                             'showPreview' => false,
+                            'theme' => 'fa5',
                         ],
                     ]) ?>
                     <?php if (!$model->isNewRecord && count($files = $model->getFilesMain())): ?>
@@ -103,6 +104,7 @@ use yii\bootstrap4\ActiveForm;
                         'pluginOptions' => [
                             'showUpload' => false,
                             'showPreview' => false,
+                            'theme' => 'fa5',
                         ],
                     ]) ?>
                     <?php if (!$model->isNewRecord && count($files = $model->getFilesExecute())): ?>

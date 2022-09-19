@@ -1,12 +1,12 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
 use kartik\range\RangeInput;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\test\models\TestAnswer */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\modules\test\models\TestAnswer $model */
+/** @var yii\widgets\ActiveForm $form */
 ?>
 
 <div class="test-answer-form">

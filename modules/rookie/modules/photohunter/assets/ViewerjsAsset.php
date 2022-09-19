@@ -21,6 +21,6 @@ class ViewerjsAsset extends AssetBundle
         '/public/vendor/viewerjs/viewer.min.js',
     ];
     public $depends = [
-        'app\modules\rookie\assets\AppAsset',        
+        'app\assets\AppAsset',        
     ];
 }

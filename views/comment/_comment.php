@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\Comment $model */
@@ -13,9 +13,9 @@ $userModel = $model->usernameModel;
 ?>
 
 <div class="row mb-4 pb-2">
-    <div>
+    <div class="col-auto">
         <a href="/@<?= $userModel->username ?>" target="_blank">
-            <img src="<?= $userModel->getPhotoProfile() ?>" class="img-thumbnail rounded-circle ml-3" style="max-height: 4rem;"
+            <img src="<?= $userModel->getPhotoProfile() ?>" class="img-thumbnail ms-3" style="max-height: 4rem;"
             data-content="<?= $userModel->fio ?>" data-toggle="popover" data-trigger="hover" />
         </a>
     </div>
@@ -30,7 +30,7 @@ $userModel = $model->usernameModel;
         </strong>
         <br />
         <?php if ($model->date_delete): ?>
-            <div class="alert alert-danger">Комментарий был удален <?= Yii::$app->formatter->asDatetime($model->date_delete) ?></div>
+            <div class="alert alert-danger p-2"><i class="far fa-trash"></i> Комментарий был удален <?= Yii::$app->formatter->asDatetime($model->date_delete) ?></div>
         <?php else: ?>
 
             <?php if (($reply = $model->reply) != null): ?>

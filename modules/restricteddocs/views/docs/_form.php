@@ -4,12 +4,12 @@ use app\modules\restricteddocs\models\RestrictedDocsOrgs;
 use app\modules\restricteddocs\models\RestrictedDocsTypes;
 use kartik\date\DatePicker;
 use kartik\file\FileInput;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\modules\restricteddocs\models\RestrictedDocs $model */
-/** @var yii\bootstrap4\ActiveForm $form */
+/** @var yii\bootstrap5\ActiveForm $form */
 ?>
 
 <div class="restricted-docs-form card card-body">
@@ -82,6 +82,7 @@ use yii\bootstrap4\ActiveForm;
                 'pluginOptions' => [
                     'showUpload' => false,
                     'showPreview' => false,
+                    'theme' => 'fa5',
                 ],
             ]) ?>
             <?php if (!$model->isNewRecord && count($files = $model->getFiles())): ?>

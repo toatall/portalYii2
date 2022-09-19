@@ -3,8 +3,8 @@
 use yii\helpers\Url;
 
 
-/* @var $this yii\web\View */
-/* @var $models array */
+/** @var yii\web\View $this */
+/** @var array $models */
 
 
 $this->title = 'Неделя добрых дел';
@@ -16,9 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?php foreach ($models as $model): ?>
     
-    <div class="col-sm-4">
-        <div class="panel panel-default text-center">
-            <div class="panel-heading panel-heading-150">
+    <div class="col-sm-4 d-flex align-items-stretch">
+        <div class="card text-center">
+            <div class="card-header">
                 <h4 class="text-muted" style="font-weight: 800;">
                     <div class="valign-center">
                         <?= $model['title'] ?>
@@ -26,10 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </h4>
             </div>
-            <div class="panel-body height-300">
+            <div class="card-body height-300">
                 <img src="<?= $model['thumbnailImage'] ?>" class="thumbnail img-thumb-preview" />
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <a href="<?= Url::to(['/news/view', 'id'=>$model['idNews']]) ?>" class="btn btn-primary middle mv-link" style="font-weight: 800;">Просмотр</a>
             </div>
         </div>

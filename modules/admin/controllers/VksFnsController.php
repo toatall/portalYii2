@@ -9,6 +9,7 @@ use app\models\conference\VksFns;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use app\components\Controller;
+use app\models\conference\VksFnsSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -56,11 +57,11 @@ class VksFnsController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => VksFns::find(),
-        ]);
+        $searchModel = new VksFnsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

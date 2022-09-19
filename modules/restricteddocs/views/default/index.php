@@ -10,7 +10,7 @@ use app\modules\restricteddocs\models\RestrictedDocs;
 use app\modules\restricteddocs\models\RestrictedDocsOrgs;
 use app\modules\restricteddocs\models\RestrictedDocsTypes;
 use kartik\select2\Select2;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
 use yii\widgets\Pjax;

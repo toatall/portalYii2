@@ -2,8 +2,8 @@
 
 /** @var yii\web\View $this */
 
-use app\modules\rookie\assets\AppAsset;
-use yii\bootstrap4\Html;
+use app\assets\AppAsset;
+use yii\bootstrap5\Html;
 
 AppAsset::register($this);
 ?>
