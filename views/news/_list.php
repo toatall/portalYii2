@@ -34,9 +34,9 @@ $url = Url::to(['news/view', 'id'=>$model->id]);
                             </h4>
                         </a>
                         <div class="icon-group">
-                            <span class="badge badge-secondary fa-sm"><?= $model->count_like ?> <i class="fa fa-heart"></i></span>
-                            <span class="badge badge-secondary fa-sm"><?= $model->count_comment ?> <i class="fa fa-comments"></i></span>
-                            <span class="badge badge-secondary fa-sm"><?= $model->count_visit ?> <i class="fa fa-eye"></i></span>
+                            <span class="badge bg-secondary fa-sm"><?= $model->count_like ?> <i class="fa fa-heart"></i></span>
+                            <span class="badge bg-secondary fa-sm"><?= $model->count_comment ?> <i class="fa fa-comments"></i></span>
+                            <span class="badge bg-secondary fa-sm"><?= $model->count_visit ?> <i class="fa fa-eye"></i></span>
                         </div>
                         <p class="lead"><?= $model->message1 ?></p>                    
                         <hr />

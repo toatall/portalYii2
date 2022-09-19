@@ -82,7 +82,7 @@ class TreeController extends Controller
         }
         if ($model['view_static'] == '') {
             throw new HttpException(500, 'Не указан путь к представлению');
-        }
+        }        
         return $this->render($model['view_static']);
     }
 

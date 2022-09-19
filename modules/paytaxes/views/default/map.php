@@ -5,6 +5,7 @@
 /** @var array $raions */
 
 use app\assets\ApexchartsAsset;
+use app\modules\paytaxes\Module;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
@@ -22,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
 </div>    
 
-<?php if (Yii::$app->user->can('admin')): ?>
+<?php if (Yii::$app->user->can('admin') || Yii::$app->user->can(Module::roleEditor())): ?>
     <?= Html::a('Внести данные', ['/paytaxes/manage/index'], ['class' => 'btn btn-primary mv-link']) ?>
     <hr />
 <?php endif; ?>
