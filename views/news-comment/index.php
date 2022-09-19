@@ -5,9 +5,10 @@ use yii\bootstrap5\Html;
 /** @var app\models\news\NewsComment[] $query */
 ?>
 
-<div class="row mt-4">            
-    <?php foreach ($query as $model): ?>
-    <div class="col-2 mt-2" style="max-width: 10em;">
+           
+<?php foreach ($query as $model): ?>
+<div class="row mt-4"> 
+    <div class="col-auto mt-2" style="max-width: 10em;">
         <a href="/@<?= $model->username ?>" target="_blank">
             <img src="<?= $model->modelUser->getPhotoProfile() ?>" class="img-thumbnail rounded mr-2" />
         </a>
@@ -40,9 +41,9 @@ use yii\bootstrap5\Html;
                 <div class="text-justiffy"><?= $model->comment ?></div>
             </div>
         </div>
-    </div>
-    <?php endforeach; ?>
+    </div>    
 </div>
+<?php endforeach; ?>
 <?php
 $this->registerJs(<<<JS
 

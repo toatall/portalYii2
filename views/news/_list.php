@@ -28,7 +28,7 @@ $url = Url::to(['news/view', 'id'=>$model->id]);
                         <a href="<?= $url ?>" class="mv-link text-decoration-none" data-pjax="false">
                             <h4 class="news-title">
                                 <?php if (DateHelper::dateDiffDays($model->date_sort) <= 1): ?>
-                                    <span class="badge badge-success">Новое</span>
+                                    <span class="badge bg-success">Новое</span>
                                 <?php endif ?>
                                 <?= $model->title ?>
                             </h4>

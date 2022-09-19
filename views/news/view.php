@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $items = array();
             foreach ($model->getCheckListBoxUploadImagesGallery() as $image)
             {
-                $imageFile = \Yii::$app->storage->getFileUrl($image);
+                $imageFile = $image;
                 $items[] = [
                     'url' => $imageFile,
                     'src' => \Yii::$app->storage->addFileNamePrefix($imageFile, 'thumb'),
