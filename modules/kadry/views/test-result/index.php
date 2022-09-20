@@ -2,7 +2,7 @@
 /** @var \yii\web\View $this */
 /** @var array $periodsAll */
 
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\StringHelper;
 
 $title = 'Сведения о результатах итогового тестирования сотрудников Инспекций, 

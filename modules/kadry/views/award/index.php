@@ -5,11 +5,10 @@
 /** @var app\modules\kadry\models\Award $searchModel */
 
 use app\modules\kadry\models\Award;
-use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
 use kartik\grid\GridView;
 use kartik\select2\Select2;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 use yii\widgets\Pjax;
@@ -17,7 +16,7 @@ use yii\widgets\Pjax;
 $this->title = 'Награды и поощрения сотрудников налоговых органов округа';
 ?>
 
-<p class="display-4 border-bottom"><?= $this->title ?></p>
+<p class="display-5 border-bottom"><?= $this->title ?></p>
 
 <?php Pjax::begin(['timeout'=>false, 'enablePushState'=>false]) ?>
 

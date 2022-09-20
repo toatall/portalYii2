@@ -5,8 +5,8 @@ use app\modules\kadry\models\BestProfessional;
 use kartik\select2\Select2;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */

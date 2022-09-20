@@ -1,8 +1,7 @@
 <?php
 
 use app\modules\kadry\models\BestProfessional;
-use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var app\modules\kadry\models\BestProfessional $model */

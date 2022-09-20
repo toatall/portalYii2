@@ -1,8 +1,8 @@
 <?php
 
 use app\modules\kadry\models\BestProfessional;
-use yii\bootstrap4\LinkPager;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\LinkPager;
+use yii\bootstrap5\Html;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -14,7 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="best-professional-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <?php if (BestProfessional::isEditor()): ?>
     <p>
@@ -63,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
 
 
-        <div class="col-6 flip-card mb-4">
+        <div class="col-3 flip-card mb-4">
             <div class="flip-card-inner">
                 <div class="flip-card-front shadow-text rounded shadow bg-light-<?= $bgLight ?>">
                     <div class="h-100 d-flex align-items-center justify-content-center">
@@ -134,7 +136,7 @@ $this->params['breadcrumbs'][] = $this->title;
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {
     background-color: transparent;
-    width: 300px;
+    /* width: 300px; */
     height: 400px;
     /* border: 1px solid #f1f1f1; */
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
