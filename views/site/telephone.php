@@ -34,6 +34,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'organization.name',
             'dop_text',
         ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
+        ],
     ]); ?>
 
 </div>
