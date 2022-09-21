@@ -22,6 +22,8 @@ use yii\helpers\Url;
         'options'=> ['enctype' => 'multipart/form-data', 'autocomplete'=>'off'],
     ]); ?>
 
+    <?= $form->errorSummary($model) ?>
+
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'message1')->textarea() ?>
