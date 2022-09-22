@@ -32,7 +32,7 @@ $models = $dataProvider->models;
         <div class="card">
             <div class="card-header" id="head_<?= $model->id ?>">
                 <h2 class="mb-0">
-                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse_<?= $model->id ?>" aria-expanded="true" aria-controls="collapse_<?= $model->id ?>">
+                    <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?= $model->id ?>" aria-expanded="true" aria-controls="collapse_<?= $model->id ?>">
                         <span class="lead">
                             <?= $model->department_index ?>. <?= $model->department_name ?>
                         </span>
@@ -40,7 +40,7 @@ $models = $dataProvider->models;
                 </h2>
             </div>
 
-            <div id="collapse_<?= $model->id ?>" class="collapse" aria-labelledby="head_<?= $model->id ?>" data-parent="#accordionDeps" data-url="<?= Url::to(['/department/crud-cards', 'id'=>$model->id]) ?>">
+            <div id="collapse_<?= $model->id ?>" class="collapse" aria-labelledby="head_<?= $model->id ?>" data-bs-parent="#accordionDeps" data-url="<?= Url::to(['/department/crud-cards', 'id'=>$model->id]) ?>">
                 <div class="card-body" data-url="<?= Url::to(['/department/crud-cards', 'id'=>$model->id]) ?>"></div>
             </div>
         </div>
