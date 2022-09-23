@@ -139,4 +139,16 @@ class ChangeLegislation extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        // обовление полнотекстового индекса
+        Yii::$app->db
+            ->createCommand('ALTER FULLTEXT INDEX ON {{%change_legislation}} START UPDATE POPULATION')
+            ->execute();
+        return parent::afterSave($insert, $changedAttributes);
+    }
+
 }

@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\ChangeLegislation;
+use yii\db\Expression;
 
 /**
  * ChangeLegislationSearch represents the model behind the search form of `app\models\ChangeLegislation`.
@@ -47,7 +48,8 @@ class ChangeLegislationSearch extends ChangeLegislation
      */
     public function search($params, $isAntiCrisis=false)
     {
-        $query = ChangeLegislation::find();
+        $query = ChangeLegislation::find()
+            ->alias('t');
 
         // add conditions that should always apply here
 
@@ -57,6 +59,16 @@ class ChangeLegislationSearch extends ChangeLegislation
 
         $this->load($params);
 
+        if (!empty(trim($this->searchText))) {
+            $search = stripslashes($this->searchText);        
+            $query->innerJoin("FREETEXTTABLE({{%change_legislation}}, [[text]], '{$search}') f", 't.id = f.[[KEY]]');
+            $expression = new Expression("FREETEXT([[text]], '{$search}')");
+            $query->orderBy(['f.[[RANK]]' => SORT_DESC]);
+        }
+        else {
+            $expression = new Expression('');
+        }
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -65,51 +77,31 @@ class ChangeLegislationSearch extends ChangeLegislation
 
         if ($this->searchText) {
             $query->andWhere(['or', 
-                ['like', 'name', $this->searchText],
-                ['like', 'text', $this->searchText],
+                ['like', 't.name', $this->searchText],
+                //['like', 'text', $this->searchText],
+                $expression,
             ]);
         }        
 
         if ($this->searchDate1) {
             $query->andWhere(['or', 
-                ['>=', 'date_doc', $this->searchDate1],
-                ['>=', 'date_doc_1', $this->searchDate1],
-                ['>=', 'date_doc_2', $this->searchDate1],
-                ['>=', 'date_doc_3', $this->searchDate1],
+                ['>=', 't.date_doc', $this->searchDate1],
+                ['>=', 't.date_doc_1', $this->searchDate1],
+                ['>=', 't.date_doc_2', $this->searchDate1],
+                ['>=', 't.date_doc_3', $this->searchDate1],
             ]);
         }
 
         if ($this->searchDate2) {
             $query->andWhere(['or', 
-                ['<=', 'date_doc', $this->searchDate1],
-                ['<=', 'date_doc_1', $this->searchDate1],
-                ['<=', 'date_doc_2', $this->searchDate1],
-                ['<=', 'date_doc_3', $this->searchDate1],
+                ['<=', 't.date_doc', $this->searchDate1],
+                ['<=', 't.date_doc_1', $this->searchDate1],
+                ['<=', 't.date_doc_2', $this->searchDate1],
+                ['<=', 't.date_doc_3', $this->searchDate1],
             ]);
         }
 
-        $query->andWhere(['is_anti_crisis' => $isAntiCrisis]);
-
-        // grid filtering conditions
-        // $query->andFilterWhere([
-        //     'id' => $this->id,
-        //     'date_doc' => $this->date_doc,
-        //     'date_doc_1' => $this->date_doc_1,
-        //     'date_doc_2' => $this->date_doc_2,
-        //     'date_doc_3' => $this->date_doc_3,
-        //     'date_create' => $this->date_create,
-        //     'date_update' => $this->date_update,
-        // ]);
-
-        /*
-        $query->andFilterWhere(['like', 'type_doc', $this->type_doc])
-            ->andFilterWhere(['like', 'number_doc', $this->number_doc])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'status_doc', $this->status_doc])
-            ->andFilterWhere(['like', 'text', $this->text])
-            ->andFilterWhere(['like', 'author', $this->author])
-            ->andFilterWhere(['like', 'log_change', $this->log_change]);
-            */
+        $query->andWhere(['t.is_anti_crisis' => $isAntiCrisis]);
 
         return $dataProvider;
     }
