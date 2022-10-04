@@ -2,7 +2,7 @@
 
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
