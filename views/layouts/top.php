@@ -117,7 +117,7 @@ if (date('Y') < 2022) {
         <div class="col">
             <div class="row justify-content-end">
                
-                <?php //if (date('Y') < 2023) { echo $this->render('top_pay_taxes'); } ?>
+                <?php if (date('Y') < 2023) { echo $this->render('top_pay_taxes'); } ?>
 
                 <?= $this->render('top_calendar') ?>
 
