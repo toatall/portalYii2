@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
             По состоянию на <?= Yii::$app->formatter->asDate($result[0]['date']) ?>
             <?php endif; ?>
         </span>
-        <table class="table table-hover" id="table-statistic" style="font-size: 0.9rem;">
+        <table class="table table-hover w-100" id="table-statistic" style="font-size: 0.80rem;">
             <thead class="thead-light">
                 <tr>
                     <th>Налоговый орган</th>
@@ -84,16 +84,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         Начисления (прогнозируемые), тыс. рублей
                     </th>
                     <th>
-                        Поступления, тыс. рублей
+                        Поступления (с 01.09.2022), тыс. рублей
                     </th>                   
                     <th>
                         СМС показатель (предварительный)
                     </th>
                     <th>
-                        Оставшаяся сумма до 75 %
+                        Оставшаяся сумма до 80%
                     </th>
                     <th>
                         Прирост СМС показателя с предыдущей даты
+                    </th>
+                    <th>
+                        Достижение КПЭ (95 %)
                     </th>
                     <th></th>
                 </tr>
@@ -105,22 +108,27 @@ $this->params['breadcrumbs'][] = $this->title;
                     $sms1 = Yii::$app->formatter->asDecimal($item['sms_1'] ?? 0); 
                     $sms2 = Yii::$app->formatter->asDecimal($item['sms_2'] ?? 0); 
                     $sms3 = Yii::$app->formatter->asDecimal($item['sms_3'] ?? 0); 
-                    $sumLeftAll = Yii::$app->formatter->asDecimal($item['sum_left_all'] ?? 0);
+                    $sumLeftAll = Yii::$app->formatter->asDecimal($item['sum_left_all'] ?? 0, 0);
                     $sumLeftNifl = Yii::$app->formatter->asDecimal($item['sum_left_nifl'] ?? 0);
                     $sumLeftTn = Yii::$app->formatter->asDecimal($item['sum_left_tn'] ?? 0);
                     $sumLeftZn = Yii::$app->formatter->asDecimal($item['sum_left_zn'] ?? 0);
                     $growthSms = Yii::$app->formatter->asDecimal($item['growth_sms'] ?? 0);
-                    $sizeNumValues = '0.79rem';
+                    $kpe_persent = Yii::$app->formatter->asDecimal($item['kpe_persent'] ?? 0);
+                    $sizeNumValues = '0.77rem';
                 ?>
-                    <tr data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
+                <tr data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
                     <td style="font-size: 0.8rem;">
                         <?= $item['name_short'] ?>
                     </td>
                     <td>
-                        <kbd style="font-size: <?= $sizeNumValues ?>;"><?= Yii::$app->formatter->asDecimal($item['sum1']) ?></kbd>
+                        <kbd style="font-size: <?= $sizeNumValues ?>;">
+                            <?= Yii::$app->formatter->asDecimal($item['sum1'], 0) ?>
+                        </kbd>
                     </td>
                     <td>                        
-                        <kbd style="font-size: <?= $sizeNumValues ?>;"><?= Yii::$app->formatter->asDecimal($item['sum2']) ?></kbd>
+                        <kbd style="font-size: <?= $sizeNumValues ?>;">
+                            <?= Yii::$app->formatter->asDecimal($item['sum2'], 0) ?>
+                        </kbd>
                     </td>                  
                     <td>
                         <kbd style="font-size: <?= $sizeNumValues ?>;" data-toggle="popover" data-trigger="hover" data-original-title="СМС показатели" data-html="true" data-content="НИФЛ: <?= $sms1 ?><br />Транспортный налог: <?= $sms2 ?><br />Земельный налог: <?= $sms3 ?>">
@@ -128,7 +136,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </kbd>
                     </td>
                     <td>
-                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-toggle="popover" data-trigger="hover" data-original-title="Оставшаяся сумма до 75 %" data-html="true" data-content="НИФЛ: <?= $sumLeftNifl ?><br />Транспортный налог: <?= $sumLeftTn ?><br />Земельный налог: <?= $sumLeftZn ?>">
+                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-toggle="popover" data-trigger="hover" data-original-title="Оставшаяся сумма до 80%" data-html="true" data-content="НИФЛ: <?= $sumLeftNifl ?><br />Транспортный налог: <?= $sumLeftTn ?><br />Земельный налог: <?= $sumLeftZn ?>">
                             <?= $sumLeftAll ?>
                         </kbd>
                     </td>
@@ -138,13 +146,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         </kbd>
                     </td>
                     <td>
+                        <kbd style="font-size: <?= $sizeNumValues ?>;">
+                            <?= $kpe_persent ?>
+                        </kbd>
+                    </td>
+                    <td>
                         <button class="btn btn-outline-secondary btn-chart-ifns" data-org="<?= $item['code'] ?>" data-url="<?= Url::to(['/paytaxes/default/chart-data', 'org'=>$item['code']]) ?>">
                             <i class="fas fa-chart-pie"></i>
                         </button>
                     </td>
                 </tr>
                 <tr style="display: none;" id="sms_data_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
-                    <td colspan="7">
+                    <td colspan="8">
                         <div class="row">
                             <div class="col">
                                 <strong>СМС показатели</strong><br />
@@ -153,7 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <br />Земельный налог: <?= $sms3 ?>
                             </div>
                             <div class="col">
-                                <strong>Оставшаяся сумма до 75 %</strong><br />
+                                <strong>Оставшаяся сумма до 80%</strong><br />
                                 НИФЛ: <?= $sumLeftNifl ?>
                                 <br />Транспортный налог: <?= $sumLeftTn ?>
                                 <br />Земельный налог: <?= $sumLeftZn ?>
@@ -162,14 +175,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     </td>
                 </tr>
                 <tr style="display: none;" id="chart_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
-                    <td colspan="7">
+                    <td colspan="8">
                         <div style="max-width:100%;">
                             
                         </div>
                     </td>
                 </tr>
                 <tr style="display: none;" id="chart2_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
-                    <td colspan="7">
+                    <td colspan="8">
                         <div style="max-width:100%">
                             
                         </div>
@@ -297,6 +310,7 @@ $this->registerJs(<<<JS
     // построение 
     function setChartData(chartId, data, orgName, chartType)
     {   
+        $(chartId).html('');
         var options = {
             chart: {
                 type: chartType

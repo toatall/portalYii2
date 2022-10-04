@@ -25,6 +25,7 @@ use Yii;
  * @property float|null $sum_left_tn
  * @property float|null $sum_left_zn
  * @property float|null $growth_sms
+ * @property int|null $kpe_persent
  *
  * @property Organization $codeOrg
  */
@@ -47,7 +48,7 @@ class PayTaxesGeneral extends \yii\db\ActiveRecord
             [['code_org', 'date'], 'required'],
             [['date', 'date_create'], 'safe'],
             [['sum1', 'sum2', 'sum3', 'sms', 'sms_1', 'sms_2', 'sms_3', 'sum_left_all', 
-                'sum_left_nifl', 'sum_left_tn', 'sum_left_zn', 'growth_sms'], 'number'],
+                'sum_left_nifl', 'sum_left_tn', 'sum_left_zn', 'growth_sms', 'kpe_persent'], 'number'],
             [['code_org'], 'string', 'max' => 5],
             [['code_org'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::class, 
                 'targetAttribute' => ['code_org' => 'code']],

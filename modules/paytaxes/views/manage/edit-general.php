@@ -27,18 +27,19 @@ use yii\widgets\Pjax;
     <table class="table table-bordered">
         <tr>
             <th>Код НО</th>
-            <th>Sum1</th>
-            <th>Sum2</th>
+            <th>Начисления</th>
+            <th>Поступления с 01.09.2021</th>
             <th>Sum3</th>
-            <th>Sms</th>
-            <th>Sms1</th>
-            <th>Sms2</th>
-            <th>Sms3</th>
-            <th>SumLeftAll</th>
-            <th>SumLeftNifl</th>
-            <th>SumLeftTn</th>
-            <th>SumLeftZn</th>
-            <th>growth_sms</th>        
+            <th>СМС (средний)</th>
+            <th>СМС (НИФЛ)</th>
+            <th>СМС (ТП)</th>
+            <th>СМС (ЗН)</th>
+            <th>Оставшаяся сумма до 80 %(всего)</th>
+            <th>Оставшаяся сумма до 80 % (НИФЛ)</th>
+            <th>Оставшаяся сумма до 80 % (ТН)</th>
+            <th>Оставшаяся сумма до 80 % (ЗН)</th>
+            <th>Прирост СМС показателя с предыдущей даты</th>   
+            <th>Достижение КПЭ (95 %)</th>              
         </tr>
     <?php foreach($models as $org => $model): ?>
         <tr>
@@ -71,6 +72,7 @@ use yii\widgets\Pjax;
             <td><?= $form->field($model, "[$org]sum_left_tn")->textInput()->label(false) ?></td>
             <td><?= $form->field($model, "[$org]sum_left_zn")->textInput()->label(false) ?></td>
             <td><?= $form->field($model, "[$org]growth_sms")->textInput()->label(false) ?></td>
+            <td><?= $form->field($model, "[$org]kpe_persent")->textInput()->label(false) ?></td>
         </tr>
     <?php endforeach; ?>
     </table>
