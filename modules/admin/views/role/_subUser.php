@@ -2,7 +2,7 @@
 
 use kartik\grid\GridView;
 use app\modules\admin\models\Role;
-use yii\bootstrap4\Html;
+use yii\bootstrap5\Html;
 use app\models\User;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
