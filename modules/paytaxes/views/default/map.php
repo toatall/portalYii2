@@ -113,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $sumLeftTn = Yii::$app->formatter->asDecimal($item['sum_left_tn'] ?? 0);
                     $sumLeftZn = Yii::$app->formatter->asDecimal($item['sum_left_zn'] ?? 0);
                     $growthSms = Yii::$app->formatter->asDecimal($item['growth_sms'] ?? 0);
-                    $kpe_persent = Yii::$app->formatter->asDecimal($item['kpe_persent'] ?? 0, 0);
+                    $kpe_persent = Yii::$app->formatter->asDecimal($item['kpe_persent'] ?? 0);
                     $sizeNumValues = '0.77rem';
                 ?>
                 <tr data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
