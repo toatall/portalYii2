@@ -25,7 +25,7 @@ TestAsset::register($this);
 
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/favicon.png" />
     <?php $this->registerCsrfMetaTags() ?>
@@ -89,6 +89,13 @@ TestAsset::register($this);
         ?>
 
         <div class="container-fluid">
+
+            <!--[if IE]>
+            <div class="alert alert-danger mx-4 my-4 display-6 text-center">
+                Внимание!<br />
+                Браузер Internet Explorer не поддерживается!
+            </div>
+            <![endif]-->
 
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
