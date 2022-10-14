@@ -55,6 +55,11 @@ class ChangeLegislationSearch extends ChangeLegislation
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'date_doc' => SORT_DESC,
+                ],
+            ],
         ]);
 
         $this->load($params);
