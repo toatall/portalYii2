@@ -16,6 +16,6 @@ class QuestAsset extends AssetBundle
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap4\BootstrapPluginAsset',
+        'yii\bootstrap5\BootstrapPluginAsset',
     ];
 }

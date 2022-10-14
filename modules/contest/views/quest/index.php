@@ -16,7 +16,7 @@ $this->title = 'Главная страница конкурса';
                         <img class="<?= $link['finish'] ? 'img-link-finish' : 'img-link' ?>" 
                             title="<?= $link['title'] ?>" 
                             data-toggle="tooltip" 
-                            data-html="true"
+                            data-bs-html="true"
                             src="/public/assets/contest/quest/img/Lovepik_com-450016080-isometric train station vector.png" 
                             style="height: 20vh;" 
                         />
