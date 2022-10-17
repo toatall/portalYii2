@@ -8,6 +8,7 @@ use yii\bootstrap5\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use yii\bootstrap5\LinkPager;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\news\NewsSearch $searchModel */
@@ -25,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'options'=>[
             'data-pjax'=>true,
         ],
-        'scrollTo'=>0,
+        'scrollTo'=>0,        
     ]); ?>
    
     <div class="card">        
@@ -34,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => ['data-pjax' => true, 'autocomplete' => 'off'],
                 'method' => 'get',
                 'id' => 'form-news',
+                'action' => Url::to(['/news/general'])
             ]); ?>            
             <br />
             <div class="row">

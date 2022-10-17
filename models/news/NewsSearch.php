@@ -173,7 +173,7 @@ class NewsSearch extends News
 
         $query->andFilterWhere([
             't.tags' => $this->tags,
-            'on_general_page' => $this->on_general_page,
+            // 'on_general_page' => $this->on_general_page,
         ]);
 
         return $query;
@@ -237,7 +237,7 @@ class NewsSearch extends News
 
         if ($this->onlyUfns) {
             $query->andFilterWhere(['t.id_organization' => '8600']);
-            $query->andWhere(['t.on_general_page' => 1]);
+            // $query->andWhere(['t.on_general_page' => 1]);
         }
         elseif ($this->onlyIfns) {
             if ($this->onlyIfnsCodes) {
