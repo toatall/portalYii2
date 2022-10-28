@@ -45,7 +45,7 @@ AppAsset::register($this);
                     СМС показатель (предварительный)
                 </th>
                 <th>
-                    Оставшаяся сумма до 80%
+                    Оставшаяся сумма до 85%
                 </th>
                 <th>
                     Прирост СМС показателя с предыдущей даты
@@ -91,7 +91,7 @@ AppAsset::register($this);
                         </kbd>
                     </td>
                     <td>
-                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-toggle="popover" data-trigger="hover" data-original-title="Оставшаяся сумма до 80%" data-html="true" data-content="НИФЛ: <?= $sumLeftNifl ?><br />Транспортный налог: <?= $sumLeftTn ?><br />Земельный налог: <?= $sumLeftZn ?>">
+                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-toggle="popover" data-trigger="hover" data-original-title="Оставшаяся сумма до 85%" data-html="true" data-content="НИФЛ: <?= $sumLeftNifl ?><br />Транспортный налог: <?= $sumLeftTn ?><br />Земельный налог: <?= $sumLeftZn ?>">
                             <?= $sumLeftAll ?>
                         </kbd>
                     </td>
@@ -123,7 +123,7 @@ AppAsset::register($this);
                                 <br />Земельный налог: <?= $sms3 ?>
                             </div>
                             <div class="col">
-                                <strong>Оставшаяся сумма до 80%</strong><br />
+                                <strong>Оставшаяся сумма до 85%</strong><br />
                                 НИФЛ: <?= $sumLeftNifl ?>
                                 <br />Транспортный налог: <?= $sumLeftTn ?>
                                 <br />Земельный налог: <?= $sumLeftZn ?>
