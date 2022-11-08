@@ -284,6 +284,13 @@ return [
         ],
     ],
 
+    // раздел "Анкетирование мигрантов"
+    'migrants-questionnation' => [
+        'roles' => [
+            'moderator' => 'migrants-questionnation-moderator',
+        ],
+    ],
+
     
     
 ];
