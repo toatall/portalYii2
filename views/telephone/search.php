@@ -2,7 +2,7 @@
 
 /** @var \yii\web\View $this */
 
-use yii\bootstrap4\Breadcrumbs;
+use yii\bootstrap5\Breadcrumbs;
 
 /** @var \yii\db\ActiveQuery $result */
 

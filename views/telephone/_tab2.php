@@ -1,50 +1,40 @@
-<?php 
-/** @var \yii\web\View $this */
+<?php
+/** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 use yii\bootstrap5\Html;
+use kartik\grid\GridView;
 
+$this->title = 'Телефонные справочники';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="telephone-index-tab2">
+<div class="site-telephone mt-2">
     
-    <div class="card">
-        <div class="card-header">
-            <?= Html::beginForm('/telephone/search', 'get', ['id'=>'form-search', 'data-pjax' => true]) ?>          
-            <div class="row">                      
-                <div class="col">
-                    <?= Html::textInput('term', '', ['class' => 'form-control', 'placeholder' => 'По ФИО или номер телефона', 'minlength'=>3, 'required'=>true]) ?>
-                </div>
-                <div class="col-1">
-                    <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>
-                </div>            
-            </div>
-            <?= Html::endForm() ?>
-        </div>
-    </div>
-<?php
-    $this->registerJs(<<<JS
-        $('#form-search').off('submit');
-        $('#form-search').on('submit', function() {
-            $('#div-result-search').html('<img src="/img/loader_fb.gif" style="height: 50px;">');
-            var url = $(this).attr('action');
-            var data = $(this).serialize();
-            $.ajax({
-                url: url,
-                method: "get",
-                data: data
-            })
-            .done(function(data) {
-                $('#div-result-search').html(data);
-            })
-            .fail(function(err) {                
-                $('#div-result-search').html('<div class="alert alert-danger">' + err.status + ': ' + err.statusText + '</div>');
-            });
-            return false;
-        });
-    
-    JS);
-
-?>
-
-    <div class="mt-2" id="div-result-search"></div>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'showHeader' => false,
+        'summary' => false,
+        'columns' => [
+            [
+                'value' => function($model) {
+                    return Html::a('<i class="fas fa-file-word"></i> Скачать', $model->telephone_file, ['target'=>'_blank', 'class'=>'btn btn-primary']);
+                },
+                'format' => 'raw',
+            ],
+            'id_organization',
+            'organization.name',
+            'dop_text',
+        ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
+        ],
+    ]); ?>
 
 </div>

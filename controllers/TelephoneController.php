@@ -5,7 +5,11 @@ namespace app\controllers;
 use app\models\telephone\TelephoneSearch;
 use yii\filters\AccessControl;
 use app\components\Controller;
-use yii\db\Query;
+use app\models\Telephone;
+use app\models\telephone\TelephoneSOAP;
+use Yii;
+use yii\data\ActiveDataProvider;
+use yii\web\Response;
 
 class TelephoneController extends Controller
 {
@@ -32,16 +36,64 @@ class TelephoneController extends Controller
      * Главная страница
      * @return string
      */
-    public function actionIndex($organizationUnid=null)
-    {    
-        $telephoneSearch = new TelephoneSearch();
-
-        return $this->render('index', [
-            'organizations' => $this->getOrganizations(),
-            'organizationDataProvider' => $telephoneSearch->search($organizationUnid),
-            'organizationUnid' => $organizationUnid,
-            'dateUpdate' => $this->getLastDateUpdate(),
+    public function actionIndex($unidPerson=null, $unidOrg=null)
+    {            
+        $telephoneSearch = new TelephoneSOAP();
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => Telephone::find()->orderBy('id_organization asc'),
         ]);
+
+        return $this->render('index', [            
+            // tab1
+            'organizationDataProvider' => $telephoneSearch->getStructureOrg($unidOrg),
+            'organizationUnid' => $unidOrg,           
+            'unidPerson' => $unidPerson,
+            'organization' => $telephoneSearch->getDocByUnid($unidOrg),
+             // tab2
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Поиск человека
+     */
+    public function actionFind($term)
+    {
+        $telephoneSearch = new TelephoneSOAP();
+        $data = $telephoneSearch->search($term);
+             
+        if (isset($data['type'])) {
+            $data = [$data];
+        }
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($data && is_array($data)) {
+            $res = [];
+            foreach ($data as $item) {                
+                if ($item['type'] == 'person') {
+                    $res[] = [
+                        'value' => $item['personFullName'],
+                        'desc' => '<i class="far fa-user"></i> ' . $item['personPost'] . '<br />' . 
+                            $item['personTel1'] . ' / ' . $item['personTel1'],
+                        'category' => $item['parentOrgName'],
+                        'unid' => $item['unid'],
+                        'unidOrg' => $item['personOrgUnid'],
+                    ];
+                }
+                if ($item['type'] == 'org') {
+                    $res[] = [
+                        'value' => $item['orgName'],
+                        'desc' => '<i class="far fa-building"></i> ' . $item['orgCode'],
+                        'category' => '',
+                        'unid' => $item['unid'],
+                        'unidOrg' => $item['unid'],
+                    ];
+                }
+            }
+            return $res;
+        }
+        return [];
     }
 
     /**
@@ -55,36 +107,7 @@ class TelephoneController extends Controller
         return $this->renderAjax('search', [
             'result' => $telephoneSearch->searchTerm($term),
         ]);
-    }
-
-    /**
-     * @return array
-     */
-    public function getOrganizations()
-    {
-        return (new Query())
-            ->from('{{%telephone_department}}')
-            ->where([
-                'unid_parent' => null,
-                'form' => 'Organization',
-            ])
-            ->orderBy(['org_code' => SORT_ASC])
-            ->all();
-    }
-
-    /**
-     * Последняя дата обновления справочника
-     * @return array
-     */
-    private function getLastDateUpdate()
-    {
-        return (new Query())
-            ->from('{{%telephone_update}}')
-            ->orderBy(['date' => SORT_DESC])
-            ->one();
-    }
-
-     
+    }     
 
 
 }
