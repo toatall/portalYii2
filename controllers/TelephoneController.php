@@ -74,11 +74,13 @@ class TelephoneController extends Controller
                 if ($item['type'] == 'person') {
                     $res[] = [
                         'value' => $item['personFullName'],
-                        'desc' => '<i class="far fa-user"></i> ' . $item['personPost'] . '<br />' . 
-                            $item['personTel1'] . ' / ' . $item['personTel1'],
+                        'desc' => '<i class="far fa-user"></i> ' . $item['personPost'],
                         'category' => $item['parentOrgName'],
                         'unid' => $item['unid'],
                         'unidOrg' => $item['personOrgUnid'],
+                        'tel1' => $item['personTel1'],
+                        'tel2' => $item['personTel2'],
+                        'type' => 'person',
                     ];
                 }
                 if ($item['type'] == 'org') {
@@ -88,6 +90,7 @@ class TelephoneController extends Controller
                         'category' => '',
                         'unid' => $item['unid'],
                         'unidOrg' => $item['unid'],
+                        'type' => 'org',
                     ];
                 }
             }

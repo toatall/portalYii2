@@ -4,7 +4,7 @@ namespace app\models\telephone;
 
 use stdClass;
 use Yii;
-use yii\helpers\ArrayHelper;
+
 
 class TelephoneSOAP
 {
@@ -28,19 +28,7 @@ class TelephoneSOAP
     public function getSOAPServiceUrl()
     {
         return Yii::$app->params['telephone']['SOAPServiceUrl'];
-    }
-
-    /**
-     * @return array
-     */
-    // public function getAllOrganizations()
-    // {
-    //     
-    //     $results = $this->soap->getAllOrgs();
-    //     $prepare = $this->prepareValues($results);
-    //     $sorted = $this->arraySortByValue($prepare, 'sortIndex');
-    //     return ArrayHelper::map($sorted, 'unid', 'orgName');
-    // }
+    }   
 
     /**
      * Поиск документа по unid
@@ -89,8 +77,7 @@ class TelephoneSOAP
             $sort = $prepare;
         }
         return $sort;
-    }
-    
+    }    
 
     //---------- НАЧАЛО. ФУНКЦИИ ПРЕОБРАЗОВАНИЯ ----------//
 
@@ -110,11 +97,7 @@ class TelephoneSOAP
             }
         }
         $soapData = $this->objectToArray($soapData);
-        
-        // if (isset($soapData['type'])) {
-        //     $soapData = [$soapData];
-        // }
-        
+              
         return $soapData;    
     }
 

@@ -97,20 +97,44 @@ $(document).ready(function() {
                 var li;
                 ul.append( $('<li class="lead fs-6 px-3">')
                     .append("Ничего не найдено")
-                    .attr('aria-label', 'not-found') );    
-                // li = that._renderItemData(ul, items[0]);
+                    .attr('aria-label', 'not-found') );                
             }
         },
         
         _renderItem: function(ul, item) {
             let li = $('<li class="border-bottom">');
+            if (item.type == 'person') {
+                let tel1 = phoneRegexp(item.tel1, this.term);
+                if (tel1) {
+                    tel1 = '<i class="fas fa-phone-alt"></i> ' + tel1;
+                }
+                let tel2 = phoneRegexp(item.tel2, this.term);
+                if (tel2) {
+                    tel2 = '<br /><i class="fas fa-phone-alt"></i> ' + tel2;
+                }
                 li
-                .append("<div>" + highlight(item.value, this.term) + "<br />" + highlight(item.desc, this.term) + "</div>")
-                .appendTo( ul );
+                    .append("<div>" + highlight(item.value, this.term)
+                        + "<br />" + highlight(item.desc, this.term) 
+                        + "<br />" + tel1 + tel2
+                        + "</div>")
+                    .appendTo( ul );
+            }
+            if (item.type == 'org') {
+                li
+                    .append("<div>" + highlight(item.value, this.term) + "<br />" + highlight(item.desc, this.term) + "</div>")
+                    .appendTo( ul );
+            }
             li.attr('data-value', item.value);
             return li;
         }
     });
+
+    function phoneRegexp(phoneStr, search) {
+        var phoneRegExp = new RegExp(search.split('').join('[()-]?'), 'g');
+        var userPhone = phoneStr.match(phoneRegExp);
+        var phone = phoneStr.replace(phoneRegExp, '<span class="founded">' + userPhone + '</span>');
+        return phone;
+    }
 
     function highlight(text, search) {
         var nameRegExp = new RegExp(search, 'i');
@@ -121,7 +145,7 @@ $(document).ready(function() {
         return text;
     }
 
-    let a = $('#autocomplete').catcomplete({        
+    let a = $('#autocomplete').catcomplete({
         source: function(request, response) {
             $('#div-error').html('');
             $('#div-error').hide();

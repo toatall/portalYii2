@@ -130,7 +130,7 @@ class TelephoneWidget extends Widget
                     $out .= '<div class="col-2"><i class="fas fa-phone"></i> ' . $item['personTel2'] . '<br />' . $item['personTel1'] . '</div>';
                     $out .= '<div class="col-2">' . $item['personPost'] . '</div>';
                     $out .= '<div class="col-2">' . Html::a($item['personNotesName'], 'mailto:' . $item['personNotesName']) . '</div>';
-                    $out .= '<div class="col-2"><i class="fas fa-door-closed"></i> ' . $item['personLocation'] . '</div>';
+                    $out .= '<div class="col-2"><i class="fas fa-door-open"></i> ' . $item['personLocation'] . '</div>';
                 $out .= Html::endTag('div');      
             }    
         }
