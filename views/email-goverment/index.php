@@ -1,6 +1,10 @@
 <?php
 
+use app\models\zg\EmailGoverment;
+use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
+use yii\bootstrap5\Html;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -12,13 +16,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="email-goverment-index row">
+    
     <div class="col border-bottom mb-2">
         <p class="display-5">
-        <?= $this->title ?>
+            <?= $this->title ?>
         </p>    
-    </div>    
-
-    <?php Pjax::begin(['id'=>'ajax-email-goverment-index', 'timeout' => false]); ?>
+    </div>
+        
+    <?php Pjax::begin(['id'=>'pjax-email-goverment-index', 'timeout' => false]); ?>
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -40,8 +46,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
             ],
             'post_address',
+            [
+                'class' => ActionColumn::class,
+                'urlCreator' => function ($action, EmailGoverment $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
+                },
+                'buttonOptions' => [
+                    'class' => 'mv-link',
+                ],
+                'visibleButtons' => [
+                    'view' => false,
+                    'update' => EmailGoverment::isModerator(),
+                    'delete' => EmailGoverment::isModerator(),
+                ],               
+            ],
         ],
-        'toolbar' => [
+        'toolbar' => [            
+
+            'content' => (EmailGoverment::isModerator())
+                ? Html::a('Добавить', ['create'], ['class' => 'btn btn-success mx-2 mv-link']) : '',
+
             '{export}',
             '{toggleData}',
         ],
@@ -49,8 +73,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'showConfirmAlert' => false,
         ],
         'panel' => [
-            'type' => GridView::TYPE_DEFAULT,       
+            'type' => GridView::TYPE_LIGHT,       
         ],
     ]); ?>
+
+    <?php $this->registerJs(<<<JS
+        $(modalViewer).off('onRequestJsonAfterAutoCloseModal');
+        $(modalViewer).on('onRequestJsonAfterAutoCloseModal', function(event, data) {    
+            $.pjax.reload({ container: '#pjax-email-goverment-index'});        
+        });
+    JS); ?>
+
     <?php Pjax::end(); ?>
 </div>

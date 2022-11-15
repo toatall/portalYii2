@@ -2,6 +2,8 @@
 
 namespace app\models\zg;
 
+use app\behaviors\AuthorBehavior;
+use app\behaviors\DatetimeBehavior;
 use Yii;
 use app\models\User;
 
@@ -33,10 +35,41 @@ class EmailGoverment extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return [            
+            [
+                'class' => DatetimeBehavior::class,
+                'createdAtAttribute' => 'date_create',
+                'updatedAtAttribute' => 'date_edit',
+            ],
+            ['class' => AuthorBehavior::class],     
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public static function roleModerator() 
+    {
+        return Yii::$app->params['zg']['email-goverment']['roles']['moderator'];
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isModerator()
+    {
+        return Yii::$app->user->can('admin') || Yii::$app->user->can(EmailGoverment::roleModerator());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
-            [['org_name', 'email', 'author'], 'required'],
+            [['org_name', 'email'], 'required'],
             [['post_address'], 'string'],
             [['date_create', 'date_edit'], 'safe'],
             [['org_name', 'ruk_name'], 'string', 'max' => 1000],

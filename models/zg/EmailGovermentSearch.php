@@ -46,6 +46,9 @@ class EmailGovermentSearch extends EmailGoverment
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => ['org_name' => SORT_ASC],
+            ],
         ]);
 
         $this->load($params);

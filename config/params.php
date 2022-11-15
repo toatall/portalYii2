@@ -148,6 +148,11 @@ return [
                 '8600-90-331',
             ],
         ],
+        'email-goverment' => [
+            'roles' => [
+                'moderator' => 'zg.email-goverment.moderator',
+            ],
+        ],
     ],
 
     // тестирование
