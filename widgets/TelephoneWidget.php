@@ -76,6 +76,9 @@ class TelephoneWidget extends Widget
         if ($item['type'] != 'dep') {
             return null;
         }        
+        if (!isset($item['childs']) || !$item['childs']) {
+            return null;
+        }
         $row .= '<a href="#' . $item['unid'] . '" class="list-group-item list-group-item-action" style="padding-left: ' . $level .'rem;">' . $item['depName'] . '</a>';
         if (isset($item['childs'])) {
             $row .= $this->renderScruct($item['childs'], ($level+2));
