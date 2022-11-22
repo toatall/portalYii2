@@ -20,8 +20,18 @@ class AwardController extends Controller
                 'rules' => [
                     [                       
                         'allow' => true,
-                        'roles' => ['@',],
-                    ],                
+                        'roles' => ['admin'],
+                    ],           
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => [Award::roleReader(), Award::roleModerator()],
+                    ],
+                    [
+                        'actions' => ['create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => [Award::roleModerator()],
+                    ],
                 ],
             ],           
         ];

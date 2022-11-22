@@ -57,6 +57,24 @@ class Award extends ActiveRecord
     }    
 
     /**
+     * Роль для просмотра
+     * @return string
+     */
+    public static function roleReader()
+    {
+        return Yii::$app->params['modules']['kadry']['award']['roles']['reader'];
+    }
+
+    /**
+     * Роль модератора
+     * @return string
+     */
+    public static function roleModerator()
+    {
+        return Yii::$app->params['modules']['kadry']['award']['roles']['moderator'];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function attributeLabels()
