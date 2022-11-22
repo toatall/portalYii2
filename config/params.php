@@ -196,6 +196,12 @@ return [
         ],
         // кадровые проекты
         'kadry' => [
+            'award' => [
+                'roles' => [
+                    'moderator' => 'kadry.award.moderator',
+                    'reader' => 'kadry.award.reader',
+                ],
+            ],
             // учебные материалы
             'education' => [
                 // файл с описанием учебных материалов
