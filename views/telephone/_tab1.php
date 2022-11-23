@@ -51,6 +51,7 @@ JQueryUiAsset::register($this);
             <?= TelephoneWidget::widget([
                 'data' => $organizationDataProvider,
                 'selectUnid' => $unidPerson,
+                'orgCode' => $organization['orgCode'] ?? null,
             ]) ?>          
         <?php endif; ?>
     </div>
@@ -112,11 +113,13 @@ $(document).ready(function() {
                 if (tel2) {
                     tel2 = '<br /><i class="fas fa-phone-alt"></i> ' + tel2;
                 }
-                li
-                    .append("<div>" + highlight(item.value, this.term)
+                li                    
+                    .append('<div class="row m-0 p-0">'
+                        + '<div class="col-1"><img src="' + item.img + '" class="w-100 img-thumbnail" /></div>'
+                        + '<div class="col">' + highlight(item.value, this.term)
                         + "<br />" + highlight(item.desc, this.term) 
                         + "<br />" + tel1 + tel2
-                        + "</div>")
+                        + "</div></div>")                   
                     .appendTo( ul );
             }
             if (item.type == 'org') {
@@ -195,6 +198,9 @@ $this->registerCss(<<<CSS
         font-weight: bold;
         color: #029cca;
     }  
+    .ui-state-active {
+        margin: 0 !important;
+    }
 
 CSS);
 

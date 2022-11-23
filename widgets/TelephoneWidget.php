@@ -3,22 +3,54 @@ namespace app\widgets;
 
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Widget;
+use app\assets\fancybox\FancyboxAsset;
+
+
 
 /** 
  * @author toatall
  */
 class TelephoneWidget extends Widget
 {
+
     /**
+     * Код организации
+     * @var string
+     */
+    public $orgCode;
+
+    /**
+     * Массив данных
      * @var array
      */
     public $data;
 
     /**
-     * Выделить unid
+     * Выделить цветом строку с unid
      * @var string
      */
     public $selectUnid;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function init()
+    {
+        parent::init();
+        FancyboxAsset::register($this->view);
+        $this->view->registerJs(<<<JS
+            $('.fancybox').fancybox({
+                caption: function(instance, item) {
+                    const caption = $(this).data('caption') || '';
+                    const tel = $(this).data('telephones') || '';
+                    const post = $(this).data('post');                  
+                    return '<span class="lead">' + caption + '</span>'
+                        + '<br />' + post
+                        + '<br /><span class="lead">' + tel + '</span>';
+                }
+            });
+        JS);             
+    }
 
     
     /**
@@ -40,12 +72,20 @@ class TelephoneWidget extends Widget
 
         echo Html::endTag('div');     
 
-        echo $this->renderItems($this->data);
-        
+        echo $this->renderItems($this->data);        
     }
 
     /**
-     * 
+     * ---------------------------------------------------------
+     *                     < Обработка структуры >
+     * ---------------------------------------------------------
+     */
+
+    /**
+     * Вывод структуры
+     * @param array $data массив данных
+     * @param int $level уровень (используется для отступов)
+     * @return string
      */
     private function renderScruct($data, $level=1)
     {
@@ -66,16 +106,17 @@ class TelephoneWidget extends Widget
         return $result;        
     }
 
-
+    /**
+     * @param array $item 
+     * @param int $level уровень (используется для отступов)
+     * @return string
+     */
     private function renderScructRow($item, $level)
     {
         $row = '';
-        if (!isset($item['type'])) {
+        if (!isset($item['type']) || $item['type'] != 'dep') {
             return null;
-        }
-        if ($item['type'] != 'dep') {
-            return null;
-        }        
+        }       
         if (!isset($item['childs']) || !$item['childs']) {
             return null;
         }
@@ -86,7 +127,24 @@ class TelephoneWidget extends Widget
         return $row;
     }
 
+    /**
+     * ---------------------------------------------------------
+     *                     < / Обработка структуры >
+     * ---------------------------------------------------------
+     */
 
+
+    /**
+     * ---------------------------------------------------------
+     *                     < Обработка всех данных >
+     * ---------------------------------------------------------
+     */
+
+    /**
+     * Вывод даных об отделах, сотрудниках
+     * @param array $data
+     * @return string
+     */
     private function renderItems($data)
     {
         $out = '';
@@ -108,6 +166,11 @@ class TelephoneWidget extends Widget
         return $out;
     }
 
+    /**
+     * Вывод отдельного элемента структуры
+     * @param array $item
+     * @return string
+     */
     private function renderRow($item)
     {
         $select = ($this->selectUnid == $item['unid']) ? ' alert-success rounded' : '';
@@ -116,7 +179,7 @@ class TelephoneWidget extends Widget
         if ($item['type'] == 'dep') {
             if (isset($item['childs'])) {
                 $out .= Html::beginTag('div', ['class' => 'card mb-2']);
-                    $out .= Html::beginTag('div', ['class' => 'card-header']);
+                    $out .= Html::beginTag('div', ['class' => 'card-header fs-5']);
                         $out .= Html::tag('a', $item['depName'], ['name' => $item['unid']]);
                     $out .= Html::endTag('div');
                     $out .= Html::beginTag('div', ['class' => 'card-body']);                               
@@ -127,18 +190,37 @@ class TelephoneWidget extends Widget
         }
         
         if ($item['type'] == 'person') {
-            if (!empty($item['personTel1']) || !empty($item['personTel2'])) {
-                $out .= Html::beginTag('div', ['class' => 'row border-bottom mb-2 pb-2' . $select]);
-                    $out .=  '<div class="col-4"><a name="' . $item['unid'] . '"><i class="far fa-user"></i> ' . $item['personFullName'] . '</a></div>';
-                    $out .= '<div class="col-2"><i class="fas fa-phone"></i> ' . $item['personTel2'] . '<br />' . $item['personTel1'] . '</div>';
-                    $out .= '<div class="col-2">' . $item['personPost'] . '</div>';
-                    $out .= '<div class="col-2">' . Html::a($item['personNotesName'], 'mailto:' . $item['personNotesName']) . '</div>';
-                    $out .= '<div class="col-2"><i class="fas fa-door-open"></i> ' . $item['personLocation'] . '</div>';
-                $out .= Html::endTag('div');      
+            if (!empty($item['personTel1']) || !empty($item['personTel2'])) {           
+                $img = $item['photo'];
+                $out .= Html::beginTag('a', ['name'=>$item['unid']]);
+                $out .= Html::endTag('a');
+                $out .= Html::beginTag('div', ['class' => 'row border-bottom pt-2 pb-2 fs-6' . $select]);
+                    $out .= '<div class="col-4 d-flex align-items-center" name="'.$item['unid'].'">'
+                        . Html::a(Html::img($img, ['style' => 'width: 5rem;', 'class' => 'img-thumbnail me-3']), $img, [
+                                'class' => 'fancybox',
+                                'data-caption' => $item['personFullName'],
+                                'data-post' => $item['personPost'],
+                                'data-telephones' => $item['personTel2'] . '<br />' . $item['personTel1'],                                
+                            ])
+                        . Html::tag('span', $item['personFullName']) . '</div>';
+                    $out .= '<div class="col-2 d-flex align-items-center"><i class="fas fa-phone"></i>&nbsp;<span>' 
+                        . ($item['personTel2'] ? $item['personTel2'] . '<br />' : '') . $item['personTel1'] . '</span></div>';
+                    $out .= '<div class="col-2 d-flex align-items-center">' . $item['personPost'] . '</div>';
+                    $out .= '<div class="col-2 d-flex align-items-center">' . Html::a($item['personNotesName'], 'mailto:' . $item['personNotesName']) . '</div>';
+                    $out .= '<div class="col-2 d-flex align-items-center">'
+                        . ($item['personLocation'] ? '<i class="fas fa-door-open"></i>&nbsp;' . $item['personLocation'] : '')
+                        . '</div>';
+                $out .= Html::endTag('div');    
             }    
         }
         return $out;
     }
+
+    /**
+     * ---------------------------------------------------------
+     *                     < / Обработка всех данных >
+     * ---------------------------------------------------------
+     */
 
 
 }

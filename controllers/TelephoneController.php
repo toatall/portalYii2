@@ -80,7 +80,8 @@ class TelephoneController extends Controller
                         'unidOrg' => $item['personOrgUnid'],
                         'tel1' => $item['personTel1'],
                         'tel2' => $item['personTel2'],
-                        'type' => 'person',
+                        'type' => 'person',                        
+                        'img' => $item['photo'],
                     ];
                 }
                 if ($item['type'] == 'org') {
