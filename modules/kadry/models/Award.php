@@ -2,6 +2,7 @@
 
 namespace app\modules\kadry\models;
 
+use app\behaviors\DatetimeBehavior;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
@@ -22,6 +23,8 @@ use yii\db\Query;
  * @property string $aw_doc_num
  * @property string $aw_date_doc
  * @property string $date_create
+ * 
+ * @property string $flag_dks
  * 
  */
 class Award extends ActiveRecord
@@ -92,8 +95,23 @@ class Award extends ActiveRecord
             'aw_doc_num' => 'Номер документа', 
             'aw_date_doc' => 'Дата документа', 
             'date_create' => 'Дата создания',
+            'date_update' => 'Дата изменения',
         ];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [            
+            [
+                'class' => DatetimeBehavior::class,
+                'createdAtAttribute' => 'date_create',
+                'updatedAtAttribute' => 'date_update',
+            ],          
+        ];
+    }    
 
     /**
      * {@inheritdoc}
@@ -101,9 +119,12 @@ class Award extends ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['org_code', 'org_name', 'fio', 'dep_index', 'dep_name', 'post', 'aw_name', 'aw_doc', 'aw_doc_num', 'aw_date_doc', 'date_create'], 'safe'],
-            [['aw_date_doc1', 'aw_date_doc2'], 'safe'],
+            [['id'], 'integer', 'on' => 'crate-update'],
+            [['fio', 'aw_name', 'org_name', 'org_code'], 'required', 'on' => 'create-update'],
+            [['org_code', 'org_name', 'fio', 'dep_index', 'dep_name', 'post', 
+                'aw_name', 'aw_doc', 'aw_doc_num', 'aw_date_doc', 'date_create', 
+                'aw_date_doc1', 'aw_date_doc2'], 'safe', 'on' => 'create-update'],         
+            [['org_code', 'fio', 'dep_name', 'post', 'aw_name', 'aw_doc', 'aw_doc_num', 'aw_date_doc'], 'safe'],
         ];
     }
 
@@ -116,8 +137,8 @@ class Award extends ActiveRecord
      */
     public function search($params)
     {
-        $query = self::find();
-
+        
+        $query = self::find();        
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -197,6 +218,32 @@ class Award extends ActiveRecord
             ->groupBy('org_code, org_name')
             ->select('org_code, org_name')      
             ->orderBy(['org_name' => SORT_ASC])
-            ->all(self::getDb());        
+            ->all(self::getDb());
     }
+
+    /**
+     * Поиск имени организации по ее коду
+     * @return string|null
+     */
+    private function getOrgName()
+    {
+        return (new Query())
+            ->from(self::tableName())
+            ->select('org_name')
+            ->where(['org_code' => $this->org_code])
+            ->one(self::getDb())['org_name'] ?? null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function beforeValidate()
+    {
+        if (!parent::beforeValidate()) {
+            return false;
+        }
+        $this->org_name = $this->getOrgName();
+        return true;
+    }
+
 }
