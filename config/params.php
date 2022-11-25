@@ -56,6 +56,12 @@ return [
                 //'groups' => [],
                 'groups-ad' => ['u8600-Informatizacii', 'u8600-Rukovodstvo', 'u8600-Obshhij'],
             ],
+        ],        
+        // видеоконференции по сервису Контур.Толк
+        'kontur.talk' => [
+            'roles' => [
+                'moderator' => 'VKS.KonturTalk.moderator',
+            ],
         ],
     ],
 

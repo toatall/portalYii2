@@ -2,18 +2,23 @@
 
 namespace app\models\conference;
 
+
 use Yii;
 use yii\db\Query;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use app\models\Tree;
 use app\models\Access;
+use app\models\Organization;
+use DateInterval;
+use DateTimeZone;
 use yii\web\NotFoundHttpException;
 
 /**
  * This is the model class for table "{{%conference}}".
  *
  * @property int $id
+ * @property string $code_org
  * @property int $type_conference
  * @property string $theme
  * @property string|null $responsible
@@ -60,6 +65,12 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      */
     const TYPE_VKS_EXTERNAL = 4;
     const COLOR_VKS_EXTERNAL = '#ff8c00'; // DarkOrange
+
+    /**
+     * Контур Толк
+     */
+    const TYPE_VKS_KONTUR_TALK = 5;
+    const COLOR_VKS_KONTUR_TALK = '#036abb'; // DarkBlue
 
     // статусы
     const STATUS_COMPLETE = 'complete';
@@ -120,7 +131,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type_conference', 'theme', 'date_start'], 'required'],
+            [['type_conference', 'theme', 'date_start', 'code_org'], 'required'],
             [['type_conference', 'time_start_msk', 'is_confidential'], 'integer'],
             [['responsible', 'members_people', 'members_organization', 'note', 'log_change', 'denied_text'], 'string'],
             [['date_start', 'date_create', 'date_edit', 'date_delete'], 'safe'],
@@ -155,6 +166,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ИД',
+            'code_org' => 'Код НО',
             'type_conference' => 'Тип конференции',
             'theme' => 'Тема',
             'responsible' => 'Ответственные',
@@ -173,6 +185,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             'date_create' => 'Дата создания',
             'date_edit' => 'Дата изменения',
             'date_delete' => 'Дата удаления',
+            'author' => 'Автор',
             'log_change' => 'Журнал изменений',
             
             'format_holding' => 'Формат проведения',
@@ -263,7 +276,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      * @return bool
      */
     public function beforeValidate()
-    {
+    {        
         $this->type_conference = static::getType();
         return parent::beforeValidate();
     }
@@ -273,6 +286,9 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      */
     public function beforeSave($insert) 
     {
+        if (!$this->code_org) {
+            $this->code_org = '0000';
+        }
         $this->editor = Yii::$app->user->identity->username;
         $this->place = is_array($this->arrPlace) ? implode(', ', $this->arrPlace) : $this->arrPlace;
         if (!empty($this->duration)) {
@@ -354,10 +370,25 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      */
     public function isFinished()
     {
-        $dateNow = new \DateTime('now');
-        $dateStart = new \DateTime($this->date_start);
-        return ($dateNow > $dateStart);
+        if ($this->date_start && $this->duration && preg_match_all('/\d{2}/', $this->duration, $matches) === 2) {            
+            $matches = reset($matches);
+          
+            $defTimeZone = Yii::$app->formatter->defaultTimeZone ?? '';            
+            $dateNow = new \DateTimeImmutable('now', new DateTimeZone($defTimeZone));
+            $dateStart = new \DateTimeImmutable($this->date_start, new DateTimeZone($defTimeZone));
+            $intervalDuration = DateInterval::createFromDateString("{$matches[0]} hours + $matches[1] minutes");
+            $dateStart = $dateStart->add($intervalDuration);
+
+            return $dateNow->getTimestamp() > $dateStart->getTimestamp();
+        }
+        elseif ($this->date_start) {
+            $dateNow = new \DateTime('now');
+            $dateStart = new \DateTime($this->date_start);
+            return ($dateNow > $dateStart);
+        }
+        return false;
     }
+    
 
     /**
      * Отправка уведомления по почте
@@ -511,6 +542,8 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
                 return 'Собрания';
             case self::TYPE_VKS_EXTERNAL:
                 return 'ВКС внешние';
+            case self::TYPE_VKS_KONTUR_TALK:
+                return VksKonturTalk::getTypeLabel();
         }
         return $this->type_conference;
     }
@@ -784,6 +817,16 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             }
         }
         return false;
+    }
+
+
+    /**
+     * Организация 
+     * @return Organization|null
+     */
+    public function getOrganization() 
+    {
+        return $this->hasOne(Organization::class, ['code' => 'code_org']);
     }
 
         

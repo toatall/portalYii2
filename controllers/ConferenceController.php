@@ -17,6 +17,8 @@ use yii\helpers\Url;
 use app\models\conference\EventsAll;
 use yii\helpers\StringHelper;
 use app\models\conference\AbstractConference;
+use app\models\conference\VksKonturTalk;
+use app\models\conference\VksKonturTalkSearch;
 use yii\base\DynamicModel;
 use yii\data\ActiveDataProvider;
 use yii\web\HttpException;
@@ -47,7 +49,9 @@ class ConferenceController extends Controller
                     [
                         'actions' => ['conference', 'vks-ufns', 'vks-fns', 'vks-external', 'view', 'calendar', 
                             'calendar-data', 'table', 'resources', 'request', 'request-create', 'request-update',
-                            'request-delete', 'request-view'],
+                            'request-delete', 'request-view',
+                            'vks-kontur-talk-index',
+                        ],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -55,6 +59,11 @@ class ConferenceController extends Controller
                         'actions' => ['request-approve', 'request-approve-view'],
                         'allow' => true,
                         'roles' => ['permConferenceApprove'],
+                    ],
+                    [
+                        'actions' => ['vks-kontur-talk-create', 'vks-kontur-talk-update', 'vks-kontur-talk-delete'],
+                        'allow' => true,
+                        'roles' => ['VKS.KonturTalk.moderator', 'admin'],                       
                     ],
                 ],
             ],
@@ -144,6 +153,9 @@ class ConferenceController extends Controller
             ],
             AbstractConference::TYPE_VKS_EXTERNAL => [
                 'view' => 'view/viewVksExternal',
+            ],
+            AbstractConference::TYPE_VKS_KONTUR_TALK => [
+                'view' => 'view/viewKonturTalk',
             ],
         ];
         
@@ -412,6 +424,82 @@ class ConferenceController extends Controller
     }
 
 
+
+    /** ------------------- < Видеоконференция сервиса Контур.Толк > ------------------- */
+
+    /**
+     * @return string
+     */
+    public function actionVksKonturTalkIndex()
+    {
+        $searchModel = new VksKonturTalkSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('vksKonturTalk', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionVksKonturTalkCreate()
+    {
+        $model = new VksKonturTalk();
+        $model->status = $model::STATUS_APPROVE;
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return ['content' => 'ok'];
+        }
+
+        return [
+            'title' => 'Добавление ' . $model::getTypeLabel(),
+            'content' =>  $this->renderAjax('vksKonturTalkForm', [
+                'model' => $model,
+            ]),
+        ];
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    public function actionVksKonturTalkUpdate($id)
+    {
+        $model = $this->findModelKonturTalk($id);
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return ['content' => 'ok'];
+        }
+
+        return [
+            'title' => 'Измнение ' . $model::getTypeLabel(),
+            'content' =>  $this->renderAjax('vksKonturTalkForm', [
+                'model' => $model,
+            ]),
+        ];
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    public function actionVksKonturTalkDelete($id)
+    {
+        $model = $this->findModelKonturTalk($id);
+        $model->delete();
+        return 'OK';
+    }
+
+
+    /** ------------------- < / Видеоконференция сервиса Контур.Толк > ------------------- */
+
+
     /**
      * Finds the Conference model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -448,6 +536,21 @@ class ConferenceController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * @param int $id
+     * @return VksKonturTalk
+     */
+    public function findModelKonturTalk($id)
+    {
+        $model = VksKonturTalk::findPublic()
+            ->andWhere(['id' => $id])
+            ->one();
+        if ($model === null || !$model->isModerator()) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        return $model;
     }
 
 }

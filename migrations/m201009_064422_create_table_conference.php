@@ -15,6 +15,7 @@ class m201009_064422_create_table_conference extends Migration
         // table conference
         $this->createTable('{{%conference}}', [
             'id' => $this->primaryKey(),
+            'code_org' => $this->string(5)->notNull(),
             'type_conference' => $this->smallInteger()->notNull(),
             'theme' => $this->string(500)->notNull(),
             'responsible' => $this->string('max'),
