@@ -131,7 +131,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type_conference', 'theme', 'date_start', 'code_org'], 'required'],
+            [['type_conference', 'theme', 'date_start'], 'required'],
             [['type_conference', 'time_start_msk', 'is_confidential'], 'integer'],
             [['responsible', 'members_people', 'members_organization', 'note', 'log_change', 'denied_text'], 'string'],
             [['date_start', 'date_create', 'date_edit', 'date_delete'], 'safe'],

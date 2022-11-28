@@ -18,6 +18,14 @@ use kartik\widgets\Select2;
         <?php $form = ActiveForm::begin(); ?>
 
         <div class="row">
+            <div class="col">
+                <div class="alert alert-danger">
+                    <?= Html::errorSummary($model) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-12">
                 <?= $form->field($model, 'theme')->textInput(['maxlength' => true]) ?>
             </div>
