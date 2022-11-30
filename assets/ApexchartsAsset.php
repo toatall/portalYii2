@@ -10,10 +10,10 @@ use yii\web\AssetBundle;
 class ApexchartsAsset extends AssetBundle
 {   
 
-    public $sourcePath = '@npm2/apexcharts/dist';
+    public $sourcePath = '@npm/apexcharts/dist';
 
     public $js = [
-        'apexcharts.js',
+        'apexcharts.min.js',
     ];
     public $css = [
         'apexcharts.css',
