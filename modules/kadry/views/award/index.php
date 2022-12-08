@@ -95,6 +95,7 @@ $isEditor = Yii::$app->user->can(Award::roleModerator()) || Yii::$app->user->can
         'aw_doc',
         'aw_doc_num', 
         'aw_date_doc:date', 
+        'enc_dep_name',
         [
             'class' => ActionColumn::class,
             'template' => '{view} {update} {delete} {info}',

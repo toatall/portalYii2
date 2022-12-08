@@ -23,6 +23,7 @@ use yii\db\Query;
  * @property string $aw_doc_num
  * @property string $aw_date_doc
  * @property string $date_create
+ * @property string $enc_dep_name
  * 
  * @property string $flag_dks
  * 
@@ -92,6 +93,7 @@ class Award extends ActiveRecord
             'post' => 'Должность',
             'aw_name' => 'Награда',
             'aw_doc' => 'Документ', 
+            'enc_dep_name' => 'Организация',
             'aw_doc_num' => 'Номер документа', 
             'aw_date_doc' => 'Дата документа', 
             'date_create' => 'Дата создания',
@@ -124,7 +126,7 @@ class Award extends ActiveRecord
             [['org_code', 'org_name', 'fio', 'dep_index', 'dep_name', 'post', 
                 'aw_name', 'aw_doc', 'aw_doc_num', 'aw_date_doc', 'date_create', 
                 'aw_date_doc1', 'aw_date_doc2'], 'safe', 'on' => 'create-update'],         
-            [['org_code', 'fio', 'dep_name', 'post', 'aw_name', 'aw_doc', 'aw_doc_num', 'aw_date_doc'], 'safe'],
+            [['org_code', 'fio', 'dep_name', 'post', 'aw_name', 'aw_doc', 'aw_doc_num', 'aw_date_doc', 'enc_dep_name'], 'safe'],
         ];
     }
 

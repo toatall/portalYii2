@@ -140,6 +140,10 @@ $inputAwDocDate = Html::getInputId($model, 'aw_date_doc');
                 <div class="col-4">
                     <?= $form->field($model, 'aw_date_doc')->textInput(['maxlength' => true]) ?>
                 </div>
+
+                <div class="col-12">
+                    <?= $form->field($model, 'enc_dep_name')->textInput(['maxlength' => true]) ?>
+                </div>
             </div>
         </div>
     </div>
