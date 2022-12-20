@@ -94,7 +94,7 @@ class CalendarColor extends \yii\db\ActiveRecord
     public function getDisplayDateWithColor()
     {
         $classColor = $this->color ? $this->color : '';
-        return '<span class="badge bg-'. $classColor . '">' . $this->date . '</span>';
+        return '<span class="' . ($classColor ? 'badge bg-'. $classColor : '') . '">' . $this->date . '</span>';
     }
 
     /**

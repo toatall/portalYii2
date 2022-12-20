@@ -3,7 +3,7 @@
 use app\modules\calendar\models\Calendar;
 use kartik\select2\Select2;
 use yii\bootstrap5\Html;
-use yii\bootstrap5\ActiveForm;
+use kartik\widgets\ActiveForm;
 use yii\web\JsExpression;
 
 /** @var yii\web\View $this */
@@ -22,14 +22,16 @@ use yii\web\JsExpression;
 
     <?= $form->errorSummary($model) ?>   
 
-    <?= $form->field($model, 'type_text')->widget(Select2::class, [
+    <?= 
+    $form->field($model, 'type_text')->widget(Select2::class, [
         'data' => $model->dropDownTypeText(),
-    ]) ?>
+    ])
+     ?>
 
 <?php 
 $result = <<< JS
     function format(data) {
-        return '<span class="badge-' + data.id + ' rounded" style="font-size: 1em; font-weight: normal; padding: 0.3rem;">' + data.text + '</span>';
+        return '<span class="badge bg-' + data.id + ' rounded" style="font-size: 1em; font-weight: normal; padding: 0.3rem;">' + data.text + '</span>';
     } 
 JS; ?>
     <?= $form->field($model, 'color')->widget(Select2::class, [
@@ -39,8 +41,8 @@ JS; ?>
             'escapeMarkup' => new JsExpression('function(m) { return m; }'),
             'templateSelection' => new JsExpression($result),
         ]
-    ]) ?>    
-
+    ]) ?> 
+       
     <?= $form->field($model, 'description') ?> 
     
     <?php if (Yii::$app->user->can('admin')): ?>

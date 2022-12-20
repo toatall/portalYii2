@@ -3,6 +3,7 @@
 
 use app\modules\calendar\models\Calendar;
 use kartik\editable\Editable;
+use kartik\form\ActiveForm;
 use yii\web\JsExpression;
 
 /** @var \app\modules\calendar\models\CalendarColor $model */
@@ -31,16 +32,19 @@ HTML;
 
 $result = <<< JS
     function format(data) {
-        return '<span class="badge-' + data.id + ' rounded" style="font-size: 1em; font-weight: normal; padding: 0.3rem;">' + data.text + '</span>';
+        let badgeClass = '';
+        if (data.id) {
+            badgeClass = 'badge bg-' + data.id;
+        }
+        return '<span class="' + badgeClass + '" style="font-size: 1em; font-weight: normal; padding: 0.3rem;">' + data.text + '</span>';
     } 
 JS;
 ?>
-
 <?= Editable::widget([        
-    'model' => $model,        
+    'model' => $model,
     'attribute' => 'color',
     'asPopover' => false,
-    'inputType' => Editable::INPUT_SELECT2,        
+    'inputType' => Editable::INPUT_SELECT2,      
     'size' => 'md',
     'options' => [
         'class' => 'form-control',            
@@ -50,13 +54,13 @@ JS;
             'escapeMarkup' => new JsExpression('function(m) { return m; }'),
             'templateSelection' => new JsExpression($result),
             'width' => '20rem',
-        ],  
+        ],
         'options' => [
             'style' => 'width:100%',
             'class' => 'col-12',
-        ],    
-    ],     
-    'data' => ['' => 'не задан'] + Calendar::colorsDropdown(),       
+        ],
+    ],
+    'data' => ['' => 'не задан'] + Calendar::colorsDropdown(),
     'displayValue' => $model->getDisplayDateWithColor(),
     'editableValueOptions' => [
         'class' => 'kv-editable-link fa-3x',        

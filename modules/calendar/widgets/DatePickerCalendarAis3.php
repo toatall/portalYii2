@@ -244,7 +244,8 @@ $js = <<<JS
                     + dt + '" data-content="<span class=\'text-danger\'>Выходной день</span>">' + (date.getDate()) + '</div>'
             };
         }
-        $('.popover-calendar').popover('hide');
+        // $('.popover-calendar').popover('hide');
+        $('.popover-calendar').hide();
     }
 JS;
 
@@ -255,8 +256,9 @@ JS;
             //var dt = d.date.toLocaleDateString('ru-RU');
             var dt = getNumWithZero(d.date.getDate()) + '.' + getNumWithZero(d.date.getMonth() + 1) + '.' + getNumWithZero(d.date.getFullYear());
             var url = '$urlDate'.replace('-date-', dt);            
-            $('.popover-calendar').popover('hide');
-            modalViewer.showModalManual(url, true, 'get');
+            // $('.popover-calendar').popover('hide');
+            $('.popover-calendar').hide();
+            modalViewer.showModalManual(url, true, 'get');            
         }");
 
         echo '<div id="' . $this->id . '" class="row">';
