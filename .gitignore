@@ -1,6 +1,7 @@
 # portal
 /config/db.php
 /config/dbPortalOld.php
+/config/dbPgsqlLog.php
 /config/ldap.php
 /web/web.config
 /web/aspnet_client/
@@ -8,6 +9,8 @@
 /web/files/
 /web/files_static/
 /web/images/
+/node_modules/
+/web/public/upload/
 
 # phpstorm project files
 .idea
