@@ -49,6 +49,15 @@ class LifehackSearch extends Lifehack
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
+                'attributes' => [
+                    'searchOrgName' => [
+                        'asc' => ['org.name' => SORT_ASC],
+                        'desc' => ['org.name' => SORT_DESC],
+                        'default' => SORT_ASC,
+                    ],
+                    'title',
+                    'date_create',
+                ],
                 'defaultOrder' => [
                     'date_create' => SORT_DESC,
                 ],
@@ -61,18 +70,7 @@ class LifehackSearch extends Lifehack
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
-        }
-
-        $dataProvider->setSort([
-            'attributes' => [
-                'searchOrgName' => [
-                    'asc' => ['org.name' => SORT_ASC],
-                    'desc' => ['org.name' => SORT_DESC],
-                    'default' => SORT_ASC,
-                ],
-                'title',
-            ],
-        ]);
+        }       
 
         // grid filtering conditions
         $query->andFilterWhere([

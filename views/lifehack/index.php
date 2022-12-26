@@ -54,7 +54,7 @@ $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
                 /** @var \app\models\lifehack\Lifehack $model */
                 $rate = $model->avg;
                 if ($rate) {
-                    return '<span class="badge badge-dark fa-1x"><i class="fas fa-star text-warning"></i> ' 
+                    return '<span class="badge bg-dark fa-1x"><i class="fas fa-star text-warning"></i> ' 
                         . Yii::$app->formatter->asDecimal($rate, 2) . '</span>';
                 }
                 else {
