@@ -4,7 +4,6 @@ namespace app\modules\paytaxes\controllers;
 
 use Yii;
 use yii\db\Expression;
-use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\Response;
 use app\components\Controller;
@@ -45,10 +44,10 @@ class DefaultController extends Controller
             from {{%organization}} t
                 outer apply (select top 1 * from {{%pay_taxes_general}} where t.code=code_org order by date desc) g
             where t.code in ('8600','8601','8602','8603','8606','8617','8619') 
-                and YEAR(g.date) = YEAR(GETDATE())
+                and YEAR(g.date) = :year
             order by t.sort asc
         ";
-        $result = Yii::$app->db->createCommand($query)->queryAll();
+        $result = Yii::$app->db->createCommand($query, [':year'=>2022])->queryAll();
 
         $this->saveVisit();
         
@@ -67,10 +66,10 @@ class DefaultController extends Controller
             from {{%organization}} t
                 outer apply (select top 1 * from {{%pay_taxes_general}} where t.code=code_org order by date desc) g
             where t.code in ('8600','8601','8602','8603','8606','8617','8619') 
-                and YEAR(g.date) = YEAR(GETDATE())
+                and YEAR(g.date) = :year
             order by t.sort asc
         ";
-        $result = Yii::$app->db->createCommand($query)->queryAll();
+        $result = Yii::$app->db->createCommand($query, [':year'=>2022])->queryAll();
 
         return $this->renderAjax('table', [
             'result' => $result,
@@ -140,7 +139,9 @@ class DefaultController extends Controller
      */
     private function chartDataByMonth($org)
     {
-        $currentY = date('Y');
+        $currentY = date('Y');        
+
+        $currentY = 2022;
         $previousY = $currentY-1;
 
         $records = PayTaxesChartMonth::find()->where([
