@@ -71,8 +71,7 @@ class MigrantsQuestionnationSearch extends MigrantsQuestionnation
             ->andFilterWhere(['like', 'ul_inn', $this->ul_inn])
             ->andFilterWhere(['like', 'ul_kpp', $this->ul_kpp])
             ->andFilterWhere(['like', 'region_migrate', $this->region_migrate])
-            ->andFilterWhere(['like', 'cause_migrate', $this->cause_migrate])
-            ->andFilterWhere(['like', 'author', $this->author]);
+            ->andFilterWhere(['like', 'cause_migrate', $this->cause_migrate]);
 
         return $dataProvider;
     }
