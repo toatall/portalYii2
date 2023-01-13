@@ -70,8 +70,7 @@ class EmailGovermentSearch extends EmailGoverment
             ->andFilterWhere(['like', 'ruk_name', $this->ruk_name])
             ->andFilterWhere(['like', 'telephone', $this->telephone])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'post_address', $this->post_address])
-            ->andFilterWhere(['like', 'author', $this->author]);
+            ->andFilterWhere(['like', 'post_address', $this->post_address]);
 
         return $dataProvider;
     }
