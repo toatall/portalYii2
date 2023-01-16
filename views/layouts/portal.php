@@ -25,7 +25,7 @@ TestAsset::register($this);
 
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/favicon.png" />
     <?php $this->registerCsrfMetaTags() ?>
@@ -98,6 +98,7 @@ TestAsset::register($this);
             <![endif]-->
 
             <?= Breadcrumbs::widget([
+                'homeLink' => ['label' => 'Главная', 'url' => '/'],
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 'options' => [
                     'class' => 'mt-2 py-2 px-4 border rounded bg-light text-decoration-none',
@@ -165,13 +166,12 @@ TestAsset::register($this);
                         <li><a href="http://marmnpd.tax.nalog.ru:8081" target="_blank">Автоматизированное рабочее место «Налог на профессиональный доход» (МАРМ НПД)</a></li>
                         <li><a href="https://bo.dpc.tax.nalog.ru" target="_blank">Государственный информационный ресурс бухгалтерской (финансовой) отчетности (ГИР БО)</a></li>
                         <li><a href="http://ias.ais3.tax.nalog.ru/uprrep" target="_blank">Информационно-аналитическая подсистема "Управленческий учет"</a></li>
-                        <li><a href="http://soon.tax.nalog.ru" target="_blank">Омниканальная система (СООН)</a></li>
+                        <li><a href="https://soon.tax.nalog.ru/taps-ofc/executor_dashboard" target="_blank">Омниканальная система (СООН)</a></li>
                     </ul>
                 </div>
                 <div class="col-4">
                     <h5><strong>Внутренние сервисы Управления</strong></h5>
-                    <ul class="list-unstyled">
-                        <!-- <li><a href="http://u8600-app045:81" target="_blank">Реестр невзысканных сумм по налоговым проверкам (ВНП, КНП)</a></li> -->
+                    <ul class="list-unstyled">                    
                         <li><a href="http://86000-portal:82" target="_blank">Реестр прав доступа внешних ресурсов</a></li>
                         <li><a href="http://86000-portal:83" target="_blank">Электронный архив</a></li>
                         <li><a href="http://86000-portal:85" target="_blank">Реестр проверок органами государственного контроля и надзора</a></li>
