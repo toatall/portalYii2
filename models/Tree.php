@@ -308,8 +308,10 @@ class Tree extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        Access::saveTreeGroups($this->id, $this->permissionGroup, $this->useParentRight);
-        Access::saveTreeUsers($this->id, $this->permissionUser, $this->useParentRight);
+        if (Yii::$app->user->can('admin')) {
+            Access::saveTreeGroups($this->id, $this->permissionGroup, $this->useParentRight);
+            Access::saveTreeUsers($this->id, $this->permissionUser, $this->useParentRight);
+        }
     }
 
     /**
