@@ -321,6 +321,7 @@ class Department extends \yii\db\ActiveRecord
                 'id_parent'=>$idParent,
                 'date_delete'=>null,
             ])
+            ->orderBy(['isnull(sort, 0)' => SORT_DESC])
             ->select('id, name, is_url, url')
             ->all();
 
