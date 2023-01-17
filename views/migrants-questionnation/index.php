@@ -4,7 +4,7 @@ use app\models\MigrantsQuestionnation;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -45,17 +45,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => $searchModel->getAttributeLabel('date_send_notice') . ' <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-title="Дата направления уведомления о смене адреса в регистрирующий орган"></i>',
                 'encodeLabel' => false,
                 'format' => 'date',
-            ],
-            'region_migrate',
+            ],            
             [
                 'attribute' => 'region_migrate',
                 'label' => $searchModel->getAttributeLabel('region_migrate') . ' <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-title="Регион РФ, в который планирует мигрировать ЮЛ"></i>',
                 'encodeLabel' => false,
             ],
-            'cause_migrate',
-            //'date_create',
-            //'date_update',
-            //'author',
+            'cause_migrate',           
             [
                 'class' => ActionColumn::class,
                 'urlCreator' => function ($action, MigrantsQuestionnation $model, $key, $index, $column) {
@@ -68,7 +64,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     'update' => MigrantsQuestionnation::isModerator(),
                     'delete' => MigrantsQuestionnation::isModerator(),
                 ],
-            ],
+            ],            
+        ],
+        'toolbar' => [
+            '{export}',
+            '{toggleData}',
+        ],
+        'export' => [
+            'showConfirmAlert' => false,
+        ],
+        'panel' => [
+            'type' => GridView::TYPE_DEFAULT,       
         ],
     ]); ?>
 
