@@ -215,7 +215,18 @@ class Lifehack extends \yii\db\ActiveRecord
         return (new Query())
             ->from('{{%lifehack_like}}')
             ->where(['id_lifehack' => $this->id])
-            ->average('rate');        
+            ->average('cast(rate as float)');        
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountRate()
+    {
+        return  (new Query())
+        ->from('{{%lifehack_like}}')
+        ->where(['id_lifehack' => $this->id])
+        ->count('id');
     }
 
     /**

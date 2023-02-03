@@ -63,7 +63,7 @@ class LifehackLike extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         parent::beforeSave($insert);
-        if ($this->rate == null) {
+        if ($this->rate == 0) {
             $this->delete();
             return false;
         }

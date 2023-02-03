@@ -148,6 +148,10 @@ class LifehackController extends Controller
         if ($modelLike == null) {
             $modelLike = new LifehackLike();
             $modelLike->id_lifehack = $id;
+            // $modelLike->rate = 5;
+        }
+        else {
+            // $modelLike->rate = 0;
         }
         if ($modelLike->load(Yii::$app->request->post()) && $modelLike->save()) {  
             $model = $this->findModel($id);

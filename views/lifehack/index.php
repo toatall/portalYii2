@@ -1,5 +1,6 @@
 <?php
 
+use app\helpers\DateHelper;
 use app\models\lifehack\Lifehack;
 use app\models\lifehack\LifehackFile;
 use kartik\grid\ActionColumn;
@@ -45,23 +46,47 @@ $this->title = 'Лайфхаки' . ($tag != null ? " ({$tag})" : '');
                 return $res;
             },
             'format' => 'raw',
-        ],        
-        'title',
+        ],   
         [
-            'label' => 'Оценка',
+            'attribute' => 'title',
+            'value' => function(Lifehack $model) {
+                $result = '';
+                if (DateHelper::dateDiffDays($model->date_create) <= 30) {
+                    $result .= '<span class="badge bg-success fa-1x">Новое</span> ';
+                }
+                return $result . $model->title;
+            },
+            'format' => 'raw',
+        ],            
+        // [
+        //     'label' => 'Оценка',
+        //     'format' => 'raw',
+        //     'value' => function($model) {
+        //         /** @var \app\models\lifehack\Lifehack $model */
+        //         $rate = $model->avg;
+        //         if ($rate) {
+        //             return '<span class="badge bg-light text-dark border fa-1x"><i class="fas fa-star text-warning"></i> ' 
+        //                 . Yii::$app->formatter->asDecimal($rate, 2) . '</span>';
+        //         }
+        //         else {
+        //             return '';
+        //         }                
+        //     },
+        // ],
+        [
+            'label' => 'Количество лайков',
             'format' => 'raw',
             'value' => function($model) {
                 /** @var \app\models\lifehack\Lifehack $model */
-                $rate = $model->avg;
-                if ($rate) {
-                    return '<span class="badge bg-dark fa-1x"><i class="fas fa-star text-warning"></i> ' 
-                        . Yii::$app->formatter->asDecimal($rate, 2) . '</span>';
+                $count = $model->countRate;
+                if ($count) {
+                    return '<span class="badge bg-light fa-1x border text-primary"><i class="fas fa-thumbs-up"></i> ' . $count . '</span>';
                 }
                 else {
                     return '';
                 }                
             },
-        ],
+        ],   
         [
             'label' => 'Файлы',
             'value' => function($model) {
