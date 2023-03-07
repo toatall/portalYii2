@@ -20,7 +20,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'public/assets/portal/css/site.css?ver=20211206',
+        'public/assets/portal/css/site.css',
         'public/assets/portal/css/css-loader.css',
         'public/assets/portal/css/menu.css',
          
@@ -28,7 +28,7 @@ class AppAsset extends AssetBundle
         'public/vendor/fontawesome/css/all.min.css',
 
         // bootstrap-4-advanced-toast
-        'public/vendor/bootstrap-4-advanced-toast/css/bs4Toast.css',
+        //'public/vendor/bootstrap-4-advanced-toast/css/bs4Toast.css',
     ];
     public $js = [
         // font-awesome
@@ -43,7 +43,7 @@ class AppAsset extends AssetBundle
         
     ];
     public $depends = [
-        'yii\web\YiiAsset',
+        'yii\web\YiiAsset',       
         'yii\bootstrap5\BootstrapAsset',
         'yii\bootstrap5\BootstrapPluginAsset',
     ];
