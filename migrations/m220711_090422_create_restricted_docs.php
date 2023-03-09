@@ -17,6 +17,8 @@ class m220711_090422_create_restricted_docs extends Migration
         $this->createTable('{{%restricted_docs_orgs}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string(500)->notNull()->unique(),
+            'is_show_result' => $this->boolean(),
+            'text_result' => $this->text(),
             'date_create' => $this->integer()->notNull(),
             'date_update' => $this->integer()->notNull(),
             'author' => $this->string(250)->notNull(),
@@ -42,6 +44,8 @@ class m220711_090422_create_restricted_docs extends Migration
             'doc_num' => $this->string(200),
             'doc_date' => $this->date(),
             'privacy_sign_desc' => $this->text(),
+            'is_privacy' => $this->boolean(),
+            'description_internet' => $this->string('max'),
             'owner' => $this->string(2000),
             'date_create' => $this->integer()->notNull(),
             'date_update' => $this->integer()->notNull(),
