@@ -14,7 +14,7 @@ class TestAsset extends AssetBundle
     public $css = [
     ];
     public $js = [
-        'js/test.js?v=20210809',
+        'js/test.js',
     ];
     public $depends = [
         'app\assets\AppAsset',

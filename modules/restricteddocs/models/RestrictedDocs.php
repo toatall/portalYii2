@@ -17,6 +17,8 @@ use yii\helpers\FileHelper;
  * @property string|null $doc_num
  * @property string|null $doc_date
  * @property string|null $privacy_sign_desc
+ * @property bool|null $is_privacy
+ * @property string|null $description_internet
  * @property string|null $owner
  * @property int $date_create
  * @property int $date_update
@@ -76,7 +78,8 @@ class RestrictedDocs extends \yii\db\ActiveRecord
         return [
             [['name', 'restrictedDocsOrgsVals', 'restrictedDocsTypesVals'], 'required'],
             [['doc_date'], 'safe'],
-            [['privacy_sign_desc'], 'string'],
+            [['privacy_sign_desc', 'description_internet'], 'string'],
+            [['is_privacy'], 'boolean'],
             [['date_create', 'date_update'], 'integer'],
             [['name'], 'string', 'max' => 1000],
             [['doc_num'], 'string', 'max' => 200],
@@ -99,6 +102,8 @@ class RestrictedDocs extends \yii\db\ActiveRecord
             'doc_num' => 'Номер НПА',
             'doc_date' => 'Дата НПА',
             'privacy_sign_desc' => 'Признак конфиденциальности',
+            'is_privacy' => 'Конфиденциально',
+            'description_internet' => 'Доступно в интернете',
             'owner' => 'Владелец НПА',
             'date_create' => 'Дата создания',
             'date_update' => 'Дата изменения',

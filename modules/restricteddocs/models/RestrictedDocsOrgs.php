@@ -13,6 +13,8 @@ use yii\helpers\ArrayHelper;
  *
  * @property int $id
  * @property string $name
+ * @property boolean $is_show_result
+ * @property string $text_result
  * @property int $date_create
  * @property int $date_update
  * @property string $author
@@ -40,6 +42,8 @@ class RestrictedDocsOrgs extends \yii\db\ActiveRecord
             [['date_create', 'date_update'], 'integer'],
             [['name'], 'string', 'max' => 500],
             [['author'], 'string', 'max' => 250],
+            [['is_show_result'], 'boolean'],
+            [['text_result'], 'string'],
             [['name'], 'unique'],
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username']],
         ];
@@ -53,6 +57,8 @@ class RestrictedDocsOrgs extends \yii\db\ActiveRecord
         return [
             'id' => 'ИД',
             'name' => 'Нименование',
+            'is_show_result' => 'Показывать результат сразу',
+            'text_result' => 'Описание результата',
             'date_create' => 'Дата создания',
             'date_update' => 'Дата изменения',
             'author' => 'Автор',
