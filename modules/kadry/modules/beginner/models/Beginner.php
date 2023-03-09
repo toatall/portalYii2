@@ -135,7 +135,7 @@ class Beginner extends \yii\db\ActiveRecord
      * Каталог с изображением-миниатюрой
      * @return stirng
      */
-    public function getThumbPath(): string
+    public function getThumbPath()
     {
         $path = Yii::$app->controller->module->params['path']['thumbnail'];
         return StringHelper::manyReplace($path, [
@@ -148,7 +148,7 @@ class Beginner extends \yii\db\ActiveRecord
      * Каталог с галлереей
      * @return string
      */
-    public function getGalleryPath(): string
+    public function getGalleryPath()
     {
         $path = Yii::$app->controller->module->params['path']['gallery'];
         return StringHelper::manyReplace($path, [
@@ -161,7 +161,7 @@ class Beginner extends \yii\db\ActiveRecord
      * Миниатюра
      * @return string
      */
-    public function getThumbImage(): string|null
+    public function getThumbImage()
     {
         $path = $this->getThumbPath();
         $fullPath = Yii::getAlias('@webroot') . $path;        
@@ -179,7 +179,7 @@ class Beginner extends \yii\db\ActiveRecord
      * Галлерея
      * @return array
      */
-    public function getGalleryImages(): array
+    public function getGalleryImages()
     {
         $path = $this->getGalleryPath();
         $fullPath = Yii::getAlias('@webroot') . $path;
