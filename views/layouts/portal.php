@@ -167,6 +167,7 @@ TestAsset::register($this);
                         <li><a href="https://bo.dpc.tax.nalog.ru" target="_blank">Государственный информационный ресурс бухгалтерской (финансовой) отчетности (ГИР БО)</a></li>
                         <li><a href="http://ias.ais3.tax.nalog.ru/uprrep" target="_blank">Информационно-аналитическая подсистема "Управленческий учет"</a></li>
                         <li><a href="https://soon.tax.nalog.ru/taps-ofc/executor_dashboard" target="_blank">Омниканальная система (СООН)</a></li>
+                        <li><a href="https://iasar.dpc.tax.nalog.ru" target="_blank" data-bs-toggle="popover" data-bs-trigger="hover" title="Письмо ФНС России от 02.03.2023 № 1-4-05/0005@">БД Аренадату</a></li>
                     </ul>
                 </div>
                 <div class="col-4">
