@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $this->registerJs(<<<JS
     
-   $('.accordion .show').collapse('hide');
+   
     
     function openTabById(params) {
         let parts = params.split('=');
@@ -72,6 +72,9 @@ $this->registerJs(<<<JS
         if (parts[1] != null) {
             openCollapseById(parts[1]);
         }
+    }
+    else {
+        $('.accordion .show').collapse('hide');
     }
         
 JS); ?>
