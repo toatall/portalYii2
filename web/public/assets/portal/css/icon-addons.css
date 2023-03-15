@@ -1,0 +1,73 @@
+/* 
+    Created on : 15 мар. 2023 г., 08:48:27
+    Author     : toatall
+*/
+
+/* other files */
+.icon-addons [data-filename]::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f15b  ";
+}
+
+/* images */
+.icon-addons [data-filename$=".jpg" i]::before,
+.icon-addons [data-filename$=".jpeg" i]::before,
+.icon-addons [data-filename$=".gif" i]::before,
+.icon-addons [data-filename$=".png" i]::before,
+.icon-addons [data-filename$=".jfif" i]::before,
+.icon-addons [data-filename$=".webp" i]::before,
+.icon-addons [data-filename$=".svg" i]::before {   
+    content: "\f03e  ";
+}
+
+/* office: doc */
+.icon-addons [data-filename$=".doc" i]::before,
+.icon-addons [data-filename$=".docx" i]::before {    
+    content: "\f1c2  ";
+}
+
+/* office: xls */
+.icon-addons [data-filename$=".xls" i]::before,
+.icon-addons [data-filename$=".xlsx" i]::before {
+    content: "\f1c3  ";
+}
+
+/* office: ppt */
+.icon-addons [data-filename$=".ppt" i]::before,
+.icon-addons [data-filename$=".pptx" i]::before {
+    content: "\f1c4  ";
+}
+
+/* office: pdf */
+.icon-addons [data-filename$=".pdf" i]::before {
+    content: "\f1c1  ";
+}
+
+/* archive */
+.icon-addons [data-filename$=".rar" i]::before,
+.icon-addons [data-filename$=".zip" i]::before,
+.icon-addons [data-filename$=".7z" i]::before {
+    content: "\f1c6  ";
+}
+
+/* audio */
+.icon-addons [data-filename$=".mp3" i]::before,
+.icon-addons [data-filename$=".ogg" i]::before,
+.icon-addons [data-filename$=".wma" i]::before,
+.icon-addons [data-filename$=".aac" i]::before,
+.icon-addons [data-filename$=".wav" i]::before {
+    content: "\f1c7  ";
+}
+
+/* video */
+.icon-addons [data-filename$=".mp4" i]::before,
+.icon-addons [data-filename$=".wmv" i]::before,
+.icon-addons [data-filename$=".mkv" i]::before,
+.icon-addons [data-filename$=".mov" i]::before,
+.icon-addons [data-filename$=".webm" i]::before,
+.icon-addons [data-filename$=".avi" i]::before {   
+    content: "\f1c8  ";
+}
+
+
+
