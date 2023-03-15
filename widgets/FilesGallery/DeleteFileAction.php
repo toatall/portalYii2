@@ -4,6 +4,7 @@ namespace app\widgets\FilesGallery;
 use Yii;
 use yii\base\Action;
 use yii\helpers\FileHelper;
+use yii\web\ServerErrorHttpException;
 
 class DeleteFileAction extends Action
 {
@@ -18,7 +19,7 @@ class DeleteFileAction extends Action
         if (empty($files)) {
             throw new ServerErrorHttpException('Не передан массив files!');
         }
-        if (is_array($files)) {
+        if (!is_array($files)) {
             throw new ServerErrorHttpException('Поле files не является массивом!');
         }
         $root = Yii::getAlias('@webroot');

@@ -78,6 +78,16 @@ class BaseGalleryWidget extends \yii\bootstrap5\Widget
     }
     
     /**
+     * Уникальный идентификатор для pjax
+     * @return string
+     */
+    protected function getIdPjax()
+    {
+        return $this->getIdConainer() . '_pjax';
+    }
+
+
+    /**
      * Подготовка файлов для передачи в представление
      * @return array
      */
@@ -103,6 +113,7 @@ class BaseGalleryWidget extends \yii\bootstrap5\Widget
      */
     public function run()
     {        
+        \yii\widgets\Pjax::begin(['id' => $this->getIdPjax(), 'enablePushState' => false]);
         echo Html::beginTag('div', ['class' => 'card icon-addons', 'id' => $this->getIdConainer()]);
             if ($this->containerTitle) {
                 echo Html::beginTag('div', ['class' => 'card-header']);
@@ -116,6 +127,7 @@ class BaseGalleryWidget extends \yii\bootstrap5\Widget
                 echo Html::endTag('div');             
             }
         echo Html::endTag('div');
+        \yii\widgets\Pjax::end();
     }
     
     /**
@@ -209,8 +221,7 @@ class BaseGalleryWidget extends \yii\bootstrap5\Widget
                     data: $('#$idConainer .form-check-input:checked').serialize()
                 })
                 .done(function(data) {
-                    console.log(data);
-                    location.reload();                    
+                    $.pjax.reload({ container: '#{$this->getIdPjax()}'});
                 })
                 .fail(function(jqXHR) {
                     $('#$idConainer .alert-danger').show();
