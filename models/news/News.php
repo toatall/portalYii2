@@ -700,10 +700,12 @@ class News extends \yii\db\ActiveRecord
      */
     private function createThumbnail($image)
     {
+        $storage = \Yii::$app->storage;
         $thumbWidth = \Yii::$app->params['news']['size']['thumbnailMaxWidth'];
         $thumbHeight = \Yii::$app->params['news']['size']['thumbnailMaxHeight'];
         $prefix = Yii::$app->params['news']['thumbnailPrefix'];
-        return \Yii::$app->storage->resizeImage($image, $thumbWidth, $thumbHeight, $prefix);
+        $thumbName = $storage->addFileNamePrefix($image, $prefix);
+        return $storage->resizeImage($image, $thumbWidth, $thumbHeight, $thumbName);
     }
 
     /**
