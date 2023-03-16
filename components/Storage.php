@@ -3,7 +3,6 @@ namespace app\components;
 
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
-use Intervention\Image\ImageManager;
 
 /**
  * Description of FileUploadHelper
@@ -43,6 +42,18 @@ class Storage extends \yii\base\Component
     public $toCharset = 'windows-1251';
     
     /**
+     * Каталог для сохранения (по умолчанию)
+     * @var string
+     */
+    public $aliasPathDefault = 'upload';
+    
+    /**
+     * Ссылка на сохраненный файл (по умолчанию)
+     * @var string
+     */
+    public $aliasUrlDefault = 'uploadUrl';
+    
+    /**
      * Имя файла
      * @var \yii\web\UploadedFile
      */
@@ -52,19 +63,8 @@ class Storage extends \yii\base\Component
      * Каталог для сохранения (указанный пользователем)
      * @var string
      */
-    private $aliasPath;       
+    private $aliasPath; 
     
-    /**
-     * Каталог для сохранения (по умолчанию)
-     * @var string
-     */
-    private $aliasPathDefault = 'upload';
-    
-    /**
-     * Ссылка на сохраненный файл (по умолчанию)
-     * @var string
-     */
-    private $aliasUrlDefault = 'uploadUrl';
 
     /**
      * Save given UploadedFile instance to disk
@@ -196,18 +196,14 @@ class Storage extends \yii\base\Component
     }
 
     /**
-     * Объединение двух частей пути
-     * @param string $path1
-     * @param string $path2
+     * Объединение частей пути
+     * @param mixed $path 
      * @return string
      */
-    public function mergePath($path1, $path2)
+    public function mergePath(...$paths)
     {
-        $path1 = FileHelper::normalizePath($path1);
-        $path2 = FileHelper::normalizePath($path2);        
-        $ds = DIRECTORY_SEPARATOR;
-        
-        return rtrim($path1, $ds) . $ds . ltrim($path2, $ds);
+        $path = implode(DIRECTORY_SEPARATOR, $paths);
+        return FileHelper::normalizePath($path);
     }
     
     /**
@@ -218,56 +214,59 @@ class Storage extends \yii\base\Component
      */
     public function mergeUrl($url1, $url2)
     {
-        $ds = DIRECTORY_SEPARATOR;
+        $ds = '/';
         return rtrim($url1, $ds) . $ds . ltrim($url2, $ds);
     }
 
     /**
+     * Изменение размера изображения
      * @return boolean
      */
-    public function resizeImage(string $imagePath, $width, $height, $prefix = '')
+    public function resizeImage(string $imagePath, $width, $height, $newName = '')
     {        
-        if (file_exists($imagePath))
-        {
-            $manager = new ImageManager();
-            $image = $manager->make($imagePath);
-            if (!$width) {
-                $width = $image->width();
-            }
-            if (!$height) {
-                $height = $image->height();
-            }
-            if ($image->height() > $height || $image->width() > $width) {
-                $image->resize($width, $height, function($constraint) {
-                    return $constraint->aspectRatio();
-                });                                
-            }
-            if (empty($prefix)) {
-                $image->save();
-            }
-            else {
-                $image->save($this->addFileNamePrefix($imagePath, $prefix));
-            }
+        if (file_exists($imagePath)) {
+            $imagine = new \Imagine\Gd\Imagine();
+            $size = new \Imagine\Image\Box($width, $height);
+            $imagine->open($imagePath)
+                    ->thumbnail($size)
+                    ->save($newName ? $newName : $imagePath);
             return true;
         }
         return false;
     }
-    
+
     /**
-     * @param string $file
+     * Удаление файла
+     * @param string $file имя относительно папки каталога @web
      * @return boolean
      */
     public function deleteFile(string $file)
     {        
         $fullName = $this->mergePath($this->getBasePath(), $file);
-        $fullName = $this->convertCharset($fullName);
+        $mergeFullName = $this->convertCharset($fullName);
         
-        if (file_exists($fullName)) {
-            if (!FileHelper::unlink($fullName)) {
-                return false;
+        if (file_exists($mergeFullName)) {
+            if (FileHelper::unlink($mergeFullName)) {
+                return true;
             }
-        }        
-        return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Удаление каталога
+     * @param string $path
+     * @return bool
+     */
+    public function deleteDir(string $path)
+    {
+        $fullPath = $this->mergePath($this->getBasePath(), $path);
+        if (is_dir($fullPath)) {
+            if (FileHelper::removeDirectory($fullPath)) {
+                return true;
+            }
+        }
+        return false;
     }
     
     /**
@@ -282,6 +281,19 @@ class Storage extends \yii\base\Component
         return str_replace($baseName, $prefix . '_' . $baseName, $fullName);
     }
     
+    /**
+     * Добавление постфикса к имени файла
+     * @param string $fullName
+     * @param string $postfix
+     * @return string
+     */
+    public function addFileNamePostfix(string $fullName, string $postfix)
+    {
+        $info = pathinfo($fullName);      
+        return $this->mergePath($info['dirname'], $info['basename'] . $postfix . '.' . $info['extension']);
+    }
+
+
     /**
      * Размер файла текстом
      * @param int $size
@@ -324,7 +336,7 @@ class Storage extends \yii\base\Component
     public function generateFileName($fileName)
     {
         $info = pathinfo($fileName);      
-        return $this->mergePath($info['dirname'], md5(date('dmYHis') . $fileName) . '.' . $info['extension']);
+        return $this->mergePath($info['dirname'], uniqid() . '.' . $info['extension']);
     }
     
 }
