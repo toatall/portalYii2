@@ -39,7 +39,11 @@
         "npm-asset/apexcharts": "*",    
         "npm-asset/fancyapps--ui": "^4",   
         "kartik-v/yii2-bootstrap5-dropdown": "1.0.x-dev",
-        "2amigos/yii2-ckeditor-widget": "^2.2"
+        "2amigos/yii2-ckeditor-widget": "^2.2",
+        "dicr/yii2-file": "^1.2",
+        "eluhr/yii2-aceeditor": "dev-master",
+        "thtmorais/yii2-pace": "dev-master",
+        "coderius/yii2-upload-file-behavior": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
