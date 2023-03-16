@@ -108,7 +108,7 @@ return [
             'imageMaxHeight' => 1080,
             'imageMaxWidth' => 1920,
             'thumbnailMaxHeight' => 500,
-            'thumbnailMaxWidth' => 0,
+            'thumbnailMaxWidth' => 300,
         ],
     ],
 
