@@ -14,8 +14,7 @@ class BaseGalleryWidget extends \yii\bootstrap5\Widget
      * Заголовок виджета
      * @var string
      */
-    public $containerTitle;
-        
+    public $containerTitle;        
     
     /**
      * Массив файлов (изображений) 
@@ -49,7 +48,8 @@ class BaseGalleryWidget extends \yii\bootstrap5\Widget
      * @var string|array
      */
     public $deleteAction = ['delete-files'];
-
+    
+    
     /**
      * {@inheritdoc}
      */
@@ -113,6 +113,9 @@ class BaseGalleryWidget extends \yii\bootstrap5\Widget
      */
     public function run()
     {        
+        if (!$this->checkFilesIsNull()) {
+            return null;
+        }
         \yii\widgets\Pjax::begin(['id' => $this->getIdPjax(), 'enablePushState' => false]);
         echo Html::beginTag('div', ['class' => 'card icon-addons', 'id' => $this->getIdConainer()]);
             if ($this->containerTitle) {
@@ -131,12 +134,27 @@ class BaseGalleryWidget extends \yii\bootstrap5\Widget
     }
     
     /**
+     * Проверка переданы ли имена файлов
+     * @return bool
+     */
+    protected function checkFilesIsNull()
+    {
+        if (!$this->files) {
+            return false;
+        }
+        if (!is_array($this->files)) {
+            $this->files = [$this->files];
+        }
+        return true;
+    }
+    
+    /**
      * Рендеринг галлереи
      * @param array $files файлы
      * @return string
      */
     protected function renderGallery($files)
-    {
+    {  
         $items = [];
         $items[] = Html::beginTag('div', ['class' => 'row my-4 px-4']);
         foreach($files as $file) {
@@ -166,7 +184,7 @@ class BaseGalleryWidget extends \yii\bootstrap5\Widget
             $res[] = $this->renderCheckBoxDeleteFile($item['basename'], $item['path'], $id);
         }
         else {
-            $res[] = Html::a($item['basename'], $item['path'], ['target' => '_blank', 'data-filename' => $item['basename']]) . Html::tag('br');        
+            $res[] = Html::a($item['basename'], $item['path'], ['target' => '_blank', 'data-filename' => $item['basename']]) . Html::tag('br');
         }
         return implode(PHP_EOL, $res);
     }

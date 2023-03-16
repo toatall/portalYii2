@@ -33,6 +33,12 @@ class ImagesWidget extends BaseGalleryWidget
 {
 
     /**
+     * Каталог с миниатюрой
+     * @var string
+     */
+    public $thumbDir = '_thumb';
+    
+    /**
      * {@inheritDoc}
      */
     public function run() 
@@ -52,12 +58,29 @@ class ImagesWidget extends BaseGalleryWidget
         $id = $this->getIdItem();
         $res = [];
         $res[] = Html::beginTag('div', ['class' => 'col-2']);
-        $res[] = Html::a(Html::img($item['thumb'], ['class' => 'img-thumbnail']), $item['path'], ['target' => '_blank', 'data-fancybox' => 'gallery']);        
-        if ($this->allowDelete) {            
+        $res[] = Html::a(Html::img($this->getThumb($item['thumb']), ['class' => 'img-thumbnail']), $item['path'], ['target' => '_blank', 'data-fancybox' => 'gallery']);        
+        if ($this->allowDelete) {
             $res[] = $this->renderCheckBoxDeleteFile($item['basename'], $item['path'], $id, false);
         }
         $res[] = Html::endTag('div');
         return implode(PHP_EOL, $res);
+    }
+    
+    /**
+     * Поиск миниатюры
+     * @param string $fileImg
+     * @return string
+     */
+    protected function getThumb($fileImg)
+    {        
+        /** @var \app\components\Storage $storage */
+        $storage = \Yii::$app->storage;
+        
+        $newFileImg = str_replace(basename($fileImg), $storage->mergeUrl($this->thumbDir, basename($fileImg)), $fileImg);
+        if (file_exists($storage->mergePath(\Yii::getAlias('@webroot'), $newFileImg))) {
+            return $newFileImg;
+        }
+        return $fileImg;
     }
     
     /**
@@ -69,7 +92,7 @@ class ImagesWidget extends BaseGalleryWidget
         \app\assets\FancyappsUIAsset::register($view);
 
         $view->registerJs(<<<JS
-            Fancybox.bind('[data-fancybox]', {});
+            Fancybox.bind('#{$this->getIdConainer()} [data-fancybox]', {});
         JS);
     }
     
