@@ -48,8 +48,10 @@ class BeginnerSearch extends Beginner
             'query' => $query,
             'sort' => [
                 'defaultOrder' => ['date_employment' => SORT_DESC, 'fio' => SORT_ASC],
-            ],
+            ],            
         ]);
+
+        
 
         $this->load($params);
 
@@ -60,15 +62,15 @@ class BeginnerSearch extends Beginner
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'id_department' => $this->id_department,
-            'date_create' => $this->date_create,
-            'date_update' => $this->date_update,
-        ]);
+        // $query->andFilterWhere([
+        //     'id' => $this->id,
+        //     'id_department' => $this->id_department,
+        //     'date_create' => $this->date_create,
+        //     'date_update' => $this->date_update,
+        // ]);
 
-        $query->andFilterWhere(['like', 'fio', $this->fio])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        // $query->andFilterWhere(['like', 'fio', $this->fio])
+        //     ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

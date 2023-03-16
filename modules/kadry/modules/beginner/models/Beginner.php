@@ -18,6 +18,8 @@ use app\models\User;
  * @property string $fio
  * @property string $date_employment
  * @property string|null $description
+ * @property string $js
+ * @property string $css
  * @property int $date_create
  * @property int $date_update
  * @property string|null $author
@@ -28,11 +30,17 @@ use app\models\User;
 class Beginner extends \yii\db\ActiveRecord
 {
 
+    /**
+     * Миниатюра
+     * @var string
+     */
     public $thumbUpload;
-    public $thumbDelete;
 
-    public $filesUpload;
-    public $filesDelete;
+    /**
+     * Изображения
+     * @var array
+     */
+    public $filesUpload;    
 
     /**
      * {@inheritdoc}
@@ -53,11 +61,13 @@ class Beginner extends \yii\db\ActiveRecord
                 'createdAtAttribute' => 'date_create',
                 'updatedAtAttribute' => 'date_update',
             ],
-            ['class' => AuthorBehavior::class],            
+            ['class' => AuthorBehavior::class],
+            ['class' => \app\behaviors\FileUploadBehavior::class],
         ];
     }
 
     /**
+     * Роль модератора
      * @return string
      */
     public static function getRoleModerator()
@@ -66,6 +76,7 @@ class Beginner extends \yii\db\ActiveRecord
     }
 
     /**
+     * Проверка наличия прав модератора
      * @return boolean
      */
     public static function isRoleModerator()
@@ -83,13 +94,14 @@ class Beginner extends \yii\db\ActiveRecord
     {
         return [
             [['id_department', 'fio'], 'required'],
-            [['id_department', 'date_create', 'date_update'], 'integer'],
-            [['description'], 'string'],
-            [['fio'], 'string', 'max' => 500],
-            [['author'], 'string', 'max' => 250],
+            [['id_department'], 'integer'],
+            [['description', 'js', 'css'], 'string'],
+            [['fio'], 'string', 'max' => 500],            
             [['date_employment'], 'date'],
             [['id_department'], 'exist', 'skipOnError' => true, 'targetClass' => Department::class, 'targetAttribute' => ['id_department' => 'id']],
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username']],
+            [['filesUpload'], 'file', 'skipOnEmpty' => true, 'maxFiles' => 30],
+            [['thumbUpload'], 'file', 'skipOnEmpty' => true],
         ];
     }
 
@@ -107,8 +119,24 @@ class Beginner extends \yii\db\ActiveRecord
             'date_create' => 'Дата создания',
             'date_update' => 'Дата изменения',
             'author' => 'Автор',
-            'thumbImage' => 'Миниатюра',
+            'thumbUpload' => 'Миниатюра',
+            'filesUpload' => 'Фотографии',
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function afterFind()
+    {
+        parent::afterFind();
+        $this->date_employment = $this->date_employment ? Yii::$app->formatter->asDate($this->date_employment) : null;
+    }
+    
+    public function afterDelete() 
+    {
+        parent::afterDelete();
+        $this->clearDir($this->getThumbPath());
     }
 
     /**
@@ -143,6 +171,27 @@ class Beginner extends \yii\db\ActiveRecord
             '{id}' => $this->id,
         ]);
     }
+    
+    /**
+     * Загрузка миниатюры
+     */
+    public function uploadThumn()
+    {        
+        $path = $this->getThumbPath();        
+        $this->uploadPath = $path;
+        $this->uploadFile('thumbUpload', function() use ($path) { $this->clearDir($path); });
+    }
+    
+    /**
+     * Загрузка файлов
+     */
+    public function uploadFilesGallery()
+    {
+        $path = $this->getGalleryPath();
+        $this->uploadPath = $path;
+        $this->uploadFiles('filesUpload');
+    }
+    
 
     /**
      * Каталог с галлереей
@@ -174,6 +223,8 @@ class Beginner extends \yii\db\ActiveRecord
         }
         return $path . basename($thumbImage);
     }
+    
+   
 
     /**
      * Галлерея
@@ -190,6 +241,8 @@ class Beginner extends \yii\db\ActiveRecord
             return $path . basename($value);
         }, ImageHelper::findImages($fullPath));
     }
+    
+    
 
 
 }

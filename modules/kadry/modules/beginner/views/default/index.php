@@ -2,8 +2,8 @@
 
 use app\modules\kadry\modules\beginner\models\Beginner;
 use yii\bootstrap5\Html;
+use yii\bootstrap5\LinkPager;
 use yii\helpers\Url;
-use yii\widgets\Pjax;
 /** @var yii\web\View $this */
 /** @var app\modules\kadry\modules\beginner\models\BeginnerSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -12,15 +12,12 @@ $this->title = 'Давайте знакомиться';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="beginner-index">
-
     
     <p class="display-5 border-bottom"><?= $this->title ?></p>
 
     <?php if (Beginner::isRoleModerator()): ?>
-        <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success mv-link']) ?>
+        <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
     <?php endif; ?>
-
-    <?php Pjax::begin(); ?>
 
     <div class="row row-cols-1 mt-4">
     <?php foreach($dataProvider->getModels() as $item): 
@@ -39,16 +36,32 @@ $this->params['breadcrumbs'][] = $this->title;
                             Работает с <?= Yii::$app->formatter->asDate($item->date_employment) ?>
                             <?php endif; ?>
                         </div>
-                        
+                        <?php if (Beginner::isRoleModerator()): ?>
+                        <div class="card-footer">
+                            <div class="btn-group">
+                                <?= Html::a('Изменить', ['update', 'id'=>$item->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                                <?= Html::a('Удалить', ['delete', 'id'=>$item->id], [
+                                    'class' => 'btn btn-danger btn-sm',
+                                    'data' => [
+                                        'confirm' => 'Вы уверены, что хотите удалить?',
+                                        'method' => 'post',
+                                    ],
+                                ]) ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 </a>
-            </div>
-        
+            </div>        
 
     <?php endforeach; ?>
     </div>
-    
-    <?php Pjax::end(); ?>
 
+    <div class="align-content-center">
+        <?= LinkPager::widget([
+            'pagination' => $dataProvider->pagination,            
+        ]) ?>
+    </div>
+    
 </div>

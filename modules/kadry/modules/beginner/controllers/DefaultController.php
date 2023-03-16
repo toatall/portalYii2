@@ -16,6 +16,18 @@ use yii\web\Response;
  */
 class DefaultController extends Controller
 {
+    
+    /**
+     * {@inheritdoc}
+     * @return array
+     */
+    public function actions(): array 
+    {
+        return array_merge(parent::actions(), [
+            'delete-files' => \app\widgets\FilesGallery\DeleteFileAction::class,
+        ]);
+    }
+
     /**
      * @inheritDoc
      */
@@ -42,6 +54,15 @@ class DefaultController extends Controller
                             'allow' => true,
                             'actions' => ['create', 'update', 'delete'],
                             'roles' => ['admin', Beginner::getRoleModerator()],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['delete-files'],
+                            'roles' => ['admin', Beginner::getRoleModerator()],
+                            'matchCallback' => function() {
+                                $id = Yii::$app->request->get('id');
+                                return $this->checkModelAccess($id);
+                            },
                         ],
                     ],
                 ],
@@ -91,26 +112,22 @@ class DefaultController extends Controller
      * @return string|\yii\web\Response
      */
     public function actionCreate()
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-
+    {        
         $model = new Beginner();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                // return $this->redirect(['view', 'id' => $model->id]);
-                return ['content' => 'OK'];
+                $model->uploadThumn();
+                $model->uploadFilesGallery();
+                return $this->redirect(['index']);                
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        return [
-            'title' => 'Добавление',
-            'content' => $this->renderAjax('_form', [
-                'model' => $model,
-            ]),
-        ];
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -123,9 +140,11 @@ class DefaultController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model->uploadThumn();
+            $model->uploadFilesGallery();
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
@@ -161,5 +180,18 @@ class DefaultController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    
+    /**
+     * Ограничение на удаление файлов
+     * @param int $id 
+     * @return bool
+     */
+    protected function checkModelAccess($id) 
+    {
+        if ($id === null) {
+            return false;
+        }
+        return true;
     }
 }

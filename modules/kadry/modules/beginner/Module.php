@@ -21,10 +21,25 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
-        parent::init();
-        // \Yii::$app->errorHandler->errorAction = '/beginner/default/error';    
-        // custom initialization code goes here
+        parent::init();        
         Yii::configure($this, ['params' => require __DIR__ . '/config/params.php']);
+        // Yii::$app->setComponents([
+        //     ''
+        // ]);
+        $this->setComponents([
+            'thumbStore' => [
+                'class' => dicr\file\LocalFileStore::class,
+                'path' => '@webroot/files/test/thumb',
+                'url' => '@web/files/test/thumb',
+            ],
+            'fileStore' => [
+                'class' => dicr\file\LocalFileStore::class,
+                'path' => '@webroot/files/test/file',
+                'thumbFileConfig' => [
+                    'store' => 'thumnStore',
+                ],
+            ],
+        ]);
     }
 
     

@@ -1,18 +1,19 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap5\Html;
 
 /** @var yii\web\View $this */
-/** @var app\modules\beginner\models\Beginner $model */
+/** @var app\modules\kadry\modules\beginner\models\Beginner $model */
 
-$this->title = 'Update Beginner: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Beginners', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Изменить данные сотрудника: ' . $model->fio;
+$this->params['breadcrumbs'][] = ['label' => 'Давайте знакомиться', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="beginner-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="display-5 border-bottom mb-4">
+        <?= Html::encode($this->title) ?>
+    </h1>
 
     <?= $this->render('_form', [
         'model' => $model,
