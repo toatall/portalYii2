@@ -192,7 +192,7 @@ class DepartmentCard extends \yii\db\ActiveRecord
         $height = $this->getParamMaxHeight();
         /** @var app\components\Storage $storage  */
         $storage = \Yii::$app->storage;
-        return $storage->resizeImage($image, 0, $height);
+        return $storage->resizeImage($image, 1000, $height);
     }
 
     /**
