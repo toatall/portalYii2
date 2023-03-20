@@ -24,23 +24,12 @@ class AppAsset extends AssetBundle
         'public/assets/portal/css/css-loader.css',
         'public/assets/portal/css/menu.css',
          
-         // font-awesome
-        'public/vendor/fontawesome/css/all.min.css',
-
-        // bootstrap-4-advanced-toast
-        //'public/vendor/bootstrap-4-advanced-toast/css/bs4Toast.css',
+        // icon-addons (depends - font-awesome)
+        'public/assets/portal/css/icon-addons.css',                
     ];
     public $js = [
-        // font-awesome
-        //'public/vendor/fontawesome/js/all.min.js',
-
-        // bootstrap-4-advanced-toast
-        // 'public/vendor/bootstrap-4-advanced-toast/js/bs4-toast.js',
-
-
-        'js/voteHelper.js',
-        'js/main.js',        
-        
+        'public/assets/portal/js/voteHelper.js', // ?
+        'public/assets/portal/js/main.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',       
