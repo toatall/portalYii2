@@ -1,6 +1,6 @@
 <?php
 
-use app\widgets\CommentWidget;
+use app\modules\comment\widgets\CommentWidget;
 use kartik\rating\StarRating;
 use yii\bootstrap5\Html;
 use yii\widgets\Pjax;

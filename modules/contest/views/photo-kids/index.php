@@ -5,7 +5,7 @@
 /** @var array $results */
 
 use app\modules\contest\models\photokids\PhotoKids;
-use app\widgets\CommentWidget;
+use app\modules\comment\widgets\CommentWidget;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
 

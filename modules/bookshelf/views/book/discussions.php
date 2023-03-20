@@ -1,6 +1,6 @@
 <?php
 
-use app\widgets\CommentWidget;
+use app\modules\comment\widgets\CommentWidget;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
 

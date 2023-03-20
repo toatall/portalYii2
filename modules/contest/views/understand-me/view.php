@@ -1,6 +1,6 @@
 <?php 
 
-use app\widgets\CommentWidget;
+use app\modules\comment\widgets\CommentWidget;
 
 /** @var yii\web\View $this */
 /** @var stdClass $model */
