@@ -3,7 +3,7 @@
 namespace app\modules\kadry\modules\beginner\models;
 
 use app\behaviors\AuthorBehavior;
-use app\behaviors\DatetimeBehavior;
+use yii\behaviors\TimestampBehavior;
 use app\helpers\ImageHelper;
 use app\helpers\StringHelper;
 use Yii;
@@ -57,7 +57,7 @@ class Beginner extends \yii\db\ActiveRecord
     {
         return [            
             [
-                'class' => DatetimeBehavior::class,
+                'class' => TimestampBehavior::class,
                 'createdAtAttribute' => 'date_create',
                 'updatedAtAttribute' => 'date_update',
             ],
@@ -224,7 +224,6 @@ class Beginner extends \yii\db\ActiveRecord
         return $path . basename($thumbImage);
     }
     
-   
 
     /**
      * Галлерея
@@ -237,9 +236,24 @@ class Beginner extends \yii\db\ActiveRecord
         if (!file_exists($fullPath) || dir($fullPath) === false) {
             return [];
         }
-        return array_map(function($value) use ($path) {
+        return array_map(function($value) use ($path) {           
             return $path . basename($value);
+            
         }, ImageHelper::findImages($fullPath));
+    }
+    
+    /**
+     * Поиск миниатюры
+     * @param string $image
+     * @return string
+     */
+    protected function findThumbImage($image)
+    {
+        $thumbImage = str_replace(basename($image), Yii::$app->storage->mergeUrl('_thumb', basename($image)), $image);
+        if (file_exists(Yii::getAlias('@webroot') . $thumbImage)) {
+            return $thumbImage;
+        }
+        return $image;
     }
     
     

@@ -4,6 +4,8 @@ use app\modules\kadry\modules\beginner\models\Beginner;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
 use yii\helpers\Url;
+use app\helpers\ImageHelper;
+
 /** @var yii\web\View $this */
 /** @var app\modules\kadry\modules\beginner\models\BeginnerSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -12,7 +14,6 @@ $this->title = 'Давайте знакомиться';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="beginner-index">
-    
     <p class="display-5 border-bottom"><?= $this->title ?></p>
 
     <?php if (Beginner::isRoleModerator()): ?>
@@ -28,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="h-100">                  
                     <div class="col card h-100 shadow-sm">
                         <div class="card-header text-center">
-                            <?= Html::img($item->getThumbImage(), ['class' => 'img-thumbnail', 'style' => 'height: 20vh; margin: 0 auto;']) ?>
+                            <?= Html::img(ImageHelper::findThumbnail($item->getThumbImage(), picImageNotFound: '/img/no_image_available.jpeg'), ['class' => 'img-thumbnail', 'style' => 'height: 20vh; margin: 0 auto;']) ?>
                         </div>
                         <div class="card-body text-center">
                             <strong><?= $item->fio ?></strong><br />

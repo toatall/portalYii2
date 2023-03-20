@@ -8,13 +8,7 @@ use Yii;
  * Contest module definition class
  */
 class Module extends \yii\base\Module
-{
-    
-    /**
-     * {@inheritdoc}
-     */
-    // public $layout = 'index';
-    
+{    
 
     /**
      * {@inheritdoc}
@@ -22,10 +16,7 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();        
-        Yii::configure($this, ['params' => require __DIR__ . '/config/params.php']);
-        // Yii::$app->setComponents([
-        //     ''
-        // ]);
+        Yii::configure($this, ['params' => require __DIR__ . '/config/params.php']);       
         $this->setComponents([
             'thumbStore' => [
                 'class' => dicr\file\LocalFileStore::class,
@@ -41,7 +32,6 @@ class Module extends \yii\base\Module
             ],
         ]);
     }
-
     
 
 }
