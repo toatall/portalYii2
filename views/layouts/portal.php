@@ -11,12 +11,14 @@ use yii\bootstrap5\Breadcrumbs;
 use app\models\menu\MenuBuilder;
 use app\assets\ModalViewerAssetBs5;
 use app\assets\AppAsset;
+use app\assets\FontAwesomeAsset;
 use app\modules\test\assets\TestAsset;
 use yii\widgets\Menu;
 
 AppAsset::register($this);
 ModalViewerAssetBs5::register($this);
 TestAsset::register($this);
+FontAwesomeAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>
