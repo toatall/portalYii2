@@ -18,6 +18,8 @@ class m230306_113534_table_beginner extends Migration
             'fio' => $this->string(500)->notNull(),  
             'date_employment' => $this->date(),  
             'description' => $this->text(),
+            'js' => $this->text(),
+            'css' => $this->text(),
             'date_create' => $this->integer()->notNull(),
             'date_update' => $this->integer()->notNull(),
             'author' => $this->string(250),
