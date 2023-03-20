@@ -16,13 +16,5 @@ class Module extends \yii\base\Module
      * {@inheritdoc}
      */
     public $controllerNamespace = 'app\modules\comment\controllers';
-
-    /**
-     * {@inheritdoc}
-     */
-    public function init()
-    {        
-        parent::init();        
-        Yii::configure($this, ['params' => require __DIR__ . '/config/params.php']);      
-    }
+    
 }
