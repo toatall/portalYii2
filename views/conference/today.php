@@ -5,7 +5,7 @@
 use app\models\conference\AbstractConference;
 use yii\bootstrap5\Html;
 ?>
-<ul class="list-group">
+<ul id="conference-list-today" class="list-group">
     <?php foreach ($queryResult as $type => $item): ?>
         <li class="list-group-item">        
             <h6>
@@ -32,3 +32,7 @@ use yii\bootstrap5\Html;
         </li>                        
     <?php endforeach; ?>
 </ul>
+<?php $this->registerJs(<<<JS
+    $('#conference-list-today [data-bs-toggle="popover"]').popover();   
+JS);
+?>
