@@ -2,6 +2,7 @@
 namespace app\helpers;
 
 use yii\helpers\FileHelper as HelpersFileHelper;
+use Yii;
 
 /**
  * Поиск только файлов-изображений
@@ -25,6 +26,31 @@ class ImageHelper extends HelpersFileHelper
                 return substr($mimeType, 0, 5) === 'image';
             },
         ], $options));
+    }
+    
+    /**
+     * Поиск миниатюры
+     * Предполагается, что миниатюра лежит в подпапке _thumb, 
+     * где лежит полноразмерный файл изображения
+     * Если миниатюра не найдена, то будет возвращено переданное имя
+     * 
+     * @param string $imagePath
+     * @param string $thumbPath
+     * @return string
+     */
+    public static function findThumbnail($imagePath, $thumbPath = '_thumb', $picImageNotFound = '')
+    {
+        /** @var \app\components\Storage $storage */
+        $storage = Yii::$app->storage;
+        
+        if (!$imagePath || !file_exists($storage->mergeUrl(Yii::getAlias('@webroot'), $imagePath))) {
+            return $picImageNotFound;
+        }
+        $thumbImage = str_replace(basename($imagePath), $storage->mergeUrl($thumbPath, basename($imagePath)), $imagePath);
+        if (file_exists(Yii::getAlias('@webroot') . $thumbImage)) {
+            return $thumbImage;
+        }
+        return $imagePath;
     }
 
 }
