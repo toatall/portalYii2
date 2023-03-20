@@ -1,11 +1,11 @@
 <?php
 
-namespace app\models;
+namespace app\modules\comment\models;
 
 use app\behaviors\AuthorBehavior;
 use app\behaviors\ChangeLogBehavior;
 use app\behaviors\DatetimeBehavior;
-use Yii;
+use app\models\User;
 
 /**
  * This is the model class for table "p_comment".

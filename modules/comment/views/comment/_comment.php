@@ -30,16 +30,17 @@ $userModel = $model->usernameModel;
         </strong>
         <br />
         <?php if ($model->date_delete): ?>
-            <div class="alert alert-danger p-2"><i class="far fa-trash"></i> Комментарий был удален <?= Yii::$app->formatter->asDatetime($model->date_delete) ?></div>
+        <div class="text-danger pt-2" title="Дата удаления: <?= Yii::$app->formatter->asDatetime($model->date_delete) ?>">
+            <i class="fas fa-ban"></i> Комментарий был удален 
+        </div>
         <?php else: ?>
-
             <?php if (($reply = $model->reply) != null): ?>
                 <div class="reply">
                     <?= Html::a('<i class="fas fa-reply"></i> Показать родительский комментарий', '', ['class'=>'link-reply', 'style'=>'font-size: 0.8rem;']) ?>
                     <?php if ($reply->date_delete): ?>
-                        <div class="alert alert-danger mb-2" style="display: none;">
-                            <small>
-                                Комментарий был удален <?= Yii::$app->formatter->asDatetime($reply->date_delete) ?>
+                        <div class="alert alert-light text-danger mb-2" style="display: none;">
+                            <small title="<?= Yii::$app->formatter->asDatetime($reply->date_delete) ?>">
+                                Комментарий был удален
                             </small>
                         </div>
                     <?php else: ?>
@@ -54,8 +55,7 @@ $userModel = $model->usernameModel;
             <?php endif;  ?>
             <?= Yii::$app->formatter->asHtml($model->text) ?>
             <br />
-            <span class="small">
-                
+            <span class="small">                
                 <span class="text-secondary"><?= Yii::$app->formatter->asDatetime($model->date_create) ?></span>
                 &nbsp;&nbsp;
                 

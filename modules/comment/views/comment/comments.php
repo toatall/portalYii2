@@ -49,6 +49,9 @@
 <?php
 $this->registerJs(<<<JS
     
+//    $('.comment-form *').popover('hide');
+//    $('.comment-form [data-toggle="popover"]').popover();
+        
     // ссылка добавления комментария
     $('.link-create').on('click', function() {
         var container = $('#' + $(this).data('container'));

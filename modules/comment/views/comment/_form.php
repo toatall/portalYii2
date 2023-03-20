@@ -23,9 +23,7 @@ $idComments = 'container-comment-index-' . $hash;
 
         <?php $form = ActiveForm::begin([
             'id' => $idForm,
-            'options' => [
-                //'data-pjax' => true,
-            ],
+            'options' => [],
         ]); ?>
         
         <div class="row align-items-start">
@@ -72,9 +70,6 @@ $idComments = 'container-comment-index-' . $hash;
 
 </div>
 <?php $this->registerJS(<<<JS
-    
-    $('.comment-form *').popover('hide');
-    $('.comment-form [data-toggle="popover"]').popover();
     
     // Emoji
     $(function () {

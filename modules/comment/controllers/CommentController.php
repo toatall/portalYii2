@@ -1,9 +1,9 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\comment\controllers;
 
 use Yii;
-use app\models\Comment;
+use app\modules\comment\models\Comment;
 use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\web\Controller;

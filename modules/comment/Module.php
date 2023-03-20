@@ -1,37 +1,28 @@
 <?php
 
-namespace app\modules\kadry;
+namespace app\modules\comment;
 
 use Yii;
 
 /**
- * kadry module definition class
+ * `comments` module definition class
  */
 class Module extends \yii\base\Module
 {
+    
+    public $defaultRoute = 'comment';
+    
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'app\modules\kadry\controllers';
+    public $controllerNamespace = 'app\modules\comment\controllers';
 
     /**
      * {@inheritdoc}
      */
     public function init()
-    {
-        parent::init();
-
-        // custom initialization code goes here
-        \Yii::$app->urlManager->addRules([
-            'kadry/<c:\w+|-+>/<id:\d+>' => 'kadry/<c>/view'
-            // 'kadry/<controller:\w+>/<id:\d+>' => 'kadry/<controller>/view',
-            // 'kadry/<controller:\w+>/<action:\w+>/<id:\d+>' => 'kadry/<controller>/<action>',
-        ]);
-
-        $this->setModules([
-            'beginner' => [
-                'class' => 'app\modules\kadry\modules\beginner\Module',
-            ],
-        ]);        
+    {        
+        parent::init();        
+        Yii::configure($this, ['params' => require __DIR__ . '/config/params.php']);      
     }
 }
