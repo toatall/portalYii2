@@ -1,7 +1,7 @@
 <?php
 
 use app\models\lifehack\Lifehack;
-use app\widgets\CommentWidget;
+use app\modules\comment\widgets\CommentWidget;
 use yii\bootstrap5\Html;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
