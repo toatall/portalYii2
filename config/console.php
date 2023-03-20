@@ -1,10 +1,9 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
-$dbDKS = require __DIR__ . '/dbDKS.php';
+$db = require __DIR__ . '/db/db.php';
 $ldapParams = require __DIR__ . '/ldap.php';
-$dbPgSqlLog = require __DIR__ . '/dbPgsqlLog.php';
+$dbPgSqlLog = require __DIR__ . '/db/dbPgsqlLog.php';
 
 $config = [
     'id' => 'basic-console',
@@ -19,7 +18,6 @@ $config = [
     'components' => [
         'authManager' => [            
             'class' => 'app\components\DbManager',            
-            //'class' => 'yii\rbac\PhpManager',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -32,8 +30,7 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
-        'dbDKS' => $dbDKS,
+        'db' => $db,        
         'dbPgsqlLog' => $dbPgSqlLog,
         'formatter' => [
             'class' => 'yii\i18n\Formatter',

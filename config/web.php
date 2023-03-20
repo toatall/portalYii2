@@ -1,10 +1,8 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
-$dbPortalOld = require __DIR__ . '/dbPortalOld.php';
-$dbDKS = require __DIR__ . '/dbDKS.php';
-$dbPgSqlLog = require __DIR__ . '/dbPgsqlLog.php';
+$db = require __DIR__ . '/db/db.php';
+$dbPgSqlLog = require __DIR__ . '/db/dbPgsqlLog.php';
 $ldapParams = require __DIR__ . '/ldap.php';
 
 $config = [
@@ -16,69 +14,9 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
-        '@npm2'  => '@app/node_modules',
+        '@npm'   => '@vendor/npm-asset',       
     ],
-    'modules' => [
-        // админка
-        'admin' => [
-            'class' => 'app\modules\admin\Module',
-        ],
-        // проекты новобранцев
-        'rookie' => [
-            'class' => 'app\modules\rookie\Module',            
-        ],
-        // тестирование
-        'test' => [
-            'class' => 'app\modules\test\Module',            
-        ],        
-        'gridview' => [
-            'class' => '\kartik\grid\Module',
-        ],       
-        /** @todo надо разобрать */ 
-        'events' => [
-            'class' => 'app\modules\events\Module',
-        ],
-        // раздел только для администратора
-        'manager' => [
-            'class' => 'app\modules\manager\Module',
-        ],
-        // конкурсы
-        'contest' => [
-            'class' => 'app\modules\contest\Module',
-        ],
-        // раздел для отдела кадров
-        'kadry' => [
-            'class' => 'app\modules\kadry\Module',
-        ],
-        // календарь
-        'calendar' => [
-            'class' => 'app\modules\calendar\Module',
-        ],
-        'spa' => [
-            'class' => 'app\modules\spa\Module',
-        ],
-        'bookshelf' => [
-            'class' => 'app\modules\bookshelf\Module',
-        ],
-        // опрос
-        'quiz' => [
-            'class' => 'app\modules\quiz\Module',
-        ],
-        // исполнение задач
-        'executetasks' => [
-            'class' => 'app\modules\executetasks\Module',
-        ],
-        // информационный ресурс по предоставлению информации ограниченного доступа
-        'restricteddocs' => [
-            'class' => 'app\modules\restricteddocs\Module',
-        ],
-
-        // кампания по уплате имущественных налогов
-        'paytaxes' => [
-            'class' => 'app\modules\paytaxes\Module',
-        ],
-    ],    
+    'modules' => require __DIR__ . '/modules.php',   
     'components' => [
         'request' => [            
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -101,8 +39,9 @@ $config = [
             'bundles' => [
                 'kartik\form\ActiveFormAsset' => [
                     'bsDependencyEnabled' => false,
-                ],
+                ],               
             ],
+            'appendTimestamp' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -134,9 +73,7 @@ $config = [
         ],
         
         // настройка подключений к базам данных
-        'db' => $db,
-        'dbPortalOld' => $dbPortalOld,
-        'dbDKS' => $dbDKS,        
+        'db' => $db,    
         'dbPgsqlLog' => $dbPgSqlLog,
 
         // настройка форматирования
@@ -155,14 +92,12 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             //'suffix' => '.html',
-            'rules' => [  
-                
-                // для конкурса неделя добрых дел
-                'dobro' => 'events/dobro',               
-                'dobro/<action:\w+>' => 'events/dobro/<action>',     
-                
+            'rules' => [                  
                 // просмотр профиля пользователя
                 '@<login:\d{4}.+>' => 'user/view-profile',
+                
+                // чтобы путь выглядел более естественным
+                'comment/<action:\w+>' => 'comment/comment/<action>',
             ],
         ],
         
@@ -172,9 +107,9 @@ $config = [
         ],
         
         // компонент получения информации о пользователе
-        'userInfo' => [
-            'class' => app\components\UserInfo::class,
-        ],
+         'userInfo' => [
+             'class' => app\components\UserInfo::class,
+         ],
         
         'ldap' => $ldapParams,
     ],
