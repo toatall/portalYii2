@@ -5,7 +5,6 @@ namespace app\modules\kadry\modules\beginner\models;
 use app\behaviors\AuthorBehavior;
 use yii\behaviors\TimestampBehavior;
 use app\helpers\ImageHelper;
-use app\helpers\StringHelper;
 use Yii;
 use app\models\department\Department;
 use app\models\User;
@@ -166,7 +165,7 @@ class Beginner extends \yii\db\ActiveRecord
     public function getThumbPath()
     {
         $path = Yii::$app->controller->module->params['path']['thumbnail'];
-        return StringHelper::manyReplace($path, [
+        return strtr($path, [
             '{code}' => '8600',
             '{id}' => $this->id,
         ]);
@@ -200,7 +199,7 @@ class Beginner extends \yii\db\ActiveRecord
     public function getGalleryPath()
     {
         $path = Yii::$app->controller->module->params['path']['gallery'];
-        return StringHelper::manyReplace($path, [
+        return strtr($path, [
             '{code}' => '8600',
             '{id}' => $this->id,
         ]);
