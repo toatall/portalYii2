@@ -1,6 +1,5 @@
 <?php
 
-use app\assets\EmojiAsset;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */
@@ -13,14 +12,10 @@ use yii\helpers\Url;
 
 $title = isset($title) && $title ? $title : 'Комментарии';
 
-EmojiAsset::register($this);
-
-
 $idFormComment = 'form-comment-create-' . $hash;
 $idPjaxComments = 'pjax-comment-'.$hash;
 ?>
-<div class="comment-index">
-    
+<div class="comment-index">    
     <div class="card">
         <?php if ($title != '-'): ?>
         <div class="card-header">
@@ -34,13 +29,14 @@ $idPjaxComments = 'pjax-comment-'.$hash;
                 data-url="<?= Url::to(['/comment/comments', 'hash'=>$hash, 'url'=>$url, 'modelName'=>$modelName, 'modelId'=>$modelId]) ?>"></div>            
         </div>
     </div>
-
 </div>
+
 <?php $this->registerJs(<<<JS
 
     function ajaxLoad(idContainer) {
-        var container = $('#' + idContainer);
-        var url = $('#' + idContainer).data('url');        
+        
+        let container = $('#' + idContainer);
+        let url = $('#' + idContainer).data('url');        
         
         container.html('<span class="fa-1x"><i class="fas fa-circle-notch fa-spin"></i></span>');
 

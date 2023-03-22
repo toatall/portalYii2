@@ -29,6 +29,7 @@ use app\models\User;
  */
 class Comment extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -64,7 +65,7 @@ class Comment extends \yii\db\ActiveRecord
         return [
             [['bind_hash', 'url', 'text'], 'required'],
             [['id_parent', 'id_reply'], 'integer'],
-            [['text', 'log_change'], 'string'],
+            [['text'], 'string'],
             [['date_create', 'date_update', 'date_delete'], 'safe'],
             [['bind_hash'], 'string', 'max' => 50],
             [['url'], 'string', 'max' => 1000],
@@ -78,22 +79,13 @@ class Comment extends \yii\db\ActiveRecord
      */
     public function attributeLabels()
     {
-        return [
-            'id' => 'ID',
-            'id_parent' => 'Id Parent',
-            'bind_hash' => 'Bind Hash',
-            'url' => 'Url',
-            'username' => 'Username',
+        return [            
             'text' => 'Комментарий',
-            'date_create' => 'Date Create',
-            'date_update' => 'Date Update',
-            'date_delete' => 'Date Delete',
-            'log_change' => 'Log Change',
         ];
     }
 
     /**
-     * Gets query for [[Username0]].
+     * Gets query for [[Username]].
      *
      * @return \yii\db\ActiveQuery
      */

@@ -48,14 +48,11 @@
 
 <?php
 $this->registerJs(<<<JS
-    
-//    $('.comment-form *').popover('hide');
-//    $('.comment-form [data-toggle="popover"]').popover();
-        
+   
     // ссылка добавления комментария
     $('.link-create').on('click', function() {
-        var container = $('#' + $(this).data('container'));
-        var url = $(this).attr('href');
+        let container = $('#' + $(this).data('container'));
+        let url = $(this).attr('href');
 
         container.html('<span class="fa-1x"><i class="fas fa-circle-notch fa-spin"></i></span>');
         
@@ -72,8 +69,8 @@ $this->registerJs(<<<JS
 
     // ссылка перенаправления коментария
     $('.link-reply').on('click', function() {
-        var parentDiv = $(this).parent('div.reply');
-        var childDiv = parentDiv.children('div');
+        let parentDiv = $(this).parent('div.reply');
+        let childDiv = parentDiv.children('div');
         childDiv.toggle('show');
         $(this).remove();
         return false;
@@ -81,15 +78,16 @@ $this->registerJs(<<<JS
 
     // закрытие формы редактирования комментария (только для ответов и при изменении комментария)
     $(document).on('click', '.btn-close-comment-edit', function() {
-        var con = $('#' + $(this).data('container-id'));
+        let con = $('#' + $(this).data('container-id'));
         con.html('');
         return false;
     });
 
+    // привязка кнопок изменения комментария
     $('.link-update').on('click', function() {
 
-        var container = $('#' + $(this).data('container'));
-        var url = $(this).attr('href');
+        let container = $('#' + $(this).data('container'));
+        let url = $(this).attr('href');
 
         container.html('<span class="fa-1x"><i class="fas fa-circle-notch fa-spin"></i></span>');
         
@@ -104,14 +102,15 @@ $this->registerJs(<<<JS
         return false;
     });
 
+    // привязка кнопок удаления комментария
     $('.link-delete').on('click', function() {
         
         if (!confirm('Вы уверены, что хотите удалить?')) {
             return false;
         }
 
-        var container = $(this).data('container');
-        var url = $(this).attr('href');
+        let container = $(this).data('container');
+        let url = $(this).attr('href');
 
         $.ajax({
             url: url,            
