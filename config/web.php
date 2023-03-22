@@ -3,6 +3,7 @@
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db/db.php';
 $dbPgSqlLog = require __DIR__ . '/db/dbPgsqlLog.php';
+$dbDKS = require __DIR__ . '/db/dbDKS.php';
 $ldapParams = require __DIR__ . '/ldap.php';
 
 $config = [
@@ -75,6 +76,7 @@ $config = [
         // настройка подключений к базам данных
         'db' => $db,    
         'dbPgsqlLog' => $dbPgSqlLog,
+        'dbDKS' => $dbDKS,
 
         // настройка форматирования
         'formatter' => [
