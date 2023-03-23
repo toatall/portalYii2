@@ -1,10 +1,4 @@
 <?php
-/**
- * @link http://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
-
 namespace app\modules\admin\assets;
 
 use yii\web\AssetBundle;
@@ -16,15 +10,20 @@ use yii\web\AssetBundle;
  */
 class JsTreeAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
-    public $css = [
-        'extensions/jsTree/themes/default/style.min.css',
-    ];
+    
+    public $sourcePath = '@npm/jstree/dist';
+    
     public $js = [
-        'extensions/jsTree/jstree.min.js',
+        'jstree.min.js',
     ];
+    public $css = [
+        'themes/default/style.min.css',
+    ];    
+
     public $depends = [
         'app\modules\admin\assets\AppAsset',
-    ];
+    ];    
+    
+    
+    
 }

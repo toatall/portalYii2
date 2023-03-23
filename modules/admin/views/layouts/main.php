@@ -52,7 +52,6 @@ ModalViewerAssetBs5::register($this);
                     ['label' => 'Роли', 'url' => ['/admin/role/index']],
                     ['label' => 'Модули', 'url' => ['/admin/module/index']],
                     ['label' => 'Голосование', 'url' => ['/admin/vote/index']],
-                    //'<li class="divider"></li>',
                     '<div class="divider"></div>',
                     ['label' => 'Организации', 'url' => ['/admin/organization/index']],
                     ['label' => 'Меню', 'url' => ['/admin/menu/index']],
@@ -61,7 +60,6 @@ ModalViewerAssetBs5::register($this);
                     ['label' => 'Структура', 'url' => ['/admin/tree/index']],
                     ['label' => 'Отделы', 'url' => ['/admin/department/index']],
                 ], 'visible' => (!Yii::$app->user->isGuest)],
-                // ['label' => 'Справка', 'url' => ['/admin/default/help']],
                 Yii::$app->user->isGuest ? ['label' => 'Вход', 'url' => ['/site/login']] : 
                     ('<li class="nav-item">'
                         . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
@@ -79,7 +77,7 @@ ModalViewerAssetBs5::register($this);
             'items' => [
                 Yii::$app->user->isGuest ? ('') : 
                     ([
-                        'label' => '<i class="fas fa-building"></i> (' . \Yii::$app->userInfo->current_organization . ')', 
+                        'label' => '<i class="fas fa-building"></i> (' . \Yii::$app->user->identity->current_organization . ')', 
                         'encode' => false, 
                         'url' => ['/admin/organization/list', 'backUrl'=>Yii::$app->getRequest()->getUrl()], 
                         'linkOptions' => ['class' => 'mv-link mv-no-change-url']]
@@ -89,7 +87,7 @@ ModalViewerAssetBs5::register($this);
         ?>
 
         <div class="container">
-            <div class="pt-4">
+            <div class="pt-5 mt-5">
                 <?= Breadcrumbs::widget([
                     'homeLink' => ['label' => 'Главная', 'url' => ['/admin/default/index']],
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
