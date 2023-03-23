@@ -2,11 +2,12 @@
 
 namespace app\models\menu;
 
+use app\behaviors\AuthorBehavior;
+use app\behaviors\DatetimeBehavior;
 use Yii;
 use app\models\User;
 use app\models\Access;
 use yii\db\Query;
-use yii\helpers\Html;
 use yii\helpers\Url;
 
 /**
@@ -50,13 +51,11 @@ class Menu extends \yii\db\ActiveRecord
         return [
             [['id_parent', 'type_menu', 'name'], 'required'],
             [['id_parent', 'type_menu', 'blocked', 'sort_index'], 'integer'],
-            [['submenu_code', 'log_change'], 'string'],
-            [['date_create', 'date_edit'], 'safe'],
+            [['submenu_code'], 'string'],
             [['key_name'], 'string', 'max' => 50],
             [['name'], 'string', 'max' => 100],
             [['link'], 'string', 'max' => 500],
             [['target'], 'string', 'max' => 10],
-            [['author'], 'string', 'max' => 250],
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username_windows']],
         ];
     }
@@ -83,6 +82,25 @@ class Menu extends \yii\db\ActiveRecord
             'log_change' => 'Журнал изменений',
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [            
+            [
+                'class' => DatetimeBehavior::class,
+                'createdAtAttribute' => 'date_create',
+                'updatedAtAttribute' => 'date_edit',
+            ],
+            [
+                'class' => AuthorBehavior::class,
+                'author_at' => 'author',
+            ],            
+        ];
+    }
+    
 
     /**
      * Gets query for [[ModelUser]].
@@ -183,9 +201,33 @@ class Menu extends \yii\db\ActiveRecord
      */
     public function beforeSave($insert)
     {
-        $this->author = Yii::$app->user->identity->username;
         $this->sort_index = $this->sort_index == null ? 0 : $this->sort_index;
         return parent::beforeSave($insert);
+    } 
+
+    /**
+     * {@inheritdoc}
+     */
+    public function afterDelete()
+    {
+        $this->deleteCache();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $this->deleteCache();        
+    }
+    
+    /**
+     * Удаление кэша (после изменения или удаления записи)
+     */
+    private function deleteCache()
+    {
+        Yii::$app->cache->delete('menu_' . $this->type_menu);
     }
 
 }

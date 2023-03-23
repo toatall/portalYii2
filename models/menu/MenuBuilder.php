@@ -1,20 +1,15 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace app\models\menu;
 
 use app\models\conference\AbstractConference;
-use app\models\vote\VoteMain;
 use Yii;
+use yii\caching\DbDependency;
+use yii\db\Query;
 use yii\helpers\Url;
 
 /**
- * Главное меню
+ * Генерирование меню
  * @author toatall
  */
 class MenuBuilder
@@ -46,20 +41,17 @@ class MenuBuilder
 
     /**
      * Вывод меню (с кэшированием)
-     * @param $position
+     * @param int $position
      * @param int $id_parent
      * @param array $options
      * @return array
      */
-    protected static function build($position, $options, $id_parent=0)
-    {
-        $cache = Yii::$app->cache;
-        $menu = $cache->get('menu_' . $position);
-        if ($menu === false) {
-            $menu = self::buildData($position, $options, $id_parent);
-            $cache->set('menu_' . $position, $menu, 5 * 60);
-        }
-        return $menu;
+    protected static function build($position, $options, $idParent=0)
+    {      
+        $cache = Yii::$app->cache;       
+        return $cache->getOrSet('menu_' . $position, function() use ($position, $options, $idParent) {
+            return self::buildData($position, $options, $idParent);
+        }, 0);
     }
 
     /**
@@ -74,7 +66,7 @@ class MenuBuilder
         $queryAll = (new \yii\db\Query())
            ->from('{{%menu}}')
            ->where(['id_parent'=>$id_parent, 'type_menu'=>$position, 'blocked'=>0])
-           ->orderBy('sort_index desc')           
+           ->orderBy('sort_index desc')
            ->all();
         
         $resultArray = array();
@@ -158,7 +150,6 @@ class MenuBuilder
     {
         return [
             AbstractConference::eventsToday(),
-            //VoteMain::activeVotes()
         ];
     }
     

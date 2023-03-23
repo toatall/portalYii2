@@ -35,7 +35,7 @@ class MenuNewsOrganizations implements ISubMenu
         $query->from('{{%organization}}')
             ->where(['code_parent' => $codeParent])
             ->andWhere(['<>', 'code', '8600'])
-            ->orderBy('code asc');        
+            ->orderBy('code asc');
 
         $resultQuery = $query->all();
 
@@ -62,19 +62,21 @@ class MenuNewsOrganizations implements ISubMenu
                 $classA .= ' active';
             }
 
-            $li = str_replace('{url}', $url, $li);
-            $li = str_replace('{class-a}', $classA, $li);
-            $li = str_replace('{text}', $item['name'], $li);
-            $li = str_replace('{class-li}', $classLi, $li);
+            $replacePairs = [
+                '{url}' => $url,
+                '{class-a}' => $classA,
+                '{text}' => $item['name'],
+                '{class-li}' => $classLi,
+            ];           
             
             if ($subMenu != '') {
-                $li = str_replace('{submenu}', '<ul class="dropdown-menu">' . $subMenu .'</ul>', $li);
+                $replacePairs['{submenu}'] = '<ul class="dropdown-menu">' . $subMenu .'</ul>';
             }
             else {
-                $li = str_replace('{submenu}', '', $li);
+                $replacePairs['{submenu}'] = '';
             }
 
-            $resultMenu .= $li;
+            $resultMenu .= strtr($li, $replacePairs);
 
         }        
 
