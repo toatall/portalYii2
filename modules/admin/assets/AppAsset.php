@@ -19,16 +19,8 @@ class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
-    public $css = [
-        'css/site.css',
-        'css/all.min.css',
-        // 'css/css-loader.css',
-        // 'css/menu.css',
-        'css/admin/styles.css?v=07042020',
-    ];
-    public $js = [
-        // 'js/main.js',
-    ];
+    public $css = [];
+    public $js = [];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap5\BootstrapAsset',
