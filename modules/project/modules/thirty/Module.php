@@ -12,9 +12,6 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
-        parent::init();
-        $this->setComponents([
-            'dbThirty' => require __DIR__ . '/config/db.php',
-        ]);
+        parent::init();        
     }    
 }
