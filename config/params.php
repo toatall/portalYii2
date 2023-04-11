@@ -268,6 +268,12 @@ return [
                 'videos' => '/public/upload/rookie/tiktok/videos/',
             ],
         ],
+
+        'contest' => [
+            'space' => [
+                'uploadPath' => '/public/upload/contest/space/{id}/',
+            ],
+        ],
         
     ],    
 
