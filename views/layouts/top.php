@@ -1,21 +1,16 @@
 <?php
 /** @var \yii\web\View $this */
 
-use app\assets\FlipAsset;
 use app\assets\newyear\GerljandaAsset;
-use app\assets\fancybox\FancyboxAsset;
 use app\helpers\DateHelper;
 use yii\bootstrap5\Html;
-
-FancyboxAsset::register($this);
+use yii\helpers\Url;
 
 $flagNewYear = false;//(date('m') == 12);
 
 if ($flagNewYear) {
-    //FlipAsset::register($this);
     GerljandaAsset::register($this);
 }
-FlipAsset::register($this);
 
 $logoTopPath = '/public/assets/portal/img/';
 $logoTopImg = 'top_default.png';
@@ -109,6 +104,44 @@ if (date('Y') < 2022) {
 }
 ?>
 
+
+<?php if (date('d.m') === '12.04'): ?>
+    <!-- <img src="/img/rocket-animation-interactive-tutorial.svg" style="width: 10rem;" /> -->
+    <?php
+    try { 
+        echo $this->renderFile('@webroot/img/rocket-animation-interactive-tutorial.svg');    
+    } catch (Exception $e) {}
+    $this->registerJs(<<<JS
+        $('#rocket').trigger('click');
+        $('#rocket').on('click', function() {
+            let r = $(this);
+            r.css('bottom', '120vh');
+            r.css('width', '5rem');            
+            setTimeout(function() {
+                r.css('bottom', '1');
+                r.css('width', '15rem');
+            }, 5000);            
+        });
+    JS);
+    $this->registerCss(<<<CSS
+        #rocket {
+            width: 15rem;
+            position: fixed;
+            right: 0rem;
+            bottom: 0rem;
+            z-index: 999;
+            opacity: .8;
+            transition: all 5s;  
+            transform: rotate(0deg);          
+        }
+        #rocket:hover {
+            width: 45rem;
+            transform: rotate(-90deg);
+        }               
+    CSS);    
+    ?>
+<?php endif; ?>
+
 <div class="container-fluid">
     <div class="row d-flex" id="logo-background" style="overflow: hidden;">
         
@@ -116,7 +149,14 @@ if (date('Y') < 2022) {
         
         <div class="col">
             <div class="row justify-content-end">
-               
+                <div class="col text-end">
+                    <a href="<?= Url::to(['/contest/space']) ?>" id="link-sontest-space" data-bs-toggle="tooltip" data-bs-title='Выставка "Космос - Мир удивительных фантазий"' data-bs-trigger="hover">
+                        <img src="/public/upload/contest/space/6195676.png" style="height: 185px; margin-top: 10px;" />
+                    </a>
+                    <?php $this->registerJs(<<<JS
+                        new bootstrap.Popover('#link-sontest-space');
+                    JS); ?>
+                </div>
                 <?php if (date('Y') < 2023) { echo $this->render('top_pay_taxes'); } ?>
 
                 <?= $this->render('top_calendar') ?>

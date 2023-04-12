@@ -1,12 +1,12 @@
 <?php
 /** @var yii\web\View $this */
 
-use app\assets\FlipAsset;
+use app\assets\FlipNumbersAsset;
 use app\helpers\DateHelper;
 use yii\bootstrap5\Html;
 use yii\db\Query;
 
-FlipAsset::register($this);
+FlipNumbersAsset::register($this);
 
 $queryGeneral = (new Query())
     ->from('{{%pay_taxes_general}}')
@@ -28,7 +28,7 @@ $queryGeneral = (new Query())
         <div class="col">
             <div class="text-center text-light">
                 <?php if (date('Ymd') > 20221201): ?>
-                    <?php $days = DateHelper::dateDiffDays('02.01.2023'); ?>
+                    <?php $days = DateHelper::dateDiffDays('02.01.2024'); ?>
                     <span class="lead" style="font-weight: bolder; font-size: 0.8em;">До срока исполнения СМС показателя 
                     <?php
                         $endNumber = $days % 10;
@@ -54,7 +54,7 @@ $queryGeneral = (new Query())
                     ?>     
                     </span>
                 <?php endif; ?>
-                <div class="tick" style="font-size: 2rem;" data-value="<?= $days ?>">
+                <div class="tick" data-credits="false" style="font-size: 2rem;" data-value="<?= $days ?>">
                     <div data-layout="vertical">
                         <span data-view="flip"></span>
                     </div>
@@ -79,14 +79,14 @@ $queryGeneral = (new Query())
         <div class="col text-primary">
             <div class="text-center text-light">
                 <span style="font-weight: bolder; font-size: 0.9em;">Поступления</span>
-                <div class="tick" style="font-size: 1.1em;" data-value="<?= round($queryGeneral['sum2'] ?? 0,2) ?> тыс">        
+                <div class="tick" data-credits="false" style="font-size: 1.1em;" data-value="<?= round($queryGeneral['sum2'] ?? 0,2) ?> тыс">        
                     <div data-layout="vertical">            
                         <span data-view="flip"></span> 
                     </div>
                 </div>  
                 <hr class="my-1" />      
                 <span style="font-weight: bolder; font-size: 0.9em;">СМС-показатель</span>
-                <div class="tick" style="font-size: 1.2em;" data-value="<?= round($queryGeneral['sms'] ?? 0,2) ?>">
+                <div class="tick" data-credits="false" style="font-size: 1.2em;" data-value="<?= round($queryGeneral['sms'] ?? 0,2) ?>">
                     <div data-layout="vertical">
                         <span data-view="flip"></span>
                     </div>

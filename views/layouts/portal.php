@@ -88,7 +88,7 @@ FontAwesomeAsset::register($this);
 
         NavBar::end();
 
-        ?>
+        ?>        
 
         <div class="container-fluid">
 
@@ -127,6 +127,10 @@ FontAwesomeAsset::register($this);
                         ]);
                     }
                     ?>
+
+                    <?php if (isset($this->blocks['addon-menu'])): ?>
+                        <?= $this->blocks['addon-menu'] ?>
+                    <?php endif; ?>
                     
                     <ul class="dropdown-menu dropdown-menu-main dropdown-menu-wrap" style="border: none; padding: 0;">
                         <?php foreach (MenuBuilder::buildLeftAddMenuContent() as $menuItem) {
@@ -162,7 +166,7 @@ FontAwesomeAsset::register($this);
                 <div class="col-4">
                     <h5><strong>Аналитическая подсистема АИС "Налог-3"</strong></h5>
                     <ul class="list-unstyled">
-                        <li><a href="http://ias.ais3.tax.nalog.ru/ais/" target="_blank">Программный комплекс информационно-аналитической работы</a></li>
+                        <li><a href="https://iasar.dpc.tax.nalog.ru/" target="_blank">Программный комплекс информационно-аналитической работы</a></li>
                         <li><a href="https://wdewebkpe.dpc.tax.nalog.ru/" target="_blank">Система управления запросами к озеру данных "Экспедитор" (промышленный контур)</a></li>
                         <li><a href="https://n7701-koe606.dpc.tax.nalog.ru" target="_blank">Система управления запросами к озеру данных "Экспедитор" (опытный контур)</a></li>
                         <li><a href="http://marmnpd.tax.nalog.ru:8081" target="_blank">Автоматизированное рабочее место «Налог на профессиональный доход» (МАРМ НПД)</a></li>
