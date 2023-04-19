@@ -2,22 +2,26 @@
  * Работа с модальными окнами
  */
 
-var urlHelper = {
 
+/**
+ * Класс обеспечивающий взаимодействие с ссылками и адресной строкой
+ * @author toatall
+ */
+class UrlHelper {
     
     /**
     * Проверка наличия параметра в текущей ссылке
     * @param name
     * @returns
     */
-    getURLParameter: function(name) {
+    static getURLParameter(name) {
         "use strict";
-        var url = new RegExp('([?|&|#]' + name + '=)(.*)').exec(location.hash) || ["", ""];
+        let url = new RegExp('([?|&|#]' + name + '=)(.*)').exec(location.hash) || ["", ""];
         if (url.length >= 2 && url[2] != undefined) {
             return decodeURIComponent(url[2].replace(/\+/g, '%20'));
         }
         return null;
-    },
+    }
 
     /**
     * Изменение параметра ссылки
@@ -25,12 +29,11 @@ var urlHelper = {
     * @param value значение параметра
     * @returns
     */
-    changeUrlParam: function (param, value)
-    {
+    static changeUrlParam (param, value) {
         "use strict";
-        var currentURL = window.location.href + '&';
-        var change = new RegExp('(' + param + ')=(.*)&', 'g');
-        var newURL = currentURL.replace(change, '$1=' + value + '&');
+        let currentURL = window.location.href + '&';
+        let change = new RegExp('(' + param + ')=(.*)&', 'g');
+        let newURL = currentURL.replace(change, '$1=' + value + '&');
         if (this.getURLParameter(param) !== null) {
             try {
                 window.history.replaceState('', '', newURL.slice(0, -1));
@@ -40,7 +43,7 @@ var urlHelper = {
         } else {
             window.history.replaceState('', '', currentURL.slice(0, -1) + '#' + param + '=' + value);
         }
-    },
+    }
     
     
     /**
@@ -49,71 +52,86 @@ var urlHelper = {
     * @returns
     * @uses removeParametrDialog()
     */
-    removeURLParameter: function(url) {
+    static removeURLParameter (url) {
         "use strict";
         //prefer to use l.search if you have a location/link object
-        var urlparts = url.split('#');
+        let urlparts = url.split('#');
         if (urlparts.length >= 2) {
-
             return urlparts[0];
         } 
         else {
             return url;
         }
     }
-    
-};
 
+    /**
+     * Добавление параметров к ссылке (через ? или &)
+     * @param {string} url 
+     * @param {array} params 
+     * @returns {string}
+     */
+    static addParam (url, params) {
+        let paramDelimiter = '?';
+        if (url.indexOf('?') >= 0) {
+            paramDelimiter = '&';
+        }
+        for (const [key, value] of Object.entries(params)) {
+            url = url + paramDelimiter + key + '=' + value;
+            paramDelimiter = '&';
+        }        
+        return url;
+    }
 
-var modalViewer = {
+}
 
-    modalId: '#modal-dialog-main',
-    modalTitle: '#modal-dialog-title',
-    modalHeader: '#modal-dialog-header',
-    modalBody: '#modal-dialog-body',
+/**
+ * @author toatall
+ */
+class ModalViewer {
     
-    templateError: '<div class="alert alert-danger">{text}</div>',
-    templateAnimation: '<div class="fa-3x" style="color: Dodgerblue;"><i class="fas fa-circle-notch fa-spin"></i></div>',
-    
-    urlHelper: urlHelper,
+    constructor(params = {}) {
+        this.modalId = params.modelId ?? this.generateId();
+        this.templateAnimation = params.templateAnimation ?? '<div class="fa-3x" style="color: Dodgerblue;"><i class="fas fa-circle-notch fa-spin"></i></div>';
+        this.templateError = params.templateError ?? '<div class="alert alert-danger">{text}</div>';
+        this.urlHelper = params.urlHelper ?? UrlHelper;
+        this.enablePushState = params.enablePushState ?? true;
+        this.bindFormSelector = params.bindFormSelector ?? null;
+        this.init();
+    }
+
+    /**
+     * Генерирование случайного имени
+     * @returns string
+     */
+    generateId() {
+        return 'modal-viewer-' + (Math.random() + 1).toString(36).substring(6);
+    }
     
     /**
      * Инициализация
      * @returns {undefined}
      */
-    init: function() {
-        "use strict";
-        this.createModalDialog();
-        this.openModalFromUrl();
-        this.bind();
-    },
-    
-    /**
-     * Привязать все
-     * @returns {undefined}
-     */
-    bind: function() {
-        "use strict";
-        this.bindLinks();
-        this.bindModalForm();         
-    },
+    init() {        
+        this.createModalDialog();        
+    }
     
     /**
      * Создание формы диалога
      * @returns {undefined}
      */
-    createModalDialog: function() {
-        "use strict";
+    createModalDialog() {
+        let $this = this;
+
         $('body').append(
-            '<div class="modal fade" id="modal-dialog-main" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">'
+            '<div class="modal fade" id="' + this.modalId + '" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">'
                 + '<div class="modal-dialog" style="max-width: 95%;">'
                     + '<div class="modal-content">'
                         +'<div class="modal-header">'                            
-                            + '<div id="modal-dialog-header"></div>'
-                            + '<h2 class="modal-title" id="modal-dialog-title">Load title...</h2>'
+                            + '<div class="modal-dialog-header"></div>'
+                            + '<h2 class="modal-title modal-dialog-title">Load title...</h2>'
                             + '<button class="btn-close me-2" type="button" data-bs-dismiss="modal" aria-label="Close"></button>'
                         + '</div>'
-                        + '<div class="modal-body" id="modal-dialog-body">'
+                        + '<div class="modal-body modal-dialog-body">'
                             + 'Load body...'
                         + '</div>'
                         + '<div class="modal-footer">'
@@ -123,7 +141,27 @@ var modalViewer = {
                 + '</div>'
             + '</div>'
         );
-    },
+        $('#' + this.modalId).data('mv', $(this));
+
+        if (this.enablePushState) {
+            // удаление ссылки `w` после закрытия диалога
+            $('#' + this.modalId).on('hide.bs.modal', function() {
+                window.history.replaceState({}, document.title, $this.urlHelper.removeURLParameter(window.location.href, 'w'));
+            });            
+        }
+
+        // очистка формы после закрытия
+        $('#' + this.modalId).on('hide.bs.modal', function() {
+            $this.getElementTitle().html('');
+            $this.getElementHeader().html('');
+            $this.getElementBody().html('');
+        });
+
+        $(this).on('onRequestJsonDone', function() {
+            $this.hideElements('#' + $this.modalId);           
+            $this.bindForm();
+        });
+    }        
     
     /**
      * Если в адресе есть параметр `w`,
@@ -131,91 +169,62 @@ var modalViewer = {
      * указанным в параметре
      * @returns {undefined}
      */
-    openModalFromUrl: function() {
-        "use strict";
-        var urlDialog = this.urlHelper.getURLParameter('w');
+    openModalFromUrl() {
+        let urlDialog = this.urlHelper.getURLParameter('w');
         if (urlDialog != null) {
             this.showModal(urlDialog);
         }
-    },
-    
+    }
+       
     /**
-     * Привязка к ссылкам
-     * @returns {undefined}
+     * Поиск текста залоговка модального окна
+     * @returns any
      */
-    bindLinks: function() {
-        "use strict";
-        var $this = this;
-        $(document).off('click', '.mv-link');
-        $(document).on('click', '.mv-link', function() {
-            $this.showModal($(this).attr('href'));
-            return false;
-        });
-    },
-    
+    getElementTitle() {
+        return $('#' + this.modalId).find('.modal-dialog-title');        
+    }
+
+    /**
+     * Поиск блока заголовка модального окна
+     * @returns any
+     */
+    getElementHeader() {
+        return $('#' + this.modalId).find('.modal-dialog-header');
+    }
+
+    /**
+     * Поиск блока тела модального окна
+     * @returns any
+     */
+    getElementBody() {
+        return $('#' + this.modalId).find('.modal-dialog-body');
+    }
+
     /**
      * Открыть модальное окно и выполнить запрос по ссылке
      * @returns {undefined}
      */
-    showModal: function(url) {
-        "use strict";
-                
+    showModal(url, requestMethod, requestData, processData) {
+        requestMethod = requestMethod ?? 'get';
+        requestData = requestData ?? null;
+
         $(this).trigger('onModalShow', [{ link: url }]);
-        this.requestJson(this.modalTitle, this.modalHeader, this.modalBody, url);
-        $(this.modalId).modal('show');
+        this.requestJson(this.getElementTitle(), this.getElementHeader(), this.getElementBody(), url, requestMethod, requestData, processData);
+        $('#' + this.modalId).modal('show');
 
-        // удаление ссылки `w` после закрытия диалога
-        var $this = this;
-        $(this.modalId).on('hide.bs.modal', function() {               
-            window.history.replaceState({}, document.title, $this.urlHelper.removeURLParameter(window.location.href, 'w'));
-        });
-
-        // добавление ссылки `w` после открытия дилога
-        this.urlHelper.changeUrlParam('w', url);
-
-        $(this).on('onRequestJsonDone', function() {
-            $this.hideElements($this.modalBody);
-            $this.bindModalForm();
-        });
-    },
-
-    /**
-     * Открытие модального окна (вручную)
-     * Например, если требуется дополнительно передать массив данных
-     * @param url
-     * @param changeUrl
-     * @param requestMethod
-     * @param requestData
-     */
-    showModalManual: function(url, changeUrl, requestMethod, requestData, processData) {
-        'use strict';
-        requestMethod = requestMethod || 'get';
-        requestData = requestData || null;
-        $(this).trigger('onModalShow', [{ link: url }]);
-        this.requestJson(this.modalTitle, this.modalHeader, this.modalBody, url, requestMethod, requestData, processData);
-        $(this.modalId).modal('show');
-
-        var $this = this;
-        if (changeUrl) {
-            // удаление ссылки `w` после закрытия диалога
-            $(this.modalId).on('hide.bs.modal', function() {
-                window.history.replaceState({}, document.title, $this.urlHelper.removeURLParameter(window.location.href, 'w'));
-            });
-
+        if (this.enablePushState) {            
             // добавление ссылки `w` после открытия дилога
             this.urlHelper.changeUrlParam('w', url);
         }
+    }
 
-        $(this).on('onRequestJsonDone', function() {
-            $this.hideElements($this.modalBody);
-            $this.bindModalForm();
-        });
-    },
 
-    closeModal: function() {
-        'use strict';
-        $(this.modalId).modal('hide');
-    },
+    /**
+     * Закрытие модального окна
+     */
+    closeModal() {
+        $('#' + this.modalId).modal('hide');
+    }
     
     /**
      * Скрытие элементов, которые не требуется показыать в диалоге
@@ -223,59 +232,38 @@ var modalViewer = {
      * @param {type} modal
      * @returns {undefined}
      */
-    hideElements: function(modal) {
-        "use strict";
+    hideElements(modal) {
         $(modal).find('.mv-hide').hide();
-    },
-    
+    }
     
     /**
-     * Сохранение формы через ajax
-     * @returns {undefined}
-     */    
-    bindModalForm: function() {
-        "use strict";
-        var $this = this;
-        $(document).off('submit', '.mv-form');
-        $(document).on('submit', '.mv-form', function(e) {
+     * Призязка к форме в окне диалога
+     */
+    bindForm() {
+        let $this = this;
+        const formSelector = this.bindFormSelector ?? '#' + this.modalId + ' form'; 
+        $(document).off('submit', formSelector);
+        $(document).on('submit', formSelector, function(e) {
             e.preventDefault();
-            var url = $(this).attr('action');
-            var formData = new FormData(this);
-            
-            $($this).on('onRequestJsonDone', function(event, data) {
-                $this.autoCloseModal(data);
-            });
-            $this.requestJson($this.modalTitle, this.modalHeader, $this.modalBody, url, 'post', formData);
-
-            return false;
-        });
-    },
-
-    bindModalFormManual: function(form_container) {
-        "use strict";
-        var $this = this;
-        $(form_container).submit(function(e) {
-            e.preventDefault();
-            var url = $(this).attr('action');
-            var formData = new FormData(this);
+            let url = $(this).attr('action');
+            let formData = new FormData(this);
+            let method = $(this).attr('method') ?? 'post';
 
             $($this).on('onRequestJsonDone', function(event, data) {
                 $this.autoCloseModal(data);
             });
-            $this.requestJson($this.modalTitle, this.modalHeader, $this.modalBody, url, 'post', formData);
-
+            $this.requestJson($this.getElementTitle(), $this.getElementHeader(), $this.getElementBody(), url, method, formData);
             return false;
         });
-    },
-    
+    }    
+
     /**
      * Автоматическое закрытие диалога, если в ответ возвращается текст `OK`
      * @param {type} data
      * @returns {undefined}
      */
-    autoCloseModal: function(data) {
-        "use strict";
-        var textData = '';
+    autoCloseModal(data) {       
+        let textData = '';
         if (typeof data === 'object' && data !== null && data.hasOwnProperty('content')) {
             textData = data.content;
         } 
@@ -283,16 +271,11 @@ var modalViewer = {
             textData = data;
         }
         
-        if (textData == 'OK' || textData == 'ok') {
-            $(this.modalId).modal('hide');
+        if (textData.toUpperCase() == 'OK') {
+            $('#' + this.modalId).modal('hide');
             $(this).trigger('onRequestJsonAfterAutoCloseModal');
-        }        
-    },
-
-    modalUpate: function(url, method, data) {
-        "use strict";
-        this.requestJson(this.modalTitle, this.modalHeader, this.modalBody, url, method, data);
-    },
+        }
+    }
     
     /**
      * Запрос к серверу
@@ -303,18 +286,17 @@ var modalViewer = {
      * @param {type} data
      * @returns {undefined}
      */
-    requestJson: function(containerTitleId, containerHeaderId, containerBodyId, url, method, data, processData) {
-        "use strict";
+    requestJson(containerTitleId, containerHeaderId, containerBodyId, url, method, data, processData) {
         method = method || 'get';
         data = data || null;
         processData = processData || false;
+        let $this = this;        
 
         // анимация
-        $(containerTitleId).html(this.templateAnimation);
-        $(containerBodyId).html(this.templateAnimation);
+        containerTitleId.html(this.templateAnimation);
+        containerBodyId.html(this.templateAnimation);
         
         // ajax
-        var $this = this;
         $.ajax({
             type: method,
             url: url,
@@ -327,43 +309,62 @@ var modalViewer = {
             
             // заголовок header
             if (data.hasOwnProperty('header')) {
-                $(containerHeaderId).html(data.header);
+                containerHeaderId.html(data.header);
             } 
             else {
-                $(containerHeaderId).html('');
-            }
-
-            // заголовок title
-            if (data.hasOwnProperty('title')) {
-                $(containerTitleId).html(data.title);
-            } 
-            else {
-                $(containerTitleId).html('');
-            }
+                containerHeaderId.html('');
+            }            
 
             // контент
             if (data.hasOwnProperty('content')) {
-                $(containerBodyId).html(data.content);
+                containerBodyId.html(data.content);
             }
-            else
-            {
-                $(containerBodyId).html(data);                
+            else {
+                containerBodyId.html(data);                
+            }
+
+            // заголовок title
+            if (data.hasOwnProperty('title') && data.title) {                
+                containerTitleId.html(data.title);
+            } 
+            else {                
+                containerTitleId.html(containerBodyId.find('.title').text().trim());                                 
             }
             
             $($this).trigger('onRequestJsonDone', [ data ]);
         })
         .fail(function (jqXHR) {
-            var template = $this.templateError;
+            let template = $this.templateError;
             template = template.replace('{text}', jqXHR.status + ' ' + jqXHR.statusText);
-            $(containerTitleId).html('Ошибка');
-            $(containerBodyId).html(template);            
+            containerTitleId.html('Ошибка');
+            containerBodyId.html(template); 
+            console.log(jqXHR);
             
             $($this).trigger('onRequestJsonFail', [{ jqXHR: jqXHR }]);
-        });
+        })
     }
 }
 
-$(document).ready(function() {
-    "use strict";
-    modalViewer.init();
+
+
+(function($) {
+    
+    let modalViewerForLink = new ModalViewer();
+    $(document).off('click', '.mv-link');
+    $(document).on('click', '.mv-link', function(){
+        let url = $(this).attr('href');        
+        modalViewerForLink.showModal(url);
+        return false;
+    });
+
+} (jQuery));
+
+// если страница была обновлена и в адресной строке сохранился путь для диалогового окна
+$(function() {
+    
+    const urlW = UrlHelper.getURLParameter('w');
+    if (urlW != null) {
+        (new ModalViewer()).showModal(urlW);
+    }
+
 });
