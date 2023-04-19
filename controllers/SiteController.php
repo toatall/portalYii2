@@ -73,10 +73,7 @@ class SiteController extends Controller
      * @return string
      */
     public function actionIndex()
-    {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect(['login']);
-        }
+    {        
         return $this->render('index');
     }
 
@@ -91,6 +88,7 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
+        $this->windowsAuthenticate();
         
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {           
@@ -104,6 +102,17 @@ class SiteController extends Controller
     }
 
     /**
+     * Переадресация, если включена windows-аутентефикация
+     */
+    protected function windowsAuthenticate()
+    {
+        if (!Yii::$app->params['user']['useWindowsAuthenticate'] ?? false) {
+            return;
+        }
+        return $this->goHome();
+    }
+
+    /**
      * Сохранение информации о разрешении экрана 
      * и строки агента браузера пользователя
      *
@@ -114,7 +123,7 @@ class SiteController extends Controller
     public function actionSaveUserAgentInfo($width = null, $height = null)
     {
         if ($width !== null & $height !== null) {
-            Yii::$app->user->saveUserAgentInfo($width, $height);
+            \Yii::$app->user->identity->saveInformation($width, $height);
             return $this->goBack();
         }
         return $this->render('save-user-agnet-info');

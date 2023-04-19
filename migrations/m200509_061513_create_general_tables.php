@@ -81,11 +81,8 @@ class m200509_061513_create_general_tables extends Migration
         $this->createTable('{{%module}}', [
             'name' => $this->string(50)->notNull(),
             'description' => $this->string(250)->notNull(),
-            'only_one' => $this->boolean()->defaultValue(0)->notNull(),
-            'children_node' => $this->boolean()->defaultValue(0),
+            'only_one' => $this->boolean()->defaultValue(0)->notNull(),            
             'class_namespace' => $this->string(150),
-            'dop_action' => $this->string(50),
-            'dop_action_right_admin' => $this->boolean()->defaultValue(1),
             'log_change' => $this->text(),
             'date_create' => $this->dateTime()->defaultExpression('getdate()')->notNull(),
             'author' => $this->string(250)->notNull(),

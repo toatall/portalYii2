@@ -1,8 +1,18 @@
 <?php
 namespace app\components;
 
+use Yii;
+use yii\web\Response;
+
 class Controller extends \yii\web\Controller
 {
+
+    /**
+     * Заголовок для ajax-запроса
+     * @var string
+     */
+    public $titleAjaxResponse = null;
+
     /**
      * {@inheritdoc}
      */
@@ -76,5 +86,35 @@ class Controller extends \yii\web\Controller
                 'author_org_code' => \Yii::$app->user->identity->default_organization ?? null,
             ])->execute();
     }
+
+    /**
+     * Переопределен рендеринг для ajax-запросов
+     * {@inheritdoc}
+     */
+    public function render($view, $params = [])
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [       
+                'title' => $this->titleAjaxResponse,         
+                'content' => $this->renderAjax($view, $params),
+            ];
+        }
+        return parent::render($view, $params);
+    }
+
+    /**
+     * Переопределена переадресация для ajax-запросов
+     * {@inheritdoc}
+     */
+    public function redirect($url, $statusCode = 302)
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return 'OK';
+        }
+        return parent::redirect($url, $statusCode);
+    }
     
+
 }

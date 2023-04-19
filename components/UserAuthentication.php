@@ -1,11 +1,13 @@
 <?php
 namespace app\components;
 
+use app\models\LoginLdap;
 use Yii;
 use yii\db\Query;
+use yii\web\ForbiddenHttpException;
 
 /**
- * 
+ * @author toatall
  */
 class UserAuthentication extends \yii\web\User 
 {
@@ -33,7 +35,6 @@ class UserAuthentication extends \yii\web\User
         }
     }
     
-
     /**
      * {@inheritdoc}
      */
@@ -72,5 +73,38 @@ class UserAuthentication extends \yii\web\User
         }, 600);
         
     }
+
+    /**
+     * Переопределение входа пользователя, если включена windows-аутентификация
+     * {@inheritdoc}
+     */
+    public function loginRequired($checkAjax = true, $checkAcceptHeader = true)
+    {
+        if (!Yii::$app->params['user']['useWindowsAuthenticate'] ?? false) {
+            return parent::loginRequired($checkAjax, $checkAcceptHeader);
+        }
+
+        $loginName = $_SERVER['LOGON_USER'] ?? null;
+        if (empty($loginName)) {
+            throw new \Exception('Параметр $_SERVER[\'LOGON_USER\'] отсутствует или пустой. Убедитесь, что windows-аутентефикацию включена в настройках веб-сервера!');
+        }
+        
+        if (!(new LoginLdap())->login($this->removeDomainInUsernmae($loginName))) {
+            throw new ForbiddenHttpException('Аутентефикация не удалась!');
+        }
+        return \Yii::$app->getResponse()->redirect(['/site/save-user-agent-info']);
+    }
+
+    /**
+     * Удаление домена из имени пользователя
+     * @param string $fullName
+     * @return string
+     */
+    protected function removeDomainInUsernmae($fullName)
+    {        
+        $parts = preg_split("/\\\/", $fullName);
+        return $parts[1] ?? $parts[0];
+    }
+
 
 }

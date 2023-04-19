@@ -1,20 +1,25 @@
 <?php
 
 return [
+    
+    // emails
     'adminEmail' => 'admin@example.com',
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
     
+    // количество записей (по умолчанию)
     'pageSize' => 10,
 
+    // настройка для виджетов от karik-v\
     'bsVersion' => '5.x',
         
     // user
     'user' => [
         // поиск в ActiveDirectory информации о пользователе по его логину
-        'findInAD' => true,
+        // 'findInAD' => true,
         // использовать ntlm аутентификацию
-        'useLdapAuthenticated' => true,
+        // 'useLdapAuthenticated' => true,
+        'useWindowsAuthenticate' => true,
                
         // настройка профилей
         'profile' => [

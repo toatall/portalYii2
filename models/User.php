@@ -68,17 +68,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
        
     
     /**
-     * Использование аутентефикации ldap и ntlm (ввод пароля не требуется)
-     */
-    public $useLdapAuthenticated;
-    
-    /**
      * {@inheritdoc}
      */
     public function init() 
-    {
-        $useLdap = isset(Yii::$app->params['user']['useLdapAuthenticated']) ? Yii::$app->params['user']['useLdapAuthenticated'] : false;
-        $this->useLdapAuthenticated = $useLdap;
+    {        
         parent::init();
     }
     
@@ -150,54 +143,54 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     /**
      * Gets query for [[Departments]].
-     *
+     * @todo DELETE (after test)
      * @return \yii\db\ActiveQuery
      */
-    public function getDepartments()
-    {
-        return $this->hasMany(Department::class, ['author' => 'username_windows']);
-    }
+    // public function getDepartments()
+    // {
+    //     return $this->hasMany(Department::class, ['author' => 'username_windows']);
+    // }
 
     /**
      * Gets query for [[Files]].
-     *
+     * @todo DELETE (after test)
      * @return \yii\db\ActiveQuery
      */
-    public function getFiles()
-    {
-        return $this->hasMany(File::class, ['author' => 'username_windows']);
-    }
+    // public function getFiles()
+    // {
+    //     return $this->hasMany(File::class, ['author' => 'username_windows']);
+    // }
 
     
     /**
      * Gets query for [[Menus]].
-     *
+     * @todo DELETE after test
      * @return \yii\db\ActiveQuery
      */
-    public function getMenus()
-    {
-        return $this->hasMany(Menu::class, ['author' => 'username_windows']);
-    }
+    // public function getMenus()
+    // {
+    //     return $this->hasMany(Menu::class, ['author' => 'username_windows']);
+    // }
 
     /**
      * Gets query for [[Modules]].
-     *
+     * @todo DELTE after test
      * @return \yii\db\ActiveQuery
      */
-    public function getModules()
-    {
-        return $this->hasMany(Module::class, ['author' => 'username_windows']);
-    }
+    // public function getModules()
+    // {
+    //     return $this->hasMany(Module::class, ['author' => 'username_windows']);
+    // }
     
     /**
      * Gets query for [[Trees]].
-     *
+     * @todo DELETE after test
      * @return \yii\db\ActiveQuery
      */
-    public function getTrees()
-    {
-        return $this->hasMany(Tree::class, ['author' => 'username_windows']);
-    }
+    // public function getTrees()
+    // {
+    //     return $this->hasMany(Tree::class, ['author' => 'username_windows']);
+    // }
 
     /**
      * Поиск
@@ -213,11 +206,13 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         if ($excludeId) {
             $query->andWhere(['not in', 't.id', explode(',', $excludeId)]);
         }
-        $query->andWhere(['t.default_organization'=>Yii::$app->userInfo->current_organization]);
+        $query->andWhere(['t.default_organization' => Yii::$app->user->identity->current_organization]);
 
         // если указан идентификатор группы, то исключить этих пользователей из результата
         if (is_numeric($excludeIdGroup)) {
-            $query->andWhere('t.id not in (select id_user from {{%group_user}} where id_group=:id_group)', [':id_group'=>$excludeIdGroup]);           
+            $query->andWhere('t.id not in (select id_user from {{%group_user}} where id_group=:id_group)', [
+                ':id_group' => $excludeIdGroup,
+            ]);           
         }
 
         if ($excludeRole) {
@@ -299,6 +294,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
@@ -353,6 +349,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      * @param type $insert
      * @return type
      * @throws \yii\base\Exception
+     * @codeCoverageIgnore
      */
     public function beforeSave($insert) 
     {
@@ -367,12 +364,13 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      * @param type $insert
      * @param type $changedAttributes
      * @throws \Exception
+     * @codeCoverageIgnore
      */
     public function afterSave($insert, $changedAttributes) 
     {
         parent::afterSave($insert, $changedAttributes);
         if ($this->tempRoles && is_array($this->tempRoles)) {
-            /* @var $auth \yii\rbac\DbManager */
+            /** @var $auth \yii\rbac\DbManager */
             $auth = \Yii::$app->authManager;
             foreach ($this->tempRoles as $role) {
                 $roleObj = $auth->getRole($role);
@@ -382,16 +380,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
     
     /**
-     * Все существующие роли
+     * Все существующие роли в системе
      * @return mixed
      */
     public function getListRoles()
     {
-        /* @var $auth \yii\rbac\DbManager */
+        /** @var $auth \yii\rbac\DbManager */
         $auth = \Yii::$app->authManager;        
         foreach ($auth->getRoles() as $role) {            
             yield $role->name => $role->description;
-        }        
+        }
     }
     
     /**
@@ -403,7 +401,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         if ($this->isNewRecord) {
             return [];
         }
-        /* @var $auth \yii\rbac\DbManager */
+        /** @var $auth \yii\rbac\DbManager */
         $auth = \Yii::$app->authManager;
         $roles = $auth->getRolesByUser($this->id);        
         foreach ($roles as $role) {
@@ -411,12 +409,13 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         }
     }
 
-    public function isCan($role)
-    {
-        /* @var $auth \yii\rbac\DbManager */
-        $auth = \Yii::$app->authManager;
-        return $auth->checkAccess($this->id, $role);
-    }
+    // /** @param string $role */
+    // public function isCan($role)
+    // {
+    //     /** @var $auth \yii\rbac\DbManager */
+    //     $auth = \Yii::$app->authManager;
+    //     return $auth->checkAccess($this->id, $role);
+    // }
     
     /**
      * Сохранение ролей пользователя
@@ -424,16 +423,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function setRoles($values)
     {
-        $this->removeRolesByUser();
+        $this->removeRoles();
         $this->tempRoles = $values;
     }
     
     /**
-     * Отзыв всех ролей пользователя
+     * Удаление всех ролей у пользователя
      */
-    private function removeRolesByUser()
+    private function removeRoles()
     {
-        /* @var $auth \yii\rbac\DbManager */
+        /** @var $auth \yii\rbac\DbManager */
         $auth = \Yii::$app->authManager;
         $roles = $auth->getRolesByUser($this->id);        
         foreach ($roles as $role) {
@@ -478,7 +477,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      * Проверка имеет ли доступ пользователь к требуемой орагнизации
      * @param string $organization код организации
      * @return boolean
-     * @uses Organization::loadCurrentOrganization()
      * @uses DefaultController::actionChangeCode() (admin)
      */
     public static function checkRightOrganization($organization)
@@ -525,14 +523,14 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      * @param int $width
      * @param int $height
      */
-    public function saveInformation($width, $height)
+    public function saveInformation($width, $height, $agentTest=false)
     {
-        if (($session = session_id()) === false) {
-            return;
+        if (empty($session = session_id())) {
+            return null;
         }
         $browser = [];
-        if (ini_get('browscap')) {
-            $browser = get_browser(null, true);
+        if (ini_get('browscap') && !$agentTest) {
+            $browser = get_browser('', true);
         }       
 
         $sql = "
@@ -570,7 +568,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
                 )
             end        
         ";
-        \Yii::$app->db->createCommand($sql, [
+        return \Yii::$app->db->createCommand($sql, [
             ':session' => $session,
             ':session2' => $session,
             ':browser_name' => $browser['browser'] ?? null,

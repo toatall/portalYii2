@@ -3,8 +3,9 @@
 
 use yii\helpers\Url;
 
+$this->title = 'Вход';
 
-$url = Url::to(['/site/screen-resolution', 'width'=>'_w_', 'height'=>'_h_']);
+$url = Url::to(['', 'width'=>'_w_', 'height'=>'_h_']);
 ?>
 
 <div class="alert alert-info lead">

@@ -14,60 +14,14 @@ class LoginLdap
      * @return bool
      * @throws Exception
      */
-    public function login(string $username = null)
-    {
-        if ($username == null) {
-            $username = $this->parseLogin();
-        }
-
+    public function login(string $username)
+    {        
         $user = $this->getUser($username);
-        if ($user == null) {
-            //throw new Exception('Произошла ошибка аутентефикации! Переменная $user=null!');
+        if ($user == null) {            
             return false;
         }
         return Yii::$app->user->login($user);
-    }
-
-    /**
-     * @return array
-     * @throws Exception
-     */
-    private function parseLogin()
-    {
-        $username = $this->extractLogin();
-        return $this->removeLoginDomain($username);
-    }
-
-    /**
-     * Удаление доменной части
-     * @param string $fullUsername
-     * @return array
-     */
-    private function removeLoginDomain(string $fullUsername)
-    {
-        $user = explode('\\', $fullUsername);
-        if (isset($user[1])) {
-            return $user[1];
-        }
-        return $user;
-    }
-
-    /**
-     * Извлечение имени пользователя из глобального массива $_SERVER
-     * @return string
-     * @throws Exception
-     */
-    private function extractLogin()
-    {
-        $loginName = null;
-        foreach (['AUTH_USER', 'LOGON_USER', 'REMOTE_USER'] as $serverParam) {
-            if (isset($_SERVER[$serverParam]) && !empty($_SERVER[$serverParam])) {
-                return $_SERVER[$serverParam];
-            }
-        }
-
-        throw new Exception('Отсутсвует одна из переменных: AUTH_USER, LOGON_USER, REMOTE_USER в массиве $_SERVER. Проверьте настройки Windows-аутентификации.');
-    }
+    }   
 
     /**
      * Поиск/создание пользователя в таблице User
@@ -106,11 +60,14 @@ class LoginLdap
      */
     protected function getLdapUserData(User $user)
     {
-        /* @var $ldap \app\components\Ldap */
+        /** @var \app\components\Ldap $ldap **/
         $ldap = \Yii::$app->ldap;
 
         /** @var \app\components\LdapResult $ldapData */
         $ldapData = $ldap->userInfo($user->username);
+        if (!$ldapData) {
+            return;
+        }
         
         $user->fio = $ldapData->asText('cn');
         if ($user->default_organization == null) {
