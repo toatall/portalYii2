@@ -13,7 +13,7 @@ class m220727_120405_create_user_log_authenticate extends Migration
     public function safeUp()
     {
         $this->createTable('{{%user_log_auth}}', [
-            'session' => $this->string(30)->notNull(),            
+            'session' => $this->string(50)->notNull(),            
             'browser_name' => $this->string(50),
             'browser_ver' => $this->string(15),
             'browser_maker' => $this->string(100),
@@ -29,7 +29,7 @@ class m220727_120405_create_user_log_authenticate extends Migration
         ]);
         $this->addPrimaryKey('pk__user_log_auth__session', '{{%user_log_auth}}', 'session');
         $this->addForeignKey('fk__user_log_auth__username', '{{%user_log_auth}}', 
-            'username', '{{%user}}', 'username');
+            'username', '{{%user}}', 'username', 'cascade');
     }
 
     /**
