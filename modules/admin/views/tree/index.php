@@ -1,111 +1,153 @@
 <?php
+/** @var \yii\web\View $this */
 
-use yii\bootstrap5\Html;
 use app\modules\admin\assets\JsTreeAsset;
+use yii\bootstrap5\Dropdown;
+use yii\bootstrap5\Html;
+use yii\helpers\Url;
 
 JsTreeAsset::register($this);
 
-/** @var yii\web\View $this */
-/** @var array $tree */
-
-$this->title = 'Структура';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Главная';
 ?>
-<div class="tree-index">
 
-    <h1 class="display-5 border-bottom">
-        <?= Html::encode($this->title) ?>
-    </h1>
+<div class="admin-default-index">  
 
-    <div class="col">
-        <div class="card">
-            <div class="card-header">
-                <div class="btn-group">
-                    <?= Html::a('Добавить раздел', ['create'], ['class' => 'btn btn-success']) ?>
-                    <?= Html::button('Изменить', ['class' => 'btn btn-primary btn-selected-tree-node', 'id' => 'btn-update-node']) ?>
-                    <?= Html::button('Удалить', ['class' => 'btn btn-danger btn-selected-tree-node', 'id' => 'btn-delete-node']) ?>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header fw-bold">
+                    Разделы
                 </div>
+                <div class="card-body">
+                    <div class="alert alert-info small">
+                        <strong>Внимание!</strong>
+                        Для перехода в раздел нажмите на него двойным щелчком мыши.
+                    </div>
+                    <div class="btn-group">
+                        <?= Html::button('<i class="fas fa-refresh"></i> Обновить', ['class' => 'btn btn-primary btn-sm', 'id'=>'btn-refresh']) ?>
+                        <div class="btn-group dropdown" role="dropdown">
+                            <?= Html::button('<i class="fas fa-cogs"></i> Функции', [
+                                'id' => 'btn-addons',
+                                'class' => 'btn btn-secondary btn-sm dropdown-toggle',
+                                'data-bs-toggle' => 'dropdown',
+                            ]) ?>
+                            <?= Dropdown::widget([
+                                'encodeLabels' => false,
+                                'items' => [
+                                    [
+                                        'label' => '<i class="fas fa-plus-circle"></i> Добавить раздел', 
+                                        'url' => ['create'],
+                                        'linkOptions' => ['id' => 'btn-create'],
+                                    ],
+                                    [
+                                        'label' => '<i class="fas fa-pencil"></i> Изменить', 
+                                        'url' => ['#'],
+                                        'linkOptions' => ['id' => 'btn-update', 'class' => 'btn-selected-tree-node'],
+                                    ],
+                                    [
+                                        'label' => '<i class="fas fa-trash"></i> Удалить', 
+                                        'url' => ['#'],
+                                        'linkOptions' => ['id' => 'btn-delete', 'class' => 'btn-selected-tree-node'],
+                                    ],
+                                ],
+                            ]) ?>
+                        </div>                        
+                    </div>
+                    <hr />
+                    <div id="js-tree"></div>
+                </div>               
+                
+                <?php 
+                $url = Url::to(['/admin/tree/tree']);
+                $this->registerJs(<<<JS
+
+                    $('.btn-selected-tree-node').hide();
+
+                    $('#js-tree').jstree({
+                        core: { 
+                            'multiple': false,
+                            'data': {
+                                'url': '$url',                                
+                            },
+                            'strings': {
+                                'Loading ...': 'Загрузка ...',
+                            }
+                        },                         
+                        plugins: ['types', 'themes']                        
+                    })
+                    .on('select_node.jstree', function(node, s) {
+                        $('.btn-selected-tree-node').show();
+                    })
+                    .on('dblclick.jstree', function(e) {
+                        let url = $(e.target).attr('href');
+                        if (url && url != '#') {
+                            window.location.href = url;
+                        }
+                        return false;
+                    })
+                    .bind('deselect_all.jstree', function(e, data) {
+                        $('.btn-selected-tree-node').hide();
+                    });
+
+                    $('#btn-refresh').on('click', function() {
+                        $('#js-tree').jstree().refresh();
+                    });
+                    
+                    var modalViewer = new ModalViewer({
+                        bindFormSelector: '#form-tree',
+                    })
+                    $(modalViewer).on('onRequestJsonAfterAutoCloseModal', function() {
+                        $('#btn-refresh').trigger('click')
+                        $('.btn-selected-tree-node').hide()
+                    })
+
+                    // создание раздела
+                    $('#btn-create').on('click', function() {
+                        let url = $(this).attr('href')
+                        const selected = $('#js-tree').jstree().get_selected(true)[0] ?? null     
+                        if (selected != null) {
+                            url = UrlHelper.addParam(url, { idParent: selected.original.idNode })
+                        }
+                        modalViewer.showModal(url)
+                        return false                        
+                    })
+                    
+                    // изменение раздела
+                    $('#btn-update').on('click', function() {
+                        const selected = $('#js-tree').jstree().get_selected(true)[0] ?? null                        
+                        if (selected) {
+                            const url = selected.original.urlUpdate
+                            modalViewer.showModal(url)                           
+                        }
+                        return false
+                    })
+
+                    // удаление раздела
+                    $('#btn-delete').on('click', function() {                        
+                        const selected = $('#js-tree').jstree().get_selected(true)[0] ?? null                        
+                        if (selected) {
+                            const url = selected.original.urlDelete
+                            console.log(selected.original);
+                            if (!confirm('Вы уверены, что хотите удалить раздел "' + selected.original.name + '"?')) {
+                                return false;
+                            }
+                            $.ajax({
+                                method: 'post',
+                                url: url
+                            })
+                            .done(function(data) {
+                                $('#btn-refresh').trigger('click')
+                                $('.btn-selected-tree-node').show()
+                            });
+                        }
+                        return false
+                    })
+
+                JS); ?>
+
             </div>
-            <div class="card-body">
-                <div id="tree-view">
-                    <?= $tree ?>
-                </div>
-            </div>
-        </div>
+        </div>       
     </div>
-
-
+   
 </div>
-<?php
-
-$this->registerJs(<<<JS
-    // скрыть кнопки изменения и удаления
-    $('.btn-selected-tree-node').hide();
-
-    // инициализация дерева
-    $('#tree-view').jstree({
-        core: { 'multiple': false },        
-        // types: {
-        //     'f-open': {
-        //         'icon': 'far fa-folder-open'
-        //     },
-        //     'f-closed': {
-        //         'icon': 'far fa-folder'
-        //     },
-        //     'default': {
-        //         'icon': 'far fa-folder'
-        //     }
-        // },
-        // plugins: ['types', 'themes']
-    })
-    .bind('select_node.jstree', function(e, data) {
-        $('.btn-selected-tree-node').show();        
-    })
-    .bind('deselect_all.jstree', function(e, data) {
-        $('.btn-selected-tree-node').hide();
-    });
-    // $('#tree-view').on('open_node.jstree', function(e, data) { data.instance.set_type(data.node, 'f-open') });
-    // $('#tree-view').on('close_node.jstree', function(e, data) { data.instance.set_type(data.node, 'f-closed') }); 
-    
-    
-    // изменение узла
-    $('#btn-update-node').on('click', function() {
-          let selected = $('#tree-view').jstree().get_selected();
-          if (selected != '') {
-              window.location = $('#' + selected).attr('data-url-update');
-          }
-    });
-    
-    // удаление узла
-    $('#btn-delete-node').on('click', function() {
-        let selected = $('#tree-view').jstree().get_selected();
-        if (selected != '') {
-            if (!confirm('Вы уверены, что хотите удалить "' + $('#' + selected).attr('data-node-name') + '"?')) {
-                return false;
-            }
-            $.post($('#' + selected).attr('data-url-delete'), {});
-        }
-    });
-JS
-);
-
-$this->registerCss(<<<CSS
-    .jstree-default a {
-        white-space: normal !important;
-        height: auto;
-    }
-    .jstree-anchor {
-        height: auto !important;
-    }
-    .jstree-default li > ins {
-        vertical-align: top;
-    }
-    .jstree-leaf {
-        height: auto;
-    }
-    .jstree-leaf a {
-        height: auto !important;
-    }
-
-CSS); 
-?>

@@ -32,7 +32,6 @@ use yii\bootstrap5\Html;
                     ]);
                 },
             ],
-
         ],
         'toolbar' => [
             '{export}',
@@ -48,8 +47,9 @@ use yii\bootstrap5\Html;
 
 <?php
 $this->registerJs(<<<JS
-$('.btn-select-group').on('click', function() {
-    $(modalViewer).trigger('onPortalSelectGroup', { id: $(this).attr('group_id'), name: $(this).attr('group_name') });
+$('.btn-select-group').on('click', function() {   
+    const modal = $(this).parents('div.modal').data('mv');
+    $(modal).trigger('onPortalSelectGroup', { id: $(this).attr('group_id'), name: $(this).attr('group_name') });
     return false;
 });
 JS

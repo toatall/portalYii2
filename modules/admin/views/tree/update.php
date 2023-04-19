@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = 'Изменить';
 ?>
 <div class="tree-update">
 
-    <h1 class="display-5 border-bottom">
+    <h1 class="display-5 border-bottom mv-hide title">
         <?= Html::encode($this->title) ?>
     </h1>
 

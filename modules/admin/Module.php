@@ -8,6 +8,8 @@ namespace app\modules\admin;
 class Module extends \yii\base\Module
 {
     public $layout = 'main';
+
+    public $defaultRoute = 'tree';
     
     /**
      * {@inheritdoc}
@@ -20,8 +22,7 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        \Yii::$app->errorHandler->errorAction = '/admin/default/error';          
-        \Yii::$app->params['bsVersion'] = '5.x'; 
+        \Yii::$app->errorHandler->errorAction = '/admin/default/error';        
         \Yii::$app->params['bsDependencyEnabled'] = false; 
     }
 }

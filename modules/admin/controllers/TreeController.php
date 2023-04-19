@@ -2,16 +2,17 @@
 
 namespace app\modules\admin\controllers;
 
-use app\models\Access;
 use Yii;
-use app\models\Tree;
-use yii\data\ActiveDataProvider;
+use app\modules\admin\models\tree\Tree;
 use yii\db\Expression;
 use yii\filters\AccessControl;
 use app\components\Controller;
+use app\modules\admin\models\tree\TreeAccess;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
+use app\modules\admin\models\tree\TreeBuild;
 
 /**
  * TreeController implements the CRUD actions for Tree model.
@@ -47,10 +48,17 @@ class TreeController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
-        return $this->render('index', [
-            'tree' => Tree::getTreeForMain(),
-        ]);
+    {        
+        return $this->render('index');
+    }
+
+    /**
+     * @return string
+     */
+    public function actionTree()
+    {        
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return Tree::generateJsonTree(TreeBuild::buildingTree());
     }
 
     /**
@@ -72,13 +80,16 @@ class TreeController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idParent=null)
     {
         $model = new Tree();
         $model->module = $model->getParamDefaultModule();
         $model->useParentRight = 1;
+        if ($idParent) {
+            $model->id_parent = $idParent;
+        }
         
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {        
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -98,11 +109,17 @@ class TreeController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $parentId = $model->id_parent;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->id == $model->id_parent) {
+                $model->id_parent = $parentId;
+            }
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
-
+                
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -129,7 +146,7 @@ class TreeController extends Controller
             $model->save();
         }
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index']);        
     }
 
     /**
@@ -143,7 +160,7 @@ class TreeController extends Controller
     protected function findModel($id)
     {
         if (($model = Tree::findOne(['id' => $id])) !== null) {
-            if (!Access::checkAccessUserForTree($model->id)) {
+            if (!TreeAccess::isAccessToTreeNode($model->id)) {
                 throw new ForbiddenHttpException('Доступ запрещен');
             }
             return $model;

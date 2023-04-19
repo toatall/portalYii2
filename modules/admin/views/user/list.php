@@ -21,6 +21,22 @@ use yii\bootstrap5\Html;
             'id',
             'username_windows',
             'fio',
+            'department',
+            [
+                'label' => 'Актуальность',
+                'format' => 'raw',
+                'value' => function(\app\models\User $model) {
+                    if ($model->user_disabled_ad) {
+                        return Html::tag('span', 
+                            '<i class="fas fa-times"></i> Учетная запись заблокирована (' . $model->description_ad . ')',
+                            ['class' => 'text-danger']);
+                    }
+                    else {
+                        return Html::tag('span', 
+                            '<i class="fas fa-check"></i> Действующая учетная запись', ['class' => 'text-success']);
+                    }
+                }, 
+            ],
             [
                 'format'=>'raw',
                 'value'=>function(\app\models\User $model) {
@@ -31,7 +47,6 @@ use yii\bootstrap5\Html;
                     ]);
                 },
             ],
-
         ],
         'toolbar' => [
             '{export}',
@@ -43,12 +58,19 @@ use yii\bootstrap5\Html;
         'panel' => [
             'type' => GridView::TYPE_DEFAULT,       
         ],
+        'rowOptions' => function($model, $key, $index, $grid) {
+            /** @var app\models\User $model */
+            if ($model->user_disabled_ad) {
+                return ['class' => 'table-danger'];
+            }
+        },
     ]); ?>
 
 <?php
 $this->registerJs(<<<JS
 $('.btn-select-user').on('click', function() {
-    $(modalViewer).trigger('onPortalSelectUser', { id: $(this).attr('user_id'), name: $(this).attr('user_name') });
+    const modal = $(this).parents('div.modal').data('mv');
+    $(modal).trigger('onPortalSelectUser', { id: $(this).attr('user_id'), name: $(this).attr('user_name') });
     return false;
 });
 JS

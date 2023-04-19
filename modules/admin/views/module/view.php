@@ -36,9 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
             'only_one',
-            'children_node',
-            'dop_action',
-            'dop_action_right_admin',
             [
                 'attribute' => 'log_change',
                 'value' => function(Module $model) {

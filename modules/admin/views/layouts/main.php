@@ -3,6 +3,7 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
+use app\assets\FontAwesomeAsset;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
@@ -11,11 +12,12 @@ use app\modules\admin\assets\AppAsset;
 use app\assets\ModalViewerAssetBs5;
 
 AppAsset::register($this);
+FontAwesomeAsset::register($this);
 ModalViewerAssetBs5::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= Yii::$app->language ?>" class="h-100">
 
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
@@ -26,7 +28,7 @@ ModalViewerAssetBs5::register($this);
     <?php $this->head() ?>
 </head>
 
-<body>
+<body class="d-flex flex-column h-100">
     <?php $this->beginBody() ?>
 
     <div class="wrap">
@@ -44,7 +46,7 @@ ModalViewerAssetBs5::register($this);
             'options' => ['class' => 'navbar-nav text-dark me-auto'],
             'encodeLabels' => false,
             'items' => [
-                ['label' => '<i class="fas fa-home"></i> Главная', 'url' => ['/admin/default/index'], 'visible' => (!Yii::$app->user->isGuest)],
+                ['label' => '<i class="fas fa-home"></i> Главная', 'url' => ['/admin'], 'visible' => (!Yii::$app->user->isGuest)],
                 ['label' => '<i class="fas fa-external-link-alt"></i> Портал', 'url' => ['/site/index']],
                 ['label' => '<i class="fas fa-user-cog"></i> Администрирование', 'items' => [
                     ['label' => 'Пользователи', 'url' => ['/admin/user/index']],
@@ -57,7 +59,7 @@ ModalViewerAssetBs5::register($this);
                     ['label' => 'Меню', 'url' => ['/admin/menu/index']],
                 ], 'visible' => (Yii::$app->user->can('admin'))],                                
                 ['label' => '<i class="fas fa-columns"></i> Контент', 'items' => [
-                    ['label' => 'Структура', 'url' => ['/admin/tree/index']],
+                    // ['label' => 'Структура', 'url' => ['/admin/tree/index']],
                     ['label' => 'Отделы', 'url' => ['/admin/department/index']],
                 ], 'visible' => (!Yii::$app->user->isGuest)],
                 Yii::$app->user->isGuest ? ['label' => 'Вход', 'url' => ['/site/login']] : 
@@ -89,7 +91,7 @@ ModalViewerAssetBs5::register($this);
         <div class="container">
             <div class="pt-5 mt-5">
                 <?= Breadcrumbs::widget([
-                    'homeLink' => ['label' => 'Главная', 'url' => ['/admin/default/index']],
+                    'homeLink' => ['label' => 'Главная', 'url' => ['/admin']],
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                     'options' => ['class' => 'p-3 lead border rounded bg-light'],
                 ]) ?>
@@ -127,12 +129,9 @@ ModalViewerAssetBs5::register($this);
     </div>
 
 
-
-    <footer class="footer">
-        <div class="container">
-            <p class="text-center">
-                &copy; Административная часть Портала УФНС по Ханты-Мансийскому автономному округу - Югре <?= date('Y') ?>
-            </p>
+    <footer class="footer mt-auto py-3 bg-light text-muted f-size-10 border-top text-center">
+        <div class="container">          
+            &copy; Административная часть Портала УФНС по Ханты-Мансийскому автономному округу - Югре, <?= date('Y') ?>
         </div>
     </footer>
 

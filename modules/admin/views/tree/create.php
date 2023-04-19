@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tree-create">
 
-    <h1 class="display-5 border-bottom">
+    <h1 class="display-5 border-bottom mv-hide title">
         <?= Html::encode($this->title) ?>
     </h1>
 

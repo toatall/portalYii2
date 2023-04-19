@@ -20,12 +20,6 @@ use yii\bootstrap5\ActiveForm;
 
         <?= $form->field($model, 'only_one')->checkbox() ?>
 
-        <?= $form->field($model, 'children_node')->checkbox() ?>
-
-        <?= $form->field($model, 'dop_action')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'dop_action_right_admin')->checkbox() ?>
-
         <hr />
 
         <div class="btn-group">
