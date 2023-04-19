@@ -1,6 +1,7 @@
 <?php
 namespace app\behaviors;
 
+use app\helpers\DateHelper;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -15,7 +16,7 @@ class DatetimeBehavior extends TimestampBehavior
     protected function getValue($event)
     {        
         if ($this->value === null) {
-            return \Yii::$app->formatter->asDatetime(time());
+            return DateHelper::dateSqlFormat();
         }       
         
         return parent::getValue($event);

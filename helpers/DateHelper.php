@@ -144,7 +144,7 @@ class DateHelper
      * @param string|\DateTime|\DateTimeImmutable $date
      * @return string
      */
-    public static function dateSqlFormat($date = null)
+    public static function dateSqlFormat($date = 'now')
     {
         if ($date instanceof \DateTimeImmutable || $date instanceof \DateTime) {
             $dt = $date;

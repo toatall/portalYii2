@@ -26,7 +26,7 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['logout', 'index', 'telephone', 'hall-fame', 'screen-resolution'],
+                        'actions' => ['logout', 'index', 'telephone', 'hall-fame', 'save-user-agent-info'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -91,28 +91,33 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
-        // ldap аутентификация
-        if (Yii::$app->params['user']['useLdapAuthenticated']) {
-            $model = new LoginLdap();
-            if (!$model->login()) {
-                return $this->render('loginLdapError');
-            }
-            // return $this->goBack();
-            return $this->render('save-user-info');
-        }
-
-        // обычная аутентификация
+        
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            // return $this->goBack();
-            return $this->render('save-user-info');
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {           
+            return $this->redirect('save-user-agent-info');
         }
 
         $model->password = '';
         return $this->render('login', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Сохранение информации о разрешении экрана 
+     * и строки агента браузера пользователя
+     *
+     * @param int $width
+     * @param int $height
+     * @return string
+     */
+    public function actionSaveUserAgentInfo($width = null, $height = null)
+    {
+        if ($width !== null & $height !== null) {
+            Yii::$app->user->saveUserAgentInfo($width, $height);
+            return $this->goBack();
+        }
+        return $this->render('save-user-agnet-info');
     }
 
     /**
@@ -153,20 +158,7 @@ class SiteController extends Controller
         return $this->render('telephone', [
             'dataProvider' => $dataProvider,
         ]);
-    }
-
-    /**
-     * @param int $width
-     * @param int $height
-     * @return string
-     */
-    public function actionScreenResolution($width, $height)
-    {
-        if (!\Yii::$app->user->isGuest) {
-            \Yii::$app->user->identity->saveInformation($width, $height);
-        }
-        return $this->goBack();
-    }
+    }    
 
 
 }
