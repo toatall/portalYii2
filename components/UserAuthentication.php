@@ -90,9 +90,26 @@ class UserAuthentication extends \yii\web\User
         }
         
         if (!(new LoginLdap())->login($this->removeDomainInUsernmae($loginName))) {
-            throw new ForbiddenHttpException('Аутентефикация не удалась!');
+            throw new ForbiddenHttpException(Yii::t('yii', 'Login Required'));     
         }
-        return \Yii::$app->getResponse()->redirect(['/site/save-user-agent-info']);
+
+        $request = Yii::$app->getRequest();
+        $canRedirect = !$checkAcceptHeader || $this->checkRedirectAcceptable();
+        if ($this->enableSession
+            && $request->getIsGet()
+            && (!$checkAjax || !$request->getIsAjax())
+            && $canRedirect
+        ) {
+            $this->setReturnUrl($request->getAbsoluteUrl());
+        }
+        if ($this->loginUrl !== null && $canRedirect) {
+            $loginUrl = (array) $this->loginUrl;
+            if ($loginUrl[0] !== Yii::$app->requestedRoute) {
+                return Yii::$app->getResponse()->redirect(['/site/save-user-agent-info']);
+            }
+        }
+        
+        throw new ForbiddenHttpException(Yii::t('yii', 'Login Required'));       
     }
 
     /**
