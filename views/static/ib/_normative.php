@@ -133,36 +133,38 @@ use yii\bootstrap5\Accordion;
                             </li>
                         </ul>
                     </p>
-                    <p>2. Приказ УФНС России по Ханты-Мансийскому автономному округу - Югре от 12.11.2019 № 02-40/235@ "Об утверждении временного порядка доступа к информационным системам и ресурсам УФНС России по Ханты - Мансийскому автономному округу − Югре"
+                    <p>2. Приказ УФНС России по Ханты-Мансийскому автономному округу - Югре от 12.11.2019 № 02-40/235@ "Об утверждении Порядка предоставления доступа к информационным ресурсам УФНС России по Ханты-Мансийскому автономному округу – Югре"
                         <ul class="list-unstyled">
+
+
                             <li>
-                                <a href="/files_static/8600/ib/materials/ufns/00_Приказ порядок доступа к ИР 2019.doc" target="_blank">
-                                    <span class="fas fa-file-word"></span> Приказ порядок доступа к ИР 2019
+                                <a href="/files_static/8600/ib/materials/ufns/Приказ.pdf" target="_blank">
+                                    <span class="fas fa-file-pdf"></span> Приказ
                                 </a>
                             </li>
                             <li>
-                                <a href="/files_static/8600/ib/materials/ufns/01_Порядок доступа к ИР 2019.doc" target="_blank">
-                                    <span class="fas fa-file-word"></span> Порядок доступа к ИР 2019
+                                <a href="/files_static/8600/ib/materials/ufns/011Прил1 к Порядку доступа Формы заявок.docx" target="_blank">
+                                    <span class="fas fa-file-word"></span> Порядок доступа к ИР Формы заявок
                                 </a>
                             </li>
                             <li>
-                                <a href="/files_static/8600/ib/materials/ufns/02_Перечень к приказу.xlsx" target="_blank">
+                                <a href="/files_static/8600/ib/materials/ufns/04 Перечень активов ИБ.xlsx" target="_blank">
+                                    <span class="fas fa-file-excel"></span> Перечень активов ИБ
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/files_static/8600/ib/materials/ufns/03 Порядок инвентаризации.docx" target="_blank">
+                                    <span class="fas fa-file-word"></span> Порядок инвентаризации
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/files_static/8600/ib/materials/ufns/02 Перечень к приказу.xlsx" target="_blank">
                                     <span class="fas fa-file-excel"></span> Перечень к приказу
                                 </a>
                             </li>
                             <li>
-                                <a href="/files_static/8600/ib/materials/ufns/03_Форма Журнал УЗ.docx" target="_blank">
-                                    <span class="fas fa-file-word"></span> Форма Журнал УЗ
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/files_static/8600/ib/materials/ufns/04_Политика.docx" target="_blank">
-                                    <span class="fas fa-file-word"></span> Политика
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/files_static/8600/ib/materials/ufns/05_Приложение(лист ознакомления).docx" target="_blank">
-                                    <span class="fas fa-file-word"></span> Приложение (лист ознакомления)
+                                <a href="/files_static/8600/ib/materials/ufns/01 Порядок доступа к ИР 2023.doc" target="_blank">
+                                    <span class="fas fa-file-word"></span> Порядок доступа к ИР 2023
                                 </a>
                             </li>
                         </ul>
