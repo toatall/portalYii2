@@ -145,13 +145,13 @@ class ModalViewer {
 
         if (this.enablePushState) {
             // удаление ссылки `w` после закрытия диалога
-            $('#' + this.modalId).on('hide.bs.modal', function() {
-                window.history.replaceState({}, document.title, $this.urlHelper.removeURLParameter(window.location.href, 'w'));
-            });            
+            $('#' + this.modalId).on('hidden.bs.modal', function() {
+                window.history.replaceState({}, document.title, $this.urlHelper.removeURLParameter(window.location.href, 'w'));                
+            });                        
         }
 
         // очистка формы после закрытия
-        $('#' + this.modalId).on('hide.bs.modal', function() {
+        $('#' + this.modalId).on('hidden.bs.modal', function() {
             $this.getElementTitle().html('');
             $this.getElementHeader().html('');
             $this.getElementBody().html('');
@@ -241,7 +241,8 @@ class ModalViewer {
      */
     bindForm() {
         let $this = this;
-        const formSelector = this.bindFormSelector ?? '#' + this.modalId + ' form'; 
+        const formSelector = this.bindFormSelector ?? '#' + this.modalId + ' form:not([data-pjax])'; 
+       
         $(document).off('submit', formSelector);
         $(document).on('submit', formSelector, function(e) {
             e.preventDefault();
