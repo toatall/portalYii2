@@ -2,6 +2,7 @@
 namespace app\components;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\Response;
 
 class Controller extends \yii\web\Controller
@@ -91,14 +92,16 @@ class Controller extends \yii\web\Controller
      * Переопределен рендеринг для ajax-запросов
      * {@inheritdoc}
      */
-    public function render($view, $params = [])
+    public function render($view, $params = [], $options = [])
     {
-        if (Yii::$app->request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [       
-                'title' => $this->titleAjaxResponse,         
-                'content' => $this->renderAjax($view, $params),
-            ];
+        if (ArrayHelper::getValue($options, 'useParentRender', false) === false) {
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return [
+                    'title' => $this->titleAjaxResponse,         
+                    'content' => $this->renderAjax($view, $params),
+                ];
+            }
         }
         return parent::render($view, $params);
     }
@@ -107,11 +110,13 @@ class Controller extends \yii\web\Controller
      * Переопределена переадресация для ajax-запросов
      * {@inheritdoc}
      */
-    public function redirect($url, $statusCode = 302)
+    public function redirect($url, $statusCode = 302, $options = [])
     {
-        if (Yii::$app->request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return 'OK';
+        if (ArrayHelper::getValue($options, 'useParentRender', false) === false) {
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return 'OK';
+            }
         }
         return parent::redirect($url, $statusCode);
     }

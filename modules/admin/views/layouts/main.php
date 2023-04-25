@@ -27,7 +27,7 @@ ModalViewerAssetBs5::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-
+<div id="div-loader" class="loader loader-default" data-halfs></div>
 <body class="d-flex flex-column h-100">
     <?php $this->beginBody() ?>
 
@@ -57,9 +57,9 @@ ModalViewerAssetBs5::register($this);
                     '<div class="divider"></div>',
                     ['label' => 'Организации', 'url' => ['/admin/organization/index']],
                     ['label' => 'Меню', 'url' => ['/admin/menu/index']],
+                    ['label' => 'Подвал', 'url' => ['/admin/footer']],
                 ], 'visible' => (Yii::$app->user->can('admin'))],                                
-                ['label' => '<i class="fas fa-columns"></i> Контент', 'items' => [
-                    // ['label' => 'Структура', 'url' => ['/admin/tree/index']],
+                ['label' => '<i class="fas fa-columns"></i> Контент', 'items' => [                   
                     ['label' => 'Отделы', 'url' => ['/admin/department/index']],
                 ], 'visible' => (!Yii::$app->user->isGuest)],
                 Yii::$app->user->isGuest ? ['label' => 'Вход', 'url' => ['/site/login']] : 

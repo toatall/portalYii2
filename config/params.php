@@ -194,6 +194,11 @@ return [
             'files' => '/files/mentor/{id}',
         ],
     ],
+
+    // Декларационная компания по УСН
+    'declare-campaign-usn' => [        
+        'role-moderator' => 'moderator.declare-campaign-usn',
+    ],
     
     // модули
     'modules' => [

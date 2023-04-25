@@ -1,7 +1,5 @@
 # portal
-/config/db.php
-/config/dbPortalOld.php
-/config/dbPgsqlLog.php
+/config/db/*
 /config/ldap.php
 /web/web.config
 /web/aspnet_client/
@@ -46,7 +44,4 @@ tests/_support/_generated
 
 #vagrant folder
 /.vagrant
-
-
-/config/dbDKS.php
-/composer.lock
+/config/db/test_db.php
