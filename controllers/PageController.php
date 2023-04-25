@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
 use app\components\Controller;
+use app\models\page\PageSearch;
 
 class PageController extends Controller
 {
@@ -27,6 +28,34 @@ class PageController extends Controller
                 ],
             ],
         ];
+    }
+
+    /**
+     * Новости
+     * @return string
+     */
+    public function actionIndex($tag=null)
+    {
+        $this->getView()->title = 'Новости';
+        $searchModel = new PageSearch();                
+
+        if ($tag!=null) {
+            $searchModel->tags = $tag;
+        }
+
+        $dataProvider = $searchModel->searchPublic(\Yii::$app->request->queryParams);
+
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('/news/index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+
+        return $this->render('/news/index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
