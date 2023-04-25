@@ -105,43 +105,6 @@ if (date('Y') < 2022) {
 ?>
 
 
-<?php if (date('d.m') === '12.04'): ?>
-    <!-- <img src="/img/rocket-animation-interactive-tutorial.svg" style="width: 10rem;" /> -->
-    <?php
-    try { 
-        echo $this->renderFile('@webroot/img/rocket-animation-interactive-tutorial.svg');    
-    } catch (Exception $e) {}
-    $this->registerJs(<<<JS
-        $('#rocket').trigger('click');
-        $('#rocket').on('click', function() {
-            let r = $(this);
-            r.css('bottom', '120vh');
-            r.css('width', '5rem');            
-            setTimeout(function() {
-                r.css('bottom', '1');
-                r.css('width', '15rem');
-            }, 5000);            
-        });
-    JS);
-    $this->registerCss(<<<CSS
-        #rocket {
-            width: 15rem;
-            position: fixed;
-            right: 0rem;
-            bottom: 0rem;
-            z-index: 999;
-            opacity: .8;
-            transition: all 5s;  
-            transform: rotate(0deg);          
-        }
-        #rocket:hover {
-            width: 45rem;
-            transform: rotate(-90deg);
-        }               
-    CSS);    
-    ?>
-<?php endif; ?>
-
 <div class="container-fluid">
     <div class="row d-flex" id="logo-background" style="overflow: hidden;">
         
@@ -149,18 +112,12 @@ if (date('Y') < 2022) {
         
         <div class="col">
             <div class="row justify-content-end">
-                <div class="col text-end">
-                    <a href="<?= Url::to(['/contest/space']) ?>" id="link-sontest-space" data-bs-toggle="tooltip" data-bs-title='Выставка "Космос - Мир удивительных фантазий"' data-bs-trigger="hover">
-                        <img src="/public/upload/contest/space/6195676.png" style="height: 185px; margin-top: 10px;" />
-                    </a>
-                    <?php $this->registerJs(<<<JS
-                        new bootstrap.Popover('#link-sontest-space');
-                    JS); ?>
-                </div>
+
+                <?= $this->render('top_declare_capmaign_usn.php') ?>
+
                 <?php if (date('Y') < 2023) { echo $this->render('top_pay_taxes'); } ?>
 
                 <?= $this->render('top_calendar') ?>
-
 
                 
                 <!-- <div class="float-right d-none d-xl-block">                
@@ -193,15 +150,7 @@ if (date('Y') < 2022) {
                     <?= Html::a(Html::img('/public/content/portal/images/sport_2022.png', ['style'=>'height: 80%; margin-top: 1rem;']), ['news/index', 'tag'=>'sport2022']) ?>
                     
                 </div> -->
-
-                <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isOrg('8600')): ?>
-                <div class="d-none d-xl-block">
-                    <a href="/contest/photo-kids">
-                        <img src="/public/assets/contest/photo-kids/img/image832.png" style="height: 7rem; margin: 3rem 10px 0 0;" />
-                    </a>
-                </div>
-                <?php endif; ?>
-
+               
             </div>
             
         </div>        
