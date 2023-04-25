@@ -5,7 +5,7 @@
 use yii\helpers\Url;
 
 ?>
-<div id="static-sport-news" class="p-2" data-url="<?= Url::to(['/news/index', 'tag'=>'sport']) ?>">></div>
+<div id="static-sport-news" class="p-2" data-url="<?= Url::to(['/page/index', 'tag'=>'sport']) ?>">></div>
 
 <?php $this->registerJs(<<<JS
 
