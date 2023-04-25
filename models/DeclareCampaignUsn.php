@@ -256,6 +256,7 @@ class DeclareCampaignUsn extends \yii\db\ActiveRecord
             ->from('{{%organization}}')
             ->where(['date_end' => null])
             ->andWhere(['not', ['code' => ['8625']]])
+            ->andWhere(['like', 'code', '86__', false])
             ->orderBy(['code' => SORT_ASC])
             ->all();
         $models = [];
