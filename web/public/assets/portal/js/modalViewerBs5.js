@@ -274,7 +274,7 @@ class ModalViewer {
         
         if (textData.toUpperCase() == 'OK') {
             $('#' + this.modalId).modal('hide');
-            $(this).trigger('onRequestJsonAfterAutoCloseModal');
+            setTimeout(() => $(this).trigger('onRequestJsonAfterAutoCloseModal'), 100);
         }
     }
     
