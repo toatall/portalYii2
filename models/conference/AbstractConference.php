@@ -263,10 +263,10 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     {
         parent::afterFind();
         if ($this->date_start) {
-            $this->date_start = Yii::$app->formatter->asDatetime($this->date_start, 'dd.MM.yyyy HH:i');
+            $this->date_start = date('d.m.Y H:i', strtotime($this->date_start));
         }
         if ($this->date_test_vks) {
-            $this->date_test_vks = Yii::$app->formatter->asDatetime($this->date_test_vks, 'dd.MM.yyyy HH:i');
+            $this->date_test_vks = date('d.m.Y H:i', strtotime($this->date_test_vks));
         }
         $this->arrPlace = explode(', ', $this->place);
     }
@@ -369,7 +369,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      * @throws \Exception
      */
     public function isFinished()
-    {
+    {        
         if ($this->date_start && $this->duration && preg_match_all('/\d{2}/', $this->duration, $matches) === 2) {            
             $matches = reset($matches);
           
