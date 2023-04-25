@@ -26,7 +26,7 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['logout', 'index', 'telephone', 'hall-fame', 'save-user-agent-info'],
+                        'actions' => ['logout', 'index', 'telephone', 'hall-fame', 'save-user-agent-info', 'sport'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -168,6 +168,15 @@ class SiteController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }    
+
+    /**
+     * Спорт
+     * @return mixed
+     */
+    public function actionSport()
+    {
+        return $this->render('/static/sport/index');
+    }
 
 
 }
