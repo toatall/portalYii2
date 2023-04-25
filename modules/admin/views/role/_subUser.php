@@ -13,7 +13,7 @@ use yii\widgets\Pjax;
 ?>
 <div class="mt-2">
 
-    <?php Pjax::begin(['enablePushState'=>false, 'id'=>'pjax-user-container']) ?>
+    <?php Pjax::begin(['id' => 'pjax-user-container', 'enablePushState'=>false]) ?>
     <?= GridView::widget([
         'dataProvider' => $model->getChildUserDataProvider(),
         'columns' => [
@@ -43,7 +43,7 @@ use yii\widgets\Pjax;
             [
                 'content' => '<div class="btn-group me-3">'
                     . Html::a('<i class="fas fa-plus-circle"></i> Добавить пользователя', 
-                        ['/admin/user/list', 'role'=>$model->name], ['class'=>'btn btn-outline-secondary mv-link'])
+                        ['/admin/user/list', 'role'=>$model->name], ['class'=>'btn btn-outline-secondary btn-create'])
                     . Html::button('<i class="fas fa-sync-alt"></i> Обновить', ['id' => 'btn-refresh-user-container', 'class' => 'btn btn-outline-secondary'])
                 .'</div>',
             ],
@@ -69,27 +69,36 @@ JS
 
 $urlAddUser = Url::to(['/admin/role/add-sub-user', 'id'=>$model->name]);
 $this->registerJs(<<<JS
-       
-    // событие, если пользователь выбран
-    $(modalViewer).on('onPortalSelectUser', function(event, data) {
-       
-        $.ajax({
-            url: '$urlAddUser',
-            data: { userId: data.id },
-            method: 'get'
+   
+   
+    (function(){
+        const modal = new ModalViewer()
+        $(modal).on('onPortalSelectUser', function(event, data) {
+            $.ajax({
+                url: '$urlAddUser',
+                data: { userId: data.id },
+                method: 'get'
+            })
+            .done(function(data) {            
+                $.pjax.reload({container:'#pjax-user-container', async: false });
+            })
+            .fail(function(err) {
+                // const toast = $('#toast-alert-danger');
+                // toast.find('.toast-title').html('Ошибка');
+                // toast.find('.toast-body').html(err.responseText);
+                // toast.toast('show');
+                console.log(err)
+            })
+
+            modal.closeModal()
         })
-        .done(function(data) {            
-            $.pjax.reload({container:'#pjax-user-container', async: false });
+        $('#pjax-user-container .btn-create').on('click', function() {
+            modal.showModal($(this).attr('href'))       
+            return false     
         })
-        .fail(function(err) {
-            const toast = $('#toast-alert-danger');
-            toast.find('.toast-title').html('Ошибка');
-            toast.find('.toast-body').html(err.responseText);
-            toast.toast('show');
-        });        
-            
-        modalViewer.closeModal();        
-    });    
+
+    }())
+    
 
 JS); 
 ?>
