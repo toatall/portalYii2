@@ -181,7 +181,8 @@ a.dropdown-item:focus,
 }
 
 .dropdown-menu-main .dropdown-submenu > a:after,
-.dropdown-submenu > a[data-bs-toggle="dropdown"]::after {
+.dropdown-submenu > a[data-bs-toggle="dropdown"]::after,
+.dropdown-submenu > a[dropdown]::after {
   display: block;
   float: right;
   width: 0;
