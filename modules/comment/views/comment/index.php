@@ -1,5 +1,6 @@
 <?php
 
+use app\assets\FontAwesomeAsset;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */
@@ -9,6 +10,8 @@ use yii\helpers\Url;
 /** @var string $title */
 /** @var string $modelName */
 /** @var int $modelId */
+
+FontAwesomeAsset::register($this);
 
 $title = isset($title) && $title ? $title : 'Комментарии';
 

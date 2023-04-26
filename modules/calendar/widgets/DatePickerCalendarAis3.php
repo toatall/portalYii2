@@ -207,8 +207,7 @@ $this->view->registerCss(<<<CSS
 CSS);
 
 $js = <<<JS
-    function(date) {
-        //var dt = date.toLocaleDateString('ru');   - так не работает в IE ((((
+    function(date) {        
         var dt = getNumWithZero(date.getDate()) + '.' + getNumWithZero(date.getMonth() + 1) + '.' + getNumWithZero(date.getFullYear());
                
         if (jsonData.hasOwnProperty(dt)) {           
@@ -238,13 +237,11 @@ $js = <<<JS
         // выделение выходных дней
         else if (date.getDay() == 6 || date.getDay() == 0) {
             return {
-                tooltip: dt,
-                //classes: 'border border-danger rounded'
+                tooltip: dt,         
                 content: '<div class="day-ais3" style="color: #e45c5c;" data-toggle="tooltip" data-original-title="' 
                     + dt + '" data-content="<span class=\'text-danger\'>Выходной день</span>">' + (date.getDate()) + '</div>'
             };
         }
-        // $('.popover-calendar').popover('hide');
         $('.popover-calendar').hide();
     }
 JS;

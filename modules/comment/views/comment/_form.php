@@ -42,7 +42,7 @@ $idComments = 'container-comment-index-' . $hash;
                         <button class="btn btn-light border text-secondary dropdown-toggle" data-bs-auto-close="outside" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             😀
                         </button>
-                        <div class="dropdown-menu w-25">
+                        <div class="dropdown-menu" style="width: 30rem;">
                             <div class="p-2">
                                 <?= Tabs::widget([
                                     'id' => 'tabs-' . $idForm,
