@@ -3,11 +3,9 @@
 /** @var yii\web\View $this */
 /** @var string $content */
 
-use app\assets\LightGalleryAsset;
 use yii\bootstrap5\Html;
 use app\assets\ModalViewerAssetBs5;
 
-LightGalleryAsset::register($this);
 ModalViewerAssetBs5::register($this);
 ?>
 <?php $this->beginPage() ?>

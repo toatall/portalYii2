@@ -3,10 +3,10 @@
 /** @var yii\web\View $this */
 /** @var string $content */
 
-use app\assets\LightGalleryAsset;
+use app\assets\FancyappsUIAsset;
 use yii\bootstrap5\Html;
 
-LightGalleryAsset::register($this);
+FancyappsUIAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

@@ -4,11 +4,9 @@
 /** @var string $content */
 
 use app\assets\FontAwesomeAsset;
-use app\assets\LightGalleryAsset;
 use yii\bootstrap5\Html;
 use app\assets\ModalViewerAssetBs5;
 
-LightGalleryAsset::register($this);
 ModalViewerAssetBs5::register($this);
 FontAwesomeAsset::register($this);
 

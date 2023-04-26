@@ -99,7 +99,7 @@ else {
                     <div class="card-body static-thumbnails text-center">
                         <?php if (($images = PhotoKids::getImages($result['id']))): ?>
                             <?php foreach($images as $image): ?>
-                                <a href="<?= $image ?>">
+                                <a href="<?= $image ?>" data-fancybox data-caption="<?= $result['fio'] ?>">
                                     <img src="<?= $image ?>" style="height: 10rem;" class="img-thumbnail" />
                                 </a>
                             <?php endforeach; ?>
@@ -135,14 +135,7 @@ CSS);
 
 $this->registerJs(<<<JS
 
-$('.static-thumbnails').each(function() {
-    lightGallery($(this).get(0), {
-        addClass: 'lg-custom-thumbnails',  
-        appendThumbnailsTo: '.lg-outer',
-        animateThumb: false,
-        allowMediaOverlap: true,
-    });
-});
+Fancybox.bind("[data-fancybox]", { });
 
 $('.form-answer').on('submit', function() {
     const url = $(this).attr('action');

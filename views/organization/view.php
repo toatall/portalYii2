@@ -58,10 +58,10 @@ $this->params['breadcrumbs'][] = $this->title;
     });
 
 
-    $(modalViewer).on('onRequestJsonDone', function(event, data) {
-        if (data.content.toUpperCase() == 'OK') {
-            document.updateContainer(data.updateId);
-        }        
-    });
+    // $(modalViewer).on('onRequestJsonDone', function(event, data) {
+    //     if (data.content.toUpperCase() == 'OK') {
+    //         document.updateContainer(data.updateId);
+    //     }        
+    // });
 
 JS); ?>

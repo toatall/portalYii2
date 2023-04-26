@@ -5,14 +5,16 @@
 /** @var string $heightPhoto */
 /** @var string $heightCardHead */
 
-use app\assets\LightGalleryAsset;
+use app\assets\FancyappsUIAsset;
 use app\models\department\Department;
 use yii\bootstrap5\Html;
 
+
+FancyappsUIAsset::register($this);
+
+
 $heightCardHead = $heightCardHead ?? '17em';
 $heightPhoto = $heightPhoto ?? '20em';
-
-LightGalleryAsset::register($this);
 
 $this->title = 'Структура';
 $this->params['breadcrumbs'][] = ['label' => 'Отделы (' . ($model->organization->name ?? null) . ')', 'url' => ['/department/index']];
@@ -45,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="card shadow-lg rounded-lg">
                         <div class="card-body">
                             <div class="gallery text-center">
-                                <a href="<?= $struct['user_photo'] ?>" target="_blank" class="gallery-item">
+                                <a href="<?= $struct['user_photo'] ?>" target="_blank" class="gallery-item" data-fancybox data-caption="<?= $struct['user_fio'] ?>">
                                     <img src="<?= $struct['user_photo'] ?>" class="img-thumbnail" style="max-width:100%; max-height: <?= $heightPhoto ?>; margin: 0 auto;" alt="<?= $struct['user_fio'] ?>" />
                                 </a>
                             </div>
@@ -80,15 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $this->registerJs(<<<JS
     
-    $('.gallery').each(function() {
-        lightGallery($(this).get(0), {
-            addClass: 'lg-custom-thumbnails',  
-            appendThumbnailsTo: '.lg-outer',
-            animateThumb: false,
-            allowMediaOverlap: true,
-        });
-    });
-
+    Fancybox.bind("[data-fancybox]", { });
 
     $('.btn-delete').on('click', function() {
         if (!confirm('Вы уверены, что хотите удалить?')) {
