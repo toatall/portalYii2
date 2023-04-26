@@ -15,7 +15,7 @@ class MenuNewsOrganizations implements ISubMenu
     /**
      * @var string
      */
-    public $templateItem = '<li class="{class-li}"><a href="{url}" class="{class-a}">{text}</a> {submenu}</li>';
+    public $templateItem = '<li class="{class-li}"><a href="{url}" class="{class-a}"{attribute}>{text}</a> {submenu}</li>';
 
 
     /**
@@ -49,10 +49,11 @@ class MenuNewsOrganizations implements ISubMenu
             
             $url = Url::to(['/organization/view', 'id'=>$item['code']]);
                        
-            $classA = ''; $classLi = '';
+            $classA = ''; $classLi = ''; $attributeA = '';
             if ($subMenu != '')  { 
                 $classA = 'dropdown-item dropdown-toggle submenu';
                 $classLi = 'dropdown-submenu';
+                $attributeA = ' data-bs-toggle="dropdown"';
             }
             else {
                 $classA = 'dropdown-item';
@@ -67,6 +68,7 @@ class MenuNewsOrganizations implements ISubMenu
                 '{class-a}' => $classA,
                 '{text}' => $item['name'],
                 '{class-li}' => $classLi,
+                '{attribute}' => $attributeA,
             ];           
             
             if ($subMenu != '') {

@@ -20,7 +20,7 @@ $footerData = Footer::getLinks();
                             if ($link['target']) {
                                 $options['target'] = $link['target'];
                             }
-                            $options = array_merge($options, (json_decode($link['options']) ?? []));
+                            $options = array_merge($options, (json_decode($link['options'], true) ?? []));
                         ?>
                         <li>
                             <?= Html::a($link['text'], $link['url'], $options) ?>

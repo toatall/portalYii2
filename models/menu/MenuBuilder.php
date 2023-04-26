@@ -4,8 +4,7 @@ namespace app\models\menu;
 
 use app\models\conference\AbstractConference;
 use Yii;
-use yii\caching\DbDependency;
-use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 /**
@@ -61,7 +60,7 @@ class MenuBuilder
      * @param array $options
      * @return array
      */
-    protected static function buildData($position, $options, $id_parent)
+    protected static function buildData($position, $options, $id_parent, $level = 0)
     {                
         $queryAll = (new \yii\db\Query())
            ->from('{{%menu}}')
@@ -101,9 +100,12 @@ class MenuBuilder
                 }
             }
             else {
-                $subMenu = self::buildData($position, $options, $query['id']);
+                $subMenu = self::buildData($position, $options, $query['id'], $level + 1);
             
                 if (count($subMenu)>0) {
+                    if ($level >= 1) {
+                        ArrayHelper::setValue($options, 'class', 'dropdown-submenu');
+                    }                    
                     $item['items'] = $subMenu;
                     $item['options'] = $options;
                 }                
