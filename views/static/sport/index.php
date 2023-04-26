@@ -21,3 +21,18 @@ $this->params['breadcrumbs'][] = $this->title;
         ['label' => 'Спортивный план', 'content' => $this->render('_plan')],
     ],
 ]) ?>
+
+<?php $this->registerJs(<<<JS
+        
+    function changeTab() {
+        let hash = window.location.hash
+        if (hash) {
+            $('a[href="' + hash + '"]').tab('show')
+        }
+    }
+    
+    changeTab()            
+
+    window.onhashchange = () => changeTab()
+    
+JS) ?>
