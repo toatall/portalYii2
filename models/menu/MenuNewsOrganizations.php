@@ -53,7 +53,7 @@ class MenuNewsOrganizations implements ISubMenu
             if ($subMenu != '')  { 
                 $classA = 'dropdown-item dropdown-toggle submenu';
                 $classLi = 'dropdown-submenu';
-                $attributeA = ' data-bs-toggle="dropdown"';
+                $attributeA = ' dropdown';
             }
             else {
                 $classA = 'dropdown-item';

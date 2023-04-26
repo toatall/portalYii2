@@ -38,6 +38,7 @@ class MenuBuilder
         return self::build(Menu::POSITION_LEFT, $options);
     }
 
+    
     /**
      * Вывод меню (с кэшированием)
      * @param int $position
@@ -45,46 +46,43 @@ class MenuBuilder
      * @param array $options
      * @return array
      */
-    protected static function build($position, $options, $idParent=0)
+    protected static function build($position, $options)
     {      
-        $cache = Yii::$app->cache;       
-        return $cache->getOrSet('menu_' . $position, function() use ($position, $options, $idParent) {
-            return self::buildData($position, $options, $idParent);
+        $data = Yii::$app->cache->getOrSet('menu_' . $position, function() use ($position) {
+            return self::buildMenuFromDb($position); 
         }, 0);
+        return self::buildData($data, $options);
     }
 
     /**
-     * Формирование меню
-     * @param $position
-     * @param int $id_parent
-     * @param array $options
+     * Подготовка массива для виджета Nav
+     * @param array $dataItems массив данных из БД
+     * @param array $options дополнительные опции меню
+     * @param int $level уровень вложенности
      * @return array
      */
-    protected static function buildData($position, $options, $id_parent, $level = 0)
-    {                
-        $queryAll = (new \yii\db\Query())
-           ->from('{{%menu}}')
-           ->where(['id_parent'=>$id_parent, 'type_menu'=>$position, 'blocked'=>0])
-           ->orderBy('sort_index desc')
-           ->all();
-        
-        $resultArray = array();
-        
-        foreach ($queryAll as $query) {
+    public static function buildData($dataItems, $options, $level = 0) 
+    {
+        if (!is_array($dataItems)) {
+            return [];
+        }
+
+        $result = [];
+        foreach($dataItems as $dataItem) {
             $item = [
-                'label' => $query['name'],
-                'url' => \yii\helpers\Url::to($query['link']),
+                'label' => $dataItem['name'],
+                'url' => \yii\helpers\Url::to($dataItem['link']),
                 'linkOptions' => [
-                    'class' => Url::current() == \yii\helpers\Url::to($query['link']) ? 'active' : '',
+                    'class' => Url::current() == \yii\helpers\Url::to($dataItem['link']) ? 'active' : '',
                 ],
             ];
             
-            if ($query['target']) {
-                $item['linkOptions']['target'] = $query['target'];
+            if ($dataItem['target']) {
+                $item['linkOptions']['target'] = $dataItem['target'];
             }
             
-            if ($query['submenu_code']) {
-                $subMenu = $query['submenu_code'];
+            if ($dataItem['submenu_code']) {
+                $subMenu = $dataItem['submenu_code'];
                 if (class_exists($subMenu)) {
                     /** @var $classSubmenu ISubMenu **/
                     $classSubmenu = new $subMenu;
@@ -100,9 +98,9 @@ class MenuBuilder
                 }
             }
             else {
-                $subMenu = self::buildData($position, $options, $query['id'], $level + 1);
+                $subMenu = self::buildData($dataItem['childs'] ?? false, $options, $level + 1);
             
-                if (count($subMenu)>0) {
+                if (count($subMenu) > 0) {
                     if ($level >= 1) {
                         ArrayHelper::setValue($options, 'class', 'dropdown-submenu');
                     }                    
@@ -110,10 +108,37 @@ class MenuBuilder
                     $item['options'] = $options;
                 }                
             }
-            $resultArray[] = $item;            
+            $result[] = $item; 
+        }
+        return $result;
+    }
+
+    /**
+     * Получение данных из БД о меню
+     * @param int $position категория меню
+     * @param int $idParent идентификатор родителя
+     * @return array
+     */
+    public static function buildMenuFromDb($position, $idParent = 0)
+    {
+        $reults = [];
+        $items = (new \yii\db\Query())
+           ->from('{{%menu}}')
+           ->where(['id_parent'=>$idParent, 'type_menu'=>$position, 'blocked'=>0])
+           ->orderBy('sort_index desc')
+           ->all();
+        if ($items === null) {
+            return false;
         }
 
-        return $resultArray;
+        foreach($items as $item) {            
+            $row = $item;
+            if (($childs = self::buildMenuFromDb($position, $item['id'])) !== false) {
+                $row['childs'] = $childs;
+            }
+            $reults[] = $row;
+        }
+        return $reults;
     }
 
     /**
@@ -124,7 +149,6 @@ class MenuBuilder
     {
         return self::$leftMenuAdd;
     }
-
 
     /**
      * Добавление раздела дополнительного меню
