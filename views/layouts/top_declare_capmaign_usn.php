@@ -26,8 +26,8 @@ if (isset($query['8600'])) {
             <div class="text-center text-light">
                 
                 <?php $days = 10; ?>
-                <span class="lead" style="font-weight: bolder; font-size: 0.82rem;">
-                    Налогоплательщики, представившие, либо обосновано не представившие Уведомления за 1 квартал 2023 года                
+                <span class="lead" style="font-weight: bolder; font-size: 0.80rem;">
+                Налогоплательщики, представившие либо обоснованно не представившие, Уведомления за 1 квартал 2023 года                
                 </span>
                 
                 <div class="tick my-1" data-credits="false" style="font-size: 1.5rem;" data-value="<?= $percents ?>">
