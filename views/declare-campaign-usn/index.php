@@ -46,22 +46,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function(DeclareCampaignUsn $model) {
                     $result = Yii::$app->formatter->asInteger($model->count_np_provides_reliabe_declare);
                     if (($val = $model->previous_count_np_provides_reliabe_declare) !== false && $model->count_np_provides_reliabe_declare > 0) {
-                        $newValue = null;
-                        if ($model->count_np_provides_reliabe_declare == $val) {
-                            $newValue = '0';
+                        $newValue = $newValue = $model->count_np_provides_reliabe_declare - $val;;
+                        
+                        $color = 'primary';
+                        if ($newValue > 0) {
+                            $color = 'success';
                         }
-                        elseif ($model->count_np_provides_reliabe_declare > $val) {
-                            $newValue = '+' . ($model->count_np_provides_reliabe_declare - $val);
+                        elseif ($newValue < 0) {
+                            $color = 'danger';
                         }
-                        if ($newValue !== null) {
-                            $result .= '<br /><small>' . Html::tag('span', Yii::$app->formatter->asInteger($newValue, [], [
-                                NumberFormatter::POSITIVE_PREFIX => '+',
-                            ]), [
-                                'class' => 'badge bg-success',
-                                'data-bs-toggle' => 'tooltip',
-                                'title' => 'Прирост по сравнению с ' . $model->previous_date . ' (' . Yii::$app->formatter->asInteger($val) . ')',
-                            ]) . '</small>';
-                        }
+
+                        $result .= '<br /><small>' . Html::tag('span', Yii::$app->formatter->asInteger($newValue, [], [
+                            NumberFormatter::POSITIVE_PREFIX => '+',
+                            NumberFormatter::NEGATIVE_PREFIX => '-',
+                        ]), [
+                            'class' => 'badge bg-' . $color,
+                            'data-bs-toggle' => 'tooltip',
+                            'title' => 'По сравнению с ' . $model->previous_date . ' (' . Yii::$app->formatter->asInteger($val) . ')',
+                        ]) . '</small>';                        
                     }
                     return $result;
                 }
@@ -72,22 +74,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function(DeclareCampaignUsn $model) {
                     $result = Yii::$app->formatter->asInteger($model->count_np_provides_not_required);
                     if (($val = $model->previous_count_np_provides_not_required) !== false && $model->count_np_provides_not_required > 0) {                        
-                        $newValue = null;
-                        if ($model->count_np_provides_not_required == $val) {
-                            $newValue = '0';
+                        
+                        $newValue = $newValue = $model->count_np_provides_not_required - $val;
+                        
+                        $color = 'primary';
+                        if ($newValue > 0) {
+                            $color = 'success';
                         }
-                        elseif ($model->count_np_provides_not_required > $val) {
-                            $newValue = '+' . ($model->count_np_provides_not_required - $val);
+                        elseif ($newValue < 0) {
+                            $color = 'danger';
                         }
-                        if ($newValue !== null) {
-                            $result .= '<br /><small>' . Html::tag('span', Yii::$app->formatter->asInteger($newValue, [], [
-                                NumberFormatter::POSITIVE_PREFIX => '+',
-                            ]), [                            
-                                'class' => 'badge bg-success',
-                                'data-bs-toggle' => 'tooltip',
-                                'title' => 'Прирост по сравнению с ' . $model->previous_date . ' (' . Yii::$app->formatter->asInteger($val) . ')',
-                            ]) . '</small>';
-                        }
+                        
+                        $result .= '<br /><small>' . Html::tag('span', Yii::$app->formatter->asInteger($newValue, [], [
+                            NumberFormatter::POSITIVE_PREFIX => '+',
+                            NumberFormatter::NEGATIVE_PREFIX => '-',
+                        ]), [                            
+                            'class' => 'badge bg-' . $color,
+                            'data-bs-toggle' => 'tooltip',
+                            'title' => 'Прирост по сравнению с ' . $model->previous_date . ' (' . Yii::$app->formatter->asInteger($val) . ')',
+                        ]) . '</small>';
                     }
                     return $result;
                 }
