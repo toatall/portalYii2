@@ -7,12 +7,14 @@ use app\assets\AnimateCssAsset;
 use yii\bootstrap5\Html;
 use app\assets\AppAsset;
 use app\assets\fancybox\FancyboxAsset;
+use app\assets\FontAwesomeAsset;
 use app\assets\ModalViewerAssetBs5;
 
 AnimateCssAsset::register($this);
 FancyboxAsset::register($this);
 AppAsset::register($this);
 ModalViewerAssetBs5::register($this);
+FontAwesomeAsset::register($this);
 $this->registerCssFile('/public/assets/kadry/css/album.css', [
     'depends' => AppAsset::class,
 ]);
@@ -77,16 +79,7 @@ CSS);
 
         <hr />        
         
-        <div class="container-fluid pl-5 pr-5">
-            <?php /* if (isset($this->params['breadcrumbs']) && $this->params['breadcrumbs']): ?>
-            <?= Breadcrumbs::widget([
-                'homeLink' => false,
-                'links' => $this->params['breadcrumbs'],
-                'options' => [
-                    'class' => 'bg-dark text-white',                  
-                ],
-            ]) ?>            
-            <?php endif;*/ ?>
+        <div class="container-fluid pl-5 pr-5">            
             <?= $content ?>
         </div>
         

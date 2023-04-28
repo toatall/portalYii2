@@ -156,13 +156,16 @@ class BookController extends Controller
      */
     public function actionDiscussions()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return [
-            'title' => 'Активные дискуссии',
-            'content' => $this->renderAjax('discussions', [
-                'discussions' => BookShelf::discussionsAll(),
-            ]),
-        ];
+        // Yii::$app->response->format = Response::FORMAT_JSON;
+        // return [
+        //     'title' => 'Активные дискуссии',
+        //     'content' => $this->renderAjax('discussions', [
+        //         'discussions' => BookShelf::discussionsAll(),
+        //     ]),
+        // ];
+        return $this->render('discussions', [
+            'discussions' => BookShelf::discussionsAll(),
+        ]);
     }
   
 

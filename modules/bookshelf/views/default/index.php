@@ -192,15 +192,6 @@ CSS);
                 <?php endif; ?>
             </div>
 
-            <!--div class="card bg-dark mt-4">
-                <div class="card-header mb-2 text-white text-uppercase">
-                    <strong><i class="fas fa-book-open"></i> Книжный клуб ФНС России</strong>
-                </div>
-                <div class="card-body text-white">
-                    ...
-                </div>
-            </div-->
-
             <div class="card bg-dark mt-4">
                 <div class="card-header mb-2 text-white text-uppercase">
                     <strong><i class="fas fa-book-open"></i> Рекомендации к прочтению</strong>
@@ -226,9 +217,8 @@ CSS);
                     <?= Html::a('<i class="fas fa-angle-right"></i> Все записи', ['/bookshelf/recommend-read/index'], ['class' => 'btn btn-secondary btn-lg']) ?>
                 </div>
                 <?php endif; ?>
-            </div
-
-
+            </div>
+            
         </div>        
     </div>
 </div>

@@ -4,7 +4,6 @@ namespace app\modules\bookshelf\controllers;
 
 use app\modules\bookshelf\models\BookShelf;
 use app\modules\bookshelf\models\BookShelfCalendar;
-use app\modules\bookshelf\models\BookShelfDiscussion;
 use app\modules\bookshelf\models\RecommendRead;
 use app\modules\bookshelf\models\WhatReading;
 use yii\data\ActiveDataProvider;
@@ -73,8 +72,7 @@ class DefaultController extends Controller
         return $this->render('index', [
             'dataProviderBooks' => $dataProviderBooks,
             'modelCalendarToday' => $this->calendarToday(),
-            'modelLastWhatReading' => $this->lastWhatReading(),
-            'modelLastDiscussion' => $this->lastDiscussion(),
+            'modelLastWhatReading' => $this->lastWhatReading(),          
             'discussions' => $this->discussions(),
             'recommend' => $this->recommend(),
         ]);
@@ -118,20 +116,7 @@ class DefaultController extends Controller
             ->orderBy(['id' => SORT_DESC])
             ->limit($limit)
             ->all();
-    }
-
-    /**
-     * Последние записи по дискуссии
-     * @param int $limit
-     * @return BookShelfDiscussion[]|null
-     */
-    private function lastDiscussion($limit=3)
-    {
-        return BookShelfDiscussion::find()
-            ->orderBy(['id' => SORT_DESC])
-            ->limit($limit)
-            ->all();
-    }
+    }    
 
     /**
      * Количество дискуссий

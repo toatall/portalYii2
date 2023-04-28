@@ -61,4 +61,8 @@ return  [
     ],   
     
     'comment' => 'app\modules\comment\Module',
+
+    'project' => 'app\modules\project\Module',
+
+    'log' => 'app\modules\log\Module',
 ];

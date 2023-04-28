@@ -7,42 +7,51 @@ use yii\helpers\Url;
 /** @var yii\web\View $this */
 /** @var app\modules\bookshelf\models\BookShelf[] $discussions */
 
+$this->title = 'Активные дискуссии';
 ?>
+<h1 class="mv-hide title text-white"><?= $this->title ?></h1>
 
+<?php if (!$discussions): ?>
 
-<?php foreach($discussions as $discussion): ?>
-    <div class="card card-item">
-        <div class="card-header">
-            <div class="row">
-                <div class="col-1">
-                    <?= Html::img($discussion->getPhoto(), ['style'=>'height: 8rem;', 'class'=>'img-thumbnail']) ?>
-                </div>
-                <div class="col">
-                    <p class="lead border-bottom">
-                        <?= $discussion->title ?>
-                        <?= $discussion->writer ?>
-                    </p>
-                    <p class="badge badge-secondary fa-1x">
-                        Комментариев → <?= count($discussion->comments) ?>
-                    </p>
-                    <p>
-                        <?= Html::button('<i class="fas fa-arrow-alt-circle-down"></i> Показать', ['class' => 'btn-collapse btn btn-secondary btn-sm']) ?>
-                    </p>
+    <div class="alert alert-secondary">Нет данных</div>
+
+<?php else: ?>
+
+    <?php foreach($discussions as $discussion): ?>
+        <div class="card card-item">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-1">
+                        <?= Html::img($discussion->getPhoto(), ['style'=>'height: 8rem;', 'class'=>'img-thumbnail']) ?>
+                    </div>
+                    <div class="col">
+                        <p class="lead border-bottom">
+                            <?= $discussion->title ?>
+                            <?= $discussion->writer ?>
+                        </p>
+                        <p class="badge badge-secondary fa-1x">
+                            Комментариев → <?= count($discussion->comments) ?>
+                        </p>
+                        <p>
+                            <?= Html::button('<i class="fas fa-arrow-alt-circle-down"></i> Показать', ['class' => 'btn-collapse btn btn-secondary btn-sm']) ?>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card-body" style="display: none;">
-            <?= CommentWidget::widget([
-                'modelName' => 'bookshelf',
-                'modelId' => $discussion->id,  
-                'url' => Url::to(['/bookshelf/book/view', 'id'=>$discussion->id]),
-                'title' => 'Дискуссия',
-            ]) ?>
-        </div>                   
+            <div class="card-body" style="display: none;">
+                <?= CommentWidget::widget([
+                    'modelName' => 'bookshelf',
+                    'modelId' => $discussion->id,  
+                    'url' => Url::to(['/bookshelf/book/view', 'id'=>$discussion->id]),
+                    'title' => 'Дискуссия',
+                ]) ?>
+            </div>                   
 
-    </div>           
-<?php endforeach; ?>
+        </div>           
+    <?php endforeach; ?>
+
+<?php endif; ?>
     
 <?php $this->registerJs(<<<JS
     $('.btn-collapse').off('click');

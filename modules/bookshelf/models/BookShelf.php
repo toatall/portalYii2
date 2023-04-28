@@ -6,7 +6,7 @@ use app\behaviors\AuthorBehavior;
 use app\behaviors\ChangeLogBehavior;
 use app\behaviors\DatetimeBehavior;
 use app\helpers\DateHelper;
-use app\models\Comment;
+use app\modules\comment\models\Comment;
 use app\models\User;
 use Yii;
 use yii\db\Query;

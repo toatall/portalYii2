@@ -1,5 +1,4 @@
 <?php
-
 use yii\bootstrap5\Html;
 use kartik\widgets\ActiveForm;
 
@@ -17,13 +16,7 @@ use kartik\widgets\ActiveForm;
         <div class="card-body">
             <?php $form = ActiveForm::begin([
                 'action' => ['index'],
-                'method' => 'get',
-                // 'type' => ActiveForm::TYPE_INLINE,
-                // 'fieldConfig' => [
-                //     'options' => [
-                //         'class' => 'form-group mb-3 mr-2 col-10',
-                //     ],
-                // ],
+                'method' => 'get',                
                 'options' => [
                     'data-pjax' => true,
                 ],

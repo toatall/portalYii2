@@ -68,39 +68,10 @@ class m220217_043202_create_tables_bookshelf extends Migration
             'date_create' => $this->date(),
         ]);
         $this->addForeignKey('fk__book_shelf_rating__id_book_shelf', '{{%book_shelf_rating}}', 'id_book_shelf', '{{%book_shelf}}', 'id', 'cascade');
-        $this->addForeignKey('fk__book_shelf_rating__username', '{{%book_shelf_rating}}', 'username', '{{%user}}', 'username');
-
-
-
-        // 3 Советы читателей
-        $this->createTable('{{%book_shelf_discussion}}', [
-            'id' => $this->primaryKey(),           
-            'title' => $this->string(1000)->notNull(),
-            'note' => $this->text(),
-            'author' => $this->string(250)->notNull(),
-            'date_create' => $this->dateTime()->notNull(),
-            'date_update' => $this->dateTime()->notNull(),
-            'log_change' => $this->text()->notNull(),            
-        ]);
-        $this->addForeignKey('fk__book_shelf_discussion__author', '{{%book_shelf_discussion}}', 'author', '{{%user}}', 'username');
-
-        $this->createTable('{{%book_shelf_discussion_comment}}', [
-            'id' => $this->primaryKey(),
-            'id_parent' => $this->integer(),
-            'id_book_shelf_discussion' => $this->integer()->notNull(),
-            'comment' => $this->text()->notNull(),
-            'username' => $this->string(250)->notNull(),
-            'date_create' => $this->dateTime()->notNull(),
-            'date_update' => $this->dateTime()->notNull(),
-        ]);
-        $this->addForeignKey('fk__book_shelf_discussion_comment__id_book_shelf_discussion', 
-            '{{%book_shelf_discussion_comment}}', 'id_book_shelf_discussion', '{{%book_shelf_discussion}}', 'id');
-        $this->addForeignKey('fk__book_shelf_discussion_comment__username', 
-            '{{%book_shelf_discussion_comment}}', 'username', '{{%user}}', 'username');
-
+        $this->addForeignKey('fk__book_shelf_rating__username', '{{%book_shelf_rating}}', 'username', '{{%user}}', 'username');        
 
             
-        // 4 Что сейчас читает... ФИО
+        // 3 Что сейчас читает... ФИО
         $this->createTable('{{%book_shelf_what_reading}}', [
             'id' => $this->primaryKey(),
             'fio' => $this->string(250)->notNull(),
@@ -119,17 +90,9 @@ class m220217_043202_create_tables_bookshelf extends Migration
      */
     public function safeDown()
     {
-        // 4 Что сейчас читает... ФИО
+        // 3 Что сейчас читает... ФИО
         $this->dropForeignKey('fk__book_shelf_what_reading__author', '{{%book_shelf_what_reading}}');
-        $this->dropTable('{{%book_shelf_what_reading}}');
-
-        // 3 Советы читателей
-        $this->dropForeignKey('fk__book_shelf_discussion_comment__id_book_shelf_discussion', '{{%book_shelf_discussion_comment}}');
-        $this->dropForeignKey('fk__book_shelf_discussion_comment__username', '{{%book_shelf_discussion_comment}}');
-        $this->dropTable('{{%book_shelf_discussion_comment}}');
-
-        $this->dropForeignKey('fk__book_shelf_discussion__author', '{{%book_shelf_discussion}}');
-        $this->dropTable('{{%book_shelf_discussion}}');
+        $this->dropTable('{{%book_shelf_what_reading}}');        
 
         // 2 Что взять на книжной полке
         $this->dropForeignKey('fk__book_shelf_rating__id_book_shelf', '{{%book_shelf_rating}}');

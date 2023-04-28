@@ -67,7 +67,7 @@ class LogController extends Controller
      */
     public function actionView()
     {
-        $id = Yii::$app->request->post();
+        $id = Yii::$app->request->post('expandRowKey');
         return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);        

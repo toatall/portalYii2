@@ -7,10 +7,11 @@ use Yii;
 /**
  * spa module definition class
  */
-class Module extends \yii\base\Module
+class Module extends \app\modules\Module
 {
 
     public $layout = 'main';
+
 
     /**
      * {@inheritdoc}
