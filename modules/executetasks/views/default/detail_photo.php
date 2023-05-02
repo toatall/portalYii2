@@ -11,7 +11,7 @@
             $image = $model->image;    
         ?>
             
-            <p class="lead text-white" style="border-bottom: 2px solid darkred;"><?= $model->fio ?></p>
+            <p class="lead" style="border-bottom: 2px solid;"><?= $model->fio ?></p>
             <?php if ($image && file_exists(Yii::getAlias('@webroot') . $image)): ?>
                 <img src="<?= $model->getImage() ?>" class="img-thumbnail" />
             <?php else: ?>

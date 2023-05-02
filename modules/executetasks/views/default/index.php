@@ -22,10 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="alert alert-danger display-4 font-weight-bolder text-center">Браузер Internet Explorer не поддерживается!</div>
 <?php endif; ?>
 
-<div class="execute-tasks-index bg-dark text-white p-4 rounded">
+<div class="execute-tasks-index p-4 rounded">
 
     <div class="col mb-3">
-        <span class="display-5" style="border-bottom: 2px solid darkred;">
+        <span class="display-5 border-bottom">
             <?= $this->title ?>
         </span>    
     </div>
@@ -41,14 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
             'buttonOptions' => [
-                'class' => 'btn btn-outline-success',
+                'class' => 'btn btn-outline-success btn-sm',
             ],
             'options' => ['class' => 'ml-3']
         ]) ?>
     <?php endif; ?>
 
     <?= Html::beginForm('', 'get', ['id' => 'form-filter-radar']) ?>
-    <div class="card card-body bg-dark">
+    <div class="card card-body mt-2">
         <div class="row">
             <div class="col">               
                 <?= Select2::widget([
@@ -69,12 +69,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-4">
-            <div class="card mt-3 bg-dark shadow" style="height:350px;">
+            <div class="card mt-3 shadow" style="height:350px;">
                 <div class="card-header lead text-uppercase fa-1x text-center">
                     Выполнено задач (всего)
                 </div>
                 <div class="card-body">
-                    <div id="chart-total" class="text-white"></div>
+                    <div id="chart-total" class=""></div>
                 </div>                    
             </div> 
         </div>
@@ -86,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-6">
-            <div class="card mt-3 bg-dark shadow">
+            <div class="card mt-3 shadow">
                 <div class="card-header lead text-uppercase text-center">Исполнение задач в разрезе отделов</div>            
                 <div class="card-body">
                     <div id="chart-departments" class="text-dark"></div>                      
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
         <div class="col-6">
-           <div class="card mt-3 bg-dark shadow">
+           <div class="card mt-3 shadow">
                 <div class="card-header lead text-uppercase text-center">Исполнение задач в разрезе налоговых органов</div>            
                 <div class="card-body">
                     <div id="chart-organization" class="text-dark"></div>                      
@@ -105,7 +105,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="mt-3 col" id="organizations-detail-main" style="display: none;">
-            <div class="card card-body bg-dark shadow">
+            <div class="card card-body shadow">
                 <div>
                     <button type="button" class="btn-close btn-close-white float-end close-btn" aria-label="Close">
                         <!-- <span aria-hidden="true" class="text-light">&times;</span> -->
@@ -131,7 +131,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="mt-3 col" id="departments-detail-main" style="display: none;">            
-            <div class="card card-body bg-dark shadow">
+            <div class="card card-body shadow">
                 <div>
                     <button type="button" class="btn-close btn-close-white float-end close-btn" aria-label="Close">
                         <!-- <span aria-hidden="true" class="text-light">&times;</span> -->
@@ -218,7 +218,7 @@ $this->registerJs(<<<JS
             for (i in data.totalWithIndex) {
 
                 divTotalWithIndexes.append('<div class="col-6">' +
-                                           '  <div class="card mt-3 bg-dark shadow" style="height:350px;">' +
+                                           '  <div class="card mt-3 shadow" style="height:350px;">' +
                                            '    <div class="card-header lead text-uppercase text-center fa-1x">Выполнено задач (' + i + ')</div>' +
                                            '    <div class="card-body"><div id="chart-total-with-index-' + index + '"></div></div>' +
                                            '  </div>' +
@@ -247,7 +247,7 @@ $this->registerJs(<<<JS
                                 value: {
                                     offsetY: 10,
                                     fontSize: '2rem',
-                                    color: 'white'
+                                    // color: 'white'
                                 }
                             }
                         }

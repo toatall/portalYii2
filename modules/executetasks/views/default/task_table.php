@@ -69,7 +69,7 @@ if ($totalCountTasks > 0) {
         ],        
     ],
     'tableOptions' => [
-        'class' => 'table table-bordered table-dark table-striped',
+        'class' => 'table table-bordered table-striped',
     ],
 ]) ?>
 
@@ -104,7 +104,7 @@ JS);
 
 $this->registerCss(<<<CSS
     .link-dashed-white, .link-dashed-white:hover {
-        color: white; 
+        /* color: white;  */
         border-bottom: 1px white dashed;
         transition: all .5s ease-in-out;
     }

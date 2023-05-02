@@ -52,6 +52,6 @@ if ($totalCountTasks > 0) {
         ],
     ],
     'tableOptions' => [
-        'class' => 'table table-bordered table-dark table-striped',
+        'class' => 'table table-bordered table-striped',
     ],
 ]) ?>

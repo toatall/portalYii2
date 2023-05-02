@@ -17,9 +17,8 @@
                     },
                     value: {
                         offsetY: 10,
-                        fontSize: '2rem',
-                        //fontFamily: 'Consolas',
-                        color: 'white'
+                        fontSize: '2rem',                        
+                        // color: 'white'
                     }
                 }
             }
