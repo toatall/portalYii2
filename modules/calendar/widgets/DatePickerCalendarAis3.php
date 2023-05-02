@@ -91,6 +91,10 @@ $this->view->registerJs(<<<JS
         }
     }, '.datepicker .day:not(.disabled)');
 
+
+    let calendarModal = new ModalViewer();
+
+
 JS, View::POS_END);
 
 $this->view->registerCss(<<<CSS
@@ -243,19 +247,17 @@ $js = <<<JS
             };
         }
         $('.popover-calendar').hide();
-    }
+    }    
 JS;
 
         Pjax::begin(['timeout'=>false, 'enablePushState'=>false, 'options'=>['id'=>'pjax-datepicker-ais3']]);
         $urlDate = Url::toRoute(['/calendar/default/view', 'date'=>'-date-']);
 
-        $jsChangeDate = new JsExpression("function(d) {
-            //var dt = d.date.toLocaleDateString('ru-RU');
+        $jsChangeDate = new JsExpression("function(d) {           
             var dt = getNumWithZero(d.date.getDate()) + '.' + getNumWithZero(d.date.getMonth() + 1) + '.' + getNumWithZero(d.date.getFullYear());
-            var url = '$urlDate'.replace('-date-', dt);            
-            // $('.popover-calendar').popover('hide');
-            $('.popover-calendar').hide();
-            modalViewer.showModalManual(url, true, 'get');            
+            var url = '$urlDate'.replace('-date-', dt);                                   
+            $('.popover-calendar').hide();                    
+            calendarModal.showModal(url); 
         }");
 
         echo '<div id="' . $this->id . '" class="row">';
