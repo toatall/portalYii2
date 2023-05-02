@@ -21,10 +21,13 @@ class Module extends \yii\base\Module
     {
         parent::init();
         \Yii::$app->errorHandler->errorAction = '/contest/default/error';    
-        $this->setModules([
+        $this->setModules([            
             'space' => [
                 'class' => 'app\modules\contest\modules\space\Module',
-            ],            
+            ],  
+            // 'photokids' => [
+            //     'class' => 'app\modules\contest\modules\photokids\Module',
+            // ],        
         ]);
     }
 }
