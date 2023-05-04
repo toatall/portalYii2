@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'label' => 'Летопись Войны',
             'content' => '<div class="container-vov" data-href="' . Url::to(['vov/news']) . '"></div>',
-            'active' => true,
+            'active' => false,            
         ],
         [
             'label' => 'Война в лицах',
@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'label' => 'Фотографии',
                     'content' => '<div class="container-vov" data-href="' . Url::to(['vov/face-carousel']) . '"></div>',
+                    'active' => true,
                 ],
             ],
         ],
