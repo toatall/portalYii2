@@ -15,22 +15,22 @@ use yii\bootstrap5\Html;
 ]) ?>
 
 <?php foreach ($videos as $category=>$files): ?>
-    <h3 class="head"><?= $category ?></h3>
+    <h3 class="display-4 text-center mt-3"><?= $category ?></h3>
 
     <div class="row">
         <div class="gallery">
             <?php foreach ($files as $file): ?>
 
-                <div class="col-sm-5 col-md-3" style="margin:0 auto;">
-                    <div class="panel panel-default" style="">
-                        <div class="panel-body">
+                <div class="col-sm-5 col-md-3 mb-2" style="margin:0 auto;">
+                    <div class="card">
+                        <div class="card-body">
 
                             <a href="<?= $file ?>" target="_blank">
                                 <video controls="" width="500" style="height: 200px; max-width: 300px;" class="col-md-12 col-sm-12"><source src="<?= $file ?>"></video>
                             </a>
 
                         </div>
-                        <div class="panel-heading" style="height: 200px; margin-top:10px; overflow: auto;">
+                        <div class="card-header border-top" style="margin-top:10px; overflow: auto;">
                             <div class="text-center text-muted">
                                 <h4 class="head text-uppercase"><?= basename($file) ?></h4>
                                 <p><?= Html::a('Скачать', $file, ['class' => 'btn btn-primary']) ?></p>
