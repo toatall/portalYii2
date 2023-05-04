@@ -83,7 +83,7 @@ class VovController extends Controller
         $path = \Yii::getAlias('@webroot') . $dirVov;
         $files = [];
         if (file_exists($path) && is_dir($path)) {
-            $files = FileHelper::findFiles($path, ['except' => ['*.db']]);
+            $files = FileHelper::findFiles($path, ['only' => ['*.jpg']]);
         }       
         $items = array_map(function ($item) use ($dirVov) {
             //$file = basename(iconv('windows-1251', 'utf-8', $item));    
