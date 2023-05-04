@@ -113,6 +113,12 @@ if (date('Y') < 2022) {
         <div class="col">
             <div class="row justify-content-end">
 
+                <div style="width:170px;">
+                    <a href="<?= Url::to('/vov') ?>">
+                        <img src="/img/9may.png" style="height: 180px; margin-top: 20px;" />
+                    </a>
+                </div>
+
                 <?= $this->render('top_declare_capmaign_usn.php') ?>
 
                 <?php if (date('Y') < 2023) { echo $this->render('top_pay_taxes'); } ?>

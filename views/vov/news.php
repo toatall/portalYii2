@@ -1,8 +1,9 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $searchModel \app\models\news\NewsSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var yii\web\View $this */
+/** @var app\models\news\NewsSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
+use yii\bootstrap5\LinkPager;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
@@ -14,6 +15,12 @@ use yii\widgets\Pjax;
     'dataProvider' => $dataProvider,
     'itemView' => '/news/_list',
     'layout' => "{items}\n{pager}",
+    'pager' => [
+        'class' => LinkPager::class,
+        'options' => [
+            'class' => 'pt-2',
+        ],
+    ],
 ]) ?>
 
 <?php Pjax::end(); ?>

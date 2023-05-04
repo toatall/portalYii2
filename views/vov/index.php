@@ -8,8 +8,7 @@ $this->title = 'Проект "Помним! Гордимся!"';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<h1><?= $this->title ?></h1>
-<hr />
+<h1 class="display-5 border-bottom"><?= $this->title ?></h1>
 
 <?= TabsX::widget([
     'id' => 'tabs_general',
@@ -32,10 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
         ],
-        [
-            'label' => 'Тестирование',
-            'content' => '<div class="container-vov" data-href="' . Url::to(['vov/test']) . '"></div>',
-        ],
+        // [
+        //     'label' => 'Тестирование',
+        //     'content' => '<div class="container-vov" data-href="' . Url::to(['vov/test']) . '"></div>',
+        // ],
         [
             'label' => 'Живые строки войны',
             'content' => '<div class="container-vov" data-href="' . Url::to(['vov/live-rows-war']) . '"></div>',
