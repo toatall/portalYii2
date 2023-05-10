@@ -269,8 +269,8 @@ use yii\bootstrap5\Accordion;
             'content' => <<<HTML
                 <div>
                     <p>
-                        <a href="/files_static/8600/ib/materials/ib/Шаблон.docx" target="_blank">
-                        <span class="fas fa-file-word"></span> Шаблон</a>
+                        <a href="/files_static/8600/ib/materials/ib/7_Доверенность.docx" target="_blank">
+                        <span class="fas fa-file-word"></span> Доверенность</a>
                     </p>
                 </div>
             HTML,            
