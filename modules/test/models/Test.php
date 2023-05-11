@@ -97,8 +97,8 @@ class Test extends \yii\db\ActiveRecord
     public function afterFind()
     {
         parent::afterFind();
-        $this->date_start = Yii::$app->formatter->asDatetime($this->date_start, 'dd.MM.yyyy HH:i');
-        $this->date_end = Yii::$app->formatter->asDatetime($this->date_end, 'dd.MM.yyyy HH:i');
+        $this->date_start = Yii::$app->formatter->asDatetime($this->date_start, 'php:d.m.Y h:i');
+        $this->date_end = Yii::$app->formatter->asDatetime($this->date_end, 'php:d.m.Y h:i');
     }
 
     /**

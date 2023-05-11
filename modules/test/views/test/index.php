@@ -84,11 +84,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         </tr>
                         <tr>
                             <th>Дата начала</th>
-                            <td><?= Yii::$app->formatter->asDatetime($model->date_start) ?></td>
+                            <td><?= $model->date_start ?></td>
                         </tr>
                         <tr>
                             <th>Дата окончания</th>
-                            <td><?= Yii::$app->formatter->asDatetime($model->date_end) ?></td>
+                            <td><?= $model->date_end ?></td>
                         </tr>
                         <?php if ($status == Test::PROCESS_STATUS_RUNNING): ?>
                         <tr>
