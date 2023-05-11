@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'options' => ['id' => 'normative-docs'],
         ],
         [
-            'label'=>'Заявки',
+            'label'=>'Доступ к информационным ресурсам',
             'content'=>$this->render('_zayavki'),
             'options' => ['id' => 'zayavki'],
         ],
