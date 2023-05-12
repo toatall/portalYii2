@@ -22,7 +22,7 @@ coverage:
     whitelist:
         include:
             - models/*
-#            - modules/*
+            - modules/*
             - controllers/*
             - commands/*
             - mail/*
