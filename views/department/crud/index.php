@@ -16,7 +16,9 @@ $models = $dataProvider->models;
     <?php if (Department::isRoleModerator($modelOrganization->code ?? null)) : ?>
         <div class="card-header">
             <div class="btn-group">
-                <?= Html::a('<i class="fas fa-plus"></i> Добавить отдел', ['crud-create', 'org' => $modelOrganization->code], ['class' => 'btn btn-outline-primary mv-link']) ?>
+                <?= Html::a('<i class="fas fa-plus"></i> Добавить отдел', 
+                    ['crud-create', 'org' => $modelOrganization->code], 
+                    ['class' => 'btn btn-outline-primary', 'id' => 'btn-department-create']) ?>
             </div>
         </div>
     <?php endif; ?>
@@ -31,13 +33,25 @@ $models = $dataProvider->models;
 
         <div class="card">
             <div class="card-header" id="head_<?= $model->id ?>">
-                <h2 class="mb-0">
-                    <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?= $model->id ?>" aria-expanded="true" aria-controls="collapse_<?= $model->id ?>">
-                        <span class="lead">
-                            <?= $model->department_index ?>. <?= $model->department_name ?>
-                        </span>
-                    </button>
-                </h2>
+                <div class="row">
+                    <div class="col-10">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<?= $model->id ?>" aria-expanded="true" aria-controls="collapse_<?= $model->id ?>">
+                                <span class="lead">
+                                    <?= $model->department_index ?>. <?= $model->department_name ?>
+                                </span>
+                            </button>
+                        </h2>
+                    </div>
+                    <div class="col text-end pb-2">
+                        <div class="btn-group">
+                            <?= Html::a('<i class="fas fa-pencil"></i> Редактировать', ['crud-update', 'id'=>$model->id], ['class' => 'btn btn-primary btn-sm btn-department-update']) ?>
+                            <?= Html::a('<i class="fas fa-trash"></i> Удалить', ['crud-delete', 'id' => $model->id], [
+                                'class' => 'btn btn-danger btn-sm btn-department-delete',                                
+                            ]) ?>
+                        </div>                        
+                    </div>
+                </div>
             </div>
 
             <div id="collapse_<?= $model->id ?>" class="collapse" aria-labelledby="head_<?= $model->id ?>" data-bs-parent="#accordionDeps" data-url="<?= Url::to(['/department/crud-cards', 'id'=>$model->id]) ?>">
@@ -73,6 +87,33 @@ $models = $dataProvider->models;
 
             target.attr('loaded', true);
         });
+
+        $('.btn-department-delete').on('click', function() {
+            if (!confirm('Вы уверены, что хотите удалить?')) {
+                return false
+            }
+
+            const url = $(this).attr('href')
+            
+            $.post(url)
+            .done(function() {
+                $(window.modalViewerDepartment).trigger('onRequestJsonAfterAutoCloseModal')
+            })
+            
+            return false
+        })
+
+        $('#btn-department-create').on('click', function() {
+            let url = $(this).attr('href')
+            modalViewerDepartment.showModal(url)
+            return false                      
+        })
+
+        $('.btn-department-update').on('click', function() {
+            let url = $(this).attr('href')
+            modalViewerDepartment.showModal(url)
+            return false                      
+        })
 
     JS); ?>
 

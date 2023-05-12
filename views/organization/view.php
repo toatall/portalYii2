@@ -57,11 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
         document.updateContainer('#' + $(this).attr('id'));   
     });
 
+    window.modalViewerDepartment = new ModalViewer()
 
-    // $(modalViewer).on('onRequestJsonDone', function(event, data) {
-    //     if (data.content.toUpperCase() == 'OK') {
-    //         document.updateContainer(data.updateId);
-    //     }        
-    // });
+    $(modalViewerDepartment).on('onRequestJsonAfterAutoCloseModal', function() {        
+        document.updateContainer('#org_container_2')
+    })   
 
 JS); ?>

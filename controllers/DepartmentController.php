@@ -93,10 +93,14 @@ class DepartmentController extends Controller
     /**
      * Создание отдела
      * @param string $org код организации
-     * @return string
+     * @return mixed
      */
     public function actionCrudCreate($org)
     {
+        if (!Department::isRoleModerator($org)) {
+            throw new ForbiddenHttpException();
+        }
+
         $model = new Department();
         $model->id_organization = $org;
         $model->id_tree = 0;
@@ -115,6 +119,40 @@ class DepartmentController extends Controller
         ];
     }
 
+    public function actionCrudUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if (!Department::isRoleModerator($model->id_organization)) {
+            throw new ForbiddenHttpException();
+        }
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {            
+            return ['content' => 'OK', 'updateId' => '#org_container_2'];
+        }
+        return [
+            'title' => 'Изменение отдела' . $model->department_name,
+            'content' => $this->renderAjax('crud/form', [
+                'model' => $model,
+            ]),
+        ];
+    }
+
+    public function actionCrudDelete($id)
+    {
+        $model = $this->findModel($id);
+
+        if (!Department::isRoleModerator($model->id_organization)) {
+            throw new ForbiddenHttpException();
+        }
+
+        if ($model->delete()) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['content' => 'OK'];
+        }
+    }
+
     /**
      * Карточки сотрудников
      * @param int $id ид отдела
@@ -127,8 +165,7 @@ class DepartmentController extends Controller
 
         return $this->renderAjax('struct', [
             'model' => $modelDepartment,
-            'arrayCard' => $this->structCards($id),
-            //'heightCardHead' => '12em',
+            'arrayCard' => $this->structCards($id),            
         ]);
     }
 
@@ -484,6 +521,7 @@ class DepartmentController extends Controller
         }
 
         MenuBuilder::addLeftAdd($menu);
+        
     }
 
 
