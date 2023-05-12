@@ -8,6 +8,9 @@ class OrganizationFixture extends ActiveFixture
 {
     public $modelClass = 'app\models\Organization';
 
+    public $depends = [        
+    ];
+
     /**
      * {@inheritdoc}
      */

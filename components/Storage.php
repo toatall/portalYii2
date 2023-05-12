@@ -174,9 +174,9 @@ class Storage extends \yii\base\Component
      * @param string $url
      * @return string
      */
-    public function addEndSlash(string $url)
+    public function addEndSlash(string $url): string
     {
-        return rtrim($url, '/') . DIRECTORY_SEPARATOR;
+        return rtrim($url, '/') . '/';
     }
     
     /**

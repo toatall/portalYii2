@@ -11,9 +11,6 @@ use Yii;
  * @property string $name
  * @property string $description
  * @property int $only_one
- * @property int|null $children_node
- * @property string|null $dop_action
- * @property int|null $dop_action_right_admin
  * @property string|null $log_change
  * @property string $date_create
  * @property string $author
@@ -38,10 +35,10 @@ class Module extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'description'], 'required'],
-            [['only_one', 'children_node', 'dop_action_right_admin'], 'integer'],
+            [['only_one'], 'integer'],
             [['log_change'], 'string'],
             [['date_create'], 'safe'],
-            [['name', 'dop_action'], 'string', 'max' => 50],
+            [['name'], 'string', 'max' => 50],
             [['description', 'author'], 'string', 'max' => 250],
             [['class_namespace'], 'string', 'max' => 150],
             [['name'], 'unique'],
@@ -58,9 +55,6 @@ class Module extends \yii\db\ActiveRecord
             'name' => 'Наименование',
             'description' => 'Описание',
             'only_one' => 'Только для одного раздела',
-            'children_node' => 'Разрешить подразделы',
-            'dop_action' => 'Дополнительные настройки (действие)',
-            'dop_action_right_admin' => 'Разрешить выполнять дополнительные настройки только администратору',
             'log_change' => 'Журнал изменений',
             'date_create' => 'Дата создания',
             'author' => 'Автор',

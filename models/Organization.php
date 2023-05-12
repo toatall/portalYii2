@@ -11,6 +11,7 @@ use yii\helpers\FileHelper;
  * This is the model class for table "{{%organization}}".
  *
  * @property string $code
+ * @property string $code_parent
  * @property string $name
  * @property int|null $sort
  * @property string $date_create
@@ -55,6 +56,7 @@ class Organization extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function rules()
     {
@@ -62,7 +64,7 @@ class Organization extends \yii\db\ActiveRecord
             [['code', 'name', 'sort'], 'required'],
             [['sort'], 'integer'],
             [['date_create', 'date_edit', 'date_end', 'description'], 'safe'],
-            [['code'], 'string', 'max' => 5],
+            [['code', 'code_parent'], 'string', 'max' => 5],
             [['name'], 'string', 'max' => 250],
             [['name_short'], 'string', 'max' => 200],
             [['code'], 'unique'],
@@ -74,6 +76,7 @@ class Organization extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function attributeLabels()
     {
@@ -89,60 +92,30 @@ class Organization extends \yii\db\ActiveRecord
             'uploadImages' => 'Изображения',
             'deleteImages' => 'Отментьте изображения для удаления',
         ];
-    }   
+    }        
 
     /**
-     * Gets query for [[Files]].
-     *
-     * @return \yii\db\ActiveQuery
+     * Актуальный список организаций (без реорганизованных)
+     * @return yii\db\Query
      */
-    public function getFiles()
+    public static function findActual()
     {
-        return $this->hasMany(File::class, ['id_organization' => 'code']);
+        return self::find()->andWhere(['code_parent'=>null]);
     }
-
-    /**
-     * Gets query for [[Groups]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getGroups()
-    {
-        return $this->hasMany(Group::class, ['id_organization' => 'code']);
-    }
-    
-
-    /**
-     * Gets query for [[Telephones]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTelephones()
-    {
-        return $this->hasMany(Telephone::class, ['id_organization' => 'code']);
-    }
-
-    /**
-     * Gets query for [[Trees]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTrees()
-    {
-        return $this->hasMany(Tree::class, ['id_organization' => 'code']);
-    }    
     
     /**
      * Список организаций для списков
      * @return array
      */
-    public static function getDropDownList($onlyIfns = false, $withNull = false)
+    public static function getDropDownList($onlyIfns = false, $withNull = false, $onlyActual = true)
     {
         $query = self::find();
         if ($onlyIfns) {
             $query->where(['<>', 'code', '8600']);
         }
-        $query->andWhere(['code_parent'=>null]);
+        if ($onlyActual) {
+            $query->andWhere(['code_parent'=>null]);
+        }
         $result = \yii\helpers\ArrayHelper::map($query->all(), 'code', 'fullName');
         if ($withNull) {
             $result = ArrayHelper::merge([''=>'Все'], $result);
@@ -160,65 +133,61 @@ class Organization extends \yii\db\ActiveRecord
         return $this->name . ' (' . $this->code . ')';
     }
 
-    /**
-     * Получение текущей орагнизации (User.current_organization) для текущего пользователя
-     * Если у пользователя по какой-либо причине отсутсвует доступ
-     * к текущей организации, то выбирается первая доступная пользователю организации
-     * @author toatall
-     * @see User
-     */
-    public static function loadCurrentOrganization()
-    {
-        // если уже присвоен код организации, то выходим
-        if (isset(\Yii::$app->userInfo->current_organization)) return;
+    // /**
+    //  * Получение текущей орагнизации (User.current_organization) для текущего пользователя
+    //  * Если у пользователя по какой-либо причине отсутсвует доступ
+    //  * к текущей организации, то выбирается первая доступная пользователю организации
+    //  * @author toatall
+    //  * @see User
+    //  */
+    // public static function loadCurrentOrganization()
+    // {
+    //     // если уже присвоен код организации, то выходим
+    //     if (isset(\Yii::$app->userInfo->current_organization)) return;
 
-        // выполняем поиск текущего пользователя
-        $userModel = Yii::$app->user->identity; //User::model()->findByPk(Yii::app()->user->id);
+    //     // выполняем поиск текущего пользователя
+    //     $userModel = Yii::$app->user->identity; //User::model()->findByPk(Yii::app()->user->id);
 
-        $userCurrentOrganization = isset($userModel->current_organization) && !empty($userModel->current_organization)
-            ? $userModel->current_organization : null;
+    //     $userCurrentOrganization = isset($userModel->current_organization) && !empty($userModel->current_organization)
+    //         ? $userModel->current_organization : null;
 
-        // проверка прав у пользователя к текущей организации
-        if (!User::checkRightOrganization($userCurrentOrganization))
-        {
-            $userCurrentOrganization = null;
-        }
-        else
-        {
-            Yii::$app->userInfo->current_organization = $userCurrentOrganization;
-        }
+    //     // проверка прав у пользователя к текущей организации
+    //     if (!User::checkRightOrganization($userCurrentOrganization))
+    //     {
+    //         $userCurrentOrganization = null;
+    //     }
+    //     else
+    //     {
+    //         Yii::$app->userInfo->current_organization = $userCurrentOrganization;
+    //     }
 
-        // если нет доступа к текущей организации
-        if ($userCurrentOrganization===null)
-        {
-            $organizations = $userModel->organizations;
-            if ($organizations != null)
-            {
-                if (isset($userModel->organization[0]->code))
-                {
-                    $userCurrentOrganization = $userModel->organization[0]->code;
-                    Yii::$app->user->identity->changeOrganization($userCurrentOrganization);
-                }
-            }
-        }
-    }
+    //     // если нет доступа к текущей организации
+    //     if ($userCurrentOrganization===null)
+    //     {
+    //         $organizations = $userModel->organizations;
+    //         if ($organizations != null)
+    //         {
+    //             if (isset($userModel->organization[0]->code))
+    //             {
+    //                 $userCurrentOrganization = $userModel->organization[0]->code;
+    //                 Yii::$app->user->identity->changeOrganization($userCurrentOrganization);
+    //             }
+    //         }
+    //     }
+    // }
 
     /**
      * Права для внесения информации по организации
      * @return bool
      */
     public static function isRoleModerator($code)
-    {
-        if (Yii::$app->user->isGuest) {
-            return false;
-        }
+    {        
         if (Yii::$app->user->can('admin')) {
             return true;
         }
         if (Yii::$app->user->can('ModeratorOrganizationDepartment-' . $code)) {
             return true;
         }
-
         return false;
     }
 

@@ -20,5 +20,11 @@ class ReflectionHelper
         return $prop->getValue($object);
     }
 
+    public static function setPropertyValue(&$object, $propName, $value)
+    {
+        $p = new \ReflectionProperty(get_class($object), $propName);
+        return $p->setValue($object, $value);
+    }
+
 
 }

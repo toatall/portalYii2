@@ -28,7 +28,7 @@ class RoleFixture extends Fixture
      */
     public function unload()
     {
-        $rbac = \Yii::$app->authManager;
-        $rbac->removeAll();
+        $rbac = \Yii::$app->authManager;        
+        $rbac->removeAllAssignments();
     }
 } 

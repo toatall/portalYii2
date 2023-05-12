@@ -12,6 +12,7 @@ class ConferenceSearch extends Conference
     {
         return [
             [['duration', 'date_start', 'theme', 'members_people', 'place'], 'safe'],
+            [['id'], 'integer'],
         ];
     }
 

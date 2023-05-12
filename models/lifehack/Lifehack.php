@@ -199,7 +199,7 @@ class Lifehack extends \yii\db\ActiveRecord
                 $fileModel = new LifehackFile([
                     'id_lifehack' => $this->id,
                 ]);
-                $fileModel->filename = \Yii::$app->storage->addEndSlash($path) . $file->name;              
+                $fileModel->filename = Yii::$app->storage->addEndSlash($path) . $file->name;              
                 if ($fileModel->save()) {
 
                 }
@@ -215,7 +215,7 @@ class Lifehack extends \yii\db\ActiveRecord
         return (new Query())
             ->from('{{%lifehack_like}}')
             ->where(['id_lifehack' => $this->id])
-            ->average('cast(rate as float)');        
+            ->average('cast(rate as float)');
     }
 
     /**
@@ -235,7 +235,7 @@ class Lifehack extends \yii\db\ActiveRecord
      */
     protected function getPathFiles()
     {
-        return \Yii::$app->params['lefehack']['path']['files'];
+        return Yii::$app->params['lefehack']['path']['files'];
     }
     
     /**
@@ -267,6 +267,17 @@ class Lifehack extends \yii\db\ActiveRecord
 
         // Загрузка файлов
         $this->uploadFiles();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        foreach($this->lifehackFiles ?? [] as $file) {
+            $file->delete();
+        }
     }
 
     /**

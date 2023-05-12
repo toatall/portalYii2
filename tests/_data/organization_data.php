@@ -37,7 +37,6 @@ return [
         'name' => 'Организация n8600',
         'date_create' => date('d.m.Y H:i:s'),
         'date_edit' => date('d.m.Y H:i:s'),  
-        'name_short' => 'Орг. 8600 - ФКУ',      
-        'date_end' => date('d.m.Y H:i:s'),  
+        'name_short' => 'Орг. 8600 - ФКУ',              
     ],        
 ];

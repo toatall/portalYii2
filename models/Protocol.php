@@ -112,6 +112,7 @@ class Protocol extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
+     * {@codeCoverageIgnore}
      */
     public function attributeLabels()
     {
@@ -200,8 +201,7 @@ class Protocol extends \yii\db\ActiveRecord
     {
         if (is_dir($path)) {
             return FileHelper::findFiles($path);
-        }
-        return null;
+        }        
     }
 
     /**
@@ -253,7 +253,7 @@ class Protocol extends \yii\db\ActiveRecord
             return;
         }
         
-        foreach ($allFiles as $file) {            
+        foreach ($allFiles as $file) {
             if (in_array(basename($file), $files)) {
                 FileHelper::unlink(Yii::getAlias('@webroot') . $file);
             }

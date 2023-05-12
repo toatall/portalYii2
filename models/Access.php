@@ -29,12 +29,11 @@ class Access
      * @uses TreeController::loadModel() (admin)
      * @uses VksFnsController::checkAccess() (admin)
      * @uses VksUfnsController::checkAccess() (admin)
+     * 
+     * @deprecated
      */
     public static function checkAccessUserForTree($id_tree)
     {
-        if (!is_numeric($id_tree))
-            return false;
-
         if (\Yii::$app->user->isGuest) {
             return false;
         }
@@ -59,6 +58,8 @@ class Access
      * @return bool
      * @throws \yii\db\Exception
      * @uses \app\models\Tree::afterSave()
+     * 
+     * @deprecated
      */
     public static function saveTreeGroups($idTree, $groups, $parent=false)
     {
@@ -110,6 +111,8 @@ class Access
      * @return bool
      * @throws \yii\db\Exception
      * @uses \app\models\Tree::afterSave()
+     * 
+     * @deprecated
      */
     public static function saveTreeUsers($idTree, $users, $parent=false)
     {
@@ -162,6 +165,8 @@ class Access
      * @param $idAccessArray int[] массив идетификаторов субъектов доступа
      * @return bool
      * @throws \yii\db\Exception
+     * 
+     * @deprecated
      */
     protected static function saveAccess($tableName, $columnStructName, $columnAccessName, $idStruct, $idAccessArray)
     {
@@ -193,6 +198,8 @@ class Access
      * @param $groups
      * @throws \yii\db\Exception
      * @uses \app\models\department\Department::afterSave()
+     * 
+     * @deprecated
      */
     public static function saveDepartmentGroups($idDepartment, $groups)
     {
@@ -205,6 +212,8 @@ class Access
      * @param $users
      * @throws \yii\db\Exception
      * @uses \app\models\department\Department::afterSave()
+     * 
+     * @deprecated
      */
     public static function saveDepartmentUsers($idDepartment, $users)
     {

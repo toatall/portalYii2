@@ -12,6 +12,7 @@ class VksUfnsSearch extends VksUfns
     {
         return [
             [['duration', 'date_start', 'theme', 'members_people', 'place'], 'safe'],
+            [['id'], 'integer'],
         ];
     }
 
@@ -47,7 +48,11 @@ class VksUfnsSearch extends VksUfns
             'duration' => $this->duration,
         ]);
 
-        $query->andFilterWhere(['like', 'date_start', $this->date_start]);
+        if ($this->date_start) {
+            $query->andWhere('cast([[date_start]] as date) = cast(:d1 as date)', [
+                ':d1' => \Yii::$app->formatter->asDatetime($this->date_start),
+            ]);
+        }
         $query->andFilterWhere(['like', 'theme', $this->theme]);
         $query->andFilterWhere(['like', 'members_people', $this->members_people]);
         $query->andFilterWhere(['like', 'place', $this->place]);

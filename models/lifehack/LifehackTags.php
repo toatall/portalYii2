@@ -62,7 +62,7 @@ class LifehackTags extends \yii\db\ActiveRecord
     /**
      * @return array
      */
-    public static function getDropDownList()
+    public static function getDropDownList(): array
     {
         return ArrayHelper::map(self::find()->all(), 'tag', 'tag');
     }

@@ -113,7 +113,7 @@ class NewsSearch extends News
             'count_comment' => $this->count_comment,
             'count_visit' => $this->count_visit,
             'date_sort' => $this->date_sort,
-            'id_organization' => \Yii::$app->userInfo->current_organization,
+            'id_organization' => \Yii::$app->user->identity->current_organization,
         ]);
 
         if (!\Yii::$app->user->can('admin')) {

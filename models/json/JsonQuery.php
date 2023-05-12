@@ -83,7 +83,7 @@ class JsonQuery
      * })
      * ```
      * 
-     * @param callabel $functionFilter
+     * @param callable $functionFilter
      * @return $this
      * @see self::filterData()
      */
@@ -140,7 +140,7 @@ class JsonQuery
     public function one()
     {
         $data = $this->processing();
-        if (is_array($data)) {
+        if (is_array($data) && !empty($data)) {
             return reset($data);
         }
         return null;

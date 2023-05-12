@@ -23,12 +23,12 @@ class m220725_104448_create_log extends Migration
         $this->createTable('{{%log}}', [
             'id' => $this->primaryKey(),
             'level' => $this->integer(),
-            'category' => $this->string(255),
+            'category' => $this->string(),
             'url' => $this->string(1000)->null(),
             'statusCode' => $this->string(30)->null(),
             'statusText' => $this->text()->null(),
-            'user' => $this->string(255),
-            'log_time' => $this->float(),
+            'user' => $this->string(),
+            'log_time' => $this->double(),
             'prefix' => $this->text(),
             'message' => $this->text(),
         ]);

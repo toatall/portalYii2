@@ -20,8 +20,10 @@ class EventsAll extends AbstractConference
     public static function findEvents($start, $end)
     {
         return parent::findPublic()
-            ->andWhere(['>=', 'date_start', $start])
-            ->andWhere(['<=', 'date_end', $end]);
+            ->andWhere('date_start between cast(:d1 as datetime) and cast(:d2 as datetime)', [
+                ':d1' => $start,
+                ':d2' => $end,
+            ]);
     }
     
     /**

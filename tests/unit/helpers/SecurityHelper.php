@@ -46,6 +46,16 @@ class SecurityHelper
     }
 
     /**
+     * Выход и вход пользователя
+     * @param string $username
+     */
+    public static function relogin($username = 'admin')
+    {
+        self::logout();
+        self::login($username);
+    }
+
+    /**
      * Назначение ролей пользователю (Yii::$app->user)
      * @param array $roles
      */

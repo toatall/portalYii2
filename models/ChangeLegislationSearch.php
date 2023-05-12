@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\ChangeLegislation;
+use yii\db\conditions\LikeCondition;
 use yii\db\Expression;
 
 /**
@@ -15,7 +16,7 @@ class ChangeLegislationSearch extends ChangeLegislation
 
     public $searchDate1;
     public $searchDate2;
-    public $searchText;
+    public $searchText = '';
 
     /**
      * {@inheritdoc}
@@ -46,7 +47,7 @@ class ChangeLegislationSearch extends ChangeLegislation
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $isAntiCrisis=false)
+    public function search($params, $isAntiCrisis = false, $useFullText = true)
     {
         $query = ChangeLegislation::find()
             ->alias('t');
@@ -64,26 +65,33 @@ class ChangeLegislationSearch extends ChangeLegislation
 
         $this->load($params);
 
+        
         if (!empty(trim($this->searchText))) {
-            $search = stripslashes($this->searchText);        
-            $query->innerJoin("FREETEXTTABLE({{%change_legislation}}, [[text]], '{$search}') f", 't.id = f.[[KEY]]');
-            $expression = new Expression("FREETEXT([[text]], '{$search}')");
-            $query->orderBy(['f.[[RANK]]' => SORT_DESC]);
+            if ($useFullText) {
+                // @codeCoverageIgnoreStart
+                $search = stripslashes($this->searchText);        
+                $query->innerJoin("FREETEXTTABLE({{%change_legislation}}, [[text]], '{$search}') f", 't.id = f.[[KEY]]');
+                $expression = new Expression("FREETEXT([[text]], '{$search}')");
+                $query->orderBy(['f.[[RANK]]' => SORT_DESC]);
+                // @codeCoverageIgnoreEnd
+            }
+            else {
+                $expression = new LikeCondition('text', 'LIKE', $this->searchText);                
+            }
         }
         else {
             $expression = new Expression('');
         }
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
+        $query->andFilterWhere(['t.id' => $this->id]);
+
         if ($this->searchText) {
             $query->andWhere(['or', 
-                ['like', 't.name', $this->searchText],
-                //['like', 'text', $this->searchText],
+                ['like', 't.name', $this->searchText],                
                 $expression,
             ]);
         }        
@@ -99,12 +107,12 @@ class ChangeLegislationSearch extends ChangeLegislation
 
         if ($this->searchDate2) {
             $query->andWhere(['or', 
-                ['<=', 't.date_doc', $this->searchDate1],
-                ['<=', 't.date_doc_1', $this->searchDate1],
-                ['<=', 't.date_doc_2', $this->searchDate1],
-                ['<=', 't.date_doc_3', $this->searchDate1],
+                ['<=', 't.date_doc', $this->searchDate2],
+                ['<=', 't.date_doc_1', $this->searchDate2],
+                ['<=', 't.date_doc_2', $this->searchDate2],
+                ['<=', 't.date_doc_3', $this->searchDate2],
             ]);
-        }
+        }        
 
         $query->andWhere(['t.is_anti_crisis' => $isAntiCrisis]);
 

@@ -2,9 +2,28 @@
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db/test_db.php';
 
+// $webConfig = require __DIR__ . '/web.php';
+// return \yii\helpers\ArrayHelper::merge($webConfig, [
+//     'id' => 'basic-tests',
+//     'components' => [
+//         'db' => $db,
+//         'request' => [
+//             'cookieValidationKey' => 'test',
+//             'enableCsrfValidation' => false,
+//             // but if you absolutely need it set cookie domain to localhost
+//             /*
+//             'csrfCookie' => [
+//                 'domain' => 'localhost',
+//             ],
+//             */
+//         ],
+//     ],
+// ]);
+
 /**
  * Application configuration shared by all test types
  */
+
 return [
     'id' => 'basic-tests',
     'basePath' => dirname(__DIR__),

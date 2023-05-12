@@ -155,7 +155,7 @@ class DeclareCampaignUsn extends \yii\db\ActiveRecord
      * Поиск данных по текущей организации за прошлый период
      * @return array|false
      */
-    private function getPreviousDate() 
+    private function getPreviousData() 
     {        
         // поиск предыдущей даты
         $queryDate = (new Query())
@@ -199,7 +199,7 @@ class DeclareCampaignUsn extends \yii\db\ActiveRecord
     public function afterFind()
     {
         parent::afterFind();
-        $this->_previousData = $this->getPreviousDate();
+        $this->_previousData = $this->getPreviousData();
     }
 
     /**
@@ -276,24 +276,7 @@ class DeclareCampaignUsn extends \yii\db\ActiveRecord
             $models[$org['code']] = $model;
         }
         return $models;
-    }
-
-    /**
-     * @param DeclareCampaignUsn[] $models
-     * @return array
-     */
-    public static function validateModels($models)
-    {
-        $errors = [];
-        foreach($models as $model) {
-            if (!$model->validate()) {
-                foreach($model->getErrorSummary(true) as $error) {
-                    $errors[] = $error;
-                }
-            }
-        }
-        return $errors;
-    }
+    }   
 
     /**
      * Сохранение данных из архива моделей

@@ -6,6 +6,7 @@ use app\behaviors\AuthorBehavior;
 use app\behaviors\ChangeLogBehavior;
 use app\behaviors\DatetimeBehavior;
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "{{%change_legislation}}".
@@ -51,10 +52,7 @@ class ChangeLegislation extends \yii\db\ActiveRecord
      */
     public static function isRoleModerator()
     {
-        if (Yii::$app->user->can('admin') || Yii::$app->user->can(self::roleModerator())) {
-            return true;
-        }
-        return false;
+        return Yii::$app->user->can('admin') || Yii::$app->user->can(self::roleModerator());
     }
 
     /**
@@ -68,6 +66,7 @@ class ChangeLegislation extends \yii\db\ActiveRecord
             [['name', 'text', 'log_change'], 'string'],
             [['type_doc', 'number_doc', 'status_doc', 'author'], 'string', 'max' => 250],
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username']],
+            [['is_anti_crisis'], 'boolean'],
         ];
     }
 
@@ -89,6 +88,7 @@ class ChangeLegislation extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
+     * {@codeCoverageIgnore}
      */
     public function attributeLabels()
     {
@@ -145,9 +145,17 @@ class ChangeLegislation extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         // обовление полнотекстового индекса
-        Yii::$app->db
-            ->createCommand('ALTER FULLTEXT INDEX ON {{%change_legislation}} START UPDATE POPULATION')
-            ->execute();
+        $existsIndex = (new Query())
+            ->from('sys.fulltext_indexes')
+            ->where('object_id = object_id(:table)', [':table' => self::tableName()])
+            ->exists();
+        // @codeCoverageIgnoreStart
+        if ($existsIndex) {
+            Yii::$app->db
+                ->createCommand('ALTER FULLTEXT INDEX ON {{%change_legislation}} START UPDATE POPULATION')
+                ->execute();
+        }
+        // @codeCoverageIgnoreEnd
         return parent::afterSave($insert, $changedAttributes);
     }
 

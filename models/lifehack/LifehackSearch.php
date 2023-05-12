@@ -32,7 +32,8 @@ class LifehackSearch extends Lifehack
     public function rules()
     {
         return [
-            [['org_code', 'title', 'text', 'author_name', 'searchOrgName'], 'safe'],
+            [['id', 'org_code', 'title', 'text', 'author_name', 'searchOrgName'], 'safe'],
+            [['id'], 'integer'],
         ];
     }
 
@@ -81,7 +82,6 @@ class LifehackSearch extends Lifehack
         $query->andFilterWhere(['like', 't.tags', $this->tags]);
         $query->andFilterWhere(['like', 't.title', $this->title]);
         $query->andFilterWhere(['like', 't.text', $this->text]);
-        $query->andFilterWhere(['like', 't.author_name', $this->author_name]);
         if ($this->searchOrgName) {
             $query->andFilterWhere(['or', 
                 ['like', 't.author_name', $this->searchOrgName],

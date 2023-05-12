@@ -5,6 +5,7 @@ namespace app\models\lifehack;
 use app\behaviors\AuthorBehavior;
 use app\behaviors\DatetimeBehavior;
 use Yii;
+use yii\helpers\FileHelper;
 
 /**
  * This is the model class for table "{{%lifehack_file}}".
@@ -18,7 +19,6 @@ use Yii;
  * @property string|null $username
  *
  * @property Lifehack $lifehack
- * @property LifehackFileDownload[] $lifehackFileDownloads
  */
 class LifehackFile extends \yii\db\ActiveRecord
 {
@@ -60,25 +60,12 @@ class LifehackFile extends \yii\db\ActiveRecord
             [['filename'], 'string', 'max' => 500],
             [['file_type_icon'], 'string', 'max' => 15],
             [['username'], 'string', 'max' => 250],
-            [['id_lifehack'], 'exist', 'skipOnError' => true, 'targetClass' => Lifehack::class, 'targetAttribute' => ['id_lifehack' => 'id']],
+            [['id_lifehack'], 'exist', 'skipOnError' => true, 
+                'targetClass' => Lifehack::class, 
+                'targetAttribute' => ['id_lifehack' => 'id']],
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'id_lifehack' => 'Id Lifehack',
-            'filename' => 'Filename',
-            'file_type_icon' => 'File Type Icon',
-            'date_create' => 'Date Create',
-            'count_download' => 'Count Download',
-            'username' => 'username',
-        ];
-    }
+    
 
     /**
      * Gets query for [[Lifehack]].
@@ -88,6 +75,18 @@ class LifehackFile extends \yii\db\ActiveRecord
     public function getLifehack()
     {
         return $this->hasOne(Lifehack::class, ['id' => 'id_lifehack']);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function afterDelete()
+    {        
+        $file = Yii::getAlias('@webroot') . $this->filename;
+        if (file_exists($file)) {
+            FileHelper::unlink($file);
+        }        
+        parent::afterDelete();
     }
 
     

@@ -2,7 +2,6 @@
 
 namespace tests\unit\models;
 
-use app\models\Organization;
 use app\models\Protocol;
 use app\tests\fixtures\RoleFixture;
 use app\tests\fixtures\UserFixture;
@@ -11,7 +10,6 @@ use app\tests\unit\helpers\SecurityHelper;
 use Codeception\Util\ReflectionHelper;
 use Yii;
 use yii\db\Query;
-use yii\helpers\ArrayHelper;
 use Faker;
 use yii\helpers\FileHelper;
 

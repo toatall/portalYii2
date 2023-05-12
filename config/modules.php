@@ -12,18 +12,14 @@ return  [
     // тестирование
     'test' => [
         'class' => 'app\modules\test\Module',            
-    ],        
+    ],
     'gridview' => [
         'class' => '\kartik\grid\Module',
     ],       
-    /** @todo надо разобрать */ 
-    'events' => [
-        'class' => 'app\modules\events\Module',
-    ],
-    // раздел только для администратора
-    'manager' => [
-        'class' => 'app\modules\manager\Module',
-    ],
+    // /** @todo надо разобрать */ 
+    // 'events' => [
+    //     'class' => 'app\modules\events\Module',
+    // ],   
     // конкурсы
     'contest' => [
         'class' => 'app\modules\contest\Module',

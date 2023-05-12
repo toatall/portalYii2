@@ -25,6 +25,7 @@ use yii\web\NotFoundHttpException;
  * @property string|null $members_people
  * @property string|null $members_organization
  * @property string $date_start
+ * @property string $date_end
  * @property int $time_start_msk
  * @property string|null $duration
  * @property int $is_confidential
@@ -134,7 +135,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             [['type_conference', 'theme', 'date_start'], 'required'],
             [['type_conference', 'time_start_msk', 'is_confidential'], 'integer'],
             [['responsible', 'members_people', 'members_organization', 'note', 'log_change', 'denied_text'], 'string'],
-            [['date_start', 'date_create', 'date_edit', 'date_delete'], 'safe'],
+            [['date_start', 'date_end', 'date_create', 'date_edit', 'date_delete'], 'safe'],
             [['theme', 'person_head', 'link_event', 'full_name_support_ufns'], 'string', 'max' => 500],
             [['duration'], 'string', 'max' => 20],
             [['place', 'date_test_vks', 'date_end'], 'safe'],
@@ -154,7 +155,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
                     ->exists();
                 if ($query) {
                     $this->addError($attribute, 'В данное время и в этом кабинете уже запланированно другое мероприятие');
-                }                
+                }
             }, 'on' => 'request'],
         ];
     }
@@ -225,7 +226,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public static function findActual()
     {
         return parent::find()
             ->where(['type_conference' => static::getType()])
@@ -240,7 +241,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     {
         return static::find()
             ->andWhere(['date_delete' => null])
-            ->andWhere('convert(varchar, date_start, 104) = convert(varchar, getdate(), 104)')
+            ->andWhere('cast([[date_start]] as date) = cast(getdate() as date)')
             ->andWhere('(status is null or status = :status)', [
                 ':status' => self::STATUS_COMPLETE,
             ]);
@@ -265,9 +266,9 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
         if ($this->date_start) {
             $this->date_start = date('d.m.Y H:i', strtotime($this->date_start));
         }
-        if ($this->date_test_vks) {
-            $this->date_test_vks = date('d.m.Y H:i', strtotime($this->date_test_vks));
-        }
+        // if ($this->date_test_vks) {
+        //     $this->date_test_vks = date('d.m.Y H:i', strtotime($this->date_test_vks));
+        // }
         $this->arrPlace = explode(', ', $this->place);
     }
 
@@ -297,8 +298,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
                 $this->date_end = Yii::$app->formatter->asDatetime(strtotime($this->date_start) + (intval($duration[0]) * 60 * 60) + (intval($duration[1]) * 60));
             }
         }
-        if ($insert) {
-            //$this->saveStatusFirst();
+        if ($insert) {           
             $this->author = Yii::$app->user->identity->username;
         }
         return parent::beforeSave($insert);
@@ -309,21 +309,22 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      * Если пользователь с ролью conferenceManager,
      * то сразу согласованная заявка
      */
-    private function saveStatusFirst()
-    {
-        if ($this->isNewRecord) {
-            if (Yii::$app->user->can('permConferenceApprove')) {
-                $this->status = self::STATUS_COMPLETE;
-            }
-            else {
-                $this->status = self::STATUS_APPROVE;
-            }
-        }
-    }
+    // private function saveStatusFirst()
+    // {
+    //     if ($this->isNewRecord) {
+    //         if (Yii::$app->user->can('permConferenceApprove')) {
+    //             $this->status = self::STATUS_COMPLETE;
+    //         }
+    //         else {
+    //             $this->status = self::STATUS_APPROVE;
+    //         }
+    //     }
+    // }
 
     /**
      * Вывод событий на сегодня (на главную страницу)
-     * @return array
+     * @return mixed
+     * @
      */
     public static function eventsToday()
     {
@@ -346,7 +347,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      */
     public static function getLabelType($type)
     {
-        return self::$types[$type] ?? $type;
+        return self::$types[$type] ?? null;
     }
     
     /**
@@ -359,8 +360,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
             self::TYPE_VKS_UFNS => 'ВКС с УФНС',
             self::TYPE_VKS_FNS => 'ВКС с ФНС',
             self::TYPE_CONFERENCE => 'Собрания',
-            self::TYPE_VKS_EXTERNAL => 'ВКС внешние',
-                
+            self::TYPE_VKS_EXTERNAL => 'ВКС внешние',                
         ];
     }
 
@@ -506,6 +506,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
     /**
      * Цвет ярлычка для каждого вида мероприятия
      * @return string
+     * @todo перенести в Yii::$app->params[...]
      */
     public function getEventColor()
     {
@@ -556,8 +557,8 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      */
     public function isCrossedMe($onlyApproved=true)
     {
-        $dateStart = \Yii::$app->formatter->asDatetime($this->date_start);
-        $dateEnd = \Yii::$app->formatter->asDatetime($this->date_end);
+        $dateStart = Yii::$app->formatter->asDatetime($this->date_start);
+        $dateEnd = Yii::$app->formatter->asDatetime($this->date_end);
         $query = parent::find()
             ->where(['between', 'date_start', $dateStart, $dateEnd])
             ->andWhere(['<>', 'id', $this->id]);
@@ -579,7 +580,7 @@ abstract class AbstractConference extends \yii\db\ActiveRecord
      */
     public function isCrossedI($onlyApproved=true)
     {
-        $dateStart = \Yii::$app->formatter->asDatetime($this->date_start);        
+        $dateStart = Yii::$app->formatter->asDatetime($this->date_start);        
         $query = parent::find()
             ->where(':date_start between date_start and date_end', [':date_start' => $dateStart])
             ->andWhere(['<>', 'id', $this->id]);

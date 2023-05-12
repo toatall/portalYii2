@@ -8,6 +8,10 @@ class UserFixture extends ActiveFixture
 {
     public $modelClass = 'app\models\User';
 
+    public $depends = [
+        RoleFixture::class,
+    ];
+
     /**
      * {@inheritdoc}
      */
