@@ -95,7 +95,7 @@ class Controller extends \yii\web\Controller
     public function render($view, $params = [], $options = [])
     {
         if (ArrayHelper::getValue($options, 'useParentRender', false) === false) {
-            if (Yii::$app->request->isAjax) {
+            if (Yii::$app->request->isAjax && !Yii::$app->request->isPjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return [
                     'title' => $this->titleAjaxResponse,         

@@ -40,6 +40,10 @@ class UserAuthentication extends \yii\web\User
      */
     public function can($permissionName, $params = [], $allowCaching = true)
     {
+        if ($this->can2($permissionName)) {
+            return true;
+        }      
+
         if ($this->checkRight($permissionName)) {
             return true;
         }        
@@ -73,6 +77,29 @@ class UserAuthentication extends \yii\web\User
         }, 600);
         
     }
+
+    private function can2($permissionName)
+    {
+        if (Yii::$app->user->isGuest) {
+            return false;
+        }
+
+        $cache = Yii::$app->cache;
+        $userId = Yii::$app->user->id;
+        
+        return $cache->getOrSet("grantaccess-$permissionName-$userId", function() use ($permissionName, $userId) {
+            return (new Query())
+                ->from('{{%grant_access_group}} gr')
+                ->leftJoin('{{%grant_access_group__user}} group_user', 'gr.id = group_user.id_group')
+                ->where([
+                    'gr.unique' => $permissionName,
+                    'group_user.id_user' => $userId,
+                ])
+                ->exists();
+        }, 0);
+    }
+
+
 
     /**
      * Переопределение входа пользователя, если включена windows-аутентификация

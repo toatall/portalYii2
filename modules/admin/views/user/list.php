@@ -9,6 +9,7 @@ use yii\bootstrap5\Html;
 /** @var app\models\User $searchModel */
 
 ?>
+<h2 class="title mv-hide">Пользователи</h2>
 <div class="user-index">
 
     <?php Pjax::begin(['timeout'=>false, 'enablePushState'=>false]) ?>
@@ -19,11 +20,13 @@ use yii\bootstrap5\Html;
         'filterModel' => $searchModel,
         'columns' => [
             'id',
+            'default_organization',
             'username_windows',
             'fio',
             'department',
             [
                 'label' => 'Актуальность',
+                'attribute' => 'user_disabled_ad',                
                 'format' => 'raw',
                 'value' => function(\app\models\User $model) {
                     if ($model->user_disabled_ad) {
@@ -35,7 +38,8 @@ use yii\bootstrap5\Html;
                         return Html::tag('span', 
                             '<i class="fas fa-check"></i> Действующая учетная запись', ['class' => 'text-success']);
                     }
-                }, 
+                },
+                'filter' => ['0' => 'Актуальные', '1' => 'Не актуальные'],
             ],
             [
                 'format'=>'raw',

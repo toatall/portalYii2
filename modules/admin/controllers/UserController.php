@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use app\models\Organization;
+use app\models\UserSearch;
 use yii\web\Response;
 use yii\web\ServerErrorHttpException;
 
@@ -28,7 +29,7 @@ class UserController extends Controller
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['POST'],                   
                 ],
             ],
             'access' => [
@@ -52,17 +53,35 @@ class UserController extends Controller
      * Lists all User models.
      * @return mixed
      */
+    // public function actionIndex()
+    // {
+    //     // $dataProvider = new ActiveDataProvider([
+    //     //     'query' => User::find(),
+    //     // ]);
+    //     $searchModel = new User();
+    //     $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+    //     return $this->render('index', [
+    //         'searchModel' => $searchModel,
+    //         'dataProvider' => $dataProvider,
+    //     ]);
+    // }
+
+
+    /**
+     * Lists all User models.
+     * @return mixed
+     */
     public function actionIndex()
     {
-        // $dataProvider = new ActiveDataProvider([
-        //     'query' => User::find(),
-        // ]);
-        $searchModel = new User();
+        $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
+        $viewFile = (Yii::$app->request->isAjax ? 'list' : 'index');
+
+        return $this->render($viewFile, [
             'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ]);
     }
 
@@ -167,7 +186,7 @@ class UserController extends Controller
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return User the loaded model
+     * @return User|null the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
@@ -209,8 +228,11 @@ class UserController extends Controller
         else {
             return $this->renderAjax('list', [
                 'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
             ]);
         }
     }
+
+    
     
 }

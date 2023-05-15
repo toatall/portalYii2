@@ -24,5 +24,11 @@ class Module extends \yii\base\Module
         parent::init();
         \Yii::$app->errorHandler->errorAction = '/admin/default/error';        
         \Yii::$app->params['bsDependencyEnabled'] = false; 
+
+        $this->setModules([
+            'grantaccess' => [
+                'class' => 'app\modules\admin\modules\grantaccess\Module',
+            ],
+        ]);       
     }
 }
