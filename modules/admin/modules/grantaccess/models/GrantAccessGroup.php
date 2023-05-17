@@ -2,8 +2,10 @@
 
 namespace app\modules\admin\modules\grantaccess\models;
 
+use app\behaviors\AuthorBehavior;
 use app\models\User;
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\db\Query;
 
 /**
@@ -19,6 +21,7 @@ use yii\db\Query;
  *
  * @property User $authorModel 
  * @property User[] $users
+ * @property GrantAccessGroupAdGroup[] $adGroups
  */
 class GrantAccessGroup extends \yii\db\ActiveRecord
 {
@@ -28,6 +31,23 @@ class GrantAccessGroup extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%grant_access_group}}';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'date_create',
+                'updatedAtAttribute' => 'date_update',
+            ],
+            [
+                'class' => AuthorBehavior::class,                
+            ]
+        ];
     }
 
     /**
@@ -70,10 +90,21 @@ class GrantAccessGroup extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['username' => 'author']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUsers()
     {
         return $this->hasMany(User::class, ['id' => 'id_user'])
             ->viaTable('{{%grant_access_group__user}}', ['id_group' => 'id']);            
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAdGroups()
+    {
+        return $this->hasMany(GrantAccessGroupAdGroup::class, ['id_group' => 'id']);
     }
     
     /**
@@ -90,7 +121,8 @@ class GrantAccessGroup extends \yii\db\ActiveRecord
                 'id_user' => $id,
             ])
             ->exists()
-        ) {
+        ) {            
+            Yii::$app->grantAccess->clearUsersCache($this->unique);
             return Yii::$app->db->createCommand()
                 ->insert('{{%grant_access_group__user}}', [
                     'id_group' => $this->id,
@@ -116,23 +148,12 @@ class GrantAccessGroup extends \yii\db\ActiveRecord
                 'id_group' => $this->id,
                 'id_user' => $id,
             ])->execute();
-        if ($res > 0) {
-            return $this->clearCache($id);
+        if ($res > 0) {          
+            Yii::$app->grantAccess->clearUsersCache($this->unique);
+            return true;
         }
         return false;
-    }
-
-    /**
-     * Очистка кэша
-     * !Используется при проверке доступа у пользователя
-     * @param int $idUser
-     * @return bool
-     */
-    private function clearCache($idUser)
-    {
-        $key = "grantaccess-{$this->unique}-$idUser";
-        return Yii::$app->cache->delete($key);
-    }
+    }    
 
     /**
      * {@inheritDoc}
@@ -142,12 +163,8 @@ class GrantAccessGroup extends \yii\db\ActiveRecord
         if (!parent::beforeDelete()) {
             return false;
         }
-        // отзыв у всех пользователей доступа
-        // удалением кэша
-        foreach($this->users as $user) {
-            $this->clearCache($user->id);
-        }
-        return true;
+        // отзыв у всех пользователей доступа удалением кэша
+        return Yii::$app->grantAccess->clearUsersCache($this->unique);
     }
   
 }

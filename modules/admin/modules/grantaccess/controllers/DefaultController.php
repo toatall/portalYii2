@@ -16,7 +16,6 @@ class DefaultController extends Controller
 {
     
     /**
-     * Поведения
      * {@inheritDoc}
      */
     public function behaviors()
@@ -44,7 +43,14 @@ class DefaultController extends Controller
             
     
     /**
-     * Renders the index view for the module
+     * Главная страница
+     * 
+     * Форма создания/редактирования группы
+     * С использованием ajax подгружаются 
+     * - пользователи входящие в группу
+     * @see self::actionUsers()
+     * - группы ActiveDirectory, которые содержатся у пользователей
+     * @see AdGroupController::index()
      * @param string $unique
      * @return string
      */
@@ -63,23 +69,41 @@ class DefaultController extends Controller
 
         // создаем новую группу (если передана форма)
         if ($model->load(\Yii::$app->request->post()) && $model->save()) {}
-
-        // ищем только пользователей входящих в нашу группу
-        if ($model !== null) {
-            $searchModel = new UserSearch([
-                'includeIdGroup' => $model->id,
-            ]);           
-            $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);            
-        }
-
+        
         return $this->render('index', [
             'unique' => $unique,
-            'model' => $model,
-            'dataProvider' => $dataProvider ?? null,  
-            'searchModel' => $searchModel ?? null,          
+            'model' => $model,              
         ]);
     }
 
+    /**
+     * Список пользователей, входящих в группу
+     * @param string $unique
+     * @return mixed
+     */
+    public function actionUsers($unique)
+    {       
+        $modelGroup = $this->findModelByUnique($unique);
+        if ($modelGroup === null) {
+            return '';
+        }
+        $searchModel = new UserSearch([
+            'includeIdGroup' => $modelGroup->id,
+        ]);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams); 
+        return $this->renderAjax('gridUsers', [
+            'unique' => $unique,
+            'idGroup' => $modelGroup->id,
+            'dataProvider' => $dataProvider ?? null,
+            'searchModel' => $searchModel ?? null,
+        ]);
+    }
+
+    /**
+     * Удаление группы
+     * @param int $id идентифиактор группы
+     * @return mixed
+     */
     public function actionDelete($id)
     {
         $model = $this->findModel($id);

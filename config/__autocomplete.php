@@ -25,6 +25,7 @@ class Yii {
  * @property \yii\db\Connection $dbPortalOld
  * @property \yii\db\Connection $dbPgsqlLog
  * @property \app\components\Storage $storage
+ * @property \app\modules\admin\modules\grantaccess\models\GrantAccess $grantAccess
  */
 class __Application {
 }

@@ -114,6 +114,8 @@ $config = [
          ],
         
         'ldap' => $ldapParams,
+
+        'grantAccess' => \app\modules\admin\modules\grantaccess\models\GrantAccess::class,
     ],
 
     // for elfinder

@@ -2,14 +2,8 @@
 /** @var \yii\web\View $this */
 /** @var string $unique */
 /** @var \app\modules\admin\modules\grantaccess\models\GrantAccessGroup $model */
-/** @var \yii\data\ActiveDataProvider $dataProvider */
-/** @var \app\models\UserSearch $searchModel */
 
-use yii\bootstrap5\Html;
-use yii\bootstrap5\LinkPager;
-use yii\grid\GridView;
 use yii\helpers\Url;
-use yii\widgets\Pjax;
 ?>
 <h2 class="display-5 title mv-hide">Управление пользователями `<?= $model->title ?>`</h2>
 
@@ -27,86 +21,53 @@ use yii\widgets\Pjax;
 
 <?php if (!$model->isNewRecord): ?>
 
-    <?php Pjax::begin(['id' => 'pjax-admin-grantaccess-index','timeout' => false, 'enablePushState' => false]) ?>
-    
     <button class="btn btn-primary btn-sm" id="btn-update-form">
         <i class="fas fa-pencil"></i>
         Редактировать роль
     </button>
 
     <div class="mt-3">
-
-        <?= GridView::widget([
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'columns' => [
-                // 'id',
-                'default_organization:text:Код НО',
-                'username',
-                'fio',
-                'department',
-                [
-                    'header' => Html::a('Добавить пользователя', ['/admin/user/index'], 
-                        ['class'=>'btn btn-success btn-sm', 'id'=>'btn-add-user']),
-
-                    'format' => 'raw',
-                    'value' => function(\app\models\User $modelUser) use ($model) {
-                        return Html::a('<i class="fas fa-trash"></i> Исключить', 
-                            ['/admin/grantaccess/default/revoke-user', 'idUser' => $modelUser->id, 'idGroup' => $model->id],
-                            ['class' => 'btn btn-danger btn-sm btn-user-delete']);
-                    },                    
-                ],
-            ],
-            'pager' => ['class' => LinkPager::class],
-        ]) ?>       
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header fw-bold">Пользователи</div>
+                    <div id="div-users" class="card-body" data-url="<?= Url::to(['/admin/grantaccess/default/users', 'unique' => $model->unique ?? null]) ?>"></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header fw-bold">Роли ActiveDirectory</div>
+                    <div id="div-ad-groups" class="card-body" data-url="<?= Url::to(['/admin/grantaccess/ad-group/index', 'unique' => $model->unique ?? null]) ?>"></div>
+                </div>
+            </div>
+        </div>               
     </div>
 
-    <?php
-    $groupId = $model->id;
-    $urlAddUser = Url::to(['/admin/grantaccess/default/assign-user', 'idGroup' => $model->id]);
-    $url = Url::to(['/admin/grantaccess/default/index', 'unique' => $model->unique]);
+    <?php 
     $this->registerJs(<<<JS
         
-        (function(){
-
-            $('#btn-update-form').on('click', function(){
-                $('#div-form').toggle()
+        $('#btn-update-form').on('click', function(){
+            $('#div-form').toggle()
+        })
+        $('#btn-form-cancel').on('click', function() {
+            $('#div-form').hide()
+        })
+        
+        function loadContentByAjax(idDiv) {
+            $(idDiv).html('<span class="spinner-border"></span>')
+            const url = $(idDiv).data('url')
+            $.get(url)
+            .done(function(data) {
+                $(idDiv).html(data)
             })
-            $('#btn-form-cancel').on('click', function() {
-                $('#div-form').hide()
+            .fail(function(err){
+                $(idDiv).html('<div class="alert alert-danger">' + err.responseText + '</div>')                
             })
+        }
 
-            function updateGridView() {
-                $.pjax.reload({ container: '#pjax-admin-grantaccess-index', url: '$url', push: false, replace: false, timeout: false })
-            }
+        loadContentByAjax('#div-users')
+        loadContentByAjax('#div-ad-groups')
 
-            const modalViewerGrantAccessAdd = new ModalViewer({  
-                enablePushState: false,
-            });
-            $(modalViewerGrantAccessAdd).on('onPortalSelectUser', function(event, data) {            
-                $.post(UrlHelper.addParam('$urlAddUser', { idUser: data.id }))
-                .done(function() {
-                    updateGridView()
-                    modalViewerGrantAccessAdd.closeModal()
-                })            
-            })
-            $('#btn-add-user').on('click', function() {
-                modalViewerGrantAccessAdd.showModal($(this).attr('href'), 'get', { 'UserSearch[excludeIdGroup]': $groupId }, true)
-                return false
-            })
-            $('.btn-user-delete').on('click', function() {
-                $.post($(this).attr('href'))
-                .done(function() {
-                    updateGridView()
-                })
-                return false
-            })
-
-        }())
-                
-    JS);
-    ?>
-
-    <?php Pjax::end() ?>
+    JS);?>
 
 <?php endif; ?>
