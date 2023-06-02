@@ -28,7 +28,7 @@ class Controller extends \yii\web\Controller
      */
     private function saveLog()
     {                
-        if (!\Yii::$app->response->isOk) {
+        if (!Yii::$app->response->isOk) {
             return;
         }
         $date = date('Y-m-d');
@@ -42,7 +42,7 @@ class Controller extends \yii\web\Controller
             ->one();
         if ($query != null) {
             // update
-            \Yii::$app->db->createCommand()
+            Yii::$app->db->createCommand()
                 ->update('{{%history}}', [
                     'count_visits' => intval($query['count_visits']) + 1,
                 ], [
@@ -53,7 +53,7 @@ class Controller extends \yii\web\Controller
         }
         else {            
             // insert
-            \Yii::$app->db->createCommand()
+            Yii::$app->db->createCommand()
                 ->insert('{{%history}}', [
                     'url' => $url,
                     'count_visits' => 1,
@@ -62,7 +62,7 @@ class Controller extends \yii\web\Controller
                 ])
                 ->execute();
                 
-            $id = \Yii::$app->db->getLastInsertID();
+            $id = Yii::$app->db->getLastInsertID();
             $this->saveVisit($id);
         }
     }
@@ -74,7 +74,7 @@ class Controller extends \yii\web\Controller
     {        
         $request = $this->request;
            
-        \Yii::$app->db->createCommand()
+        Yii::$app->db->createCommand()
             ->insert('{{%history_detail}}', [
                 'id_history' => $idParent,
                 'is_ajax' => $request->isAjax,
@@ -83,8 +83,8 @@ class Controller extends \yii\web\Controller
                 'host' => $request->userHost,
                 'ip' => $request->userIP,
                 'date_create' => time(),                
-                'author' => \Yii::$app->user->identity->username ?? 'guest',
-                'author_org_code' => \Yii::$app->user->identity->default_organization ?? null,
+                'author' => Yii::$app->user->identity->username ?? 'guest',
+                'author_org_code' => Yii::$app->user->identity->default_organization ?? null,
             ])->execute();
     }
 
@@ -101,6 +101,9 @@ class Controller extends \yii\web\Controller
                     'title' => $this->titleAjaxResponse,         
                     'content' => $this->renderAjax($view, $params),
                 ];
+            }
+            if (Yii::$app->request->isPjax) {
+                return parent::renderAjax($view, $params);
             }
         }
         return parent::render($view, $params);

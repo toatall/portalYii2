@@ -1,0 +1,30 @@
+/* Pure CSS Post Tags */	
+
+.calendar .top, .calendar .bottom {
+    background-color: #00365a; 
+    font-size: 0.8rem; 
+    letter-spacing: .10rem;
+    color: white;
+    padding: .5rem 0;
+    font-weight: 600;
+}
+
+.calendar .day {
+    background-color: #ededef;
+    font-weight: 300;
+    font-size: 2rem;
+    padding: 1;
+}
+
+.calendar-time {
+    width: 7rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: monospace;
+    background-color: #00365a;
+    color: white;
+}
+
+.finished {
+    background-color: #d3ecdd !important;
+}

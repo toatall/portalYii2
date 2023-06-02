@@ -61,4 +61,6 @@ return  [
     'project' => 'app\modules\project\Module',
 
     'log' => 'app\modules\log\Module',
+
+    'meeting' => 'app\modules\meeting\Module',
 ];
