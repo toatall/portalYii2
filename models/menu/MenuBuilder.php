@@ -2,7 +2,6 @@
 
 namespace app\models\menu;
 
-use app\models\conference\AbstractConference;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
@@ -71,9 +70,9 @@ class MenuBuilder
         foreach($dataItems as $dataItem) {
             $item = [
                 'label' => $dataItem['name'],
-                'url' => \yii\helpers\Url::to($dataItem['link']),
+                'url' => Url::to($dataItem['link']),
                 'linkOptions' => [
-                    'class' => Url::current() == \yii\helpers\Url::to($dataItem['link']) ? 'active' : '',
+                    'class' => Url::current() == Url::to($dataItem['link']) ? 'active' : '',
                 ],
             ];
             
@@ -90,11 +89,11 @@ class MenuBuilder
                         $item['items'] = $classSubmenu->renderMenu();
                     }
                     else {
-                        \Yii::error("Class {$subMenu} not implements ISubMenu!");
+                        Yii::error("Class {$subMenu} not implements ISubMenu!");
                     }
                 }
                 else {
-                    \Yii::error("Class {$subMenu} not exists!");
+                    Yii::error("Class {$subMenu} not exists!");
                 }
             }
             else {
@@ -117,7 +116,7 @@ class MenuBuilder
      * Получение данных из БД о меню
      * @param int $position категория меню
      * @param int $idParent идентификатор родителя
-     * @return array
+     * @return array|bool
      */
     public static function buildMenuFromDb($position, $idParent = 0)
     {
@@ -153,7 +152,6 @@ class MenuBuilder
     /**
      * Добавление раздела дополнительного меню
      * @param $node array
-     * @return bool
      */
     public static function addLeftAdd($node, $push=false)
     {
@@ -169,13 +167,13 @@ class MenuBuilder
     }
 
     /**
-     *  дополнительное меню в виде конента
+     * Дополнительное меню в виде конента
      * @return array
      */
     public static function buildLeftAddMenuContent()
     {
-        return [
-            AbstractConference::eventsToday(),
+        return [                
+            \app\modules\meeting\widgets\MenuTodayMeetings::widget([]),      
         ];
     }
     
