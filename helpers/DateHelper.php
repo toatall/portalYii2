@@ -7,6 +7,36 @@ use Yii;
 class DateHelper
 {
 
+
+    /**
+     * Преобразование текстовой даты в формат unix
+     * 
+     * @param string $date
+     * @return int
+     */
+    public static function dateTimeToUnix(string $date): int
+    {
+        return strtotime($date);
+    }
+
+    /**
+     * Преобразование времени (формата hh:mm) в формат unix
+     * 
+     * @param string $time
+     * @return int
+     */
+    public static function timeToUnix(string $time): int
+    {
+        $t = strtotime($time);
+        $h = date('h', $t) * 60 * 60;
+        $m = date('i', $t) * 60;
+        return $h + $m;
+    }
+
+
+
+
+
     /**
      * Сравнение 2х дат в соотрвествии с установленным форматом
      * @param $date1 string
@@ -68,8 +98,8 @@ class DateHelper
     }
 
     /**
-     * @param $date1
-     * @param null $date2
+     * @param string $date1
+     * @param string|null $date2
      * @return int
      * @throws \yii\base\InvalidConfigException
      */
@@ -127,8 +157,8 @@ class DateHelper
      * Проверка текущей (или указанной) даты в указанных диапазонах дат
      * @param string $date1
      * @param string $date2
-     * @param \DateTimeImmutable $dateToday
-     * @return type
+     * @param DateTimeImmutable $dateToday
+     * @return mixed
      */
     public static function isDateTodayBetween($date1, $date2, $dateToday = 'today')
     {
