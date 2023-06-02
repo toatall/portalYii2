@@ -7,6 +7,7 @@ use app\components\Controller;
 use app\modules\meeting\models\Meeting;
 use app\modules\meeting\models\search\MeetingSearch;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -32,7 +33,7 @@ abstract class BaseMeetingController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['create', 'update', 'delete'],
-                        'roles' => ['admin', $this->roleEditor()],
+                        'roles' => ArrayHelper::merge(['admin'], (array)$this->roleEditor()),
                     ],
                 ],
             ],
@@ -58,7 +59,7 @@ abstract class BaseMeetingController extends Controller
      * 
      * @return string
      */
-    abstract protected function roleEditor(): string;
+    abstract protected function roleEditor();
     
     /**
      * Список мероприятий

@@ -30,7 +30,7 @@ class VksFnsController extends BaseMeetingController
     /**
      * @inheritDoc
      */
-    protected function roleEditor(): string
+    protected function roleEditor()
     {
         return VksFns::roleEditor();
     }

@@ -30,7 +30,7 @@ class VksUfnsController extends BaseMeetingController
     /**
      * @inheritDoc
      */
-    protected function roleEditor(): string
+    protected function roleEditor()
     {
         return VksUfns::roleEditor();
     }

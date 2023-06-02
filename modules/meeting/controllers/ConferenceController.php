@@ -30,7 +30,7 @@ class ConferenceController extends BaseMeetingController
     /**
      * @inheritDoc
      */
-    protected function roleEditor(): string
+    protected function roleEditor()
     {
         return Conference::roleEditor();
     }

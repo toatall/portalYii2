@@ -30,9 +30,9 @@ class VksKonturTalkController extends BaseMeetingController
     /**
      * @inheritDoc
      */
-    protected function roleEditor(): string
+    protected function roleEditor()
     {
-        return VksKonturTalk::roleEditor();
+        return [VksKonturTalk::roleEditor(), VksKonturTalk::roleEditorIfns()];
     }
 
 }
