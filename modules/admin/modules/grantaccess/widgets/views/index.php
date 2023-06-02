@@ -1,7 +1,16 @@
 <?php
 /** @var \yii\web\View $this */
-/** @var array $url */
+/** @var array $items */
+
+use yii\bootstrap5\Dropdown;
 ?>
-<a href="<?= $url['index'] ?>" class="btn btn-primary btn-sm mv-link">
-    <i class="fas fa-user-shield"></i> Управление доступом &nbsp;&nbsp;<i class="far fa-share-square"></i>
-</a>
+<div class="dropdown">
+    <a href="#" data-bs-toggle="dropdown" class="dropdown-toggle btn btn-primary">
+        <i class="fas fa-user-shield"></i> Управление доступом &nbsp;&nbsp;<i class="far fa-share-square"></i>
+    </a>
+    <?php
+        echo Dropdown::widget([
+            'items' => $items,            
+        ]);
+    ?>
+</div>

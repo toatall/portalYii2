@@ -9,64 +9,99 @@ use yii\helpers\Url;
 /**
  * Предоставление прав пользователям
  * 
+ * @example 
+ * 
+ * GrantAccessWidget::widget([
+ *     'uniques' => [
+ *         ['id' => 'role_editor', 'label' => 'Роль редактора'],
+ *         ['id' => 'role_moderator', 'label' => 'Роль модератора'],
+ *     ],
+ * ]);
+ * 
+ * или
+ * 
+ * GrantAccessWidget::widget([
+ *     'uniques' => [
+ *         'role_editor',
+ *         'role_moderator',
+ *     ],
+ * ]);
+ * 
+ * 
+ * Для проверки можно воспользоваться стандартной проверкой доступа
+ * Yii::$app->user->can('role_editor');
  */
 class GrantAccessWidget extends Widget
 {
     /**
-     * Уникальный идентификатор по которому 
+     * Уникальные идентификаторы по которым
      * будут предоставлены права
      * 
      * При проверке прав необходимо 
      * использоваться данный идентификатор
-     * @var string 
-     */
-    public $unique;
-
-    /**
-     * Код организации
      * 
-     * Если нет необходимости ограничивать по коду организации,
-     * то нужно оставить данное свойство пустым
-     * @var string 
+     * Для именования каждого элемента следует 
+     * использовать запись в виде массива:
+     * 
+     * 
+     * @var array 
      */
-    public $codeOrg;
+    public $uniques;    
 
     /**
      * @var string
      */
     public $urlIndex = '/admin/grantaccess/default/index';
 
-
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function init()
     {
         parent::init();
-        if (empty($this->unique)) {
-            throw new InvalidConfigException("The 'unique' option is required.");
+        if (empty($this->uniques)) {
+            throw new InvalidConfigException("The 'uniques' option is required.");
         }
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function run()
     {        
         if (!Yii::$app->user->can('admin')) {
             return null;
         }
-
-        $urlIndex = [$this->urlIndex, 'unique'=>$this->unique];
-        if ($this->codeOrg) {
-            $urlIndex = array_merge($urlIndex, ['orgCode' => $this->codeOrg]);
-        }
-
         return $this->render('index', [
-            'url' => [
-                'index' => Url::to($urlIndex),
-            ],
+            'items' => $this->prepare($this->uniques),
         ]);
+    }
+
+    /**
+     * Подготовка массива для DropDown
+     * @param string $unique
+     * @return array
+     */
+    private function prepare($uniques)
+    {
+        $result = [];
+        foreach((array)$uniques as $unique) {
+            if (is_array($unique)) {
+                $result[] = [
+                    'label' => $unique['label'],
+                    'url' => Url::to([$this->urlIndex, 'unique'=>$unique['id']]),
+                    'linkOptions' => ['class' => 'mv-link'],
+                ];                
+            }
+            else {
+                $result[] = [
+                    'label' => $unique,
+                    'url' => Url::to([$this->urlIndex, 'unique'=>$unique]),
+                    'linkOptions' => ['class' => 'mv-link'],
+                ];
+            }
+        }
+        return $result;
     }
 
 }
