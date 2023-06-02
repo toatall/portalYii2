@@ -4,13 +4,16 @@
  * and open the template in the editor.
  */
 
-$(document).on('pjax:send', function(event) {
-    $('#div-loader').addClass('is-active');
-});
+$(document).on('pjax:send', function(event, response, options) {    
+    if (options.withoutLoader) { // не показывать loader, если передан параметр withoutLoader = true
+        return false
+    }
+    $('#div-loader').addClass('is-active')
+})
 
 $(document).on('pjax:complete', function() {
-    $('#div-loader').removeClass('is-active');
-});
+    $('#div-loader').removeClass('is-active')
+})
 
 // $(document).on('pjax:error', function(xhr, textStatus, error, options) {
 //     if (textStatus.responseText != undefined && textStatus.responseText != "" && error != 'abort' && error != 'timeout') {
