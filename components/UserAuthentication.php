@@ -26,12 +26,15 @@ class UserAuthentication extends \yii\web\User
      */
     private function updateLastLogin()
     {
-        /** @var \app\models\User $identity  */
-        $identity = $this->identity;
-        if ($identity) {                                
-            $identity->last_action = \Yii::$app->request->url ?? null;
-            $identity->last_action_time = time();
-            $identity->save(['last_login', 'last_login_time']);
+        /** @var \app\models\User $identity  */        
+        if ($this->id) {
+            Yii::$app->db->createCommand()
+                ->update('{{%user}}', [
+                    'last_action' => Yii::$app->request->url ?? null,
+                    'last_action_time' => time(),                
+                ], [
+                    'id' => $this->id,
+                ])->execute();            
         }
     }
     
@@ -39,10 +42,10 @@ class UserAuthentication extends \yii\web\User
      * {@inheritdoc}
      */
     public function can($permissionName, $params = [], $allowCaching = true)
-    {
-        if ($this->can2($permissionName)) {
+    {        
+        if (Yii::$app->grantAccess->can($permissionName)) {
             return true;
-        }      
+        }       
 
         if ($this->checkRight($permissionName)) {
             return true;
@@ -55,6 +58,7 @@ class UserAuthentication extends \yii\web\User
      * Проверка прав текущего пользователя в переданной группе
      * @param string $permissionName наименование группы
      * @return boolean
+     * @deprecated version
      */
     private function checkRight($permissionName) 
     {        
@@ -74,32 +78,9 @@ class UserAuthentication extends \yii\web\User
                     'group_user.id_user' => $userId,
                 ])
                 ->exists();
-        }, 600);
+        }, 60 * 60 * 4);
         
     }
-
-    private function can2($permissionName)
-    {
-        if (Yii::$app->user->isGuest) {
-            return false;
-        }
-
-        $cache = Yii::$app->cache;
-        $userId = Yii::$app->user->id;
-        
-        return $cache->getOrSet("grantaccess-$permissionName-$userId", function() use ($permissionName, $userId) {
-            return (new Query())
-                ->from('{{%grant_access_group}} gr')
-                ->leftJoin('{{%grant_access_group__user}} group_user', 'gr.id = group_user.id_group')
-                ->where([
-                    'gr.unique' => $permissionName,
-                    'group_user.id_user' => $userId,
-                ])
-                ->exists();
-        }, 0);
-    }
-
-
 
     /**
      * Переопределение входа пользователя, если включена windows-аутентификация
