@@ -2,7 +2,10 @@
 /** @var yii\web\View $this */
 /** @var array $queryResult */
 
+use app\modules\meeting\assets\MeetingAsset;
 use yii\bootstrap5\Html;
+
+MeetingAsset::register($this);
 ?>
 <ul id="conference-list-today" class="list-group">
     <?php foreach ($queryResult as $type => $item): ?>
@@ -12,7 +15,7 @@ use yii\bootstrap5\Html;
             </h6>
             <?php if ($item['data'] != null && count($item['data'])): ?>
                 <?php foreach ($item['data'] as $row): ?>
-                <span style="font-size: large">
+                <span style="font-size: large">                
                     <?= Html::a('<span class="badge bg-'.($row->isFinished() ? 'success' : 'secondary') . ' fs-6">' 
                         . $row->time_start . '</span>', ['/meeting/' . $type . '/view', 'id'=>$row['id']], [
                         'class' => 'mv-link',
@@ -20,7 +23,7 @@ use yii\bootstrap5\Html;
                         'data-bs-toggle' => 'popover',
                         'data-bs-trigger' => 'hover',
                         'data-bs-original-title' => $row->getTitle(),
-                        'data-bs-content' => $item['isViewerAllFields'] ? $row->getDescription() : $item->getDescription(true),
+                        'data-bs-content' => $item['isViewerAllFields'] ? $row->getDescription() : $row->getDescription(true),
                         'target' => '_blank',
                     ]) ?>
                 </span>
