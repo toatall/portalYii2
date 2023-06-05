@@ -38,7 +38,7 @@ abstract class MeetingSearch extends ARMeeting
     {        
         $this->load($params);
 
-        $query = $this->query();
+        $query = $this->filterActual($this->query());
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
