@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row mb-3">
             <div class="col">
                 <div class="form-group row">
-                    <label class="col-3 col-form-label text-end fw-bold">Отчетный год</label>
+                    <label class="col col-form-label text-end fw-bold">Отчетный год</label>
                     <div class="col">
                         <?= Select2::widget([
                             'id' => 'declare-capmaign-usn-years',
@@ -36,7 +36,19 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="col">
                 <div class="form-group row">
-                    <label class="col-3 col-form-label text-end fw-bold">Отчетная дата</label>
+                    <label class="col col-form-label text-end fw-bold">Срок уплаты</label>
+                    <div class="col">
+                        <?= Select2::widget([
+                            'id' => 'declare-capmaign-usn-deadline',
+                            'name' => 'deadline',
+                            'data' => DeclareCampaignUsn::getReportsDeadline(),                            
+                        ]) ?>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group row">
+                    <label class="col col-form-label text-end fw-bold">Отчетная дата</label>
                     <div class="col">
                         <?= DatePicker::widget([
                             'id' => 'declare-capmaign-usn-datepicker',
@@ -54,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-2 text-center">
                 <?= Html::submitButton('Показать <span class="addon"></span>', ['class' => 'btn btn-primary']) ?>
             </div>
         </div>

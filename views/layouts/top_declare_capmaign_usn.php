@@ -8,16 +8,18 @@ use yii\bootstrap5\Html;
 FlipNumbersAsset::register($this);
 
 $query = DeclareCampaignUsn::findWithLastDate();
-if (isset($query['8600'])) {
+$date = array_key_first($query);
+$percents = 0;
+if (isset($query[$date]['8600'])) {
     $percents = Yii::$app->formatter->format(
-        ($query['8600']->count_np_provides_reliabe_declare + $query['8600']->count_np_provides_not_required) / $query['8600']->count_np, 
+        ($query[$date]['8600']->count_np_provides_reliabe_declare + $query[$date]['8600']->count_np_provides_not_required) / $query[$date]['8600']->count_np, 
     ['percent', 0]);
 }
 ?>
 <div class="rounded border-light border float-right d-none d-xxl-block me-2" style="width: 17rem; height: 12rem; margin-top: 0.5rem; background-color: #3B5998;">    
     <div class="row">
         <div class="col text-right">            
-            <span class="lead text-light" style="font-size: 0.7rem;">Декларационная компания <?= date('Y') ?> года по УСН </span>
+            <span class="lead text-light" style="font-size: 0.7rem;">Декларационная кампания по УСН </span>
             <hr class="my-1" style="margin: 0.10rem 0 !important;" />
         </div>        
     </div>
@@ -27,7 +29,7 @@ if (isset($query['8600'])) {
                 
                 <?php $days = 10; ?>
                 <span class="lead" style="font-weight: bolder; font-size: 0.80rem;">
-                Налогоплательщики, представившие либо обоснованно не представившие, Уведомления за 1 квартал 2023 года                
+                Налогоплательщики, представившие либо обоснованно не представившие, Уведомления по сроку <?= Yii::$app->formatter->asDate($date) ?>                
                 </span>
                 
                 <div class="tick my-1" data-credits="false" style="font-size: 1.5rem;" data-value="<?= $percents ?>">

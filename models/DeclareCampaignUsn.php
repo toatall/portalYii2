@@ -13,14 +13,19 @@ use yii\db\Query;
  * @property int $id
  * @property string $year
  * @property string $date
+ * @property string $deadline
  * @property string $org_code
  * @property int $count_np
- * @property int $count_np_ul
- * @property int $count_np_ip
  * @property int $count_np_provides_reliabe_declare
  * @property int $count_np_provides_not_required
+ * @property float $accrued_sum
  * @property int|null $date_create
  * @property string|null $author
+ * 
+ * @property string $previous_count_np_provides_reliabe_declare
+ * @property string $previous_count_np_provides_not_required
+ * @property string $previous_date
+ * 
  * 
  */
 class DeclareCampaignUsn extends \yii\db\ActiveRecord
@@ -30,15 +35,8 @@ class DeclareCampaignUsn extends \yii\db\ActiveRecord
      * Поле для массового ввода данных
      * 
      * Формат воода
-     * {{org_code}} {{count_np}}    {{count_np_ul}} {{count_np_ul}} {{count_np_ip}} {{count_np_provides_reliabe_declare}}   {{count_np_provides_not_required}}
+     * {{org_code}}    {{count_np}}    {{count_np_provides_reliabe_declare}}    {{count_np_provides_not_required}}    {{accrued_sum}}
      * 
-     * Пример ввода:
-     * 8601	4 249	1 840	2 409	41	467
-     * 8602	15 270	4 919	10 351	153	
-     * 8603	11 828	4 447	7 381	190	0
-     * 8606	7 035	2 331	4 704	67	
-     * 8617	5 979	1 761	4 218	65	63
-     * 8619	6 475	2 171	4 304	87	1450
      * (разделитель между столбцов - tab, между строк - enter)
      * 
      * @var string
@@ -76,8 +74,10 @@ class DeclareCampaignUsn extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['year', 'date', 'org_code', 'count_np', 'count_np_ul', 'count_np_ip', 'count_np_provides_reliabe_declare', 'count_np_provides_not_required'], 'required'],
-            [['count_np', 'count_np_ul', 'count_np_ip', 'count_np_provides_reliabe_declare', 'count_np_provides_not_required', 'date_create'], 'integer'],
+            [['year', 'date', 'deadline', 'org_code', 'count_np', 
+                'count_np_provides_reliabe_declare', 'count_np_provides_not_required'], 'required'],
+            [['count_np', 'count_np_provides_reliabe_declare', 'count_np_provides_not_required', 'date_create'], 'integer'],
+            [['accrued_sum'], 'double'],
             [['year'], 'string', 'max' => 4],
             [['date'], 'string', 'max' => 10],
             [['org_code'], 'string', 'max' => 5],
@@ -137,17 +137,32 @@ class DeclareCampaignUsn extends \yii\db\ActiveRecord
     public static function findWithLastDate()
     {
         return Yii::$app->cache->getOrSet('declare_campaing_usn_last_data', function() {
-            $maxDate = (new Query())
+            $res = [];
+            
+            $deadlines = (new Query())
                 ->from(self::tableName())
-                ->max('date');
-            if ($maxDate !== null) {
-                return self::find()
-                    ->where(['date' => $maxDate])
-                    ->orderBy("case when {{org_code}} = '8600' then 1 else 0 end ASC, {{org_code}} ASC")   
-                    ->indexBy('org_code')                 
-                    ->all();
+                ->select('deadline')
+                ->distinct(true)
+                ->orderBy(['deadline' => SORT_DESC])
+                ->indexBy('deadline')
+                ->all();
+
+            if (!$deadlines) {
+                return [];
             }
-            return [];
+
+            foreach($deadlines as $deadline) {
+                $res[$deadline['deadline']] = self::find()
+                    ->select('MAX(year) AS [year], MAX(date) AS [date], deadline AS [deadline] '
+                        . ', [[org_code]], [[count_np]], [[count_np_provides_reliabe_declare]], [[count_np_provides_not_required]], [[accrued_sum]]')
+                    ->where(['deadline' => $deadline])
+                    ->orderBy("case when [[org_code]] = '8600' then 1 else 0 end ASC, [[org_code]] ASC")
+                    ->indexBy('org_code')
+                    ->groupBy('[[deadline]], [[org_code]], [[count_np]], [[count_np_provides_reliabe_declare]], [[count_np_provides_not_required]], [[accrued_sum]]')
+                    ->all();
+            }           
+
+            return $res;
         }, 0);
     }
 
@@ -163,6 +178,7 @@ class DeclareCampaignUsn extends \yii\db\ActiveRecord
             ->from(DeclareCampaignUsn::tableName())
             ->where('{{date}} < cast(:d as date)', [':d' => $this->date])
             ->andWhere(['org_code' => $this->org_code])
+            ->andWhere('deadline = CAST(:deadline AS DATE)', [':deadline' => $this->deadline])
             ->orderBy(['date' => SORT_DESC])
             ->one();
         if ($queryDate == null) {
@@ -185,11 +201,11 @@ class DeclareCampaignUsn extends \yii\db\ActiveRecord
             'year' => 'Год',
             'date' => 'Дата',
             'org_code' => 'Код НО',
-            'count_np' => 'Количество НП',
-            'count_np_ul' => 'Количество НП ЮЛ',
-            'count_np_ip' => 'Количество НП ИП',
+            'count_np' => 'Количество НП',            
             'count_np_provides_reliabe_declare' => 'Количество НП представивших верные Уведомления',
             'count_np_provides_not_required' => 'Количество НП, которым Уведомление представлять не требуется',
+            'deadline' => 'Срок уплаты',
+            'accrued_sum' => 'Сумма начисленного налога по Уведомлениям',
         ];
     }
 
@@ -242,15 +258,29 @@ class DeclareCampaignUsn extends \yii\db\ActiveRecord
             $year + 1 => $year + 1,
         ];
     }
+
+    /**
+     * Сроки уплаты
+     * @return array
+     */
+    public static function getReportsDeadline()
+    {        
+        return [
+            '28.04' => '28.04',
+            '28.07' => '28.07',
+            '30.10' => '30.10',
+        ];
+    }
     
     /**
      * Получение (поиск или создание) по организациям, 
      * отчетному году и отчетной дате
      * @param string $year
      * @param string $date
+     * @param string $deadline
      * @return array
      */
-    public static function getModels($year, $date)
+    public static function getModels($year, $date, $deadline)
     {
         $orgs = (new Query())
             ->from('{{%organization}}')
@@ -265,12 +295,14 @@ class DeclareCampaignUsn extends \yii\db\ActiveRecord
                 'year' => $year,
                 'date' => $date,
                 'org_code' => $org['code'],
+                'deadline' => $deadline . '.' . $year,
             ])->one();
             if ($model === null) {
                 $model = new self([
                     'year' => $year,
                     'date' => $date,
                     'org_code' => $org['code'],
+                    'deadline' => $deadline . '.' . $year,
                 ]);
             }
             $models[$org['code']] = $model;

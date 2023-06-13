@@ -9,6 +9,7 @@ use yii\widgets\Pjax;
 /** @var app\models\DeclareCampaignUsn[] $models */
 /** @var string $year */
 /** @var string $date */
+/** @var string $deadline */
 
 $firstModel = reset($models);
 ?>
@@ -17,7 +18,8 @@ $firstModel = reset($models);
 
     <div class="alert alert-secondary">
         <strong>Отчетный год</strong> <?= $year ?><br />
-        <strong>Отчетная дата</strong> <?= $date ?>
+        <strong>Отчетная дата</strong> <?= $date ?><br />
+        <strong>Срок уплаты</strong> <?= $deadline ?>
     </div>
     
     <?php Pjax::begin([
@@ -31,6 +33,7 @@ $firstModel = reset($models);
         <?= Html::beginForm('', 'post', ['data-pjax' => true, 'autocomplete' => 'off']) ?>
             <?= Html::hiddenInput('year', $year) ?>
             <?= Html::hiddenInput('date', $date) ?>
+            <?= Html::hiddenInput('deadline', $deadline) ?>
             <?= Html::hiddenInput('delete', true) ?>
             <?= Html::submitButton('<i class="fas fa-trash"></i> Очистить данные за ' . $date, [
                 'class' => 'btn btn-danger btn-sm',
@@ -47,6 +50,7 @@ $firstModel = reset($models);
 
     <?= Html::hiddenInput('year', $year) ?>
     <?= Html::hiddenInput('date', $date) ?>
+    <?= Html::hiddenInput('deadline', $deadline) ?>
 
     <div class="card mb-4">
         <div class="card-header">Массовый ввод</div>
@@ -55,9 +59,9 @@ $firstModel = reset($models);
                 <strong>Формат ввода:</strong><br/>
                 <small>
                     <code>
-                [Код НО]  [Количество НП]  [Количество НП ЮЛ]  [Количество НП ИП]  [Количество НП представивших верные Уведомления]  [Количество НП, которым Уведомление представлять не требуется]<br />
+                [Код НО]  [Количество НП]  [Количество НП представивших верные Уведомления]  [Количество НП, которым Уведомление представлять не требуется]  [Сумма начисленного налога по Уведомлениям, руб.]<br />
                 ...<br />
-                [Код НО]  [Количество НП]  [Количество НП ЮЛ]  [Количество НП ИП]  [Количество НП представивших верные Уведомления]  [Количество НП, которым Уведомление представлять не требуется]<br />
+                [Код НО]  [Количество НП]  [Количество НП представивших верные Уведомления]  [Количество НП, которым Уведомление представлять не требуется]  [Сумма начисленного налога по Уведомлениям, руб.]<br />
                     </code>
                 </small>
             </div>
@@ -84,22 +88,20 @@ $firstModel = reset($models);
         <thead>
             <tr>
                 <th>Код НО</th>
-                <th><?= !empty($firstModel) ? $firstModel->getAttributeLabel('count_np') : '' ?></th>
-                <th><?= !empty($firstModel) ? $firstModel->getAttributeLabel('count_np_ul') : '' ?></th>
-                <th><?= !empty($firstModel) ? $firstModel->getAttributeLabel('count_np_ip') : '' ?></th>
+                <th><?= !empty($firstModel) ? $firstModel->getAttributeLabel('count_np') : '' ?></th>                
                 <th><?= !empty($firstModel) ? $firstModel->getAttributeLabel('count_np_provides_reliabe_declare') : '' ?></th>
                 <th><?= !empty($firstModel) ? $firstModel->getAttributeLabel('count_np_provides_not_required') : '' ?></th>
+                <th><?= !empty($firstModel) ? $firstModel->getAttributeLabel('accrued_sum') : '' ?></th>
             </tr>
         </thead>
         
         <?php foreach($models as $code => $model): ?>    
         <tr>
             <td><?= $code ?></td>
-            <td><?= $form->field($model, '[' . $code . ']count_np')->textInput()->label(false) ?></td>
-            <td><?= $form->field($model, '[' . $code . ']count_np_ul')->textInput()->label(false) ?></td>
-            <td><?= $form->field($model, '[' . $code . ']count_np_ip')->textInput()->label(false) ?></td>
+            <td><?= $form->field($model, '[' . $code . ']count_np')->textInput()->label(false) ?></td>          
             <td><?= $form->field($model, '[' . $code . ']count_np_provides_reliabe_declare')->textInput()->label(false) ?></td>
             <td><?= $form->field($model, '[' . $code . ']count_np_provides_not_required')->textInput()->label(false) ?></td>
+            <td><?= $form->field($model, '[' . $code . ']accrued_sum')->textInput()->label(false) ?></td>
         </tr>
         <?php endforeach; ?>
     </table>
@@ -120,29 +122,25 @@ $this->registerJs(<<<JS
             const vals = valLine.split("\t")
             const org = vals[0] ?? null
             const countNp = vals[1] ?? null
-            const countNpUl = vals[2] ?? null
-            const countNpIp = vals[3] ?? null
-            const countNpProvidesReliabeDeclare = vals[4] ?? null
-            const countNpProvidesNotRequired = vals[5] ?? null
+            const countNpProvidesReliabeDeclare = vals[2] ?? null
+            const countNpProvidesNotRequired = vals[3] ?? null
+            const accruedSum = vals[4] ?? null
             
             if (!org) {
                 return
             }
             
             // подстановка чисел
-            form.find('input[name="DeclareCampaignUsn[' + org + '][count_np]"]').val(clearText(countNp))
-            form.find('input[name="DeclareCampaignUsn[' + org + '][count_np_ul]"]').val(clearText(countNpUl))
-            form.find('input[name="DeclareCampaignUsn[' + org + '][count_np_ip]"]').val(clearText(countNpIp))
+            form.find('input[name="DeclareCampaignUsn[' + org + '][count_np]"]').val(clearText(countNp))            
             form.find('input[name="DeclareCampaignUsn[' + org + '][count_np_provides_reliabe_declare]"]').val(clearText(countNpProvidesReliabeDeclare))
             form.find('input[name="DeclareCampaignUsn[' + org + '][count_np_provides_not_required]"]').val(clearText(countNpProvidesNotRequired))
-
+            form.find('input[name="DeclareCampaignUsn[' + org + '][accrued_sum]"]').val(clearText(accruedSum))
         })
     });
 
     $('#bulk-text').on('change', function() {
         $('#btn-bulk').trigger('click');
     })
-
 
     $('#bulk-text').on('keyup', function() {
         $('#btn-bulk').trigger('click');

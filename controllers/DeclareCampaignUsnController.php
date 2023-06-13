@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\models\DeclareCampaignUsn;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use app\components\Controller;
 use app\models\DeclareCampaignUsnChart;
@@ -53,8 +52,7 @@ class DeclareCampaignUsnController extends Controller
      */
     public function actionIndex()
     {
-        $models = DeclareCampaignUsn::findWithLastDate();
-
+        $models = DeclareCampaignUsn::findWithLastDate();        
         return $this->render('index', [
             'models' => $models,
         ]);
@@ -90,18 +88,19 @@ class DeclareCampaignUsnController extends Controller
     {
         $date = Yii::$app->request->post('date');
         $year = Yii::$app->request->post('year');
+        $deadline = Yii::$app->request->post('deadline');
         $delete = Yii::$app->request->post('delete');
-        if (!$date || !$year) {
+        if (!$date || !$year || !$deadline) {
             throw new BadRequestHttpException();
         }
         
         // поиск моделей
-        $models = DeclareCampaignUsn::getModels($year, $date);
+        $models = DeclareCampaignUsn::getModels($year, $date, $deadline);
 
         if ($delete) {
             DeclareCampaignUsn::deleteModels($models);
             // полчение новых моделей
-            $models = DeclareCampaignUsn::getModels($year, $date);
+            $models = DeclareCampaignUsn::getModels($year, $date, $deadline);
         }
 
         if (Model::loadMultiple($models, Yii::$app->request->post())) {
@@ -117,17 +116,19 @@ class DeclareCampaignUsnController extends Controller
             'models' => $models,
             'year' => $year,
             'date' => $date,
+            'deadline' => $deadline,
         ]);
     }
 
     /**
      * Данные для графика
      * @param string $org
+     * @param string $deadline
      */
-    public function actionDataChart($org) 
+    public function actionDataChart($org, $deadline) 
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        return DeclareCampaignUsnChart::generateDataToChart($org);
+        return DeclareCampaignUsnChart::generateDataToChart($org, $deadline);
     }
     
 
@@ -149,7 +150,7 @@ class DeclareCampaignUsnController extends Controller
      * Finds the DeclareCampaignUsn model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id
-     * @return DeclareCampaignUsn the loaded model
+     * @return DeclareCampaignUsn|null the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
