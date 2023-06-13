@@ -63,4 +63,7 @@ return  [
     'log' => 'app\modules\log\Module',
 
     'meeting' => 'app\modules\meeting\Module',
+
+    'like' => 'app\modules\like\Module',
+    
 ];
