@@ -90,13 +90,14 @@ class UrlHelper {
 class ModalViewer {
     
     constructor(params = {}) {
-        this.modalId = params.modelId ?? this.generateId();
-        this.templateAnimation = params.templateAnimation ?? '<div class="fa-3x" style="color: Dodgerblue;"><i class="fas fa-circle-notch fa-spin"></i></div>';
-        this.templateError = params.templateError ?? '<div class="alert alert-danger">{text}</div>';
-        this.urlHelper = params.urlHelper ?? UrlHelper;
-        this.enablePushState = params.enablePushState ?? true;
-        this.bindFormSelector = params.bindFormSelector ?? null;
-        this.init();
+        this.modalId = params.modelId ?? this.generateId()
+        this.templateAnimation = params.templateAnimation ?? '<div class="fa-3x" style="color: Dodgerblue;"><i class="fas fa-circle-notch fa-spin"></i></div>'
+        this.templateError = params.templateError ?? '<div class="alert alert-danger">{text}</div>'
+        this.urlHelper = params.urlHelper ?? UrlHelper
+        this.enablePushState = params.enablePushState ?? true
+        this.bindFormSelector = params.bindFormSelector ?? null
+        this.modalWidth = params.modalWidth ?? '95%'
+        this.init()
     }
 
     /**
@@ -104,7 +105,7 @@ class ModalViewer {
      * @returns string
      */
     generateId() {
-        return 'modal-viewer-' + (Math.random() + 1).toString(36).substring(6);
+        return 'modal-viewer-' + (Math.random() + 1).toString(36).substring(6)
     }
     
     /**
@@ -124,7 +125,7 @@ class ModalViewer {
 
         $('body').append(
             '<div class="modal fade" id="' + this.modalId + '" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">'
-                + '<div class="modal-dialog" style="max-width: 95%;">'
+                + '<div class="modal-dialog" style="max-width: ' + this.modalWidth + ';">'
                     + '<div class="modal-content">'
                         +'<div class="modal-header">'                            
                             + '<div class="modal-dialog-header"></div>'
