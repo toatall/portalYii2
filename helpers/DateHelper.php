@@ -28,7 +28,7 @@ class DateHelper
     public static function timeToUnix(string $time): int
     {
         $t = strtotime($time);
-        $h = date('h', $t) * 60 * 60;
+        $h = date('H', $t) * 60 * 60;
         $m = date('i', $t) * 60;
         return $h + $m;
     }
