@@ -1,14 +1,18 @@
 <?php
-
 /** @var yii\web\View $this */
 /** @var app\models\news\News $model */
 
+use app\assets\FancyappsUIAsset;
+use app\models\History;
+use app\modules\comment\models\Comment;
 use yii\bootstrap5\Html;
+use app\modules\comment\widgets\CommentWidget;
+use app\modules\like\widgets\LikeWidget;
 use yii\helpers\Url;
-use dosamigos\gallery\Gallery;
-use yii\bootstrap5\Tabs;
 
+FancyappsUIAsset::register($this);
 
+$url = Url::current();
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Новости', 'url' => ['/news/index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -24,7 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             <?php endif; ?>
 
-            <?php if (false): // @todo возможно сделать возможность редактирования новостей ?>
+            <?php if (false): // @todo возможно сделать возможность редактирования новостей
+                /* ?>
             <p>
                 <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                 <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
@@ -35,16 +40,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]) ?>
             </p>
-            <?php endif; ?>
+            <?php 
+                */
+            endif; ?>
 
-            <div>
-                <i class="fa fa-calendar-alt"></i> <?= \Yii::$app->formatter->asDatetime($model->date_create) ?>,
-                <i class="fa fa-user"></i> <?= $model->modelAuthor->fio ?>,
-                <i class="fa fa-heart"></i> <?= $model->count_like ?>,
-                <i class="fa fa-comments"></i> <?= $model->count_comment ?>,
-                <i class="fa fa-eye"></i> <?= $model->count_visit ?>,
-                <br /><i class="fa fa-building"></i> <?= $model->organization->name ?>
-                <?= !empty($model->from_department) ? '(' . $model->from_department . ')' : '' ?>
+            <div class="fs-5">
+                <i class="far fa-clock text-muted"></i> 
+                    <?= \Yii::$app->formatter->asDatetime($model->date_create) ?>
+                    <?= ($model->date_create != $model->date_edit) 
+                        ? ' (изменено: ' . Yii::$app->formatter->asDatetime($model->date_edit) . ')' : '' ?>,
+                <i class="fas fa-user-alt text-muted"></i> <?= Html::a(($model->modelAuthor == null ?: $model->modelAuthor->fio), '/@' . $model->author, ['class' => 'author', 'target' => '_blank']) ?>,
+                <br /><i class="far fa-building text-muted"></i> <?= $model->organization->name ?>
+                    <?= !empty($model->from_department) ? '(' . $model->from_department . ')' : '' ?>                
+            </div>
+            <div class="icon-group border-top mt-2 pt-2">                                
+                <span class="badge bg-light border text-dark fs-5"><?= Comment::count('comment-news-' . $model->id) ?> <i class="far fa-comments"></i></span>                            
+                <span class="badge bg-light border text-dark fs-5"><?= History::count($url) ?> <i class="far fa-eye"></i></span>
             </div>
         </div>
         <div class="card-body">
@@ -57,14 +68,30 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if ($model->getCheckListBoxUploadFilesGallery()): ?>
     <div class="card mt-2">
         <div class="card-header">
-            <button data-bs-toggle="collapse" data-bs-target="#collapse-file" class="btn btn-light btn-sm">
-                <i class="fa fa-minus" id="collapse-file-i"></i>
-            </button> Файлы
+            <button data-bs-toggle="collapse" data-bs-target="#collapse-file" class="btn btn-light">
+                <i class="fas fa-minus" id="collapse-file-i"></i> Файлы
+            </button> 
         </div>
         <div class="card-body collapse" id="collapse-file">
+            <div class="list-group">
             <?php foreach ($model->getCheckListBoxUploadFilesGallery() as $file): ?>
-            <i class="fa fa-file"></i> <a href="<?= $file ?>" target="_blank"><?= basename($file) ?></a><br />
+                <?php $exists = file_exists(Yii::getAlias('@webroot') . $file); ?>
+                <a href="<?= $file ?>" class="list-group-item list-group-item-action<?= $exists ?: ' disabled' ?>" target="_blank">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="icon-addons fw-normal">
+                            <span data-filename="<?= $file ?>">
+                                <?= basename($file) ?>
+                            </span>
+                        </h5>    
+                        <small class="text-muted">                
+                            <?= $exists ? 
+                                Yii::$app->storage->sizeText(filesize(Yii::getAlias('@webroot') . $file)) 
+                                    : '<span class="text-danger"><i class="fas fa-times-circle"></i> файл не найден</span>' ?>
+                        </small>
+                    </div>
+                </a>
             <?php endforeach; ?>
+            </div>
         </div>
     </div>
     
@@ -73,93 +100,58 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if ($model->getCheckListBoxUploadImagesGallery()): ?>
     <div class="card mt-2">
         <div class="card-header">
-            <button data-bs-toggle="collapse" data-bs-target="#collapse-image" class="btn btn-light btn-sm">
-                <i class="fa fa-minus" id="collapse-image-i"></i>
-            </button> Изображения
+            <button data-bs-toggle="collapse" data-bs-target="#collapse-image" class="btn btn-light">
+                <i class="fas fa-minus" id="collapse-image-i"></i> Изображения
+            </button> 
         </div>
         <div class="card-body collapse" id="collapse-image">                
-            <?php 
-            $items = array();
-            foreach ($model->getCheckListBoxUploadImagesGallery() as $image)
-            {
-                $imageFile = $image;
-                $items[] = [
-                    'url' => $imageFile,
-                    'src' => \Yii::$app->storage->addFileNamePrefix($imageFile, 'thumb'),
-                    'imageOptions' => [
-                        'class' => 'img-thumbnail',
-                        'style' => 'width:200px;',
-                    ],
-                ];
+            <?php
+            foreach ($model->getCheckListBoxUploadImagesGallery() as $image) {
+                echo Html::a(Html::img(\Yii::$app->storage->addFileNamePrefix($image, 'thumb'), [
+                    'class' => 'img-thumbnail',
+                    'style' => 'height: 10rem',
+                ]), $image, [
+                    'data-fancybox' => 'gallery',
+                    'data-src' => $image,
+                    'data-caption' => $model->title,
+                ]);
             }
-            // виджет галереи
-            echo Gallery::widget(['items' => $items]);
             ?>
         </div>
     </div>      
     <?php endif; ?>
     
-    <div class="card mt-2">
-        <div id="container-like" class="card-body" data-ajax-url="<?= Url::to(['news/like', 'idNews'=>$model->id]) ?>"></div>
+    <div class="card card-body mt-2">
+        <div>
+        <?= LikeWidget::widget([
+            'unique' => 'like-news-' . $model->id,
+        ]) ?>
+        </div>
     </div>
-         
-    <?= Tabs::widget([
-        'id' => 'tab-comments',
-        'encodeLabels' => false,
-        'items' => [
-            [
-                'label' => 'Комментарии <button class="btn btn-light btn-sm" id="btn-comment-refresh" title="Обновить" alt="Обновить"><i class="fa fa-sync"></i></button>',                
-                'content' => '<div id="container-comment" data-ajax-url="' . Url::to(['news-comment/index', 'idNews'=>$model->id]) . '"></div>',
-                'linkOptions' => ['data-tab' => 'index'],
-            ],
-            [
-                'label' => 'Добавить комментарий',
-                'content' => '<div id="container-comment-form" data-ajax-url="' . Url::to(['news-comment/create', 'idNews'=>$model->id]) . '"></div>',
-                'linkOptions' => ['data-tab' => 'form'],
-            ]
-        ],
+
+    <?= CommentWidget::widget([
+        'modelName' => 'news',
+        'modelId' => $model->id,
+        'hash' => 'comment-news-' . $model->id,     
         'options' => [
             'class' => 'mt-2',
         ],
     ]) ?>
         
 </div>
-<?php $this->registerJS(<<<JS
-    
-     function runAjaxGetRequest(container) 
-     {
-        container.html('<img src="/img/loader_fb.gif" style="height: 100px;">');
-        $.get(container.attr('data-ajax-url'))
-        .done(function(data) {
-            container.html(data);
-        })
-        .fail(function (jqXHR) {
-            container.html('<div class="alert alert-danger">' + jqXHR.status + ' ' + jqXHR.statusText + '</div>');
-        });    
-    }
+<?php 
+$this->registerJS(<<<JS
     
     // настройки collapse для файлов
     $('#collapse-file').collapse('show');
-    $('#collapse-file').on('show.bs.collapse', function() { $('#collapse-file-i').attr('class', 'fa fa-minus'); });
-    $('#collapse-file').on('hide.bs.collapse', function() { $('#collapse-file-i').attr('class', 'fa fa-plus'); });
+    $('#collapse-file').on('show.bs.collapse', function() { $('#collapse-file-i').toggleClass('fas fa-minus'); });
+    $('#collapse-file').on('hide.bs.collapse', function() { $('#collapse-file-i').toggleClass('fas fa-plus'); });
 
     // настройки collapse для изображений
     $('#collapse-image').collapse('show');
-    $('#collapse-image').on('show.bs.collapse', function() { $('#collapse-image-i').attr('class', 'fa fa-minus'); });
-    $('#collapse-image').on('hide.bs.collapse', function() { $('#collapse-image-i').attr('class', 'fa fa-plus'); });
+    $('#collapse-image').on('show.bs.collapse', function() { $('#collapse-image-i').toggleClass('fas fa-minus'); });
+    $('#collapse-image').on('hide.bs.collapse', function() { $('#collapse-image-i').toggleClass('fas fa-plus'); });
 
-    // для корректного отображения изображения из галереии при просмотре 
-    $('#blueimp-gallery').prependTo($('body'));
-
-    // привязка к кнопке обновить коментарии
-    $('#btn-comment-refresh').on('click', function() {        
-        runAjaxGetRequest($('#container-comment'));
-    });
-
-    runAjaxGetRequest($('#container-like'));
-    runAjaxGetRequest($('#container-comment'));
-    runAjaxGetRequest($('#container-comment-form'));
-    
 JS
 );
 ?>

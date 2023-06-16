@@ -4,6 +4,9 @@
 
 use yii\helpers\Url;
 use app\helpers\DateHelper;
+use app\models\History;
+use app\modules\comment\models\Comment;
+use app\modules\like\models\Like;
 use yii\bootstrap5\Html;
 
 $url = Url::to(['news/view', 'id'=>$model->id]);
@@ -34,17 +37,21 @@ $url = Url::to(['news/view', 'id'=>$model->id]);
                             </h4>
                         </a>
                         <div class="icon-group">
-                            <span class="badge bg-secondary fa-sm"><?= $model->count_like ?> <i class="fa fa-heart"></i></span>
-                            <span class="badge bg-secondary fa-sm"><?= $model->count_comment ?> <i class="fa fa-comments"></i></span>
-                            <span class="badge bg-secondary fa-sm"><?= $model->count_visit ?> <i class="fa fa-eye"></i></span>
+                            <span class="badge bg-secondary fs-6"><?= Like::count('like-news-' . $model->id) ?> <i class="fa fa-heart"></i></span>
+                            <span class="badge bg-secondary fs-6"><?= Comment::count('comment-news-' . $model->id) ?> <i class="fa fa-comments"></i></span>                            
+                            <span class="badge bg-secondary fs-6"><?= History::count($url) ?> <i class="fa fa-eye"></i></span>
                         </div>
-                        <p class="lead"><?= $model->message1 ?></p>                    
+                        <p class="lead"><?= $model->message1 ?></p>
                         <hr />
                         <div style="color:#444;">
-                            <i class="fa fa-building"></i> <?= $model->organization->name ?> 
+                            <i class="far fa-building text-muted"></i> <?= $model->organization->name ?>
                             <?= !empty($model->from_department) ? '(' . $model->from_department . ')' : '' ?><br />
-                            <i class="fa fa-clock"></i> <?= Yii::$app->formatter->asDatetime($model->date_edit) ?><br />                                             
-                            <?= Html::a('<i class="fas fa-user-alt"></i> ' . $model->modelAuthor->fio, '/@' . $model->author, ['class' => 'author mv-link']) ?>
+                            <i class="far fa-clock text-muted"></i> <?= Yii::$app->formatter->asDatetime($model->date_create) ?>
+                                <?= ($model->date_create != $model->date_edit)
+                                    ? ' (изменено: ' . Yii::$app->formatter->asDatetime($model->date_edit) . ')' : '' ?>
+                            <br />
+                            <?= Html::a('<i class="fas fa-user-alt"></i> '
+                                . ($model->modelAuthor == null ?: $model->modelAuthor->fio), '/@' . $model->author, ['class' => 'author mv-link']) ?>
                         </div>
                         <div class="clearfix"></div>
                     </div>                 
