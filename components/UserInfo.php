@@ -26,6 +26,7 @@ class UserInfo extends Component
      */
     public function init()
     {
+//        var_dump($this);die;
         parent::init();
 
         /* @var $session \yii\web\Session */
@@ -50,9 +51,9 @@ class UserInfo extends Component
         $result['db'] = $this->loadUserDataDb(\Yii::$app->user->identity->username);
                 
         // 2. Из Active Directory
-        if (\Yii::$app->params['user']['findInAD'] ?? false) {
-            $result['ad'] = $this->loadUserDataAD(\Yii::$app->user->identity->username);
-        }
+        // if (\Yii::$app->params['user']['findInAD'] ?? false) {
+        //     $result['ad'] = $this->loadUserDataAD(\Yii::$app->user->identity->username);
+        // }
         return $result;
     }
     

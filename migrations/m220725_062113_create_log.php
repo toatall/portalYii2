@@ -34,6 +34,27 @@ class m220725_062113_create_log extends Migration
             'author' => $this->string(250)->notNull(),
             'author_org_code' => $this->string(5),
         ]);
+
+        $this->execute("
+            CREATE TRIGGER tr_history_detail ON  {{%history_detail}}
+                AFTER INSERT,DELETE
+            AS
+            BEGIN
+                DECLARE @id INT
+            
+                IF EXISTS(SELECT 1 FROM inserted)
+                BEGIN
+                    SELECT TOP 1 @id = [[id_history]] FROM inserted
+                END ELSE
+                BEGIN
+                    SELECT TOP 1 @id = [[id_history]] FROM deleted
+                END
+                    
+                UPDATE {{%history}}
+                    SET [[count_visits]] = (SELECT COUNT(*) FROM {{%history_detail}} WHERE [[id_history]] = @id)
+                WHERE [id] = @id
+            END
+        ");
     }
 
     /**
