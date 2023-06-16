@@ -74,6 +74,13 @@ class History
                 'author' => Yii::$app->user->identity->username ?? 'guest',
                 'author_org_code' => Yii::$app->user->identity->default_organization ?? null,
             ])->execute();
+        
+        self::getDb()->createCommand()
+            ->update('{{%history}}', [
+                'count_visits' => new Expression('(SELECT COUNT(*) FROM {{%history_detail}} WHERE id_history = :id)', [':id' => $idParent])
+            ], ['id' => $idParent])
+            ->execute();
+            
     }
 
     /**
