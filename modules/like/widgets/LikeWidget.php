@@ -7,6 +7,7 @@ use yii\base\InvalidConfigException;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Widget;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 /**
@@ -52,6 +53,11 @@ class LikeWidget extends Widget
      */
     private $_pjaxId;
 
+    /**
+     * @var string
+     */
+    private $_url;
+
 
     /**
      * {@inheritDoc}
@@ -72,8 +78,8 @@ class LikeWidget extends Widget
      */
     public function run()
     {
-        $this->registerJs();
-
+        $this->_url = Url::current();
+        $this->registerJs();        
         Pjax::begin(['id' => $this->_pjaxId, 'enablePushState' => false, 'timeout' => false, 'clientOptions' => ['withoutLoader' => true]]);
             echo Html::beginForm('', 'post', ['data-pjax' => true]);
                 echo Html::hiddenInput('like', true);
@@ -115,12 +121,18 @@ class LikeWidget extends Widget
             $scipt .= "\n" . <<<JS
                 window['intervalFunction-{$this->unique}'] = setInterval(() => {
                     if (document.querySelector('#{$this->_pjaxId}')) {
-                        $.pjax.reload({ container: '#{$this->_pjaxId}', withoutLoader: true, autoupdate: true, timeout: false })
+                        $.pjax.reload({ 
+                            container: '#{$this->_pjaxId}', 
+                            url: '{$this->_url}', 
+                            push: false, 
+                            replace: false, 
+                            withoutLoader: true, 
+                            autoupdate: true, 
+                            timeout: false,
+                        })
                     }
                     else {
-                        clearInterval(window['intervalFunction-{$this->unique}'])
-                        // document.querySelector('#{$this->_pjaxId}').intervalFunction = null
-                        console.log('not fount #{$this->_pjaxId}')
+                        clearInterval(window['intervalFunction-{$this->unique}'])                        
                     }
                 }, $updateInterval)
             JS;
@@ -170,7 +182,7 @@ class LikeWidget extends Widget
      */
     private function renderBtnLikers()
     {
-        if ($this->showLikers/* && $this->_modelLike->isViewLikers()*/) {                 
+        if ($this->showLikers) {
             $btnText = ArrayHelper::getValue($this->options, 'btnlikers.content.text', '<i class="fas fa-chart-area"></i>');
             $id = 'btn-view-likers-' . $this->unique;
             $this->view->registerJs(<<<JS
@@ -186,7 +198,6 @@ class LikeWidget extends Widget
                 })
 
             JS);
-            // Html::addCssClass($this->btnLikeOptions, 'mv-link');
             return Html::a($btnText, ['/like/like/index', 'idLike' => $this->_modelLike->id], 
                 array_merge($this->btnLikeOptions, ['id' => $id, 'data-bs-toggle' => 'tooltip']));
         }

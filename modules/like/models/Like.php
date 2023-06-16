@@ -144,4 +144,16 @@ class Like extends \yii\db\ActiveRecord
             ->all();
     }
 
+    /**
+     * @return int
+     */
+    public static function count($unique)
+    {
+        return (new Query())
+            ->from(self::tableName())
+            ->select('[[count]]')
+            ->where(['unique' => $unique])
+            ->one()['count'] ?? 0;
+    }
+
 }
