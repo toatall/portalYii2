@@ -30,7 +30,7 @@ class History
     public static function save($url, $title)
     {
         $record = (new Query())
-            ->from('{{%history}}')
+            ->from('{{%history}} WITH(NOLOCK)')
             ->where([
                 'url' => $url, 
             ])
@@ -83,7 +83,7 @@ class History
     public static function count($url)
     {
         return (new Query())
-            ->from('{{%history}}')
+            ->from('{{%history}} WITH(NOLOCK)')
             ->where(['url' => $url])
             ->sum('[[count_visits]]');
     }
