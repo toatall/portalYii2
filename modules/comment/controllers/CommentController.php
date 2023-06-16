@@ -107,6 +107,7 @@ class CommentController extends Controller
         // если указан родительский документ
         if ($idParent !== null) {
             // ищем этот документ
+            /** @var Comment $modelParent */
             $modelParent = Comment::findOne($idParent);
             if ($modelParent !== null) {
                 // если у этого документа тоже есть родительский, то ставим этот родительский
@@ -206,7 +207,7 @@ class CommentController extends Controller
      * Finds the Comment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Comment the loaded model
+     * @return Comment|null the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
@@ -223,7 +224,7 @@ class CommentController extends Controller
      */
     private function checkAutorize($model)
     {
-        if (!$model->isAuthor() && !\Yii::$app->user->can('admin')) {
+        if (!$model->isAuthor() && !Yii::$app->user->can('admin')) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
     }

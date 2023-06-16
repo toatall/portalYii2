@@ -38,9 +38,9 @@ $idComments = 'container-comment-index-' . $hash;
             <div class="col">
                 <div class="text-left">
                     <div class="input-group">
-                        <?= Html::activeTextInput($model, 'text', ['class' => 'form-control rounded-left']) ?>
+                        <?= Html::activeTextarea($model, 'text', ['class' => 'form-control rounded-left', 'rows' => 1]) ?>
                         <button class="btn btn-light border text-secondary dropdown-toggle" data-bs-auto-close="outside" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            😀
+                            <i class="far fa-smile-wink"></i>
                         </button>
                         <div class="dropdown-menu" style="width: 30rem;">
                             <div class="p-2">
@@ -52,15 +52,12 @@ $idComments = 'container-comment-index-' . $hash;
                                 ]) ?>                             
                             </div>
                         </div>
+                        <?= Html::submitButton('<i class="fas fa-paper-plane"></i> Отправить', [
+                            'class' => 'btn btn-light border text-secondary',                            
+                        ]) ?>
                     </div>                    
                 </div>                
-            </div>            
-            <div style="width: 5rem;" class="">
-                <?= Html::submitButton('<i class="fas fa-paper-plane"></i>', [
-                    'class' => 'btn btn-primary btn-sm mr-3',                   
-                    'style' => 'height: 40px; width: 40px;',
-                ]) ?>
-            </div>
+            </div>                      
         </div>
 
         <?php ActiveForm::end(); ?>        
@@ -77,7 +74,8 @@ $idComments = 'container-comment-index-' . $hash;
 
 </div>
 
-<?php $this->registerCss(<<<CSS
+<?php 
+$this->registerCss(<<<CSS
     .btn-smiley {
         font-size: 1.3rem;
         width: 2.5em;
@@ -90,6 +88,7 @@ $this->registerJS(<<<JS
         let start = el.prop("selectionStart")
         let end = el.prop("selectionEnd")
         let text = el.val()
+        console.log(el)
         let before = text.substring(0, start)
         let after  = text.substring(end, text.length)
         el.val(before + newText + after)
@@ -102,18 +101,24 @@ $this->registerJS(<<<JS
     $('.btn-smiley').off();
     $('.btn-smiley').on('click', function() {
         $('button[data-bs-toggle="dropdown"]').dropdown('hide');
-        let input = $(this).parents('.comment-form').find('input[name="Comment[text]"]');
+        const input = $(this).parents('.comment-form').find('[name="Comment[text]"]')
         typeInTextarea(input, $(this).html());
     });
 
+    $('#$idForm [name="Comment[text]"]').keydown(function(e){
+        if (e.keyCode == 13 && e.ctrlKey) {
+            $(this).parents('form').submit()
+        }      
+    })
+
     // отправка формы комментария
     $('#$idForm').off('submit');
-    $('#$idForm').on('submit', function() {        
-        var url = $(this).attr('action');
-        var data = $(this).serialize();
-        var container = $('#$idContainer');
+    $('#$idForm').on('submit', function() {
+        const url = $(this).attr('action')
+        const data = $(this).serialize()
+        const container = $('#$idContainer')
         
-        container.html('<span class="fa-1x"><i class="fas fa-circle-notch fa-spin"></i></span>');
+        container.html('<span class="fa-1x"><i class="fas fa-circle-notch fa-spin"></i></span>')
        
         $.ajax({
             url: url,
@@ -128,9 +133,9 @@ $this->registerJS(<<<JS
             container.html(data.content);           
         })
         .fail(function(jqXHR) {
-            container.html('<div class="alert alert-danger">Url: ' + url + '<br /><strong>' + jqXHR.status + ' ' + jqXHR.statusText + '</strong></div>');
-        });
-        return false;
+            container.html('<div class="alert alert-danger">Url: ' + url + '<br /><strong>' + jqXHR.status + ' ' + jqXHR.statusText + '</strong></div>')
+        })
+        return false
     });
 
 JS);

@@ -6,6 +6,7 @@ use app\behaviors\AuthorBehavior;
 use app\behaviors\ChangeLogBehavior;
 use app\behaviors\DatetimeBehavior;
 use app\models\User;
+use yii\db\Query;
 
 /**
  * This is the model class for table "p_comment".
@@ -95,7 +96,7 @@ class Comment extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return Comment|null комментарий, на который был выполнен ответ
+     * @return \yii\db\ActiveQuery комментарий, на который был выполнен ответ
      */
     public function getReply()
     {
@@ -123,7 +124,7 @@ class Comment extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     private static function recursive($hash, $idParent)
     {
@@ -145,6 +146,17 @@ class Comment extends \yii\db\ActiveRecord
             ];
         }
         return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public static function count($bindHash)
+    {
+        return (new Query())
+            ->from(self::tableName())
+            ->where(['bind_hash' => $bindHash])
+            ->count();
     }
     
 }

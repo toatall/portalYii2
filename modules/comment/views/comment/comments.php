@@ -1,19 +1,15 @@
 <?php
-
 /** @var yii\web\View $this */
-
 /** @var array $comments */
 /** @var string $hash */
 /** @var string $url */
 /** @var string $modelName */
 /** @var int $modelId */
-
 ?>
 
 <div class="mt-3">
 
     <?php if ($comments && count($comments) > 0): ?>
-        <div class="card card-body">
         <?php foreach($comments as $comment): ?>
 
             <?= $this->render('_comment', [
@@ -39,7 +35,6 @@
             <?php endif; ?>
 
         <?php endforeach; ?>
-        </div>
     <?php else: ?>
         <!-- <div class="alert lead">Нет комментариев</div> -->
     <?php endif; ?>

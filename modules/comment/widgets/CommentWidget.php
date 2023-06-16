@@ -4,6 +4,7 @@ namespace app\modules\comment\widgets;
 use yii\base\InvalidConfigException;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Widget;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 /**
@@ -11,12 +12,14 @@ use yii\helpers\Url;
  * Обязательно требуется указать поле $modelName и $modelId 
  * для привязки комментариев к странице 
  * 
- * Пример использования:
- *      CommentWidget::widget([
- *          'modelName' => 'News',
- *          'modelId' => $model->id,
- *      ]);
+ * Пример использования: 
  * 
+ * ```php
+ *CommentWidget::widget([ 
+ *    'modelName' => 'news',
+ *    'modelId' => $model->id,
+ *]);
+ * ```
  * 
  * @author toatall
  */
@@ -27,6 +30,11 @@ class CommentWidget extends Widget
      * @var string 
      */
     public $url;
+
+    /**
+     * @var string
+     */
+    public $hash;
     
     /**
      * @var string
@@ -78,16 +86,19 @@ class CommentWidget extends Widget
      */
     private function renderDiv()
     {       
-        $url = ($this->url == null) ? Url::current() : $this->url;
-        $hash = md5($url);
-        $html = Html::beginTag('div', [
-            'data-url' =>  Url::to(['/comment/index', 'hash' => $hash, 'url' => $url, 'title' => $this->title, 
-                'modelName' => $this->modelName, 'modelId' => $this->modelId]),
-            'data-comment-url' => $url,
-            'data-comment-hash' => $hash,
-            'class' => 'comment-container',
-            'id' => 'commnet-container-' . $this->id,
-        ]);
+        $url = $this->url ?? Url::current();
+        $hash = $this->hash ?? md5($url);
+        Html::addCssClass($this->options, ['class' => 'comment-container']);
+        $html = Html::beginTag('div', ArrayHelper::merge(
+            $this->options,
+            [
+                'data-url' =>  Url::to(['/comment/index', 'hash' => $hash, 'url' => $url, 'title' => $this->title, 
+                    'modelName' => $this->modelName, 'modelId' => $this->modelId]),
+                'data-comment-url' => $url,
+                'data-comment-hash' => $hash,              
+                'id' => 'commnet-container-' . $this->id,
+            ])
+        );
         $html .= Html::endTag('div');
         $this->registerJs('commnet-container-' . $this->id);
         return $html;
