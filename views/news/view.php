@@ -104,17 +104,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 <i class="fas fa-minus" id="collapse-image-i"></i> Изображения
             </button> 
         </div>
-        <div class="card-body collapse" id="collapse-image">                
+        <div class="card-body collapse row" id="collapse-image">                
             <?php
             foreach ($model->getCheckListBoxUploadImagesGallery() as $image) {
-                echo Html::a(Html::img(\Yii::$app->storage->addFileNamePrefix($image, 'thumb'), [
-                    'class' => 'img-thumbnail',
-                    'style' => 'height: 10rem',
-                ]), $image, [
-                    'data-fancybox' => 'gallery',
-                    'data-src' => $image,
-                    'data-caption' => $model->title,
-                ]);
+                if (file_exists(Yii::getAlias('@webroot') . $image)) {
+                    echo Html::beginTag('div', ['class' => 'col-2']);
+                        echo Html::a(Html::img(\Yii::$app->storage->addFileNamePrefix($image, 'thumb'), [
+                            'class' => 'img-thumbnail',
+                            'style' => 'height: 10rem',
+                        ]), $image, [
+                            'data-fancybox' => 'gallery',
+                            'data-src' => $image,
+                            'data-caption' => $model->title,
+                        ]);
+                    echo Html::endTag('div');
+                }
+                else {                   
+                    echo Html::beginTag('div', ['class' => 'col-2 mb-5 text-center', 'style' => 'height: 10rem']);
+                        echo Html::tag('i', '', ['class' => 'far fa-image text-muted', 'style'=>'font-size:8rem;']);
+                        echo Html::tag('p', '<i class="fas fa-exclamation text-danger"></i> Изображение `' . basename($image) . '` не найдено!', 
+                            ['class' => 'text-muted']);
+                    echo Html::endTag('div');
+                }
             }
             ?>
         </div>
