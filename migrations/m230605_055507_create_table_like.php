@@ -24,28 +24,7 @@ class m230605_055507_create_table_like extends Migration
             'id_like' => $this->integer(),
             'username' => $this->string(250)->notNull(),
             'date_create' => $this->integer()->notNull(),
-        ]);
-
-        $this->execute("
-            CREATE TRIGGER tr_like_data ON  {{%like_data}}
-                AFTER INSERT,DELETE
-            AS
-            BEGIN
-                DECLARE @id INT
-            
-                IF EXISTS(SELECT 1 FROM inserted)
-                BEGIN
-                    SELECT TOP 1 @id = [[id_like]] FROM inserted
-                END ELSE
-                BEGIN
-                    SELECT TOP 1 @id = [[id_like]] FROM deleted
-                END
-                    
-                UPDATE {{%like}} 
-                    SET [[count]] = (SELECT COUNT(*) FROM {{%like_data}} WHERE [[id_like]] = @id)
-                WHERE [[id]] = @id            
-            END
-        ");
+        ]);      
 
         $this->addForeignKey('fk__like_data__id_like', '{{%like_data}}', 'id_like',
             '{{%like}}', 'id', 'cascade');

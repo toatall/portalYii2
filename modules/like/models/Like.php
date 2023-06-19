@@ -92,6 +92,14 @@ class Like extends \yii\db\ActiveRecord
         else {
             $modelLike->delete();
         }
+        // обновление количества лайков
+        Yii::$app->db->createCommand()
+            ->update('{{%like}}', [
+                'count' => new Expression('(SELECT COUNT(*) FROM {{%like_data}} WHERE id_like = :id)', [':id' => $this->id])
+            ], [
+                'id' => $this->id,
+            ])
+            ->execute();           
     }
 
     /**
