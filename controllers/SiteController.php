@@ -12,7 +12,7 @@ use app\components\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-
+use yii\helpers\Url;
 
 class SiteController extends Controller
 {
@@ -118,13 +118,19 @@ class SiteController extends Controller
      *
      * @param int $width
      * @param int $height
-     * @return string
+     * @return string|Response
      */
-    public function actionSaveUserAgentInfo($width = null, $height = null)
+    public function actionSaveUserAgentInfo($forward = false, $width = null, $height = null)
     {
-        if ($width !== null & $height !== null) {
-            \Yii::$app->user->identity->saveInformation($width, $height);
-            return $this->goBack();
+        if ($forward) {            
+            Yii::$app->user->identity->saveInformation((int)$width, (int)$height);
+            if (strpos(Yii::$app->request->referrer, Yii::$app->requestedRoute) === false) {
+                $url = Yii::$app->request->referrer;
+            }
+            else {
+                $url = Yii::$app->homeUrl;
+            }            
+            return $this->redirect($url);
         }
         return $this->render('save-user-agnet-info');
     }

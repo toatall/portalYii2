@@ -18,6 +18,7 @@ class ModalViewerAssetBs5 extends AssetBundle
         
     ];
     public $js = [
+        'public/assets/portal/js/urlHelper.js',
         'public/assets/portal/js/modalViewerBs5.js',
     ];
     public $depends = [

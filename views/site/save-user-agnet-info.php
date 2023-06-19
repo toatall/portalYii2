@@ -4,17 +4,21 @@
 use yii\helpers\Url;
 
 $this->title = 'Вход';
-
-$url = Url::to(['', 'width'=>'_w_', 'height'=>'_h_']);
+$this->registerJsFile('/public/assets/portal/js/urlHelper.js');
+$url = Url::to(['', 'forward' => 1]);
 ?>
-
 <div class="alert alert-info lead">
     Вход выполнен!
     <br />
     <a href="<?= $url ?>" class="btn btn-secondary mt-3">На главную страницу</a>
 </div>
+<?php
+$this->registerJs(<<<JS
 
-<script type="text/javascript">
-    const url = '<?= $url ?>'.replace('_w_', screen.width).replace('_h_', screen.height);
-    window.location = url;
-</script>
+    const url = UrlHelper.addParam('$url', {
+        width: screen.width ?? null,
+        height: screen.height ?? null,
+    })    
+    window.location = url    
+
+JS);
