@@ -99,6 +99,8 @@ $idOnlyUfns = Html::getInputId($searchModel, 'onlyUfns');
 $idOnlyIfnsCodes = Html::getInputId($searchModel, 'onlyIFnsCodes');
 $this->registerJs(<<<JS
 
+    $('.datetime[data-bs-toggle="tooltip"]').tooltip()
+
     $('#div-select-only-ifns').toggle($('#$idOnlyIfns').is(':checked'));
 
     $('#$idOnlyIfns').on('change', function() {

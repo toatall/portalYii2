@@ -36,7 +36,7 @@ class AuthorBehavior extends Behavior
         /** @var ActiveRecord $owner **/ 
         $owner = $this->owner;
         
-        if ($owner->hasProperty($this->author_at))
+        if ($owner->hasProperty($this->author_at) && $owner->isNewRecord)
         {
             $this->owner->{$this->author_at} = User::getUsername();
         }

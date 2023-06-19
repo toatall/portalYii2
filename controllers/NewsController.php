@@ -82,7 +82,7 @@ class NewsController extends Controller
     {
         $model = $this->findModel($id);
 
-        $this->saveVisit($id);
+        // $this->saveVisit($id);
 
         if (Yii::$app->request->isAjax) {
             $resultJson = [
@@ -103,28 +103,28 @@ class NewsController extends Controller
      * @param $id
      * @throws \yii\db\Exception
      */
-    protected function saveVisit($id)
-    {
-        /*
-        $query = (new Query())
-            ->from('{{%news_visit}}')
-            ->where([
-                'id_news' => $id,
-                'username' => Yii::$app->user->identity->username,
-            ]);
+    // protected function saveVisit($id)
+    // {
+    //     /*
+    //     $query = (new Query())
+    //         ->from('{{%news_visit}}')
+    //         ->where([
+    //             'id_news' => $id,
+    //             'username' => Yii::$app->user->identity->username,
+    //         ]);
 
-        if (!$query->exists()) {
-        */
-            Yii::$app->db->createCommand()
-                ->insert('{{%news_visit}}', [
-                    'id_news' => $id,
-                    'username' => Yii::$app->user->identity->username,
-                    'ip_address' => $_SERVER['REMOTE_ADDR'],
-                    'hostname' => $_SERVER['REMOTE_HOST'],
-                ])
-                ->execute();
-        //}
-    }
+    //     if (!$query->exists()) {
+    //     */
+    //         Yii::$app->db->createCommand()
+    //             ->insert('{{%news_visit}}', [
+    //                 'id_news' => $id,
+    //                 'username' => Yii::$app->user->identity->username,
+    //                 'ip_address' => $_SERVER['REMOTE_ADDR'],
+    //                 'hostname' => $_SERVER['REMOTE_HOST'],
+    //             ])
+    //             ->execute();
+    //     //}
+    // }
 
     /**
      * @param $id
@@ -231,25 +231,6 @@ class NewsController extends Controller
                 'dataProvider' => $dataProvider,
             ]);
         }
-    }
-
-    /**
-     * Лайк
-     * @param $idNews int
-     * @return string
-     * @throws \yii\db\Exception
-     * @throws NotFoundHttpException
-     */
-    public function actionLike($idNews)
-    {
-        $model = $this->findModel($idNews);
-
-        // проверка
-        if (Yii::$app->request->post('setLike')) {
-            $model->like();
-        }
-
-        return $this->renderAjax('like', ['model'=>$model, 'liked'=>$model->liked]);
-    }
+    }    
 
 }

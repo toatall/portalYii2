@@ -134,7 +134,7 @@ class Like extends \yii\db\ActiveRecord
             ->from('{{%like_data}} like_data')
             ->innerJoin('{{%user}} [user]', '[user].username = like_data.username')
             ->groupBy('[user].default_organization')
-            ->orderBy(['[user].default_organization' => SORT_DESC])
+            ->orderBy(['[user].default_organization' => SORT_ASC])
             ->where(['id_like' => $this->id])
             ->all();
     }

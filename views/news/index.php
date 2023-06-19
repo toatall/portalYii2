@@ -86,6 +86,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
 
+    <?php 
+    $this->registerJs(<<<JS
+        $('.datetime[data-bs-toggle="tooltip"]').tooltip()
+    JS); ?>
     <?php Pjax::end(); ?>
     </div>
 

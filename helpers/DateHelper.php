@@ -33,6 +33,12 @@ class DateHelper
         return $h + $m;
     }
 
+    public static function equalsDateByFormat($date1, $date2, $format)
+    {
+        return Yii::$app->formatter->asDate($date1, "php:$format") 
+            == Yii::$app->formatter->asDate($date2, "php:$format");
+    }
+
 
 
 

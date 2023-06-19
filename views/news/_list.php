@@ -46,9 +46,16 @@ $url = Url::to(['news/view', 'id'=>$model->id]);
                         <div style="color:#444;">
                             <i class="far fa-building text-muted"></i> <?= $model->organization->name ?>
                             <?= !empty($model->from_department) ? '(' . $model->from_department . ')' : '' ?><br />
-                            <i class="far fa-clock text-muted"></i> <?= Yii::$app->formatter->asDatetime($model->date_create) ?>
-                                <?= ($model->date_create != $model->date_edit)
-                                    ? ' (изменено: ' . Yii::$app->formatter->asDatetime($model->date_edit) . ')' : '' ?>
+                            <i class="far fa-clock text-muted"></i> 
+                                <span class="datetime" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-title="<?= Yii::$app->formatter->asDatetime($model->date_create) ?>">
+                                    <?= Yii::$app->formatter->asRelativeTime($model->date_create) ?>
+                                </span>
+
+                                <?php if ($model->date_create != $model->date_edit): ?>
+                                    <span class="datetime" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-title="изменено: <?= Yii::$app->formatter->asDatetime($model->date_edit) ?>">
+                                        <i class="far fa-edit"></i>
+                                    </span>                                    
+                                <?php endif; ?>
                             <br />
                             <?= Html::a('<i class="fas fa-user-alt"></i> '
                                 . ($model->modelAuthor == null ?: $model->modelAuthor->fio), '/@' . $model->author, ['class' => 'author mv-link']) ?>

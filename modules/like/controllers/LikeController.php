@@ -5,7 +5,6 @@ use app\components\Controller;
 use app\modules\like\models\Like;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 
 class LikeController extends Controller 
