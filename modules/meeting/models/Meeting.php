@@ -121,6 +121,9 @@ abstract class Meeting extends ARMeeting
         if ($this->place) {
             $query->andWhere(['place' => $this->place]);
         }
+        else {
+            $query->andWhere('0=1');
+        }
 
         if (!$this->isNewRecord) {
             $query->andWhere(['not', ['id' => $this->id]]);
