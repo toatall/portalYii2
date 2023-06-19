@@ -18,7 +18,7 @@ class NewsQuery extends \yii\db\ActiveQuery
     {
         $query = parent::alias('t');
         return $query->select('t.*')
-            ->distinct('true')
+            ->distinct(true)
             ->leftJoin('{{%tree}} tree', 'tree.id=t.id_tree')
             ->andFilterWhere(['tree.module' => News::getModule()]);
     }

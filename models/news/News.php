@@ -53,7 +53,6 @@ use yii\helpers\Url;
  * @property Tree $tree
  * @property Organization $organization
  * @property User $modelAuthor
- * @property NewsComment[] $newsComments
  * @property array $newsLikes
  * @property File[] $files
  *
@@ -177,10 +176,7 @@ class News extends \yii\db\ActiveRecord
             'date_edit' => 'Дата изменения',
             'date_delete' => 'Дата удаления',
             'log_change' => 'История изменений',
-            'on_general_page' => 'Новость дня',
-            'count_like' => 'Количество лайков',
-            'count_comment' => 'Количество комментариев',
-            'count_visit' => 'Количество просмотров',
+            'on_general_page' => 'Новость дня',           
             'tags' => 'Теги',
             'date_sort' => 'Дата',
             'date_top' => 'Закрепить новость до',
@@ -231,7 +227,7 @@ class News extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Tree]].
      *
-     * @return \yii\db\ActiveQuery|TreeQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getTree()
     {
@@ -241,7 +237,7 @@ class News extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Organization]].
      *
-     * @return \yii\db\ActiveQuery|OrganizationQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getOrganization()
     {
@@ -251,23 +247,13 @@ class News extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Author0]].
      *
-     * @return \yii\db\ActiveQuery|UserQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getModelAuthor()
     {
         return $this->hasOne(User::class, ['username_windows' => 'author']);
     }
-
-    /**
-     * Gets query for [[NewsComments]].
-     *
-     * @return \yii\db\ActiveQuery|NewsCommentQuery
-     */
-    public function getNewsComments()
-    {
-        return $this->hasMany(NewsComment::class, ['id_news' => 'id']);
-    }
-
+    
     /**
      * @return \yii\db\Query
      */
@@ -283,22 +269,6 @@ class News extends \yii\db\ActiveRecord
                 'url' => Url::to(['/news/view', 'id'=>$this->id]),
             ]);
     }
-
-    /**
-     * @return \yii\db\Query
-     */
-    public function getLikes()
-    {
-        return (new Query())
-            ->select(['u.fio', 't.username', 'u.current_organization', 'u.organization_name', 'u.department', 
-                'u.user_disabled_ad', 't.ip_address', 't.date_create'])
-            ->from('{{%news_like}} t')
-            ->leftJoin('{{%user}} u', 'u.username = t.username')
-            ->where([
-                't.id_news' => $this->id,
-            ]);
-    }
-    
 
     /**
      * Файлы, прикрепленные к новости
@@ -485,15 +455,14 @@ class News extends \yii\db\ActiveRecord
 
     /**
      * Удаление миниатюры
-     * @return bool
+     * @return bool|null
      */
     protected function deleteThumbFile()
     {
         if ($this->thumbail_image != null) {
-            return \Yii::$app->storage->deleteFile($this->thumbail_image);
+            return Yii::$app->storage->deleteFile($this->thumbail_image);
         }
     }
-
 
     /**
      * Удаление файлов
@@ -557,9 +526,7 @@ class News extends \yii\db\ActiveRecord
                 $fileModel->file_name = \Yii::$app->storage->addEndSlash($path) . $file->name;
                 $fileModel->model = self::getModule(); //News::getModule();// static::getModule();
                 $fileModel->id_model = $this->id;
-                if ($fileModel->save()) {
-                    //$this->link('files', $fileModel);
-                }
+                if ($fileModel->save()) {}
             });
         }
     }
@@ -584,15 +551,15 @@ class News extends \yii\db\ActiveRecord
                 $fileModel->image_name_thumbs = $storage->addFileNamePrefix($fileModel->image_name, $prefix);
                 $fileModel->model = self::getModule();// News::getModule(); //static::getModule();
                 $fileModel->id_model = $this->id;
-                if ($fileModel->save()) {
-                    //$this->link('images', $fileModel);
-                }
+                if ($fileModel->save()) {}
 
                 // создание миниатюр
                 $this->createThumbnail($saveFile);
 
                 // если размер превышает установленный лимит, то уменьшается размер изображения
-                \Yii::$app->storage->resizeImage($saveFile, \Yii::$app->params['news']['size']['imageMaxWidth'], \Yii::$app->params['news']['size']['imageMaxHeight']);
+                Yii::$app->storage->resizeImage($saveFile, 
+                    Yii::$app->params['news']['size']['imageMaxWidth'], 
+                    Yii::$app->params['news']['size']['imageMaxHeight']);
             });
         }
     }
@@ -603,23 +570,25 @@ class News extends \yii\db\ActiveRecord
      */
     private function uploadThumbnail()
     {
-        if ($this->uploadThumbnailImage && $this->uploadThumbnailImage instanceof \yii\web\UploadedFile) {
+        if ($this->uploadThumbnailImage && $this->uploadThumbnailImage instanceof UploadedFile) {
             // удаление старой миниатюры
             if (!$this->isNewRecord && $this->thumbail_image != null) {
                 // если имя такое же, то оставляем, просто заменим,
                 // т.к. при удалении и загрузке нового изображения - удаляется новое (видимо операция удаления медленнее, чем загрузки)
                 if (basename($this->thumbail_image) != basename($this->uploadThumbnailImage->name)) {
-                    \Yii::$app->storage->deleteFile($this->thumbail_image);
+                    Yii::$app->storage->deleteFile($this->thumbail_image);
                 }
             }
 
             // загрузка новой миниатюры
             $path = $this->getPathThumb();
-            $thumb = \Yii::$app->storage->saveUploadedFile($this->uploadThumbnailImage, $path);
+            $thumb = Yii::$app->storage->saveUploadedFile($this->uploadThumbnailImage, $path);
             if ($thumb) {
                 // изменение размеров
-                \Yii::$app->storage->resizeImage($thumb, \Yii::$app->params['news']['size']['thumbnailMaxWidth'], \Yii::$app->params['news']['size']['thumbnailMaxHeight']);
-                $this->updateThumb(\Yii::$app->storage->addEndSlash($path) . $this->uploadThumbnailImage->name);
+                Yii::$app->storage->resizeImage($thumb, 
+                    Yii::$app->params['news']['size']['thumbnailMaxWidth'], 
+                    Yii::$app->params['news']['size']['thumbnailMaxHeight']);
+                $this->updateThumb(Yii::$app->storage->addEndSlash($path) . $this->uploadThumbnailImage->name);
             }
         }
         // удаление миниатюры без сохранения новой
@@ -627,7 +596,7 @@ class News extends \yii\db\ActiveRecord
         {
             if ($this->deleteThumbnailImage) {
                 // удаление файла
-                \Yii::$app->storage->deleteFile($this->thumbail_image);
+                Yii::$app->storage->deleteFile($this->thumbail_image);
                 // сохранение в БД
                 $this->updateThumb(null);
             }
@@ -642,7 +611,7 @@ class News extends \yii\db\ActiveRecord
     private function updateThumb($thumb)
     {
         if ($this->id) {
-            \Yii::$app->db->createCommand()
+            Yii::$app->db->createCommand()
                 ->update($this::tableName(), [
                     'thumbail_image' => $thumb,
                 ],[
@@ -658,7 +627,7 @@ class News extends \yii\db\ActiveRecord
      */
     protected function getPathFiles()
     {
-        $path = \Yii::$app->params['news']['path']['files'];
+        $path = Yii::$app->params['news']['path']['files'];
         return $this->getPathWithReplace($path);
     }
 
@@ -668,7 +637,7 @@ class News extends \yii\db\ActiveRecord
      */
     protected function getPathImages()
     {
-        $path = \Yii::$app->params['news']['path']['images'];
+        $path = Yii::$app->params['news']['path']['images'];
         return $this->getPathWithReplace($path);
     }
 
@@ -678,7 +647,7 @@ class News extends \yii\db\ActiveRecord
      */
     protected function getPathThumb()
     {
-        $path = \Yii::$app->params['news']['path']['thumbnail'];
+        $path = Yii::$app->params['news']['path']['thumbnail'];
         return $this->getPathWithReplace($path);
     }
 
@@ -688,7 +657,7 @@ class News extends \yii\db\ActiveRecord
      */
     protected function getPathRoot()
     {
-        $path = \Yii::$app->params['news']['path']['root'];
+        $path = Yii::$app->params['news']['path']['root'];
         return $this->getPathWithReplace($path);
     }
 
@@ -700,9 +669,9 @@ class News extends \yii\db\ActiveRecord
      */
     private function createThumbnail($image)
     {
-        $storage = \Yii::$app->storage;
-        $thumbWidth = \Yii::$app->params['news']['size']['thumbnailMaxWidth'];
-        $thumbHeight = \Yii::$app->params['news']['size']['thumbnailMaxHeight'];
+        $storage = Yii::$app->storage;
+        $thumbWidth = Yii::$app->params['news']['size']['thumbnailMaxWidth'];
+        $thumbHeight = Yii::$app->params['news']['size']['thumbnailMaxHeight'];
         $prefix = Yii::$app->params['news']['thumbnailPrefix'];
         $thumbName = $storage->addFileNamePrefix($image, $prefix);
         return $storage->resizeImage($image, $thumbWidth, $thumbHeight, $thumbName);
@@ -716,7 +685,7 @@ class News extends \yii\db\ActiveRecord
     protected function getPathWithReplace(string $path)
     {
         $path = str_replace('{id}', ($this->id ? $this->id : 'no_id'), $path);
-        $path = str_replace('{code_no}', Yii::$app->userInfo->current_organization, $path);
+        $path = str_replace('{code_no}', Yii::$app->user->identity->current_organization, $path);
         $path = str_replace('{module}', self::getModule(), $path);
         return $path;
     }
@@ -752,11 +721,11 @@ class News extends \yii\db\ActiveRecord
         if (Yii::$app->user->isGuest) {
             return false;
         }
-        return (new \yii\db\Query())
+        return (new Query())
             ->from('{{%news_like}}')
             ->where([
                 'id_news' => $this->id,
-                'username' => \Yii::$app->user->identity->username,
+                'username' => Yii::$app->user->identity->username,
             ])
             ->exists();
     }
@@ -769,20 +738,20 @@ class News extends \yii\db\ActiveRecord
     public function like()
     {
         if ($this->liked) {
-            \Yii::$app->db->createCommand()
+            Yii::$app->db->createCommand()
                 ->delete('{{%news_like}}',
                     [
                         'id_news' => $this->id,
-                        'username' => \Yii::$app->user->identity->username,
+                        'username' => Yii::$app->user->identity->username,
                     ])
                 ->execute();
         }
         else
         {
-            \Yii::$app->db->createCommand()
+            Yii::$app->db->createCommand()
                 ->insert('{{%news_like}}', [
                     'id_news' => $this->id,
-                    'username' => \Yii::$app->user->identity->username,
+                    'username' => Yii::$app->user->identity->username,
                     'ip_address' => $_SERVER['REMOTE_ADDR'],
                 ])->execute();
         }

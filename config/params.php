@@ -31,44 +31,44 @@ return [
     ],
 
     // конференции (вкс, собрания)
-    'conference' => [
-        // уведомление о ВКС с УФНС
-        'notifyMailAddress' => '8600_notifyVksUfns@nalog.ru',
-        // уведомление о новых заявках
-        'notifyMailAddressAppeal' => '8600_notifyConferenceAppeal@nalog.ru',
-        // настройка доступа
-        'access' => [
-            'vks-ufns' => [
-                //'users' => [],
-                'groups' => ['@'],
-                //'groups-ad' => [],
-            ],
-            // для ВКС с ФНС
-            'vks-fns' => [
-                //'users' => [],
-                //'groups' => [],
-                'groups-ad' => ['u8600-Informatizacii', 'u8600-Rukovodstvo', 'u8600-Obshhij'],                
-            ],
-            // для ВКС с внешними организациями
-            'vks-external' => [
-                //'users' => [],
-                //'groups' => [],
-                'groups-ad' => ['u8600-Informatizacii', 'u8600-Rukovodstvo', 'u8600-Obshhij'],
-            ],
-            // для собраний
-            'conference' => [
-                //'users' => [],
-                //'groups' => [],
-                'groups-ad' => ['u8600-Informatizacii', 'u8600-Rukovodstvo', 'u8600-Obshhij'],
-            ],
-        ],        
-        // видеоконференции по сервису Контур.Толк
-        'kontur.talk' => [
-            'roles' => [
-                'moderator' => 'VKS.KonturTalk.moderator',
-            ],
-        ],
-    ],
+    // 'conference' => [
+    //     // уведомление о ВКС с УФНС
+    //     'notifyMailAddress' => '8600_notifyVksUfns@nalog.ru',
+    //     // уведомление о новых заявках
+    //     'notifyMailAddressAppeal' => '8600_notifyConferenceAppeal@nalog.ru',
+    //     // настройка доступа
+    //     'access' => [
+    //         'vks-ufns' => [
+    //             //'users' => [],
+    //             'groups' => ['@'],
+    //             //'groups-ad' => [],
+    //         ],
+    //         // для ВКС с ФНС
+    //         'vks-fns' => [
+    //             //'users' => [],
+    //             //'groups' => [],
+    //             'groups-ad' => ['u8600-Informatizacii', 'u8600-Rukovodstvo', 'u8600-Obshhij'],                
+    //         ],
+    //         // для ВКС с внешними организациями
+    //         'vks-external' => [
+    //             //'users' => [],
+    //             //'groups' => [],
+    //             'groups-ad' => ['u8600-Informatizacii', 'u8600-Rukovodstvo', 'u8600-Obshhij'],
+    //         ],
+    //         // для собраний
+    //         'conference' => [
+    //             //'users' => [],
+    //             //'groups' => [],
+    //             'groups-ad' => ['u8600-Informatizacii', 'u8600-Rukovodstvo', 'u8600-Obshhij'],
+    //         ],
+    //     ],        
+    //     // видеоконференции по сервису Контур.Толк
+    //     'kontur.talk' => [
+    //         'roles' => [
+    //             'moderator' => 'VKS.KonturTalk.moderator',
+    //         ],
+    //     ],
+    // ],
 
     // отделы
     'department' => [

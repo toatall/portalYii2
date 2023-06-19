@@ -50,13 +50,11 @@ if (Yii::$app->request->isAjax) {
                                 'browseClass' => 'btn btn-primary btn-sm',                                
                                 'uploadClass' => 'btn btn-secondary btn-sm',
                                 'removeClass' => 'btn btn-secondary btn-sm',
+                                'theme' => 'fa5',
                             ],
                             'options' => [
                                 'accept' => 'images/*',
-                            ],
-                            'pluginOptions' => [
-                                'theme' => 'fa5',
-                            ],
+                            ],                            
                         ]) ?>
                         <?= Html::endForm() ?>
                     </div>                                      

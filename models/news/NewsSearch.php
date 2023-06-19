@@ -6,8 +6,6 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
-use yii\web\Cookie;
-use yii\web\Session;
 
 /**
  * NewsSearch represents the model behind the search form of `app\models\news\News`.
@@ -60,15 +58,6 @@ class NewsSearch extends News
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-    /**
      * Creates data provider instance with search query applied
      *
      * @param array $params
@@ -113,10 +102,10 @@ class NewsSearch extends News
             'count_comment' => $this->count_comment,
             'count_visit' => $this->count_visit,
             'date_sort' => $this->date_sort,
-            'id_organization' => \Yii::$app->user->identity->current_organization,
+            'id_organization' => Yii::$app->user->identity->current_organization,
         ]);
 
-        if (!\Yii::$app->user->can('admin')) {
+        if (!Yii::$app->user->can('admin')) {
             $query->andFilterWhere(['date_delete' => null]);
         }
 
