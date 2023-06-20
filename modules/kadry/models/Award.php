@@ -192,7 +192,7 @@ class Award extends ActiveRecord
         }
 
         $query->andFilterWhere(['like', 'fio', $this->fio])
-            ->andFilterWhere(['like', 'org_name', $this->org_name])
+            //->andFilterWhere(['like', 'org_name', $this->org_name])
             ->andFilterWhere(['like', 'dep_name', $this->dep_name])
             ->andFilterWhere(['like', 'post', $this->post])
             ->andFilterWhere(['like', 'aw_name', $this->aw_name])
