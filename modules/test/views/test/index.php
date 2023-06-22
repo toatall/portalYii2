@@ -1,7 +1,9 @@
 <?php
 use app\modules\test\models\Test;
+use yii\bootstrap5\Dropdown;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
+use yii\helpers\ArrayHelper;
 
 /** @var yii\web\View $this **/
 /** @var yii\data\ActiveDataProvider $dataProvider **/
@@ -31,12 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h6 class="m-0 font-weight-bold text-gray">
                         <?= $model->name ?>
                     </h6>
-                    <div class="dropdown no-arrow">
+                    <!-- <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                         </a>                        
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        <div class="dropdown-menu dropdown-menu-right shadow"
                             aria-labelledby="dropdownMenuLink">
                             <?php if (Test::canManager()): ?>
                                 <div class="dropdown-header">Управление</div>
@@ -54,6 +56,37 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?= Html::a('Оценки', ['/test/statistic/opinion', 'id'=>$model->id], ['class'=>'dropdown-item link-modal']) ?>                                
                             <?php endif; ?>
                         </div>                    
+                    </div> -->
+                    <div class="dropdown">
+                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light text-dark">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <?php
+                            $items = [];
+                            if (Test::canManager()) {
+                                $items = ArrayHelper::merge($items, [
+                                    '<div class="dropdown-header">Управление</div>',
+                                    ['label' => 'Просмотреть тест', 'url' => ['/test/test/view', 'id'=>$model->id]],
+                                    ['label' => 'Изменить тест', 'url' => ['/test/test/update', 'id'=>$model->id]],
+                                    ['label' => 'Права', 'url' => ['/test/access/index', 'idTest'=>$model->id]],
+                                    ['label' => 'Вопросы', 'url' => ['/test/question/index', 'idTest'=>$model->id]],
+                                ]);
+                            }
+                            if ($model->canStatisticTest()) {
+                                $items = ArrayHelper::merge($items, [
+                                    '<div class="dropdown-divider"></div>',
+                                    '<div class="dropdown-header">Статистика</div>',
+                                    ['label' => 'Общая', 'url' => ['/test/statistic/general', 'id'=>$model->id]],
+                                    ['label' => 'По сотрудникам', 'url' => ['/test/statistic/users', 'id'=>$model->id]],
+                                    ['label' => 'По вопросам', 'url' => ['/test/statistic/questions', 'id'=>$model->id]],
+                                    ['label' => 'Оценки', 'url' => ['/test/statistic/opinion', 'id'=>$model->id]],
+                                ]);
+                            }
+
+                            echo Dropdown::widget([
+                                'items' => $items,
+                            ]);                            
+                        ?>
                     </div>
                 </div>
                 <!-- Card Body -->

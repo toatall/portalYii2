@@ -1,11 +1,14 @@
 <?php
 
+use app\assets\FontAwesomeAsset;
 use app\assets\ModalViewerAssetBs5;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
 
 ModalViewerAssetBs5::register($this);
+FontAwesomeAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -18,9 +21,9 @@ ModalViewerAssetBs5::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>    
     <!-- Custom fonts for this template-->
-    <link href="/ext/awesome/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="/ext/awesome/css/all.min.css" rel="stylesheet" type="text/css"> -->
     <!-- Custom styles for this template-->
-    <link href="/ext/startbootstrap-sb-admin/css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- <link href="/ext/startbootstrap-sb-admin/css/sb-admin-2.min.css" rel="stylesheet"> -->
     <?php $this->head() ?> 
 </head>
 <?php $this->registerCSS(<<<CSS
@@ -32,15 +35,25 @@ CSS); ?>
     <?php $this->beginBody() ?>
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <?php echo Nav::widget([
+        <?php NavBar::begin([
+            'brandUrl' => Yii::$app->homeUrl,
+            'options' => [
+                'class' => 'navbar navbar-expand-md navbar-light fixed-top bg-light border-bottom',
+            ],            
+            'innerContainerOptions' => [
+                'class' => 'container-fluid px-5',
+            ],
+        ]);
+
+        echo Nav::widget([
             'items' => [
-                '<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                /*'<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                     <div class="sidebar-brand-icon rotate-n-15">
                         <i class="fas fa-tasks"></i>
                     </div>
                     <div class="sidebar-brand-text mx-3">Тестирование <sup>Портал УФНС</sup></div>
                 </a>',
-                '<hr class="sidebar-divider my-0">',
+                '<hr class="sidebar-divider my-0">',*/
                 ['label' => '<i class="fas fa-external-link-alt"></i> На Портал', 'url' => ['/']],
                 ['label' => '<i class="fas fa-home"></i> Главная', 'url' => ['/test/test/index']],
                 ['label' => '<i class="fas fa-list-alt"></i> Мои результаты', 'url' => ['/test/result/index']],       
@@ -50,7 +63,10 @@ CSS); ?>
             ],
             'options' => ['class' => 'navbar-nav bg-gradient-primary sidebar sidebar-dark accordion'],
             'encodeLabels' => false,
-        ]) ?>
+        ]);
+
+        NavBar::end();
+        ?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -93,9 +109,9 @@ CSS); ?>
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
+    <!-- <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
-    </a>
+    </a> -->
 
     <!-- Modal-->
     <!-- <div class="modal fade" id="modal-dialog" tabindex="-1" role="dialog" aria-hidden="true">
@@ -116,14 +132,14 @@ CSS); ?>
     </div>
      -->
     <!-- Bootstrap core JavaScript-->
-    <script src="/ext/jquery/jquery.min.js"></script>
-    <script src="/ext/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="/ext/jquery/jquery.min.js"></script>
+    <script src="/ext/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 
     <!-- Core plugin JavaScript-->
-    <script src="/ext/jquery-easing/jquery.easing.min.js"></script>
+    <!-- <script src="/ext/jquery-easing/jquery.easing.min.js"></script> -->
 
     <!-- Custom scripts for all pages-->
-    <script src="/ext/startbootstrap-sb-admin/js/sb-admin-2.min.js"></script>
+    <!-- <script src="/ext/startbootstrap-sb-admin/js/sb-admin-2.min.js"></script> -->
     
     <?php $this->endBody() ?>
 </body>
