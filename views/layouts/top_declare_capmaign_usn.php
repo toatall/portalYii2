@@ -12,7 +12,8 @@ $date = array_key_first($query);
 $percents = 0;
 if (isset($query[$date]['8600'])) {
     $percents = Yii::$app->formatter->format(
-        ($query[$date]['8600']->count_np_provides_reliabe_declare + $query[$date]['8600']->count_np_provides_not_required) / $query[$date]['8600']->count_np, 
+        $query[$date]['8600']->count_np > 0 ? 
+        (($query[$date]['8600']->count_np_provides_reliabe_declare + $query[$date]['8600']->count_np_provides_not_required) / $query[$date]['8600']->count_np) : 0, 
     ['percent', 0]);
 }
 ?>
