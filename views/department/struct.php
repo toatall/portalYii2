@@ -3,7 +3,6 @@
 /** @var app\models\department\Department $model */
 /** @var array $arrayCard */
 /** @var string $heightPhoto */
-/** @var string $heightCardHead */
 
 use app\assets\FancyappsUIAsset;
 use app\models\department\Department;
@@ -12,9 +11,7 @@ use yii\bootstrap5\Html;
 
 FancyappsUIAsset::register($this);
 
-
-$heightCardHead = $heightCardHead ?? '17em';
-$heightPhoto = $heightPhoto ?? '20em';
+$heightPhoto = $heightPhoto ?? '15em';
 
 $this->title = 'Структура';
 $this->params['breadcrumbs'][] = ['label' => 'Отделы (' . ($model->organization->name ?? null) . ')', 'url' => ['/department/index']];
@@ -43,16 +40,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php foreach ($arrayCard as $structRow): ?>
         <div class="row">
             <?php foreach ($structRow as $struct): ?>                
-                <div class="col-3 mt-2" style="margin: 0 auto;">
+                <div class="col-3 mt-2 d-flex align-self-stretch" style="margin: 0 auto;">
                     <div class="card shadow-lg rounded-lg">
                         <div class="card-body">
                             <div class="gallery text-center">
                                 <a href="<?= $struct['user_photo'] ?>" target="_blank" class="gallery-item" data-fancybox data-caption="<?= $struct['user_fio'] ?>">
-                                    <img src="<?= $struct['user_photo'] ?>" class="img-thumbnail" style="max-width:100%; max-height: <?= $heightPhoto ?>; margin: 0 auto;" alt="<?= $struct['user_fio'] ?>" />
+                                    <img src="<?= $struct['user_photo'] ?>" class="img-thumbnail" style="max-width:100%; height: <?= $heightPhoto ?>; margin: 0 auto;" alt="<?= $struct['user_fio'] ?>" />
                                 </a>
                             </div>
                         </div>
-                        <div class="card-header" style="height: <?= $heightCardHead ?>; margin-top:10px; overflow: auto;">
+                        <div class="card-header" style="height: 100%; margin-top:10px; overflow: auto;">
                             <div class="text-center text-muted">
                                 <h4 class="head text-uppercase" style="font-weight: bolder;"><?= $struct['user_fio'] ?></h4>
                                 <p><?= $struct['user_position'] ?></p>
