@@ -85,7 +85,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Процент налогоплательщиков, представивших либо обосновано не представивших',               
                 'value' => function(DeclareCampaignUsn $model) {
-                    return Yii::$app->formatter->asPercent(($model->count_np_provides_reliabe_declare + $model->count_np_provides_not_required) / $model->count_np, 2);
+                    if ($model->count_np == 0) {
+                        return 0;
+                    }
+                    return Yii::$app->formatter->asPercent(
+                        ($model->count_np_provides_reliabe_declare + $model->count_np_provides_not_required) / $model->count_np, 2);
                 }
             ],
             [
