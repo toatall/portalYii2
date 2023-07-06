@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="btn-group mb-2">
     <?= Html::a('Добавить пользователя', 
-        ['/admin/user/list', 'idGroup'=>$model->id], ['class'=>'btn btn-success mv-link', 'id'=>'btn-add']) ?>
+        ['/admin/user/list', 'idGroup'=>$model->id], ['class'=>'btn btn-success', 'id'=>'btn-add']) ?>
     <?= Html::a('Назад', ['/admin/group/index'], ['class' => 'btn btn-secondary']) ?>
 </div>
 
@@ -37,7 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'format' => 'raw',
                 'value' => function($modelUser) use ($model) {
-                    return Html::a('Удалить', ['/admin/group-manage/delete', 'idGroup'=>$model->id, 'idUser'=>$modelUser->id], ['class'=>'btn btn-danger btn-delete']);
+                    return Html::a('Удалить', 
+                        ['/admin/group-manage/delete', 'idGroup'=>$model->id, 'idUser'=>$modelUser->id], 
+                        ['class'=>'btn btn-danger btn-delete']);
                 },
             ],
         ],
@@ -91,8 +93,14 @@ $this->params['breadcrumbs'][] = $this->title;
 $urlAddUser = Url::to(['/admin/group-manage/add', 'idGroup'=>$model->id]);
 $this->registerJs(<<<JS
        
+    const modalRole = new ModalViewer()
+    $('#btn-add').on('click', function(){
+        modalRole.showModal($(this).attr('href')) 
+        return false
+    })
+
     // событие, если пользователь выбран
-    $(modalViewer).on('onPortalSelectUser', function(event, data) {
+    $(modalRole).on('onPortalSelectUser', function(event, data) {
         const btnAdd = $('#btn-add');        
         btnAdd.prepend('<span class="spinner-border spinner-border-sm"></span> ');
         btnAdd.addClass('disabled');        
@@ -115,7 +123,7 @@ $this->registerJs(<<<JS
             btnAdd.removeClass('disabled');
         });
             
-        modalViewer.closeModal();        
+        modalRole.closeModal()       
     });    
 
 JS); ?>

@@ -47,11 +47,13 @@ use yii\bootstrap5\Html;
 
 <?php
 $this->registerJs(<<<JS
-$('.btn-select-group').on('click', function() {   
-    const modal = $(this).parents('div.modal').data('mv');
-    $(modal).trigger('onPortalSelectGroup', { id: $(this).attr('group_id'), name: $(this).attr('group_name') });
-    return false;
-});
+    $('.btn-select-group').on('click', function() {   
+        console.log($(this).parents('.modal'))
+
+        // const modal = $(this).parents('div.modal').data('mv');
+        // $(modal).trigger('onPortalSelectGroup', { id: $(this).attr('group_id'), name: $(this).attr('group_name') });
+        return false;
+    });
 JS
 );
 ?>
