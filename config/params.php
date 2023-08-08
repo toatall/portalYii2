@@ -133,6 +133,8 @@ return [
     'telephone' => [
         'path' => '/files/telephones/',
         'SOAPServiceUrl' => 'http://86000-app012:8055/WSDLServices.nsf/telephones?WSDL',
+        'SOAPUser' => 'WebUser',
+        'SOAPPassword' => '123456789',
     ],
 
     // анкетирование по ГР
