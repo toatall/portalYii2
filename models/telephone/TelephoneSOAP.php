@@ -23,22 +23,13 @@ class TelephoneSOAP
     /**
      * {@inheritdoc}
      */
-    public function __construct()
+    public function __construct($url, $soapOptions = [])
     {
         if (!$this->soap) {
-            $this->soap = new \SoapClient($this->getSOAPServiceUrl(), []);
+            $this->soap = new \SoapClient($url, $soapOptions);
         }
     }
-
-    /**
-     * Адрес soap-сервиса
-     * @return string
-     */
-    public function getSOAPServiceUrl()
-    {
-        return Yii::$app->params['telephone']['SOAPServiceUrl'];
-    }   
-
+        
     /**
      * Поиск документа по unid
      * @return

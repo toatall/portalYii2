@@ -13,6 +13,10 @@ use yii\web\Response;
 
 class TelephoneController extends Controller
 {
+
+
+    private $_telephoneSoap;
+
     /**
      * {@inheritdoc}
      */
@@ -31,6 +35,20 @@ class TelephoneController extends Controller
         ];
     }
 
+    public function init()
+    {
+        $url = Yii::$app->params['telephone']['SOAPServiceUrl'];
+        $user = Yii::$app->params['telephone']['SOAPUser'];
+        $password = Yii::$app->params['telephone']['SOAPPassword'];
+
+        $this->_telephoneSoap = new TelephoneSOAP($url, [
+            'login' => $user,
+		    'password' => $password,
+        ]);
+
+        parent::init();
+    }
+
     
     /**
      * Главная страница
@@ -38,10 +56,10 @@ class TelephoneController extends Controller
      */
     public function actionIndex($unidPerson=null, $unidOrg=null)
     {            
-        $telephoneSearch = new TelephoneSOAP();
+        $telephoneSearch = $this->_telephoneSoap;
         
         $dataProvider = new ActiveDataProvider([
-            'query' => Telephone::find()->orderBy('id_organization asc'),
+            'query' => Telephone::find()->with('organization')->orderBy('id_organization asc'),
         ]);
 
         return $this->render('index', [            
@@ -60,7 +78,8 @@ class TelephoneController extends Controller
      */
     public function actionFind($term)
     {
-        $telephoneSearch = new TelephoneSOAP();
+        $telephoneSearch = $this->_telephoneSoap;
+
         $data = $telephoneSearch->search($term);
              
         if (isset($data['type'])) {
