@@ -16,19 +16,19 @@ class Ldap extends Component
     public $ldapServer = 'ldap://servername';
     
     /**
-     * @var string
+     * @var string|array
      */
     public $baseDn = 'OU=cn1,DC=example,DC=ru';
     
     /**
      * @var string
      */
-    public $bindLogin = 'Admin';
+    public $bindLogin = null;
     
     /**
      * @var string
      */
-    public $bindPassword = '123';
+    public $bindPassword = null;
     
     /**
      * Link for LDAP
@@ -66,8 +66,7 @@ class Ldap extends Component
         if (!$this->ldapConnect = ldap_connect($this->ldapServer)) {
             throw new \Exception('Error connect! ' . ldap_errno($this->ldapConnect) . ': ' . ldap_error($this->ldapConnect));
         }
-        ldap_set_option($this->ldapConnect, LDAP_OPT_PROTOCOL_VERSION, 3);
-        
+        ldap_set_option($this->ldapConnect, LDAP_OPT_PROTOCOL_VERSION, 3);        
         if (!ldap_bind($this->ldapConnect, $this->bindLogin, $this->bindPassword)) {
             throw new \Exception('Error bind! ' . ldap_errno($this->ldapConnect) . ': ' . ldap_error($this->ldapConnect));
         }
@@ -174,18 +173,7 @@ class Ldap extends Component
             throw new \Exception('Пользователь не указан!');
         }
 
-        return $this->filter('(sAMAccountName='.$username.')')->one();
-        /*
-        if (!$ldap_search = ldap_search($this->ldapConnect, $this->baseDn, '(sAMAccountName='.$username.')')) {
-            throw new \Exception("Пользователь {$username} не найден в {$this->baseDn}!");
-        }
-        $res = ldap_get_entries($this->ldapConnect, $ldap_search);
-
-        if (isset($res['count']) && $res['count']>0) {
-            $resultSearch = (is_array($res) && count($res) > 1) ? $res[0] : array();
-            return $resultSearch;
-        }
-        return null;*/
+        return $this->filter('(sAMAccountName='.$username.')')->one();        
     }
     
 
