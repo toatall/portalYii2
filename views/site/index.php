@@ -19,7 +19,12 @@ $this->registerJs(<<<JS
             container.html(data);
         })
         .fail(function (jqXHR) {
-            container.html('<div class="alert alert-danger">' + jqXHR.status + ' ' + jqXHR.statusText + '</div>');
+            if (jqXHR.status == 302) {
+                container.html('<div class="alert alert-info">Перенаправление...</div>');  
+            }
+            else {
+                container.html('<div class="alert alert-danger">' + jqXHR.status + ' ' + jqXHR.statusText + '</div>');  
+            }
         });
     }
     
