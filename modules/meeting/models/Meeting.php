@@ -111,7 +111,8 @@ abstract class Meeting extends ARMeeting
         $query = (new Query())
             ->from('{{%meeting}}')
             ->where("(:new_date_start1_1 >= {{date_start}} AND :new_date_start1_2 <= ({{date_start}} + {{duration}})) "
-                . " OR ({{date_start}} >= :new_date_start2_1 AND {{date_start}} <= :new_date_start_and_duration)" , [
+                . " OR ({{date_start}} >= :new_date_start2_1 AND {{date_start}} <= :new_date_start_and_duration) "
+                . " AND {{date_delete}} IS NULL" , [
                 ':new_date_start1_1' => $this->date_start,
                 ':new_date_start1_2' => $this->date_start,
                 ':new_date_start2_1' => $this->date_start,
