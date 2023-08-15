@@ -85,7 +85,7 @@ abstract class Meeting extends ARMeeting
             [['date_start_str'], 'match', 'pattern' => '/^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}/'],
             [['duration_str'], 'match', 'pattern' => '/^0[0-9]:[0-5][0-9]/'],            
             [['responsible', 'members_people', 'members_organization', 'note'], 'string'],
-            [['date_start'], 'ruleDateStart'],
+            //[['date_start'], 'ruleDateStart'],
         ];
     }   
 
