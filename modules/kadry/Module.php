@@ -22,11 +22,11 @@ class Module extends \yii\base\Module
         parent::init();
 
         // custom initialization code goes here
-        \Yii::$app->urlManager->addRules([
-            'kadry/<c:\w+|-+>/<id:\d+>' => 'kadry/<c>/view'
-            // 'kadry/<controller:\w+>/<id:\d+>' => 'kadry/<controller>/view',
-            // 'kadry/<controller:\w+>/<action:\w+>/<id:\d+>' => 'kadry/<controller>/<action>',
-        ]);
+        // Yii::$app->urlManager->addRules([
+        //     'kadry/<c:\w+|-+>/<id:\d+>' => 'kadry/<c>/view'
+        //     // 'kadry/<controller:\w+>/<id:\d+>' => 'kadry/<controller>/view',
+        //     // 'kadry/<controller:\w+>/<action:\w+>/<id:\d+>' => 'kadry/<controller>/<action>',
+        // ]);
 
         $this->setModules([
             'beginner' => [
