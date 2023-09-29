@@ -19,15 +19,14 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
-        parent::init();
-        \Yii::$app->errorHandler->errorAction = '/contest/default/error';    
+        parent::init();        
         $this->setModules([            
             'space' => [
                 'class' => 'app\modules\contest\modules\space\Module',
-            ],  
-            // 'photokids' => [
-            //     'class' => 'app\modules\contest\modules\photokids\Module',
-            // ],        
+            ],
+            'pets' => [
+                'class' => 'app\modules\contest\modules\pets\Module',
+            ],              
         ]);
     }
 }
