@@ -41,6 +41,16 @@ class LikeWidget extends Widget
      * Показывать кнопку для просмотра кто лайкал
      */
     public $showLikers = true;
+    
+    public $disabled = false;
+
+    public $showZero = false;
+
+    
+    public $btnLikeText = 'Мне нравится';
+    public $btnLikeIcon = '<i class="fas fa-thumbs-up"></i>';
+    public $btnUnlikeText = 'Мне нравится';
+    public $btnUnlikeIcon = '<i class="far fa-thumbs-up"></i>';
 
     /**
      * @var Like
@@ -58,7 +68,6 @@ class LikeWidget extends Widget
      */
     private $_url;
 
-
     /**
      * {@inheritDoc}
      */
@@ -70,7 +79,7 @@ class LikeWidget extends Widget
             throw new InvalidConfigException('Не указан идентификатор $unique');
         }
         $this->_modelLike = Like::findDefinitely($this->unique, $this->roleViewLikers);
-        $this->_pjaxId = 'pjax-like-' . $this->unique;
+        $this->_pjaxId = 'pjax-like-' . $this->unique . '-' . $this->getId();
     }
 
     /**
@@ -81,15 +90,23 @@ class LikeWidget extends Widget
         $this->_url = Url::current();
         $this->registerJs();        
         Pjax::begin(['id' => $this->_pjaxId, 'enablePushState' => false, 'timeout' => false, 'clientOptions' => ['withoutLoader' => true]]);
-            echo Html::beginForm('', 'post', ['data-pjax' => true]);
-                echo Html::hiddenInput('like', true);
-                echo Html::beginTag('div', $this->containerOptions);                    
-                    echo $this->renderBtnLike();
-                    echo $this->renderBtnLikers();
-                echo Html::endTag('div');
-            echo Html::endForm();
-        Pjax::end();        
-    }  
+        if (!$this->disabled) {            
+                echo Html::beginForm('', 'post', ['data-pjax' => true]);
+                    echo Html::hiddenInput('like', true);
+                    echo Html::beginTag('div', $this->containerOptions);                    
+                        echo $this->renderBtnLike();
+                        echo $this->renderBtnLikers();
+                    echo Html::endTag('div');
+                echo Html::endForm();            
+        }
+        else {
+            echo Html::beginTag('div', $this->containerOptions);                    
+                echo $this->renderBtnLike();
+                echo $this->renderBtnLikers();
+            echo Html::endTag('div');
+        }
+        Pjax::end();    
+    }
 
     /**
      * Регистрация js скрипта
@@ -158,20 +175,23 @@ class LikeWidget extends Widget
 
         if ($isLiked) {
             Html::addCssClass($this->btnLikeOptions, 'btn btn-primary');
-            $btnText = ArrayHelper::getValue($this->options, 'btnlike.content.text::liked', 'Мне нравится');
-            $btnIcon = ArrayHelper::getValue($this->options, 'btnlike.contetn.icon::unlike', '<i class="fas fa-thumbs-up"></i>');
+            $btnText = ArrayHelper::getValue($this->options, 'btnlike.content.text::liked', $this->btnLikeText);
+            $btnIcon = ArrayHelper::getValue($this->options, 'btnlike.contetn.icon::unlike', $this->btnLikeIcon);
         }
         else {
             Html::addCssClass($this->btnLikeOptions, 'btn btn-light border');
-            $btnText = ArrayHelper::getValue($this->options, 'btnlike.content.text::unliked', 'Мне нравится');
-            $btnIcon = ArrayHelper::getValue($this->options, 'btnlike.contetn.icon::unlike', '<i class="far fa-thumbs-up"></i>');
+            $btnText = ArrayHelper::getValue($this->options, 'btnlike.content.text::unliked', $this->btnUnlikeText);
+            $btnIcon = ArrayHelper::getValue($this->options, 'btnlike.contetn.icon::unlike', $this->btnUnlikeIcon);
         }
-        if ($count > 0) {
+        if ($count > 0 | $this->showZero) {
             $btnText .= ' ' . Html::tag('span', $count, [
                 'class' => ArrayHelper::getValue($this->options, 'btnlike.count.class', 'fw-bolder'),
             ]);
         }
-
+        if ($this->disabled) {
+            $this->btnLikeOptions = array_merge($this->btnLikeOptions, ['disabled' => 'disabled']);
+        }
+        
         return Html::submitButton($btnIcon . ' ' . $btnText, $this->btnLikeOptions);
     }
 
