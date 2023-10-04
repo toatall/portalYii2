@@ -44,15 +44,13 @@ FancyappsUIAsset::register($this);
                             <b><?= $model->pet_name ?></b>                   
                         </div>                        
                         <div class="card-body text-center">
-                            <div class="carousel slide" id="carousel_<?= md5($depName) ?>" data-bs-ride="carousel">
+                            <div class="carousel slide" id="carousel_<?= $model->id ?>" data-bs-ride="carousel">
                                 <div class="carousel-inner gallery">
                                     <?php if ($images = $model->getFiles()):
                                     $active = false;
                                     foreach($images as $image):                                 
-                                    ?>
-                                    
-                                        <div class="carousel-item <?= $active ? '' : 'active' ?>">
-                                            <!-- <img src="<?= $image ?>" class="d-block w-100" /> -->
+                                    ?>                                    
+                                        <div class="carousel-item <?= $active ? '' : 'active' ?>">                                            
                                             <a href="<?= $image ?>" data-fancybox target="_blank" class="gallery-item" 
                                                 data-fancybox data-caption='<div class="text-center"><h3><?= $model->pet_name ?></h3><p><?= $model->pet_note ?></p></div>'>
                                                 <img src="<?= $image ?>" class="img-thumbnail" style="max-width:100%; height: 20rem; margin: 0 auto;" />
@@ -64,11 +62,11 @@ FancyappsUIAsset::register($this);
                                     endforeach; ?>
                                     <?php endif; ?>
                                 </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel_<?= md5($depName) ?>" data-bs-slide="prev">
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel_<?= $model->id ?>" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Previous</span>
                                 </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carousel_<?= md5($depName) ?>" data-bs-slide="next">
+                                <button class="carousel-control-next" type="button" data-bs-target="#carousel_<?= $model->id ?>" data-bs-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Next</span>
                                 </button>
