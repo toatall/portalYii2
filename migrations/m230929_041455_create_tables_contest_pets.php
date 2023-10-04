@@ -14,9 +14,9 @@ class m230929_041455_create_tables_contest_pets extends Migration
     {
         $this->createTable('{{%contest_pets}}', [
             'id' => $this->primaryKey(),
-            'pet_name' => $this->string(250)->notNull(),
-            'pet_owner' => $this->string(250)->notNull(),
-            'pet_age' => $this->string(),
+            'pet_name' => $this->string(500)->notNull(),
+            'pet_owner' => $this->string(250)->notNull(),            
+            'pet_note' => $this->text(),
             'date_create' => $this->integer()->notNull(),            
         ]);
     }

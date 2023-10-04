@@ -47,9 +47,32 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $models = Pets::find()->all();
+        $models = Yii::$app->cache->getOrSet('pets', function() {
+            /** @var Pets[] $models */
+            $models = Pets::find()->with('owner')->all();
+            $result = [];
+            foreach($models as $model) {
+                $dep = $model?->owner?->department ?? '-';
+                $result[$dep][] = $model;
+            }
+            return $result;
+        });
+        // $models = Pets::find()->alias('t')
+        //     ->leftJoin('{{%user}} u', 't.pet_owner = u.username')
+        //     ->select('t.*, u.fio, u.department')
+        //     ->orderBy(['u.department' => SORT_ASC, 'u.fio' => SORT_ASC])
+        //     ->all();
+        // $models = Pets::find()->with('owner')->all();
+
+        // $departments = [];
+        // foreach($models as $m) {
+        //     if (!in_array($m->owner->department, $departments)) {
+        //         $departments[] = $m->owner->department;
+        //     }
+        // }
         return $this->render('index', [
             'models' => $models,
+            // 'departments' => $departments,
         ]);
     }
 

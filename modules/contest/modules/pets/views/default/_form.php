@@ -20,7 +20,7 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'pet_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'pet_age')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'pet_note')->textarea(['rows' => 5]) ?>
 
     <?= $form->field($model, 'pet_owner')->widget(Select2::class, [
         'data' => ArrayHelper::map(User::find()->where(['user_disabled_ad' => false])->all(), 'username', 'concat'),

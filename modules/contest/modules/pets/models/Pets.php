@@ -14,7 +14,7 @@ use yii\helpers\FileHelper;
  * @property int $id
  * @property string $pet_name
  * @property string $pet_owner
- * @property string|null $pet_age
+ * @property string|null $pet_note
  * @property int $date_create
  * 
  * @property User $owner
@@ -65,7 +65,7 @@ class Pets extends \yii\db\ActiveRecord
             [['pet_name', 'pet_owner'], 'required'],
             [['date_create'], 'integer'],
             [['pet_name', 'pet_owner'], 'string', 'max' => 250],
-            [['pet_age'], 'string', 'max' => 255],
+            [['pet_note'], 'string'],
             [['uploadFiles'], 'file', 'skipOnEmpty' => true, 'maxFiles' => 30],
             [['deleteFiles'], 'safe'],
         ];
@@ -80,11 +80,16 @@ class Pets extends \yii\db\ActiveRecord
             'id' => 'ИД',
             'pet_name' => 'Кличка',
             'pet_owner' => 'Хозяин',
-            'pet_age' => 'Возраст животного',
+            'pet_note' => 'Описание',
             'date_create' => 'Дата создания',
             'uploadFiles' => 'Изображения',
             'deleteFiles' => 'Отметьте изображения для удаления',
         ];
+    }
+
+    private function clearCahce()
+    {
+        Yii::$app->cache->delete('pets');
     }
 
     /**
@@ -93,6 +98,7 @@ class Pets extends \yii\db\ActiveRecord
     public function afterDelete()
     {
         $this->deleteFiles(null, true);
+        $this->clearCahce();
     }
 
     public function afterSave($insert, $changedAttributes)
@@ -101,6 +107,7 @@ class Pets extends \yii\db\ActiveRecord
         if (!$insert) {
             $this->deleteFiles($this->deleteFiles);
         }
+        $this->clearCahce();
     }
 
     public function getOwner()
@@ -114,7 +121,7 @@ class Pets extends \yii\db\ActiveRecord
 
     protected function getPathFiles()
     {
-        return str_replace('{id}', $this->id, '/public/upload/contest/{id}/');
+        return str_replace('{id}', $this->id, '/public/upload/contest/pets/{id}/');
     }
     
     /**

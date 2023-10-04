@@ -1,6 +1,7 @@
 <?php
 
 /** @var \yii\web\View $this */
+/** @var \app\modules\contest\modules\pets\models\Pets[][] $models */
 
 use app\assets\FancyappsUIAsset;
 use app\modules\like\widgets\LikeWidget;
@@ -8,10 +9,17 @@ use yii\bootstrap5\Html;
 
 FancyappsUIAsset::register($this);
 
-/** @var \app\modules\contest\modules\pets\models\Pets[] $models */
-
-$index = 0;
 ?>
+
+<div class="row justify-content-center">
+    <div class="col-4 mb-3">
+        <div class="list-group">
+            <?php foreach($models as $dep => $model): ?>
+            <a href="#<?= md5($dep) ?>" class="list-group-item list-group-item-action"><?= $dep ?></a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
 
 <div class="mb-2">
     <?php if (Yii::$app->user->can('admin')): ?>
@@ -19,41 +27,90 @@ $index = 0;
     <?php endif; ?>
 </div>
 
-<div class="row">
-    <?php foreach($models as $model): ?>
-        <div class="col-3">
-            <div class="card shadow" style="background-color: rgba(0, 200, 0, .07);">
-                <div class="card-header">
-                    <b><?= $model->pet_name ?></b><br />
-                    <?= $model->pet_age ?>
+
+<?php foreach($models as $depName => $modelsPets): ?>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h4 id="<?= md5($depName) ?>"><?= $depName ?></h4>
+        </div>
+        <div class="card-body">
+            <div class="row">        
+        
+            <?php foreach($modelsPets as $model): ?>
+                <div class="col-3">
+                    <div class="card shadow" style="background-color: rgba(0, 200, 0, .07);">
+                        <div class="card-header">
+                            <b><?= $model->pet_name ?></b>                   
+                        </div>                        
+                        <div class="card-body text-center">
+                            <div class="carousel slide" id="carousel_<?= md5($depName) ?>" data-bs-ride="carousel">
+                                <div class="carousel-inner gallery">
+                                    <?php if ($images = $model->getFiles()):
+                                    $active = false;
+                                    foreach($images as $image):                                 
+                                    ?>
+                                    
+                                        <div class="carousel-item <?= $active ? '' : 'active' ?>">
+                                            <!-- <img src="<?= $image ?>" class="d-block w-100" /> -->
+                                            <a href="<?= $image ?>" data-fancybox target="_blank" class="gallery-item" 
+                                                data-fancybox data-caption='<div class="text-center"><h3><?= $model->pet_name ?></h3><p><?= $model->pet_note ?></p></div>'>
+                                                <img src="<?= $image ?>" class="img-thumbnail" style="max-width:100%; height: 20rem; margin: 0 auto;" />
+                                            </a>
+                                        </div>                                
+                                    
+                                    <?php 
+                                        $active = true;
+                                    endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel_<?= md5($depName) ?>" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carousel_<?= md5($depName) ?>" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body text-center">
+                            <?= $model->owner->fio ?? $model->pet_owner ?>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <?= Html::button('Подробнее', ['class' => 'btn-note btn btn-success']) ?>
+                            <?php if (Yii::$app->user->can('admin')): ?>
+                                <?= Html::a('<i class="fas fa-pencil"></i>', ['update', 'id' => $model->id], ['class' => 'btn btn-success', 'title' => 'Редактировать']) ?>
+                            <?php endif; ?>
+                            <?= LikeWidget::widget([
+                                'unique' => 'contest-pets-' . $model->id,
+                                'showLikers' => true,                             
+                                'showZero' => true,
+                            ]) ?>                    
+                        </div>
+                        <div class="card-body note" style="display: none;">
+                            <?= (empty($model->pet_note) ? 'Описания нет' : $model->pet_note) ?>
+                        </div>
+                    </div>
                 </div>
-                <?php if ($firstImg = $model->getFiles()): ?>
-                <img src="<?= $firstImg[random_int(0, count($firstImg)-1)] ?>" />
-                <?php endif; ?>
-                <div class="card-body text-center">
-                    <?= $model->owner->fio ?? $model->pet_owner ?>
-                </div>
-                <div class="card-footer d-flex justify-content-between">
-                    <?= Html::a('Подробнее', ['view', 'id' => $model->id], ['class' => 'btn btn-success mv-link']) ?>
-                    <?php if (Yii::$app->user->can('admin')): ?>
-                        <?= Html::a('<i class="fas fa-pencil"></i>', ['update', 'id' => $model->id], ['class' => 'btn btn-success', 'title' => 'Редактировать']) ?>
-                    <?php endif; ?>
-                    <?= LikeWidget::widget([
-                        'unique' => 'contest-pets-' . $model->id,
-                        'showLikers' => true,
-                        'disabled' => true,
-                        'btnLikeText' => '',
-                        'btnUnlikeText' => '',
-                        'btnLikeIcon' => '',
-                        'btnUnlikeIcon' => '',
-                        'showZero' => true,
-                    ]) ?>
-                </div>
+            
+            <?php endforeach; ?>
+
             </div>
         </div>
-    <?php endforeach; ?>
-</div>
+    </div>
+<?php endforeach; ?>
 
 <?php $this->registerJs(<<<JS
-        
+
+    Fancybox.bind("[data-fancybox]", { })
+    
+    $('.carousel').each(function() {
+        let c = new bootstrap.Carousel($(this))
+        console.log(c)
+    })
+
+    $('.btn-note').on('click', function() {
+        $(this).parent('div').next('div.note').toggle()
+    })
 JS); ?>
