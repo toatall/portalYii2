@@ -55,7 +55,7 @@ class DefaultController extends Controller
                 $dep = $model?->owner?->department ?? '-';
                 $result[$dep][] = $model;
             }
-            ksort($result);
+            krsort($result);
             return $result;
         });
         return $this->render('index', [

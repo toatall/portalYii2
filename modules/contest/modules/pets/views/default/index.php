@@ -13,10 +13,10 @@ FancyappsUIAsset::register($this);
 ?>
 
 <div class="row justify-content-center">
-    <div class="col-4 mb-3">
-        <div class="list-group">
+    <div class="col-10 mb-3">
+        <div class="list-group d-flex flex-row flex-wrap">
             <?php foreach($models as $dep => $model): ?>
-            <a href="#<?= md5($dep) ?>" class="list-group-item list-group-item-action"><?= $dep ?></a>
+            <a href="#<?= md5($dep) ?>" class="list-group-item w-50 list-group-item-action"><?= $dep ?></a>
             <?php endforeach; ?>
         </div>
     </div>
