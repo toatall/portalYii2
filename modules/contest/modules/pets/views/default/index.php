@@ -6,6 +6,7 @@
 use app\assets\FancyappsUIAsset;
 use app\modules\like\widgets\LikeWidget;
 use yii\bootstrap5\Html;
+use yii\helpers\Url;
 
 FancyappsUIAsset::register($this);
 
@@ -82,11 +83,10 @@ FancyappsUIAsset::register($this);
                             <?php if (Yii::$app->user->can('admin')): ?>
                                 <?= Html::a('<i class="fas fa-pencil"></i>', ['update', 'id' => $model->id], ['class' => 'btn btn-success', 'title' => 'Редактировать']) ?>
                             <?php endif; ?>
-                            <?= LikeWidget::widget([
-                                'unique' => 'contest-pets-' . $model->id,
-                                'showLikers' => true,                             
-                                'showZero' => true,
-                            ]) ?>                    
+                            <?= Html::button('<icon><i class="' . ($model->isLike() ? 'fas' : 'far') .' fa-heart"></i></icon> <span class="count">' . $model->countLikes() . '</span>', [
+                                'class' => 'btn btn-success btn-like',
+                                'data-url' => Url::to(['like', 'id' => $model->id]),
+                            ]) ?>
                         </div>
                         <div class="card-body note" style="display: none;">
                             <?= (empty($model->pet_note) ? 'Описания нет' : $model->pet_note) ?>
@@ -106,11 +106,32 @@ FancyappsUIAsset::register($this);
     Fancybox.bind("[data-fancybox]", { })
     
     $('.carousel').each(function() {
-        let c = new bootstrap.Carousel($(this))
-        console.log(c)
+        let c = new bootstrap.Carousel($(this))       
     })
 
     $('.btn-note').on('click', function() {
         $(this).parent('div').next('div.note').toggle()
     })
+
+    $('.btn-like').on('click', function() {
+        let btn = $(this)
+        $(this).html($(this).html() + ' <span class="spinner-border spinner-border-sm"></span>')
+        $(this).prop('disabled', true)
+        $.get($(this).data('url'))
+        .done(function(data) {
+            btn.find('.count').html(data.count)
+            if (data.isLike) {
+                btn.find('icon').html('<i class="fas fa-heart"></i>')
+            }
+            else {
+                btn.find('icon').html('<i class="far fa-heart"></i>')
+            }
+        })
+        .always(function() {
+            btn.prop('disabled', false)
+            btn.find('.spinner-border').remove()
+        })
+        return false
+    })
+
 JS); ?>

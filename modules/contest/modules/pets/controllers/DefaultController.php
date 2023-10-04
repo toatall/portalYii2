@@ -26,7 +26,7 @@ class DefaultController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'view'],
+                        'actions' => ['index', 'view', 'like'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -55,27 +55,25 @@ class DefaultController extends Controller
                 $dep = $model?->owner?->department ?? '-';
                 $result[$dep][] = $model;
             }
+            ksort($result);
             return $result;
         });
-        // $models = Pets::find()->alias('t')
-        //     ->leftJoin('{{%user}} u', 't.pet_owner = u.username')
-        //     ->select('t.*, u.fio, u.department')
-        //     ->orderBy(['u.department' => SORT_ASC, 'u.fio' => SORT_ASC])
-        //     ->all();
-        // $models = Pets::find()->with('owner')->all();
-
-        // $departments = [];
-        // foreach($models as $m) {
-        //     if (!in_array($m->owner->department, $departments)) {
-        //         $departments[] = $m->owner->department;
-        //     }
-        // }
         return $this->render('index', [
-            'models' => $models,
-            // 'departments' => $departments,
+            'models' => $models,          
         ]);
     }
 
+    public function actionLike($id)
+    {        
+        $model = $this->findModel($id);
+        $isLike = $model->isLike();
+        $model->like($isLike);
+        Yii::$app->response->format = Response::FORMAT_JSON;        
+        return [
+            'isLike' => !$isLike,
+            'count' => $model->countLikes(),
+        ];
+    }
     
     /**
      * Displays a single Pets model.
@@ -91,7 +89,6 @@ class DefaultController extends Controller
             'model' => $model,
         ]);
     }
-
 
     /**
      * Creates a new Pets model.

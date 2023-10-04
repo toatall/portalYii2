@@ -6,6 +6,8 @@ use app\helpers\UploadHelper;
 use app\models\User;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
+use yii\db\Query;
 use yii\helpers\FileHelper;
 
 /**
@@ -147,6 +149,52 @@ class Pets extends \yii\db\ActiveRecord
             }
         }
         return $result;
+    }
+    
+    /**
+     * @return int
+     */
+    public function countLikes()
+    {
+        return (new Query())
+            ->from('{{%contest_pets_like}}')
+            ->where(['id_contest_pets' => $this->id])
+            ->count();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLike()
+    {
+        return (new Query())
+            ->from('{{%contest_pets_like}}')
+            ->where([
+                'id_contest_pets' => $this->id,
+                'username' => Yii::$app->user->identity->username,
+            ])
+            ->exists();
+    }
+
+    public function like($isLike)
+    {
+        if ($isLike) {
+            Yii::$app->db->createCommand()
+                ->delete('{{%contest_pets_like}}', [
+                    'id_contest_pets' => $this->id,
+                    'username' => Yii::$app->user->identity->username,
+                ])
+                ->execute();
+        }
+        else {
+            Yii::$app->db->createCommand()
+                ->insert('{{%contest_pets_like}}', [
+                    'id_contest_pets' => $this->id,
+                    'username' => Yii::$app->user->identity->username,
+                    'date_crate' => new Expression('getdate()'),
+                ])
+                ->execute();
+        }
     }
 
     /**
