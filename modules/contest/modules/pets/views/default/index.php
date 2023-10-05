@@ -62,14 +62,18 @@ FancyappsUIAsset::register($this);
                                     endforeach; ?>
                                     <?php endif; ?>
                                 </div>
+                                <?php if (count($images) > 1): ?>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carousel_<?= $model->id ?>" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
+                                    <!-- <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span> -->
+                                    <i class="fas fa-arrow-alt-circle-left fa-2x text-secondary"></i>
                                 </button>
                                 <button class="carousel-control-next" type="button" data-bs-target="#carousel_<?= $model->id ?>" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
+                                    <!-- <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span> -->
+                                    <i class="fas fa-arrow-alt-circle-right fa-2x text-secondary"></i>
                                 </button>
+                                <?php endif; ?>
                             </div>
                         </div>
                         
