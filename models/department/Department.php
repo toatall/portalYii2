@@ -400,9 +400,11 @@ class Department extends \yii\db\ActiveRecord
      * Список отделов для select
      * @return array
      */
-    public static function dropDownList()
+    public static function dropDownList($org = '8600')
     {
-        $query = self::find()->where(['id_organization' => '8600'])->all();
+        $query = self::find()->where(['id_organization' => $org])
+            ->orderBy('department_index, department_name')
+            ->all();
         return ArrayHelper::map($query, 'id', 'concatened');
     }
 

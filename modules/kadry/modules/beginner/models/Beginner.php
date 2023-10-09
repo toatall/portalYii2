@@ -7,12 +7,14 @@ use yii\behaviors\TimestampBehavior;
 use app\helpers\ImageHelper;
 use Yii;
 use app\models\department\Department;
+use app\models\Organization;
 use app\models\User;
 
 /**
  * This is the model class for table "p_beginner".
  *
  * @property int $id
+ * @property string $org_code
  * @property int $id_department
  * @property string $fio
  * @property string $date_employment
@@ -92,13 +94,18 @@ class Beginner extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_department', 'fio'], 'required'],
+            [['id_department', 'fio', 'org_code'], 'required'],
             [['id_department'], 'integer'],
+            [['org_code'], 'string', 'max' => 5],
             [['description', 'js', 'css'], 'string'],
             [['fio'], 'string', 'max' => 500],            
             [['date_employment'], 'date'],
-            [['id_department'], 'exist', 'skipOnError' => true, 'targetClass' => Department::class, 'targetAttribute' => ['id_department' => 'id']],
-            [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username']],
+            [['org_code'], 'exist', 'skipOnError' => true, 
+                'targetClass' => Organization::class, 'targetAttribute' => ['org_code' => 'code']],
+            [['id_department'], 'exist', 'skipOnError' => true, 
+                'targetClass' => Department::class, 'targetAttribute' => ['id_department' => 'id']],
+            [['author'], 'exist', 'skipOnError' => true, 
+                'targetClass' => User::class, 'targetAttribute' => ['author' => 'username']],
             [['filesUpload'], 'file', 'skipOnEmpty' => true, 'maxFiles' => 30],
             [['thumbUpload'], 'file', 'skipOnEmpty' => true],
         ];
@@ -111,6 +118,7 @@ class Beginner extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ИД',
+            'org_code' => 'Налоговый орган',
             'id_department' => 'Отдел',
             'fio' => 'ФИО',
             'date_employment' => 'Дата приема',
@@ -160,13 +168,13 @@ class Beginner extends \yii\db\ActiveRecord
 
     /**
      * Каталог с изображением-миниатюрой
-     * @return stirng
+     * @return string
      */
     public function getThumbPath()
     {
         $path = Yii::$app->controller->module->params['path']['thumbnail'];
         return strtr($path, [
-            '{code}' => '8600',
+            '{code}' => $this->org_code,
             '{id}' => $this->id,
         ]);
     }

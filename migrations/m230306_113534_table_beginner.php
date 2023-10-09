@@ -14,6 +14,7 @@ class m230306_113534_table_beginner extends Migration
     {
         $this->createTable('{{%beginner}}', [
             'id' => $this->primaryKey(),
+            'org_code' => $this->string(5)->notNull(),
             'id_department' => $this->integer()->notNull(),
             'fio' => $this->string(500)->notNull(),  
             'date_employment' => $this->date(),  

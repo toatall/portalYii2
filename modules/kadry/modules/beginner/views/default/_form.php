@@ -1,8 +1,7 @@
 <?php
 
-use app\models\department\Department;
+use app\models\Organization;
 use app\widgets\CodeEditorWidget;
-use eluhr\aceeditor\widgets\AceEditor;
 use kartik\date\DatePicker;
 use kartik\file\FileInput;
 use kartik\select2\Select2;
@@ -10,28 +9,42 @@ use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
-use app\widgets\CollapseWidget;
-use app\widgets\FilesGallery\GalleryWidget;
-use yii\bootstrap5\Accordion;
 use yii\helpers\Url;
+use kartik\widgets\DepDrop;
 
 /** @var yii\web\View $this */
-/** @var app\modules\beginner\models\Beginner $model */
+/** @var app\modules\kadry\modules\beginner\models\Beginner $model */
 /** @var yii\widgets\ActiveForm $form */
+
+$url = Url::to(['/department/json-list-by-org', 'selected' => $model->id_department]);
 ?>
 
 <div class="beginner-form">
 
     <?php $form = ActiveForm::begin(['layout' => 'horizontal', 'class' => 'mv-form']); ?>
 
-    <?= $form->field($model, 'id_department')->widget(Select2::class, [
-        'data' => ['' => '- Выберите отдел -'] + Department::dropDownList(),
+    <?php if (Yii::$app->user->can('admin')): ?>
+        <?= $form->field($model, 'org_code')->widget(Select2::class, [
+            'data' => Organization::getDropDownList(),
+        ]) ?>
+    <?php else: ?>
+        <?= $form->field($model, 'org_code')->hiddenInput()->label(false) ?>
+    <?php endif; ?>
+    
+    <?= $form->field($model, 'id_department')->widget(DepDrop::class, [
+        'pluginOptions' => [
+            'depends' => [Html::getInputId($model, 'org_code')],
+            'initialize' => true,
+            'initDepends' => [Html::getInputId($model, 'org_code')],
+            'url' => $url,
+            'placeholder' => 'Выберите отдел...',
+        ],
     ]) ?>
 
     <?= $form->field($model, 'fio')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'date_employment')->widget(DatePicker::class, [
-        'pluginOptions' => [           
+        'pluginOptions' => [
             'todayHighlight' => true,
             'autoclose' => true,
         ],
@@ -95,44 +108,6 @@ use yii\helpers\Url;
         </div>
     </div>
    
-
-        <?php /*
-    <div class="card offset-2">
-        <div class="card-header">
-            <?= $model->getAttributeLabel('thumbImage') ?>
-        </div>
-        <div class="card-body">
-            <?php if (!$model->isNewRecord && $model->thumbImage): ?>
-                Загружено: <?= Html::a('<i class="fas fa-image"></i> ' 
-                    . basename($model->thumbImage), $model->thumbImage, ['target' => '_blank']) ?>
-                <hr />
-                <?= $form->field($model, 'thumbDelete')->checkbox() ?>
-                <hr />
-            <?php endif; ?>
-            <?= $form->field($model, 'thumb')->fileInput()->label('Загрузить') ?>
-        </div>
-    </div>
-
-
-    <div class="card">
-        <div class="card-header">
-            Загрузка файлов
-        </div>
-        <div class="card-body">
-            <?= $form->field($model, 'uploadFiles[]')->widget(FileInput::class, [
-                'options' => [
-                    'accept' => 'files/*',
-                    'multiple' => true,
-                ],
-                'pluginOptions' => [
-                    'showUpload' => false,
-                    'showPreview' => false,
-                    'theme' => 'fa5',
-                ],
-            ]) ?>            
-        </div>
-    </div>
-    */ ?>
 
     <?php if (Yii::$app->user->can('admin')): ?>
         <div class="offset-2 mt-3">

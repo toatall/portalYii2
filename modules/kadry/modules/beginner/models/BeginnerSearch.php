@@ -22,14 +22,14 @@ class BeginnerSearch extends Beginner
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
+    // /**
+    //  * {@inheritdoc}
+    //  */
+    // public function scenarios()
+    // {
+    //     // bypass scenarios() implementation in the parent class
+    //     return Model::scenarios();
+    // }
 
     /**
      * Creates data provider instance with search query applied
@@ -47,7 +47,10 @@ class BeginnerSearch extends Beginner
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
-                'defaultOrder' => ['date_employment' => SORT_DESC, 'fio' => SORT_ASC],
+                'defaultOrder' => [
+                    'date_employment' => SORT_DESC, 
+                    'fio' => SORT_ASC,
+                ],
             ],            
         ]);
 

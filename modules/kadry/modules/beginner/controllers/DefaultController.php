@@ -113,7 +113,9 @@ class DefaultController extends Controller
      */
     public function actionCreate()
     {        
-        $model = new Beginner();
+        $model = new Beginner([
+            'org_code' => Yii::$app->user->identity->default_organization,
+        ]);
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
