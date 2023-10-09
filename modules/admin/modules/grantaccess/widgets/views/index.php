@@ -4,13 +4,11 @@
 
 use yii\bootstrap5\Dropdown;
 ?>
-<div class="dropdown">
-    <a href="#" data-bs-toggle="dropdown" class="dropdown-toggle btn btn-primary">
-        <i class="fas fa-user-shield"></i> Управление доступом &nbsp;&nbsp;<i class="far fa-share-square"></i>
-    </a>
-    <?php
-        echo Dropdown::widget([
-            'items' => $items,            
-        ]);
-    ?>
-</div>
+<a href="#" data-bs-toggle="dropdown" class="dropdown-toggle btn btn-primary">
+    <i class="fas fa-user-shield"></i> Управление доступом &nbsp;&nbsp;<i class="far fa-share-square"></i>
+</a>
+<?php
+    echo Dropdown::widget([
+        'items' => $items,            
+    ]);
+?>
