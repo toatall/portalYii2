@@ -91,10 +91,13 @@ class FileUploadBehavior extends Behavior
      */
     protected function makeThumbnail($file)
     {
+        if (!$this->makeThumbs) {
+            return;
+        }
         /** @var \app\components\Storage $storage */
         $storage = \Yii::$app->storage;            
         $sourcePath = $storage->mergePath($storage->getBasePath(), $this->uploadPath, $file->name);
-        if ($this->makeThumbs && ($this->thumbHeight || $this->thumbWidth) && $this->isImage($sourcePath)) {
+        if (($this->thumbHeight || $this->thumbWidth) && $this->isImage($sourcePath)) {
             $destPath = $storage->mergePath($storage->getBasePath(), $this->uploadPath, $this->thumbSubDir);
             $destImg = $storage->mergePath($destPath, $file->name);
             $this->resizeImage($sourcePath, $destPath, $destImg);
@@ -134,7 +137,7 @@ class FileUploadBehavior extends Behavior
      */
     protected function upload($file)
     { 
-        if ($file instanceof \yii\web\UploadedFile) {
+        if ($file instanceof UploadedFile) {
             \Yii::$app->storage->saveUploadedFile($file, $this->uploadPath);
             $this->makeThumbnail($file);
         }
