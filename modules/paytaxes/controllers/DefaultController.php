@@ -47,7 +47,7 @@ class DefaultController extends Controller
                 and YEAR(g.date) = :year
             order by t.sort asc
         ";
-        $result = Yii::$app->db->createCommand($query, [':year'=>2022])->queryAll();
+        $result = Yii::$app->db->createCommand($query, [':year'=>2023])->queryAll();
 
         $this->saveVisit();
         
@@ -69,7 +69,7 @@ class DefaultController extends Controller
                 and YEAR(g.date) = :year
             order by t.sort asc
         ";
-        $result = Yii::$app->db->createCommand($query, [':year'=>2022])->queryAll();
+        $result = Yii::$app->db->createCommand($query, [':year'=>2023])->queryAll();
 
         return $this->renderAjax('table', [
             'result' => $result,
@@ -128,8 +128,8 @@ class DefaultController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [
             'months' => $this->chartDataByMonth($org),
-            'days' => $this->chartDataByDay($org, 2022),
-            'daysPrevYear' => $this->chartDataByDay($org, 2021),
+            'days' => $this->chartDataByDay($org, 2023),
+            'daysPrevYear' => $this->chartDataByDay($org, 2022),
         ];
     }
 
@@ -141,7 +141,7 @@ class DefaultController extends Controller
     {
         $currentY = date('Y');        
 
-        $currentY = 2022;
+        // $currentY = 2023;
         $previousY = $currentY-1;
 
         $records = PayTaxesChartMonth::find()->where([
@@ -168,7 +168,7 @@ class DefaultController extends Controller
             $labels[] = $item->month;
             $dataCurrentY[] = round($item->sum1, 2);
             $dataPreviousY[] = round($item->getValByYear($previousY), 2);            
-        }       
+        }
 
         return [
             'labels' => $labels,

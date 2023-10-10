@@ -121,7 +121,7 @@ if (date('Y') < 2022) {
 
                 <?= $this->render('top_declare_capmaign_usn.php') ?>
 
-                <?php if (date('Y') < 2023) { echo $this->render('top_pay_taxes'); } ?>
+                <?php if (date('Y') < 2024) { echo $this->render('top_pay_taxes'); } ?>
 
                 <?= $this->render('top_calendar') ?>
 

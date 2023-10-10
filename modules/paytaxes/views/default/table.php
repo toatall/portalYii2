@@ -39,20 +39,20 @@ AppAsset::register($this);
                     Начисления (прогнозируемые), тыс. рублей
                 </th>
                 <th>
-                    Поступления (с 01.09.2022), тыс. рублей
+                    Поступления (с 01.01.2023), тыс. рублей
                 </th>
                 <th>
-                    СМС показатель (предварительный)
+                    КПЭ показатель
                 </th>
                 <th>
-                    Оставшаяся сумма до 85%
+                    Оставшаяся сумма до 95%
                 </th>
                 <th>
-                    Прирост СМС показателя с предыдущей даты
+                    Прирост КПЭ показателя с предыдущей даты
                 </th>
-                <th>
+                <!-- <th>
                     Достижение КПЭ (95 %)
-                </th>
+                </th> -->
                 <th></th>
             </tr>
         </thead>
@@ -86,12 +86,12 @@ AppAsset::register($this);
                         </kbd>
                     </td>
                     <td>
-                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-toggle="popover" data-trigger="hover" data-original-title="СМС показатели" data-html="true" data-content="НИФЛ: <?= $sms1 ?><br />Транспортный налог: <?= $sms2 ?><br />Земельный налог: <?= $sms3 ?>">
+                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-original-title="КПЭ показатели" data-bs-html="true" data-bs-content="НИФЛ: <?= $sms1 ?><br />Транспортный налог: <?= $sms2 ?><br />Земельный налог: <?= $sms3 ?>">
                             <?= Yii::$app->formatter->asDecimal($item['sms']) ?>
                         </kbd>
                     </td>
                     <td>
-                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-toggle="popover" data-trigger="hover" data-original-title="Оставшаяся сумма до 85%" data-html="true" data-content="НИФЛ: <?= $sumLeftNifl ?><br />Транспортный налог: <?= $sumLeftTn ?><br />Земельный налог: <?= $sumLeftZn ?>">
+                        <kbd style="font-size: <?= $sizeNumValues ?>;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-original-title="Оставшаяся сумма до 95%" data-bs-html="true" data-bs-content="НИФЛ: <?= $sumLeftNifl ?><br />Транспортный налог: <?= $sumLeftTn ?><br />Земельный налог: <?= $sumLeftZn ?>">
                             <?= $sumLeftAll ?>
                         </kbd>
                     </td>
@@ -100,11 +100,11 @@ AppAsset::register($this);
                             <?= $growthSms ?>
                         </kbd>
                     </td>
-                    <td>
+                    <!-- <td>
                         <kbd style="font-size: <?= $sizeNumValues ?>;">
                             <?= $kpe_persent ?>
                         </kbd>
-                    </td>
+                    </td> -->
                     <td>
                         <?php if (!$isPrint): ?>
                         <button class="btn btn-outline-secondary btn-chart-ifns" data-org="<?= $item['code'] ?>" data-url="<?= Url::to(['/paytaxes/default/chart-data', 'org' => $item['code']]) ?>">
@@ -117,13 +117,13 @@ AppAsset::register($this);
                     <td colspan="8">
                         <div class="row">
                             <div class="col">
-                                <strong>СМС показатели</strong><br />
+                                <strong>КПЭ показатели</strong><br />
                                 НИФЛ: <?= $sms1 ?>
                                 <br />Транспортный налог: <?= $sms2 ?>
                                 <br />Земельный налог: <?= $sms3 ?>
                             </div>
                             <div class="col">
-                                <strong>Оставшаяся сумма до 85%</strong><br />
+                                <strong>Оставшаяся сумма до 95%</strong><br />
                                 НИФЛ: <?= $sumLeftNifl ?>
                                 <br />Транспортный налог: <?= $sumLeftTn ?>
                                 <br />Земельный налог: <?= $sumLeftZn ?>
@@ -147,7 +147,7 @@ AppAsset::register($this);
                 </tr>
                 <tr style="display: none;" id="chart3_<?= $item['code'] ?>" data-org="<?= $item['code'] ?>" data-region="<?= $region ?>">
                     <td colspan="8">
-                        <button class="btn-show-chart-pr-year btn btn-secondary btn-sm">Показать график по дням за 2021 год</button>
+                        <button class="btn-show-chart-pr-year btn btn-secondary btn-sm">Показать график по дням за 2022 год</button>
                         <div style="max-width:100%; display:none;"></div>
                     </td>
                 </tr>
@@ -160,3 +160,6 @@ AppAsset::register($this);
     </div>
 
 </div>
+<?php $this->registerJs(<<<JS
+    $('[data-bs-toggle="popover"]').popover()
+JS); ?>

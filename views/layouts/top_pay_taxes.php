@@ -29,7 +29,7 @@ $queryGeneral = (new Query())
             <div class="text-center text-light">
                 <?php if (date('Ymd') > 20221201): ?>
                     <?php $days = DateHelper::dateDiffDays('02.01.2024'); ?>
-                    <span class="lead" style="font-weight: bolder; font-size: 0.8em;">До срока исполнения СМС показателя 
+                    <span class="lead" style="font-weight: bolder; font-size: 0.8em;">До срока исполнения КПЭ показателя 
                     <?php
                         $endNumber = $days % 10;
                         if ($endNumber == 1) {
@@ -85,7 +85,7 @@ $queryGeneral = (new Query())
                     </div>
                 </div>  
                 <hr class="my-1" />      
-                <span style="font-weight: bolder; font-size: 0.9em;">СМС-показатель</span>
+                <span style="font-weight: bolder; font-size: 0.9em;">КПЭ-показатель</span>
                 <div class="tick" data-credits="false" style="font-size: 1.2em;" data-value="<?= round($queryGeneral['sms'] ?? 0,2) ?>">
                     <div data-layout="vertical">
                         <span data-view="flip"></span>
