@@ -89,6 +89,32 @@ class DepartmentController extends Controller
         ]);
     }
 
+    /**
+     * @return mixed
+     */
+    public function actionJsonListByOrg($selected = '')
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (isset($_POST['depdrop_parents'])) {           
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $org_code = $parents[0] ?? 0;
+                $data = Department::dropDownList($org_code);
+                $list = [];
+                foreach($data as $key=>$value) {
+                    $list[] = ['id' => $key, 'name' => $value];
+                }
+                return [
+                    'output' => $list,
+                    'selected' => $selected,
+                ];
+            }
+        }
+        return [
+            'output' => '',
+            'selected' => '',
+        ];
+    }
 
     /**
      * Создание отдела
