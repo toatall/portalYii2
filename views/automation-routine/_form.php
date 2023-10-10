@@ -22,6 +22,8 @@ $files = $model->getFiles();
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'owners')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'region_mail')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ftp_path')->textInput(['maxlength' => true]) ?>
 

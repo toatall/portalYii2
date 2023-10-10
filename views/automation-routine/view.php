@@ -3,7 +3,6 @@
 use app\modules\comment\widgets\CommentWidget;
 use app\modules\like\widgets\LikeWidget;
 use yii\bootstrap5\Html;
-use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
 /** @var app\models\AutomationRoutine $model */
@@ -21,6 +20,9 @@ $instruction = $model->getInstruction();
             <?= Yii::$app->formatter->asHtml($model->description) ?>
         </p>
         <hr />        
+        <?php if ($model->region_mail): ?>
+            <p>Реквизиты письма Управления: <?= $model->region_mail ?></p>
+        <?php endif; ?>
         <p>
             сылка на FTP: <kbd><?= $model->ftp_path ?></kbd>
         </p>

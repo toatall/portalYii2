@@ -16,6 +16,7 @@ use yii\helpers\FileHelper;
  * @property string $title
  * @property string|null $description
  * @property string $owners
+ * @property string $region_mail
  * @property string|null $ftp_path
  * @property string $author
  * @property string $date_create
@@ -72,7 +73,7 @@ class AutomationRoutine extends \yii\db\ActiveRecord
             [['title', 'owners'], 'required'],
             [['description'], 'string'],
             [['date_create', 'date_update'], 'safe'],
-            [['title'], 'string', 'max' => 300],
+            [['title', 'region_mail'], 'string', 'max' => 300],
             [['ftp_path', 'author'], 'string', 'max' => 250],
             [['uploadFiles'], 'file', 'skipOnEmpty' => true, 'maxFiles' => 30],            
             [['uploadInstruction'], 'file', 'skipOnEmpty' => true],
@@ -107,6 +108,7 @@ class AutomationRoutine extends \yii\db\ActiveRecord
             'title' => 'Заголовок',
             'description' => 'Описание',           
             'ftp_path' => 'Ссылка на ftp',
+            'region_mail' => 'Реквизиты письма Управления',
             'owners' => 'Владелец (структурное подразделение)',
             'author' => 'Автор',
             'date_create' => 'Дата создания',

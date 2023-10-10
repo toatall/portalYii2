@@ -15,7 +15,8 @@ class m231010_062136_table_automation_routine extends Migration
         $this->createTable('{{%automation_routine}}', [
             'id' => $this->primaryKey(),
             'title' => $this->string(300)->notNull(),
-            'description' => $this->text(),           
+            'description' => $this->text(),          
+            'region_mail' => $this->string(300),
             'owners' => $this->string(250)->notNull(), 
             'ftp_path' => $this->string(250), 
             'author' => $this->string(250)->notNull(),
