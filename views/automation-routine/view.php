@@ -42,8 +42,7 @@ $instruction = $model->getInstruction();
             <?= $model->owners ?>
         </p>
         <?php if (Yii::$app->user->can('admin')): ?>
-            <?php $statistic = $model->getRateStatictic(); ?>
-            <?php print_r($statistic) ?>
+            <?php $statistic = $model->getRateStatictic(); ?>            
             <hr class="text-secondary" />
             <p>Просмотров: <code><?= History::count(Url::current()) ?></code></p>
             <p>Средняя оценка: <code><?= $statistic['avg_rate'] ?? 0 ?></code></p>
