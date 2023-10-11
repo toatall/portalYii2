@@ -36,6 +36,11 @@ class AutomationRoutineSearch extends AutomationRoutine
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'date_create' => SORT_DESC,
+                ],
+            ],
         ]);
 
         $this->load($params);

@@ -7,6 +7,7 @@ use app\behaviors\DatetimeBehavior;
 use app\behaviors\FileUploadBehavior;
 use Yii;
 use yii\db\Expression;
+use yii\db\Query;
 use yii\helpers\FileHelper;
 
 /**
@@ -281,6 +282,66 @@ class AutomationRoutine extends \yii\db\ActiveRecord
         parent::afterDelete();
         $this->deleteFiles($this->getFiles());
         $this->deleteFiles($this->getInstruction());
+    }
+
+
+    public function getRateStatictic()
+    {
+        return (new Query())
+            ->select('COUNT([[rate]]) AS count_rate, AVG(CAST([[rate]] AS FLOAT)) AS avg_rate')
+            ->from('{{%automation_routine_rate}}')
+            ->where([
+                'id_automation_routine' => $this->id,                
+            ])
+            ->one();
+    }
+
+    public function getRate()
+    {
+        return (new Query())
+            ->from('{{%automation_routine_rate}}')
+            ->where([
+                'id_automation_routine' => $this->id,
+                'author' => Yii::$app->user->identity->username,
+            ])
+            ->one()['rate'] ?? null;
+    }
+
+    public function updateRate($rate)
+    {
+        $exists = ($this->getRate() != null);
+
+        if (is_numeric($rate)) {
+            if ($exists) {
+                $this->deleteRate();                
+            }
+            $this->insertRate($rate);
+        }
+        else {
+            $this->deleteRate();
+        }
+    }
+
+    protected function insertRate($rate)
+    {
+        Yii::$app->db->createCommand()
+            ->insert('{{%automation_routine_rate}}', [
+                'id_automation_routine' => $this->id,
+                'rate' => $rate,
+                'author' => Yii::$app->user->identity->username,
+                'date_create' => new Expression('getdate()'),
+            ])
+            ->execute();
+    }
+
+    protected function deleteRate()
+    {
+        Yii::$app->db->createCommand()
+            ->delete('{{%automation_routine_rate}}', [
+                'id_automation_routine' => $this->id,
+                'author' => Yii::$app->user->identity->username,                
+            ])
+            ->execute();
     }
    
 
