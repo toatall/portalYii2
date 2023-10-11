@@ -61,6 +61,12 @@ class AutomationRoutineController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+
+        if (isset($_POST['rate'])) {
+            $rate = $_POST['rate'];
+            $model->updateRate($rate);
+        }
+        
         $this->titleAjaxResponse = $model->title;
         return $this->render('view', [
             'model' => $model,
@@ -89,7 +95,7 @@ class AutomationRoutineController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {                
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -112,7 +118,7 @@ class AutomationRoutineController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {                       
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
