@@ -27,15 +27,41 @@ $instruction = $model->getInstruction();
         </p>
         <hr class="text-secondary" />    
         <?php if ($model->region_mail): ?>
-            <p>Реквизиты письма Управления: <?= $model->region_mail ?></p>
+            <p>Реквизиты письма Управления о направлении ПМ в Инспекции: <?= $model->region_mail ?></p>
         <?php endif; ?>
-        <p>
-            сылка на FTP: <kbd><?= $model->ftp_path ?></kbd>
-        </p>
-        <p>Дата изменения: <?= 
-            Yii::$app->formatter->asDatetime($model->date_create) 
-            . ($model->date_update ? ' (' . Yii::$app->formatter->asDatetime($model->date_update) . ')' : '')    
-        ?></p>
+        <div class="card mt-3">
+            <div class="card-header fw-bold"><?= $model->getAttributeLabel('uploadFiles') ?></div>
+            <div class="card-body">
+                <ul class="list-group">
+                <?php foreach($model->getFiles() as $file): ?>
+                    <li class="icon-addons list-group-item list-group-item-action">
+                        <?= Html::a(basename($file), ['download', 'id'=>$model->id, 'f'=>$file], ['data-filename' => basename($file)]) ?>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            </div>
+        </div> 
+        
+        <?php if ($instruction): ?>
+        <div class="card mt-3">
+            <div class="card-header fw-bold">
+                <button class="btn btn-light border btn-toggle"><i class="fas fa-plus-circle"></i></button>
+                <?= $model->getAttributeLabel('uploadInstruction') ?>
+            </div>
+            <div class="card-body" style="display: none;">
+                <?php if (strpos(strtoupper($instruction), 'PDF')): ?> 
+                <iframe height="700" src="<?= $instruction ?>" width="100%">
+                    <a href="<?= $instruction ?>">Скачать</a>
+                </iframe>
+                <?php else: ?>
+                <div class="icon-addons">
+                    <a href="<?= $instruction ?>" data-filename="<?= $instruction ?>">Скачать</a>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php endif; ?>
+       
         <hr class="text-secondary" />
         <p>
             <strong>Владелец(ы) (структурные подразделения): </strong>
@@ -48,40 +74,20 @@ $instruction = $model->getInstruction();
             <p>Средняя оценка: <code><?= $statistic['avg_rate'] ?? 0 ?></code></p>
             <p>Количество оценок: <code><?= $statistic['count_rate'] ?? 0 ?></code></p>
         <?php endif; ?>
+        <hr class="text-secondary" />
+        <p>
+            Сылка на FTP: <code><?= $model->ftp_path ?></code>
+        </p>
+        <p>Дата создания/изменения: <?= 
+            Yii::$app->formatter->asDatetime($model->date_create) 
+            . ($model->date_update ? ' (' . Yii::$app->formatter->asDatetime($model->date_update) . ')' : '')    
+        ?></p>
     </div>
 
-    <?php if ($instruction): ?>
-    <div class="card mt-3">
-        <div class="card-header fw-bold">
-            <button class="btn btn-light border btn-toggle"><i class="fas fa-plus-circle"></i></button>
-            <?= $model->getAttributeLabel('uploadInstruction') ?>
-        </div>
-        <div class="card-body" style="display: none;">
-            <?php if (strpos(strtoupper($instruction), 'PDF')): ?> 
-            <iframe height="700" src="<?= $instruction ?>" width="100%">
-                <a href="<?= $instruction ?>">Скачать</a>
-            </iframe>
-            <?php else: ?>
-            <div class="icon-addons">
-                <a href="<?= $instruction ?>" data-filename="<?= $instruction ?>">Скачать</a>
-            </div>
-            <?php endif; ?>
-        </div>
-    </div>
-    <?php endif; ?>
+    
 
-    <div class="card mt-3">
-        <div class="card-header fw-bold"><?= $model->getAttributeLabel('uploadFiles') ?></div>
-        <div class="card-body">
-            <ul class="list-group">
-            <?php foreach($model->getFiles() as $file): ?>
-                <li class="icon-addons list-group-item list-group-item-action">
-                    <?= Html::a(basename($file), ['download', 'id'=>$model->id, 'f'=>$file], ['data-filename' => basename($file)]) ?>
-                </li>
-            <?php endforeach; ?>
-            </ul>
-        </div>
-    </div>    
+    
+    
 
     <div class="mt-3">
         <div class="card">

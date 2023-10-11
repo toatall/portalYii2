@@ -2,8 +2,10 @@
 
 use app\helpers\DateHelper;
 use app\models\AutomationRoutine;
+use app\models\History;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\AutomationRoutineSearch $searchModel */
@@ -70,6 +72,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'description',
             'owners',
             'date_create:datetime',
+            [
+                'label' => 'Статистика',
+                'format' => 'raw',
+                'value' => function(AutomationRoutine $model) {
+                    if (!Yii::$app->user->can('admin')) {
+                        return null;
+                    }
+                    $statistic = $model->getRateStatictic();
+                    return '<snap><i class="fas fa-eye text-secondary"></i> <code>' . History::count(Url::to(['view', 'id'=>$model->id])) . '</code></span><br />
+                        <span>avg: <code>' . ($statistic['avg_rate'] ?? 0) .'</code></span><br />
+                        <span>sum: <code>' . ($statistic['count_rate'] ?? 0) . '</code></span><br />
+                        <span><i class="fas fa-download text-secondary"></i>: <code>' . $model->countDownloads() . '</code>';
+                },
+                'visible' => Yii::$app->user->can('admin'),
+            ],
             [
                 'label' => 'Действия',
                 'format' => 'raw',

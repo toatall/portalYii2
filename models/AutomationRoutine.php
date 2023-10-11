@@ -284,6 +284,16 @@ class AutomationRoutine extends \yii\db\ActiveRecord
         $this->deleteFiles($this->getInstruction());
     }
 
+    public function countDownloads()
+    {
+        return (new Query())
+            ->from('{{%automation_routine_downloads}}')
+            ->where([
+                'id_automation_routine' => $this->id,   
+            ])
+            ->count();
+    }
+
 
     public function getRateStatictic()
     {
