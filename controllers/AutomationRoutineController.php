@@ -27,10 +27,10 @@ class AutomationRoutineController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                    // [
-                    //     'allow' => true,
-                    //     'roles' => ['admin'],
-                    // ],
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
                 ],
             ],
         ];
