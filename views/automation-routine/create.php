@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\AutomationRoutine $model */
 
 $this->title = 'Добавить ПМ';
-$this->params['breadcrumbs'][] = ['label' => 'Автоматизация рутиных операций', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Автоматизация рутинных операций', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="automation-routine-create">

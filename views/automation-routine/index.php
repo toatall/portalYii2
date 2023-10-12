@@ -11,7 +11,7 @@ use yii\helpers\Url;
 /** @var app\models\AutomationRoutineSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Автоматизация рутиных операций';
+$this->title = 'Автоматизация рутинных операций';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="automation-routine-index">

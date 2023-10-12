@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\AutomationRoutine $model */
 
 $this->title = 'Изменить ПМ: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Автоматизация рутиных операций', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Автоматизация рутинных операций', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Изменение';
 ?>

@@ -12,7 +12,7 @@ use yii\widgets\Pjax;
 /** @var app\models\AutomationRoutine $model */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Автоматизация рутиных операций', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Автоматизация рутинных операций', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $instruction = $model->getInstruction();
