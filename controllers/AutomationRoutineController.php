@@ -23,14 +23,14 @@ class AutomationRoutineController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'donwload'],
+                        'actions' => ['index', 'view', 'download'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                    [
-                        'allow' => true,
-                        'roles' => ['admin'],
-                    ],
+                    // [
+                    //     'allow' => true,
+                    //     'roles' => ['admin'],
+                    // ],
                 ],
             ],
         ];
