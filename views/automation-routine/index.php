@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'value' => function(AutomationRoutine $model) {
                     return $model->title
-                        . (DateHelper::dateDiffDays($model->date_create) < 30 ? ' <span class="badge bg-success">Новое</span>' : '');
+                        . (DateHelper::dateDiffDays($model->date_create) < 7 ? ' <span class="badge bg-success">Новое</span>' : '');
                 },
             ],
             [
