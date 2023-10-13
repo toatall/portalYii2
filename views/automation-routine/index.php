@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }                    
                 },
             ],
-            'description',
+            'description:raw',
             'owners',
             'date_create:datetime',
             [
