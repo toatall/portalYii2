@@ -27,6 +27,7 @@ use app\models\User;
  *
  * @property User $authorModel
  * @property Department $departmentModel
+ * @property Organization $organization
  */
 class Beginner extends \yii\db\ActiveRecord
 {
@@ -43,12 +44,40 @@ class Beginner extends \yii\db\ActiveRecord
      */
     public $filesUpload;    
 
+    public $org_name;
+
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
         return '{{%beginner}}';
+    }
+
+    /**
+     * Имя ключа кэша
+     * @return string
+     */
+    public static function getCacheKey()
+    {
+        return "key-beginners-general";
+    }
+
+    /**
+     * @return string
+     */
+    public static function getCacheKeyArchive()
+    {
+        return "key-beginners-general-archive";
+    }
+
+    /**
+     * Количество дней, через которое данные будут считаться архивными
+     * @return int
+     */
+    public static function daysOfArchive()
+    {
+        return 90;
     }
 
     /**
@@ -108,6 +137,7 @@ class Beginner extends \yii\db\ActiveRecord
                 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username']],
             [['filesUpload'], 'file', 'skipOnEmpty' => true, 'maxFiles' => 30],
             [['thumbUpload'], 'file', 'skipOnEmpty' => true],
+            [['org_name'], 'safe'],
         ];
     }
 
@@ -129,7 +159,7 @@ class Beginner extends \yii\db\ActiveRecord
             'thumbUpload' => 'Миниатюра',
             'filesUpload' => 'Фотографии',
         ];
-    }
+    }    
 
     /**
      * {@inheritdoc}
@@ -140,10 +170,32 @@ class Beginner extends \yii\db\ActiveRecord
         $this->date_employment = $this->date_employment ? Yii::$app->formatter->asDate($this->date_employment) : null;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function afterDelete() 
     {
         parent::afterDelete();
         $this->clearDir($this->getThumbPath());
+        $this->clearCache();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $this->clearCache();
+    }
+
+    /**
+     * Delete cache
+     */
+    private function clearCache()
+    {
+        Yii::$app->cache->delete(self::getCacheKey());
+        Yii::$app->cache->delete(self::getCacheKeyArchive());
     }
 
     /**
@@ -164,6 +216,23 @@ class Beginner extends \yii\db\ActiveRecord
     public function getDepartmentModel()
     {
         return $this->hasOne(Department::class, ['id' => 'id_department']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrganization()
+    {
+        return $this->hasOne(Organization::class, ['code' => 'org_code']);
+    }
+
+    /**
+     * Use in ArrayHelper::map()
+     * @return Beginner
+     */
+    public function getI()
+    {
+        return $this;
     }
 
     /**

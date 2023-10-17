@@ -3,12 +3,12 @@
 namespace app\modules\kadry\modules\beginner\controllers;
 
 use app\modules\kadry\modules\beginner\models\Beginner;
-use app\modules\kadry\modules\beginner\models\BeginnerSearch;
 use Yii;
 use app\components\Controller;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\Response;
 
 /**
@@ -47,7 +47,7 @@ class DefaultController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['index', 'view'],
+                            'actions' => ['index', 'view', 'archive'],
                             'roles' => ['@'],
                         ],
                         [
@@ -76,15 +76,56 @@ class DefaultController extends Controller
      * @return string
      */
     public function actionIndex()
-    {       
-        $searchModel = new BeginnerSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+    {   
+        $data = Yii::$app->cache->getOrSet(Beginner::getCacheKey(), function() {
+            $beginners = Beginner::find()
+                ->with('organization')
+                ->leftJoin('{{%organization}} org', 'org_code = org.code')
+                ->where('datediff(day, [[date_employment]], getdate()) < :days', [':days' => Beginner::daysOfArchive()]) // не старше 90 дней
+                ->orderBy([
+                    'org.sort' => SORT_ASC,
+                    'date_employment' => SORT_DESC, // сортировка по дате приема в порядке убывания
+                    'fio' => SORT_ASC, // сортировка по ФИО
+                ])
+                ->all();
+            return ArrayHelper::index($beginners, null, [function(Beginner $item){
+                return "{$item->organization->code}:{$item->organization->name_short}";
+            }]); 
+        }, 60 * 60 * 24);
+       
+        return $this->render('index', [           
+            'data' => $data,
         ]);
     }
+
+    /**
+     * Archive of beginners
+     * 
+     * @return string
+     */
+    public function actionArchive()
+    {
+        $data = Yii::$app->cache->getOrSet(Beginner::getCacheKeyArchive(), function() {
+            $beginners = Beginner::find()
+                ->with('organization')
+                ->leftJoin('{{%organization}} org', 'org_code = org.code')
+                ->where('datediff(day, [[date_employment]], getdate()) >= :days', [':days' => Beginner::daysOfArchive()]) // не старше 90 дней
+                ->orderBy([
+                    'org.sort' => SORT_ASC,
+                    'date_employment' => SORT_DESC, // сортировка по дате приема в порядке убывания
+                    'fio' => SORT_ASC, // сортировка по ФИО
+                ])
+                ->all();
+            return ArrayHelper::index($beginners, null, [function(Beginner $item){
+                return "{$item->organization->code}:{$item->organization->name_short}";
+            }]); 
+        }, 60 * 60 * 24);
+
+        return $this->render('index', [           
+            'data' => $data,
+            'archive' => true,
+        ]);
+    }   
 
     /**
      * Displays a single Beginner model.
