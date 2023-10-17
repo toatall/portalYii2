@@ -3,9 +3,12 @@
 namespace app\models;
 
 use app\helpers\UploadHelper;
+use app\models\department\Department;
+use app\models\news\News;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "{{%organization}}".
@@ -26,7 +29,6 @@ use yii\helpers\FileHelper;
  * @property News[] $news
  * @property Telephone[] $telephones
  * @property Tree[] $trees
- * @property UserOrganization[] $userOrganizations
  * @property string $fullName
  */
 class Organization extends \yii\db\ActiveRecord
@@ -109,14 +111,14 @@ class Organization extends \yii\db\ActiveRecord
      */
     public static function getDropDownList($onlyIfns = false, $withNull = false, $onlyActual = true)
     {
-        $query = self::find();
+        $query = self::find()->orderBy(['sort' => SORT_ASC]);
         if ($onlyIfns) {
             $query->where(['<>', 'code', '8600']);
         }
         if ($onlyActual) {
             $query->andWhere(['code_parent'=>null]);
         }
-        $result = \yii\helpers\ArrayHelper::map($query->all(), 'code', 'fullName');
+        $result = ArrayHelper::map($query->all(), 'code', 'fullName');
         if ($withNull) {
             $result = ArrayHelper::merge([''=>'Все'], $result);
         }
