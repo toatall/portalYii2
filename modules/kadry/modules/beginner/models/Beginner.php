@@ -77,7 +77,7 @@ class Beginner extends \yii\db\ActiveRecord
      */
     public static function daysOfArchive()
     {
-        return 90;
+        return 365;
     }
 
     /**
