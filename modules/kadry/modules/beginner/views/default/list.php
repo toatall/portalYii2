@@ -16,11 +16,11 @@ use yii\helpers\Url;
         <div class="col-3 mb-3">
             <a href="<?= Url::to(['view', 'id' => $item->id]) ?>" class="text-decoration-none text-black mv-link">
                 <div class="card shadow-sm position-relative d-flex align-self-stretch h-100">
-                    <?php if (DateHelper::dateDiffDays($item->date_employment) < 30): ?>                        
+                    <?php /* if (DateHelper::dateDiffDays($item->date_employment) < 30): ?>                        
                         <span class="position-absolute translate-middle p-2 bg-success badge" style="top: 1rem; right: 0rem;">
                             Новый сотрудник
                         </span>
-                    <?php endif; ?>
+                    <?php endif;*/ ?>
                     <div class="card-header text-center">
                         <?= Html::img(ImageHelper::findThumbnail($item->getThumbImage(), picImageNotFound: '/img/no_image_available.jpeg'), [
                             'class' => 'img-thumbnail', 'style' => 'height: 20vh; margin: 0 auto;'
