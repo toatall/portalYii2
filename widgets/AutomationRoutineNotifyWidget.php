@@ -140,7 +140,7 @@ class AutomationRoutineNotifyWidget extends Widget
             select top 1 t.[[id]], t.[[title]], count(distinct t_d.[[id]]) [count_download] from {{%automation_routine}} t
                 left join {{%automation_routine_downloads}} t_d on t.id = t_d.[[id_automation_routine]] 
                 left join {{%automation_routine_rate}} t_r on t.[[id]] = t_r.[[id_automation_routine]] and t_r.[[author]] = :author1  
-                left join {{%automation_routine_feedback}} t_f on t.[[id]] = t_f.[[id_automation_routine]] and t_f.[[author]] = :author2            
+                left join {{%automation_routine_feedback}} t_f on t.[[id]] = t_f.[[id_automation_routine]] and t_f.[[author]] = :author2 and result = :result
             where t_d.[[author]] = :author3 and t_r.[[id]] is null and t_f.[[id]] is null and DATEDIFF(day, t_d.[[date_create]], getdate()) < :days
             group by t.[[id]], t.[[title]]
             order by count(distinct t_d.[[id]]) desc        
@@ -149,6 +149,7 @@ class AutomationRoutineNotifyWidget extends Widget
             ':author2' => Yii::$app->user->identity->username, 
             ':author3' => Yii::$app->user->identity->username, 
             ':days' => $this->activityDays(),
+            ':result' => 'reject',
         ]);
         if ($query1) {
             $this->message = sprintf('Вы недавно загружали программный модуль "%s". <br />Оцените, пожалуйста, его работу.', $query1['title']);
@@ -164,7 +165,7 @@ class AutomationRoutineNotifyWidget extends Widget
                 left join {{%history}} his on his.[[url]] = '/automation-routine/view?id=' + cast(t.[[id]] as nvarchar)
                 left join {{%history_detail}} his_det on his_det.[[id_history]] = his.[[id]] 
                 left join {{%automation_routine_rate}} t_r on t.[[id]] = t_r.[[id_automation_routine]] and t_r.[[author]] = :author1 
-                left join {{%automation_routine_feedback}} t_f on t.[[id]] = t_f.[[id_automation_routine]] and t_f.[[author]] = :author2       
+                left join {{%automation_routine_feedback}} t_f on t.[[id]] = t_f.[[id_automation_routine]] and t_f.[[author]] = :author2 and result = :result       
                 left join {{%automation_routine_downloads}} t_d on t.id = t_d.[[id_automation_routine]] and t_d.[[author]] = :author3
             where his_det.author = :author4 and t_r.[[id]] is null and t_f.[[id]] is null and t_d.[[id]] is null
                 and DATEDIFF(day, DATEADD(s, his_det.[[date_create]], '01-01-1970'), getdate()) < :days
@@ -176,6 +177,7 @@ class AutomationRoutineNotifyWidget extends Widget
             ':author3' => Yii::$app->user->identity->username, 
             ':author4' => Yii::$app->user->identity->username, 
             ':days' => $this->activityDays(),
+            ':result' => 'reject',
         ]);
         if ($query2) {
             $this->message = sprintf('Вы недавно просматривали программный модуль "%s", но не загрузили его.<br />Не желаете его загрузить сейчас?.', $query2['title']);
