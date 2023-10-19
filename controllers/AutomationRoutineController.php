@@ -6,6 +6,7 @@ use app\models\AutomationRoutine;
 use app\models\AutomationRoutineSearch;
 use yii\filters\AccessControl;
 use app\components\Controller;
+use Yii;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -23,7 +24,7 @@ class AutomationRoutineController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'download'],
+                        'actions' => ['index', 'view', 'download', 'close'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -83,6 +84,23 @@ class AutomationRoutineController extends Controller
         $model->saveDownload($f);
         return $this->redirect($f);
     }
+
+    public function actionClose()
+    {        
+        AutomationRoutine::cookieSave();        
+    }
+
+    public function actionReject($id = null)
+    {
+        AutomationRoutine::cookieSave();
+        if (!$id) {
+            return;
+        }
+        $model = $this->findModel($id);
+        $model->saveReject();
+    }
+
+
 
     /**
      * Creates a new AutomationRoutine model.

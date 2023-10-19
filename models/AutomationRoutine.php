@@ -9,6 +9,7 @@ use Yii;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\helpers\FileHelper;
+use yii\web\Cookie;
 
 /**
  * This is the model class for table "{{%automation_routine}}".
@@ -63,6 +64,26 @@ class AutomationRoutine extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%automation_routine}}';
+    }
+
+    /**
+     * Ключ куки
+     */
+    public static function cookieKeyNotify()
+    {
+        return 'automation-notify';
+    }
+
+    /**
+     * Сохранение куки
+     */
+    public static function cookieSave()
+    {
+        Yii::$app->response->cookies->add(new Cookie([
+            'name' => AutomationRoutine::cookieKeyNotify(),
+            'value' => true,
+            'expire' => time() + 60*60*24,
+        ]));
     }
 
     /**
@@ -131,6 +152,21 @@ class AutomationRoutine extends \yii\db\ActiveRecord
             ->insert('{{%automation_routine_downloads}}', [
                 'id_automation_routine' => $this->id,
                 'filename' => $filename,
+                'author' => Yii::$app->user->identity->username,
+                'date_create' => new Expression('getdate()'),
+            ])
+            ->execute();
+    }
+
+    /**
+     * Сохранение отказа от (оценки/загрузки)
+     */
+    public function saveReject()
+    {
+        Yii::$app->db->createCommand()
+            ->insert('{{%automation_routine_feedback}}', [
+                'id_automation_routine' => $this->id,
+                'result' => 'reject',
                 'author' => Yii::$app->user->identity->username,
                 'date_create' => new Expression('getdate()'),
             ])

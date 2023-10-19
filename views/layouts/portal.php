@@ -14,6 +14,7 @@ use app\assets\AppAsset;
 use app\assets\FontAwesomeAsset;
 use app\models\Footer;
 use app\modules\test\assets\TestAsset;
+use app\widgets\AutomationRoutineNotifyWidget;
 use yii\widgets\Menu;
 
 AppAsset::register($this);
@@ -149,6 +150,7 @@ FontAwesomeAsset::register($this);
                 <div class="col-10">
                     <?= $content ?>
                 </div>
+                <?php try { echo AutomationRoutineNotifyWidget::widget([]); } catch(Exception $e) {} ?>                
             </div>
         </div>
     </div>   
