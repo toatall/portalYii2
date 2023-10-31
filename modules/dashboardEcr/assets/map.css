@@ -1,0 +1,14 @@
+svg.map {
+    width:100%;
+    margin-top: 2%;       
+}
+
+.map path {
+    fill: white;
+    stroke: rgba(0, 0, 0, 0.5);
+    stroke-width: 0.3;
+}
+
+.arr {
+    transform: rotate(30deg);
+}

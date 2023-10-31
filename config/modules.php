@@ -66,4 +66,5 @@ return  [
 
     'like' => 'app\modules\like\Module',
     
+    'dashboard-ecr' => 'app\modules\dashboardEcr\Module',
 ];
