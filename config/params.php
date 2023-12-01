@@ -107,6 +107,7 @@ return [
             'files' => '/files/{code_no}/{module}/{id}/documents/',
             'images' => '/files/{code_no}/{module}/{id}/image_gallery/',
             'thumbnail' => '/files/{code_no}/{module}/{id}/miniature_image/',
+            'videos' => '/files/{code_no}/{module}/{id}/video/'
         ],
         // размеры изображений
         'size' => [

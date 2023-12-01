@@ -150,9 +150,12 @@ class NewsController extends Controller
             $model->uploadImages = UploadedFile::getInstances($model, 'uploadImages');
 
             if ($model->save()) {
+                if ($model->isLoadVideos) {
+                    return $this->redirect(['load-videos', 'id' => $model->id]);
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-        }
+        }        
 
         return $this->render('create', [
             'model' => $model,
@@ -282,6 +285,24 @@ class NewsController extends Controller
                 'dataProvider' => $dataProvider,
             ]),
         ];
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionLoadVideos($id)
+    {
+        $modelNews = $this->findModel($id);
+
+        if ($modelNews->load(Yii::$app->request->post())) {
+            $modelNews->loadVideos();
+            $modelNews->deletingVideo($modelNews->deleteVideos);
+        }
+        return $this->render('load_videos', [
+            'modelNews' => $modelNews,
+            'modelTree' => $modelNews->tree,
+        ]);
     }
 
     /**

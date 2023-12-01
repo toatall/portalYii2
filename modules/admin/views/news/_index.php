@@ -102,7 +102,7 @@ use yii\bootstrap5\Html;
         [
             'class' => ActionColumn::class,
             'dropdown' => true,
-            'template' => '{view} {update} {delete} <hr class="dropdown-divider" /> {history} {likes}',        
+            'template' => '{view} {update} {delete} {video}<hr class="dropdown-divider" /> {history} {likes}',        
             'buttons' => [
                 'history' => function($url, $model) {
                     return Html::a('<i class="far fa-chart-bar"></i> Просмотры', ['/admin/news/history', 'id'=>$model->id], [
@@ -114,6 +114,11 @@ use yii\bootstrap5\Html;
                     return Html::a('<i class="fas fa-heart"></i> Лайки', ['/admin/news/likes', 'id'=>$model->id], [
                         'class' => 'dropdown-item mv-link', 
                         'data-pjax' => '0',
+                    ]);
+                },
+                'video' => function($url, $model) {
+                    return Html::a('<i class="fas fa-video"></i> Управление видео', ['/admin/news/load-videos', 'id'=>$model->id], [
+                        'class' => 'dropdown-item',                        
                     ]);
                 },
             ],

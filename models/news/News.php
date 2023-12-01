@@ -110,6 +110,25 @@ class News extends \yii\db\ActiveRecord
     public $deleteThumbnailImage;
 
     /**
+     * Видео-файлы
+     * @var UploadedFile[]
+     */
+    public $uploadVideos;
+
+    /**
+     * Пометки для удаления видео-файлов
+     * @var string[]
+     */
+    public $deleteVideos;
+
+    /**
+     * Флаг загрузки видео-файлов
+     * @var boolean
+     */
+    public $isLoadVideos;
+
+
+    /**
      * {@inheritdoc}
      */
     public static function tableName()
@@ -146,9 +165,20 @@ class News extends \yii\db\ActiveRecord
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'username_windows']],
             [['uploadThumbnailImage'], 'file', 'skipOnEmpty' => true],
             [['deleteThumbnailImage'], 'boolean'],
-            [['uploadFiles', 'uploadImages'], 'file', 'skipOnEmpty' => true, 'maxFiles' => 30],
-            [['deleteFiles', 'deleteImages'], 'safe'],
+            [['uploadFiles', 'uploadImages', 'uploadVideos'], 'file', 'skipOnEmpty' => true, 'maxFiles' => 30],
+            [['deleteFiles', 'deleteImages', 'deleteVideos'], 'safe'],
+            [['isLoadVideos'], 'boolean'],
             [['from_department'], 'required', 'on' => self::SCENARIO_DEPARTMENT_REQUIRED],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [                       
+            ['class' => \app\behaviors\FileUploadBehavior::class],
         ];
     }
 
@@ -188,6 +218,9 @@ class News extends \yii\db\ActiveRecord
             'deleteFiles' => 'Отметьте файлы для удаления',
             'uploadImages' => 'Изображения',
             'deleteImages' => 'Отментьте изображения для удаления',
+            'uploadVideos' => 'Загрузка видео-файлов',
+            'deleteVideos' => 'Удаление видео-файлов',
+            'isLoadVideos' => 'Загрузить видео',
             'from_department' => 'Отдел (автор материала)',
         ];
     }
@@ -447,6 +480,9 @@ class News extends \yii\db\ActiveRecord
         // удаление миниатюры
         $this->deleteThumbFile();
 
+        // удаление видео-файлов
+        $this->deletingVideo(array_keys($this->getVideoFiles()));
+
         // удаление каталога
         $this->deleteFolder();
 
@@ -565,6 +601,17 @@ class News extends \yii\db\ActiveRecord
     }
 
     /**
+     * Загрузка видео-файлов
+     */
+    public function uploadingVideos()
+    {
+        if (is_array($this->uploadVideos) && count($this->uploadVideos) > 0) {
+            $uploadHelper = new UploadHelper($this->getPathVideos());
+            $uploadHelper->uploadFiles($this->uploadVideos);
+        }
+    }
+
+    /**
      * Загрузка файла-миниатюры
      * @throws Exception
      */
@@ -649,6 +696,86 @@ class News extends \yii\db\ActiveRecord
     {
         $path = Yii::$app->params['news']['path']['thumbnail'];
         return $this->getPathWithReplace($path);
+    }
+
+    /**
+     * Каталог для загрузки видео-файлов
+     * @return string
+     */
+    protected function getPathVideos()
+    {
+        $path = Yii::$app->params['news']['path']['videos'];
+        return $this->getPathWithReplace($path);
+    }
+
+    /**
+     * Поиск видео-файлов
+     * @param string $dir
+     * @param array $options
+     * @return array
+     */
+    private function findVideos($dir, $options = [])
+    {
+        return FileHelper::findFiles($dir, array_merge([
+            'filter' => function(string $filename):bool {               
+                $mimeType = FileHelper::getMimeType($filename);
+                return substr($mimeType, 0, 5) === 'video';
+            },
+        ], $options));
+    }
+
+    /**
+     * Загрузка видео-файлов
+     */
+    public function loadVideos()
+    {
+        $path = $this->getPathVideos(); 
+        $files = UploadedFile::getInstances($this, 'uploadVideos');
+        foreach($files as $file) {
+            if ($file instanceof UploadedFile) {
+                Yii::$app->storage->saveUploadedFile($file, $path);
+            }
+        }       
+    }
+
+    /**
+     * Удаление отмеченных файлов
+     */
+    public function deletingVideo($deleteVideos)
+    {
+        $videos = (array)$deleteVideos;
+        $realVideos = $this->getVideoFiles();
+        foreach($videos as $video) {
+            if (isset($realVideos[$video])) {
+                $fullPath = Yii::getAlias('@webroot') . $realVideos[$video];
+                if (file_exists($fullPath)) {
+                    FileHelper::unlink($fullPath);
+                }
+            }
+        }
+    }
+
+    /**
+     * Галлерея видео
+     * @return array
+     */
+    public function getVideoFiles()
+    {
+        $path = $this->getPathVideos();
+        $fullPath = Yii::getAlias('@webroot') . $path;
+        if (!file_exists($fullPath) || dir($fullPath) === false) {
+            return [];
+        }
+        /*return array_map(function($value) use ($path) {           
+            return $path . basename($value);
+            
+        }, $this->findVideos($fullPath));*/
+        $videos = $this->findVideos($fullPath);
+        $result = [];
+        foreach($videos as $video) {
+            $result[basename($video)] = $path . basename($video);
+        }
+        return $result;
     }
 
     /**

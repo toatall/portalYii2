@@ -157,13 +157,16 @@ use yii\helpers\Url;
 
     <br />
 
+    <?php if ($model->isNewRecord): ?>
+        <?= $form->field($model, 'isLoadVideos')->checkbox([
+            'template' => '<div class="form-check form-switch">{input} {label}</div><div>{error}</div>',
+        ])->label($model->getAttributeLabel('isLoadVideos') . ' (загрузка будет предложена после нажатия кнопки "Сохранить")') ?>
+    <?php endif; ?>
+
     <?= $form->field($model, 'flag_enable')->checkbox([
         'template' => '<div class="form-check form-switch">{input} {label}</div><div>{error}</div>',
     ]) ?>
 
-    <?= ''/*$form->field($model, 'on_general_page')->checkbox([
-        'template' => '<div class="form-check form-switch">{input} {label}</div><div>{error}</div>',
-    ])*/ ?>
 
     <?= $form->field($model, 'tags')->textInput() ?>
 
